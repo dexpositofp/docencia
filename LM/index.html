@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lenguaje de Marcas</title>
+  <link rel="stylesheet" href="./css/curso-lm2.css">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Playfair+Display:wght@700&family=Source+Code+Pro:wght@400&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header id="arriba" class="topbar">
+    <div class="wrap">
+      <div class="site-brand">
+        <a href="./index.html">Lenguajes de Marcas</a>
+        <small>1º DAW</small>
+      </div>
+      <nav class="topnav">
+        <ul>
+        <li><a href="./index.html">Inicio</a></li>
+        <li><a href="./lm.html">L. Marcas</a></li>
+        <li><a href="./html.html">HTML</a></li>
+        <li><a href="./css.html">CSS</a></li>
+        <li><a href="./js.html">JavaScript</a></li>
+      </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="sidebar">
+      <h2>Índice de la Unidad</h2>
+      <ul class="toc">
+        <li><a href="#hero-index">Portada</a></li>
+          <li><a href="#objetivos">1. Objetivos</a></li>
+          <li><a href="#metodologia">2. Metodología</a></li>
+          <li><a href="#unidades">3. Unidades</a></li>
+          <li><a href="#evaluacion">4. Evaluación</a></li>
+          <li><a href="#recursos">5. Recursos</a></li>
+          <li><a href="#normas">6. Normas</a></li>
+      </ul>
+    </aside>
+
+    <article class="content">
+
+  
+
+  <!-- ======= Hero ======= -->
+      <section class="unit-hero" id="hero-index" aria-labelledby="tit-hero">
+        <div class="wrap">
+          <h1 id="tit-hero">Presentación de la asignatura</h1>
+          <p class="muted" style="color:rgba(255,255,255,.9)">Base sólida en HTML, CSS y ecosistema web para crear interfaces accesibles, rápidas y mantenibles.</p>
+          
+        </div>
+      </section>
+
+      <!-- ======= 1. Bienvenida / Presentación ======= -->
+      <section id="presentacion">
+        <p>
+          ¡Bienvenidas y bienvenidos al módulo de <strong>Lenguaje de Marcas</strong>! 
+          En esta asignatura construiremos la base técnica y conceptual para maquetar y dar estilo a interfaces web de calidad. 
+          Trabajaremos con <strong>HTML</strong> (estructura), <strong>CSS</strong> (presentación) y 
+          un primer contacto con <strong>JavaScript</strong> (interacción), siempre con foco en accesibilidad, rendimiento y buenas prácticas.
+        </p>
+        <div class="callout info">
+          <p><strong>¿Qué esperar?</strong> Material autodidáctico, laboratorios guiados, feedback rápido y proyectos aplicados.</p>
+        </div>
+      </section>
+
+      <!-- ======= 2. Objetivos ======= -->
+      <section id="objetivos">
+        <h2>1. Objetivos del curso</h2>
+        <ul>
+          <li>Diferenciar roles de HTML, CSS y JS y aplicarlos de forma <em>semántica</em> y mantenible.</li>
+          <li>Dominar CSS moderno: cascada, especificidad, box model, <em>layout</em> con Flexbox y Grid, responsive y variables.</li>
+          <li>Construir componentes accesibles (teclado, <code>:focus-visible</code>, contraste WCAG) y rápidos.</li>
+          <li>Integrar herramientas y metodologías (BEM, organización por capas, preprocesadores) en proyectos reales.</li>
+        </ul>
+      </section>
+
+      <!-- ======= 3. Metodología ======= -->
+      <section id="metodologia">
+        <h2>2. Metodología y dinámica</h2>
+        <ul>
+          <li><strong>Clases prácticas</strong> con demostraciones y laboratorios paso a paso.</li>
+          <li><strong>Aprendizaje activo</strong>: retos cortos, ejercicios con solución y rúbricas claras.</li>
+          <li><strong>Proyecto por unidad</strong> con entregas parciales (iteración y feedback).</li>
+          <li><strong>Autonomía</strong>: material de estudio y guías “hazlo tú” para avanzar a tu ritmo.</li>
+        </ul>
+        <div class="callout tip">
+          <p><strong>Consejo:</strong> Se recomienda utilizar un editor (VS Code) y probar todo usando devtools.</p>
+        </div>
+      </section>
+
+      <!-- ======= 4. Unidades ======= -->
+      <section id="unidades">
+        <h2>3. Unidades</h2>
+
+        <div class="cards">
+          <article class="card">
+            <h3 class="card__title">UD1 Lenguajes de Marcas</h3>
+            <p class="card__text">Explorarás qué es un lenguaje de marcas y para qué se usa en la web y en el intercambio de datos. Trabajarás con <strong>XML</strong> (estructura, atributos, namespaces), su <strong>validación</strong> con DTD y XSD, y conocerás <strong>Markdown</strong> para documentación técnica. Practicarás con pequeños documentos bien formados, crearás un esquema sencillo para validar datos y aprenderás a usar validador online. </p>
+            </p><em>Entregable</em>: Colección de ejemplos XML válidos + una breve guía en Markdown.</p>
+            <a class="btn" href="./lmarcas.html">Ir a la unidad</a>
+          </article>
+
+          <article class="card">
+            <h3 class="card__title">UD2 HTML</h3>
+            <p class="card__text">Construirás la estructura de páginas accesibles usando las etiquetas semánticas de <strong>HTML5</strong> (<code>&lt;header&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;section&gt;</code>, <code>&lt;article&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;footer&gt;</code>). Verás imágenes, listas, tablas, enlaces internos/externos, rutas y <strong>formularios</strong> (inputs HTML5, validación nativa). Practicarás buenas prácticas de <strong>accesibilidad</strong> (texto alternativo, jerarquía de encabezados, labels) y validarás el documento con el validador del W3C. </p>
+        <p><em>Entregable</em>: Mini-sitio multipágina con navegación coherente y formulario funcional.</p>
+            <a class="btn" href="./html.html">Ir a la unidad</a>
+          </article>
+
+          <article class="card">
+            <h3 class="card__title">UD3 CSS</h3>
+            <p class="card__text">Dominarás la <strong>cascada, herencia y especificidad</strong>, los <strong>selectores</strong> clásicos y modernos (<code>:is()</code>, <code>:where()</code>, <code>:has()</code>), y el <strong>box model</strong>. Pasarás al <strong>layout</strong> moderno con <strong>Flexbox</strong> y <strong>Grid</strong> (componentes, áreas, auto-fit), <strong>responsive</strong> con media queries, tipografía fluida (<code>clamp()</code>) y <strong>variables CSS</strong>. Añadirás <strong>transiciones</strong> y <strong>animaciones</strong> respetando <code>prefers-reduced-motion</code>.</p>
+            <p> <em>Entregable</em>: Landing responsive con componentes reutilizables y efectos de interacción.</p>
+            <a class="btn" href="./css.html">Ir a la unidad</a>
+          </article>
+
+          <article class="card">
+            <h3 class="card__title">UD4 JavaScript</h3>
+            <p class="card__text"> Introducirás interactividad con <strong>JavaScript</strong>: tipos y operadores, funciones y módulos, <strong>DOM</strong> y eventos, <strong>fetch</strong> para consumir datos y renderizado dinámico. Verás patrones básicos (delegación de eventos, separación de lógica y vista) y buenas prácticas de accesibilidad (gestión del foco, ARIA mínima).</p>
+            <p> <em>Entregable</em>: Página que consume un JSON y pinta tarjetas filtrables con interacción.</p>
+            <a class="btn" href="./js.html">Ir a la unidad</a>
+          </article>
+
+ <article class="card">
+            <h3 class="card__title">Proyecto</h3>
+            <p class="card__text">Aplicarás todo lo aprendido en un proyecto completo: definición de contenido, diseño visual y responsive, accesibilidad básica, interactividad con JS y, si procede, plantillas en servidor. Trabajarás con control de versiones, organización del CSS (BEM y capas) y despliegue estático.</p>
+<p> <em>Entregables</em>: repositorio limpio documentado, demo desplegada y retrospectiva técnica breve.</p>
+       
+          </article>
+        </div>
+      </section>
+
+      <!-- ======= 5. Evaluación ======= -->
+      <section id="evaluacion">
+        <h2>4. Evaluación</h2>
+        <p>La calificación por unidad se compone de:</p>
+        <ul>
+          <li><strong>Prueba objetiva</strong> (60%): Individual, mínima 5 para promediar.</li>
+          <li><strong>Práctica evaluable</strong> (10%): Individual, mínima 5 para promediar.</li>
+          <li><strong>Proyecto/prácticas</strong> (30%): Entregas y defensa/validación individual obligatoria.Nota mínima 5 para promediar.</li>
+        </ul>
+        <div class="callout warn">
+          <p><strong>Importante:</strong> para poder tener en cuenta la nota del proyecto es imprescindible superar la <strong>validación individual del trabajo realizado</strong>. Si no se supera, el proyecto calificará con <strong>0</strong>.</p>
+        </div>
+        <div class="callout warn">
+          <p><strong>¡A tener en cuenta!</strong> para cada prueba que se realice, se os puede pedir en cualquier momento una <strong>prueba de validación</strong> para verificar el trabajo realizado. Si no se supera, dicha prueba se calificará con <strong>0</strong>.</p>
+        </div>
+        <p>La planificación detallada (resultados de aprendizaje, actividades y ponderaciones) se recoge en la programación del curso.</p>
+      </section>
+
+      <!-- ======= 6. Recursos ======= -->
+      <section id="recursos">
+        <h2>5. Recursos</h2>
+        <ul>
+          <li><a href="https://developer.mozilla.org/es/" target="_blank" rel="noopener">MDN Web Docs</a></li>
+          <li><a href="https://www.w3.org/TR/" target="_blank" rel="noopener">Especificaciones W3C</a></li>
+          <li><a href="https://web.dev/learn/" target="_blank" rel="noopener">web.dev/learn</a></li>
+          <li>Editores: Visual Studio Code (recomendado), extensiones: Live Server, ESLint/Prettier.</li>
+        </ul>
+      </section>
+
+      <!-- ======= 7. Normas ======= -->
+      <section id="normas">
+        <h2>6. Normas del aula y entregas</h2>
+        <ul>
+          <li>Respeta las fechas de entrega. No serán aceptadas las entregas fuera de plazo.</li>
+          <li>El código debe ser propio. Cita fuentes y referencia librerías/recursos externos. En cualquier momento se puede solicitar una validación individual para verificar autoría y entendimiento de la entrega.</li>
+          <li>Accesibilidad y semántica cuentan: validadores y chequeos de contraste forman parte de las rúbricas.</li>
+        </ul>
+      </section>
+    </article>
+    </main>
+
+      <a href="#top" class="backtotop" aria-label="Volver arriba">↑</a>
+
+      <footer class="site-footer" role="contentinfo" class="wrap">
+        <div>
+          <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer" title="CC BY-NC-SA 4.0">
+            <img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="Licencia Creative Commons BY-NC-SA 4.0">
+          </a>
+        </div>
+      </footer>
+      
+      <!-- JS de navegación (ajustado a tus clases e IDs) -->
+      <script>
+      (function(){
+        // Topbar toggle
+        var btn = document.querySelector('.topnav-toggle');
+        var nav = document.getElementById('topnav');
+        if (btn && nav) {
+          btn.addEventListener('click', function(){
+            var open = nav.classList.toggle('open');
+            btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+          });
+          nav.addEventListener('click', function(e){
+            if (e.target.tagName === 'A' && nav.classList.contains('open')) {
+              nav.classList.remove('open');
+              btn.setAttribute('aria-expanded', 'false');
+            }
+          });
+        }
+      
+        // Resalta enlace activo en el TOC según sección visible
+        var links = document.querySelectorAll('.toc a[href^="#"]');
+        var targets = Array.prototype.map.call(links, function(a){
+          try { return document.querySelector(a.getAttribute('href')); } catch(e){ return null; }
+        }).filter(Boolean);
+      
+        if ('IntersectionObserver' in window) {
+          var obs = new IntersectionObserver(function(entries){
+            entries.forEach(function(entry){
+              if (entry.isIntersecting) {
+                var id = '#' + entry.target.id;
+                links.forEach(function(a){
+                  a.classList.toggle('active', a.getAttribute('href') === id);
+                });
+              }
+            });
+          }, { rootMargin: "-40% 0px -55% 0px", threshold: 0 });
+          targets.forEach(function(t){ obs.observe(t); });
+        }
+      })();
+      </script>
+      </body>
+      </html>
+      

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Curso LM · Presentación</title>
+
+  <!-- Hoja de estilos del curso (mismo diseño que el resto) -->
+  <link rel="stylesheet" href="./css/curso-lm2.css" />
+
+  <!-- Fuente opcional -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <meta name="description" content="Presentación del módulo Lenguaje de Marcas: objetivos, metodología, evaluación, unidades, recursos y normas."/>
+</head>
+<body>
+
+  <!-- ======= Topbar horizontal (navegación entre páginas) ======= -->
+  <header class="topbar" role="banner">
+    <div class="wrap">
+      <div class="site-brand">
+        <a href="./index.html" aria-label="Ir al inicio">Lenguaje de Marcas</a>
+        <small>DAW · 1º y 2º</small>
+      </div>
+
+      <button class="topnav-toggle" id="topnavToggle" aria-expanded="false" aria-controls="topnav" aria-label="Abrir menú principal">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <rect x="3" y="6" width="18" height="2"></rect>
+          <rect x="3" y="11" width="18" height="2"></rect>
+          <rect x="3" y="16" width="18" height="2"></rect>
+        </svg>
+      </button>
+
+      <nav class="topnav" id="topnav" role="navigation" aria-label="Navegación principal">
+        <ul>
+          <li><a href="./index.html" aria-current="page">Presentación</a></li>
+          <li><a href="./lmarcas.html">L.Marcas</a></li>
+          <li><a href="./html.html">HTML</a></li>
+          <li><a href="./css.html">CSS</a></li>
+          <li><a href="./js.html">JavaScript</a></li>
+          <li><a href="./thymeleaf.html">Thymeleaf</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ======= Toggle móvil del índice interno ======= -->
+  <div class="sidebar-toggle">
+    <div><strong>Presentación</strong> <span class="muted">índice</span></div>
+    <button id="btnSidebar" aria-expanded="false" aria-controls="sidebar">Índice</button>
+  </div>
+
+  <!-- ======= Layout con Sidebar + Contenido ======= -->
+  <div class="layout">
+    <!-- Sidebar (índice interno de la página) -->
+    <aside class="sidebar" id="sidebar" aria-label="Índice de la página">
+      <h2>Contenido</h2>
+      <nav>
+        <ul class="toc">
+          <li><a href="#hero-index">Portada</a></li>
+          <li><a href="#presentacion">1. Bienvenida</a></li>
+          <li><a href="#objetivos">2. Objetivos</a></li>
+          <li><a href="#metodologia">3. Metodología</a></li>
+          <li><a href="#unidades">4. Unidades</a></li>
+          <li><a href="#evaluacion">5. Evaluación</a></li>
+          <li><a href="#recursos">6. Recursos</a></li>
+          <li><a href="#normas">7. Normas</a></li>
+          <li><a href="#contacto">8. Contacto</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <div class="backdrop" id="backdrop" hidden></div>
+
+    <!-- ======= Contenido principal ======= -->
+    <main class="content">
+
+      <!-- ======= Hero ======= -->
+      <section class="unit-hero" id="hero-index" aria-labelledby="tit-hero">
+        <div class="wrap">
+          <h1 id="tit-hero">Lenguaje de Marcas</h1>
+          <p class="muted" style="color:rgba(255,255,255,.9)">Base sólida en HTML, CSS y ecosistema web para crear interfaces accesibles, rápidas y mantenibles.</p>
+          
+        </div>
+      </section>
+
+      <!-- ======= 1. Bienvenida / Presentación ======= -->
+      <section id="presentacion">
+        <p>
+          ¡Bienvenidas y bienvenidos al módulo de <strong>Lenguaje de Marcas</strong>! 
+          En esta asignatura construiremos la base técnica y conceptual para maquetar y dar estilo a interfaces web de calidad. 
+          Trabajaremos con <strong>HTML</strong> (estructura), <strong>CSS</strong> (presentación) y 
+          un primer contacto con <strong>JavaScript</strong> (interacción), siempre con foco en accesibilidad, rendimiento y buenas prácticas.
+        </p>
+        <div class="callout info">
+          <p><strong>¿Qué esperar?</strong> Material autodidáctico, laboratorios guiados, feedback rápido y proyectos aplicados.</p>
+        </div>
+      </section>
+
+      <!-- ======= 2. Objetivos ======= -->
+      <section id="objetivos">
+        <h2>1. Objetivos del curso</h2>
+        <ul>
+          <li>Diferenciar roles de HTML, CSS y JS y aplicarlos de forma <em>semántica</em> y mantenible.</li>
+          <li>Dominar CSS moderno: cascada, especificidad, box model, <em>layout</em> con Flexbox y Grid, responsive y variables.</li>
+          <li>Construir componentes accesibles (teclado, <code>:focus-visible</code>, contraste WCAG) y rápidos.</li>
+          <li>Integrar herramientas y metodologías (BEM, organización por capas, preprocesadores) en proyectos reales.</li>
+        </ul>
+      </section>
+
+      <!-- ======= 3. Metodología ======= -->
+      <section id="metodologia">
+        <h2>2. Metodología y dinámica</h2>
+        <ul>
+          <li><strong>Clases prácticas</strong> con demostraciones y laboratorios paso a paso.</li>
+          <li><strong>Aprendizaje activo</strong>: retos cortos, ejercicios con solución y rúbricas claras.</li>
+          <li><strong>Proyecto por unidad</strong> con entregas parciales (iteración y feedback).</li>
+          <li><strong>Autonomía</strong>: material de estudio y guías “hazlo tú” para avanzar a tu ritmo.</li>
+        </ul>
+        <div class="callout tip">
+          <p><strong>Consejo:</strong> Se recomienda utilizar un editor (VS Code) y probar todo usando devtools.</p>
+        </div>
+      </section>
+
+      <!-- ======= 4. Unidades ======= -->
+      <section id="unidades">
+        <h2>3. Unidades</h2>
+
+        <div class="cards">
+          <article class="card">
+            <h3 class="card__title">UD1 Lenguajes de Marcas</h3>
+            <p class="card__text">Explorarás qué es un lenguaje de marcas y para qué se usa en la web y en el intercambio de datos. Trabajarás con <strong>XML</strong> (estructura, atributos, namespaces), su <strong>validación</strong> con DTD y XSD, y conocerás <strong>Markdown</strong> para documentación técnica. Practicarás con pequeños documentos bien formados, crearás un esquema sencillo para validar datos y aprenderás a usar validador online. </p>
+            </p><em>Entregable</em>: Colección de ejemplos XML válidos + una breve guía en Markdown.</p>
+            <a class="btn" href="./lmarcas.html">Ir a la unidad</a>
+          </article>
+
+          <article class="card">
+            <h3 class="card__title">UD2 HTML</h3>
+            <p class="card__text">Construirás la estructura de páginas accesibles usando las etiquetas semánticas de <strong>HTML5</strong> (<code>&lt;header&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;section&gt;</code>, <code>&lt;article&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;footer&gt;</code>). Verás imágenes, listas, tablas, enlaces internos/externos, rutas y <strong>formularios</strong> (inputs HTML5, validación nativa). Practicarás buenas prácticas de <strong>accesibilidad</strong> (texto alternativo, jerarquía de encabezados, labels) y validarás el documento con el validador del W3C. </p>
+        <p><em>Entregable</em>: Mini-sitio multipágina con navegación coherente y formulario funcional.</p>
+            <a class="btn" href="./html.html">Ir a la unidad</a>
+          </article>
+
+          <article class="card">
+            <h3 class="card__title">UD3 CSS</h3>
+            <p class="card__text">Dominarás la <strong>cascada, herencia y especificidad</strong>, los <strong>selectores</strong> clásicos y modernos (<code>:is()</code>, <code>:where()</code>, <code>:has()</code>), y el <strong>box model</strong>. Pasarás al <strong>layout</strong> moderno con <strong>Flexbox</strong> y <strong>Grid</strong> (componentes, áreas, auto-fit), <strong>responsive</strong> con media queries, tipografía fluida (<code>clamp()</code>) y <strong>variables CSS</strong>. Añadirás <strong>transiciones</strong> y <strong>animaciones</strong> respetando <code>prefers-reduced-motion</code>.</p>
+            <p> <em>Entregable</em>: Landing responsive con componentes reutilizables y efectos de interacción.</p>
+            <a class="btn" href="./css.html">Ir a la unidad</a>
+          </article>
+
+          <article class="card">
+            <h3 class="card__title">UD4 JavaScript</h3>
+            <p class="card__text"> Introducirás interactividad con <strong>JavaScript</strong>: tipos y operadores, funciones y módulos, <strong>DOM</strong> y eventos, <strong>fetch</strong> para consumir datos y renderizado dinámico. Verás patrones básicos (delegación de eventos, separación de lógica y vista) y buenas prácticas de accesibilidad (gestión del foco, ARIA mínima).</p>
+            <p> <em>Entregable</em>: Página que consume un JSON y pinta tarjetas filtrables con interacción.</p>
+            <a class="btn" href="./js.html">Ir a la unidad</a>
+          </article>
+
+ <article class="card">
+            <h3 class="card__title">Proyecto</h3>
+            <p class="card__text">Aplicarás todo lo aprendido en un proyecto completo: definición de contenido, diseño visual y responsive, accesibilidad básica, interactividad con JS y, si procede, plantillas en servidor. Trabajarás con control de versiones, organización del CSS (BEM y capas) y despliegue estático.</p>
+<p> <em>Entregables</em>: repositorio limpio documentado, demo desplegada y retrospectiva técnica breve.</p>
+       
+          </article>
+        </div>
+      </section>
+
+      <!-- ======= 5. Evaluación ======= -->
+      <section id="evaluacion">
+        <h2>4. Evaluación</h2>
+        <p>La calificación por unidad se compone de:</p>
+        <ul>
+          <li><strong>Prueba objetiva</strong> (60%): Individual, mínima 5 para promediar.</li>
+          <li><strong>Práctica evaluable</strong> (10%): Individual, mínima 5 para promediar.</li>
+          <li><strong>Proyecto/prácticas</strong> (30%): Entregas y defensa/validación individual obligatoria.Nota mínima 5 para promediar.</li>
+        </ul>
+        <div class="callout warn">
+          <p><strong>Importante:</strong> para computar el proyecto es imprescindible superar la <strong>validación individual del trabajo realizado</strong>>. Si no se supera, el proyecto calificará con <strong>0</strong>.</p>
+        </div>
+        <p>La planificación detallada (resultados de aprendizaje, actividades y ponderaciones) se recoge en la programación del curso.</p>
+      </section>
+
+      <!-- ======= 6. Recursos ======= -->
+      <section id="recursos">
+        <h2>5. Recursos</h2>
+        <ul>
+          <li><a href="https://developer.mozilla.org/es/" target="_blank" rel="noopener">MDN Web Docs</a></li>
+          <li><a href="https://www.w3.org/TR/" target="_blank" rel="noopener">Especificaciones W3C</a></li>
+          <li><a href="https://web.dev/learn/" target="_blank" rel="noopener">web.dev/learn</a></li>
+          <li>Editores: Visual Studio Code (recomendado), extensiones: Live Server, ESLint/Prettier.</li>
+        </ul>
+      </section>
+
+      <!-- ======= 7. Normas ======= -->
+      <section id="normas">
+        <h2>6. Normas del aula y entregas</h2>
+        <ul>
+          <li>Respeta las fechas de entrega. No serán aceptadas las entregas fuera de plazo.</li>
+          <li>El código debe ser propio. Cita fuentes y referencia librerías/recursos externos. En cualquier momento se puede solicitar una validación individual para verificar autoría y entendimiento de la entrefa.</li>
+          <li>Accesibilidad y semántica cuentan: validadores y chequeos de contraste forman parte de las rúbricas.</li>
+        </ul>
+      </section>
+
+      <!-- Volver arriba -->
+      <a href="#hero-index" class="back-to-top" aria-label="Volver arriba">↑</a>
+    </main>
+  </div>
+
+  <!-- ======= Footer ======= -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="wrap center">
+      <div style="margin-bottom:.5rem;">
+        <strong>Lenguaje de Marcas — Presentación</strong>
+      </div>
+      <div class="muted" style="margin-bottom:.75rem;">
+        Material docente • Autora/or: <em>Tu Nombre</em>
+      </div>
+      <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer" title="CC BY-NC-SA 4.0">
+        <img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="Licencia Creative Commons BY-NC-SA 4.0">
+      </a>
+    </div>
+  </footer>
+
+  <!-- ======= JS: Topbar móvil y Sidebar móvil ======= -->
+  <script>
+    // Topbar hamburger
+    (function(){
+      var toggle = document.getElementById('topnavToggle');
+      var nav = document.getElementById('topnav');
+      if (toggle && nav){
+        toggle.addEventListener('click', function(){
+          var open = nav.classList.toggle('open');
+          toggle.setAttribute('aria-expanded', String(open));
+        });
+      }
+    })();
+
+    // Sidebar drawer (móvil) y backdrop
+    (function(){
+      var btn = document.getElementById('btnSidebar');
+      var sidebar = document.getElementById('sidebar');
+      var backdrop = document.getElementById('backdrop');
+      function openSB(){ sidebar.classList.add('open'); backdrop.classList.add('visible'); backdrop.hidden=false; btn.setAttribute('aria-expanded','true'); }
+      function closeSB(){ sidebar.classList.remove('open'); backdrop.classList.remove('visible'); backdrop.hidden=true; btn.setAttribute('aria-expanded','false'); }
+      if (btn && sidebar && backdrop){
+        btn.addEventListener('click', function(){ sidebar.classList.contains('open') ? closeSB() : openSB(); });
+        backdrop.addEventListener('click', closeSB);
+        document.addEventListener('keydown', function(e){ if (e.key==='Escape' && sidebar.classList.contains('open')) closeSB(); });
+        sidebar.addEventListener('click', function(e){ if (e.target.tagName === 'A') closeSB(); });
+      }
+    })();
+  </script>
+</body>
+</html>
+

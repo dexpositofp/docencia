@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aplicaciones Web — HTML</title>
+  <link rel="stylesheet" href="./aw.css">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Playfair+Display:wght@700&family=Source+Code+Pro:wght@400&display=swap" rel="stylesheet">
+  <meta name="description" content="Unidad de HTML: estructura, semántica, formularios, tablas, multimedia y validación.">
+</head>
+<body>
+
+<header class="topbar" role="banner">
+  <div class="wrap">
+    <div class="site-brand">
+      <a href="./index.html">Aplicaciones Web</a>
+      <small>2º SMR</small>
+    </div>
+
+    <button class="topnav-toggle" aria-expanded="false" aria-controls="topnav">
+      <span class="sr-only">Abrir menú</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <nav id="topnav" class="topnav" aria-label="Site navigation">
+      <ul>
+        <li><a href="./index.html">Home</a></li>
+        <li><a href="./webapp.html">WebApp</a></li>
+        <li><a href="./html.html" aria-current="page">HTML</a></li>
+        <li><a href="./css.html">CSS</a></li>
+        <li><a href="./cms.html">CMS</a></li>
+        <li><a href="./data.html">Data Storage</a></li>
+        <li><a href="./lms.html">LMS</a></li>
+        <li><a href="./python.html">Python</a></li>
+      </ul>
+    </nav>
+    
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="sidebar" id="sidebar" aria-label="Unit index">
+    <h2>Contents</h2>
+    <nav>
+      <ul>
+        <li><a href="#intro">1. Introduction to Python</a></li>
+        <li><a href="#syntax">2. Python Syntax and Basic Concepts</a></li>
+        <li><a href="#control">3. Control Structures</a></li>
+        <li><a href="#functions">4. Functions</a></li>
+        <li><a href="#data-structures">5. Working with Data Structures</a></li>
+        <li><a href="#errors">6. Error Handling and Debugging</a></li>
+        <li><a href="#files">7. File Handling</a></li>
+        <li><a href="#projects">8. Simple Projects and Challenges</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <div class="backdrop" id="backdrop" hidden></div>
+
+  <main class="content">
+    <header class="page">
+      <h1 id="intro">Python Programming</h1>
+      <p class="muted">Learn the fundamentals of programming using Python — a simple, powerful, and widely-used language in education and industry.</p>
+    </header>
+    
+
+    <section id="intro">
+      <h2>1. Introduction to Python</h2>
+      <p>
+        Python is a high-level, general-purpose programming language known for its readability, simplicity, and wide range of applications.
+        It was created by Guido van Rossum and first released in 1991. Today, Python is one of the most popular languages in education,
+        science, web development, data analysis, artificial intelligence, and more.
+      </p>
+    
+      <p>
+        One of Python's biggest strengths is its clear and straightforward syntax, making it an ideal first language for beginners.
+        Unlike other programming languages that require complex structures to get started, Python allows you to write useful programs
+        with just a few lines of code.
+      </p>
+    
+      <h3>1.1 Why Learn Python?</h3>
+      <ul>
+        <li><strong>Easy to learn:</strong> Python has a clean, English-like syntax that reduces the learning curve.</li>
+        <li><strong>Versatile:</strong> Use Python for web development, games, automation, data science, machine learning, etc.</li>
+        <li><strong>In-demand:</strong> Python is consistently among the top programming languages in job markets worldwide.</li>
+        <li><strong>Huge community:</strong> Thousands of libraries, tutorials, and tools are available for every need.</li>
+      </ul>
+    
+      <h3>1.2 What Can You Build with Python?</h3>
+      <ul>
+        <li>Web applications (e.g., using Flask or Django)</li>
+        <li>Automated scripts and bots</li>
+        <li>Games and visual applications (e.g., with Pygame)</li>
+        <li>Data analysis and visualizations</li>
+        <li>Artificial Intelligence and Machine Learning models</li>
+        <li>IoT and robotics projects (e.g., Raspberry Pi)</li>
+      </ul>
+    
+      <div class="callout info">
+        <p><strong>Did you know?</strong> Companies like Google, Netflix, Instagram, and Spotify all use Python in their tech stacks.</p>
+      </div>
+    
+      <h3>Mini Challenge</h3>
+      <ol>
+        <li>Search for five companies that use Python and describe how they use it.</li>
+        <li>Install Python on your computer and run your first line of code: <code>print("Hello, Python!")</code></li>
+      </ol>
+    </section>
+    
+
+
+
+    <section id="syntax">
+      <h2>2. Basic Syntax and First Programs</h2>
+      <p>
+        Before diving into complex programming structures, it's essential to understand the basics of how Python code is written and executed. Python is designed to be beginner-friendly, readable, and consistent. In this section, you'll learn how to display messages, store data in variables, receive input from the user, and add comments to explain your code.
+      </p>
+    
+      <h3>2.1 Printing Output</h3>
+      <p>
+        One of the first things we learn in any language is how to make the computer "talk" to us. In Python, we use the <code>print()</code> function to display text or values on the screen.
+      </p>
+      <pre><code class="language-python">print("Hello, world!")</code></pre>
+      <p>
+        You can also print numbers, variables, or results of calculations:
+      </p>
+      <pre><code class="language-python">print(42)
+    print("2 + 3 =", 2 + 3)
+    
+    name = "Maria"
+    print("Welcome", name)</code></pre>
+      <p>
+        Notice how you don't need to add any semicolons (<code>;</code>) at the end of each line. Python uses new lines to separate instructions.
+      </p>
+    
+      <h3>2.2 Variables and Data Types</h3>
+      <p>
+        Variables are like containers that hold information for your program to use. You can store numbers, text, or other data types inside them. Python automatically detects the type of data you assign:
+      </p>
+      <pre><code class="language-python">name = "Lucas"         # string (text)
+    age = 20               # integer (whole number)
+    height = 1.75          # float (decimal number)
+    is_student = True      # boolean (True or False)</code></pre>
+      <p>
+        If you're unsure what type a variable is, use the <code>type()</code> function:
+      </p>
+      <pre><code class="language-python">print(type(name))     # &lt;class 'str'&gt;
+    print(type(age))      # &lt;class 'int'&gt;
+    print(type(height))   # &lt;class 'float'&gt;
+    print(type(is_student)) # &lt;class 'bool'&gt;</code></pre>
+    
+      <h4>Important Notes:</h4>
+      <ul>
+        <li>Variable names should be descriptive: use <code>user_age</code> instead of <code>x</code>.</li>
+        <li>They must start with a letter or underscore, and they are case-sensitive.</li>
+        <li>You don't need to declare the type — Python figures it out for you.</li>
+      </ul>
+    
+      <h3>2.3 Comments</h3>
+      <p>
+        Comments are lines of text that Python ignores when running the code. They're used to explain what the code does, making it easier for others (or yourself) to understand it later.
+      </p>
+      <ul>
+        <li><strong>Single-line comments</strong> start with <code>#</code></li>
+        <li><strong>Multi-line comments</strong> are usually written using triple quotes <code>"""</code>, although this is optional</li>
+      </ul>
+      <pre><code class="language-python"># This line explains what the code does
+    user_name = "Ana"  # Store the user's name
+    
+    """
+    This is a longer comment
+    that spans multiple lines.
+    Useful for documentation.
+    """</code></pre>
+    
+      <h3>2.4 Input from the User</h3>
+      <p>
+        You can ask the user to enter information while the program runs by using the <code>input()</code> function. The value returned is always a string:
+      </p>
+      <pre><code class="language-python">name = input("What's your name? ")
+    print("Hello,", name)</code></pre>
+      <p>
+        If you want to get a number from the user, you must convert the input using <code>int()</code> or <code>float()</code>:
+      </p>
+      <pre><code class="language-python">age = int(input("Enter your age: "))
+    print("Next year you will be", age + 1)</code></pre>
+    
+      <div class="callout warn">
+        <p><strong>Warning:</strong> If you try to perform calculations without converting the input, you’ll get an error. Python doesn’t automatically convert text to numbers.</p>
+      </div>
+    
+      <h3>2.5 Indentation and Structure</h3>
+      <p>
+        Python uses indentation (spaces at the beginning of a line) to define blocks of code. For example, inside an <code>if</code> condition or a loop, all code must be indented equally.
+      </p>
+      <pre><code class="language-python">age = 18
+    
+    if age >= 18:
+        print("You can vote")
+        print("Welcome to adulthood!")
+    print("This line is outside the if block")</code></pre>
+      <p>
+        You’ll usually indent with 4 spaces. Do not mix tabs and spaces, or you'll get an error!
+      </p>
+    
+      <h3>Mini Challenges</h3>
+      <ol>
+        <li>
+          Write a program that asks the user for their name and age, then prints:
+          <br>
+          <em>"Hello Ana! You are 16 years old."</em>
+        </li>
+        <li>
+          Create a program that:
+          <ul>
+            <li>Asks the user for two numbers</li>
+            <li>Prints their sum, difference, product and division (with clear labels)</li>
+          </ul>
+        </li>
+        <li>
+          Modify your code to show the <code>type()</code> of each variable you use.
+        </li>
+        <li>
+          Add comments to explain what each part of your program does.
+        </li>
+      </ol>
+    </section>
+    <section id="control">
+      <h2>3. Control Flow: Conditions and Loops</h2>
+      <p>
+        Programming is not just about executing instructions line by line — it's about making decisions and repeating actions when necessary. In Python, we use control flow structures like <code>if</code> statements and loops (<code>while</code> and <code>for</code>) to control how our program behaves depending on different situations.
+      </p>
+    
+      <h3>3.1 Conditional Statements: if, elif, else</h3>
+      <p>
+        With conditionals, we can tell the program to execute code only when a specific condition is met.
+      </p>
+      <pre><code class="language-python">age = int(input("Enter your age: "))
+    
+    if age >= 18:
+        print("You're an adult.")
+    elif age >= 13:
+        print("You're a teenager.")
+    else:
+        print("You're a child.")</code></pre>
+      <ul>
+        <li><code>if</code> checks a condition — if it’s true, the block runs.</li>
+        <li><code>elif</code> means “else if” — it checks a second condition if the first is false.</li>
+        <li><code>else</code> captures all other cases.</li>
+      </ul>
+    
+      <h3>3.2 Comparison Operators</h3>
+      <p>
+        To evaluate conditions, we use <strong>comparison operators</strong>:
+      </p>
+      <ul>
+        <li><code>==</code> equal</li>
+        <li><code>!=</code> not equal</li>
+        <li><code>&gt;</code> greater than</li>
+        <li><code>&lt;</code> less than</li>
+        <li><code>&gt;=</code> greater than or equal to</li>
+        <li><code>&lt;=</code> less than or equal to</li>
+      </ul>
+    
+      <pre><code class="language-python">score = 85
+    
+    if score == 100:
+        print("Perfect!")
+    if score != 0:
+        print("Not zero!")</code></pre>
+    
+      <h3>3.3 Logical Operators</h3>
+      <p>
+        Sometimes we need to check multiple conditions using logical operators:
+      </p>
+      <ul>
+        <li><code>and</code> → both conditions must be true</li>
+        <li><code>or</code> → at least one condition must be true</li>
+        <li><code>not</code> → inverts the condition</li>
+      </ul>
+      <pre><code class="language-python">age = 25
+    has_id = True
+    
+    if age >= 18 and has_id:
+        print("Access granted")</code></pre>
+    
+      <h3>3.4 while Loop</h3>
+      <p>
+        A <code>while</code> loop repeats as long as the condition is <code>True</code>.
+      </p>
+      <pre><code class="language-python">counter = 1
+    
+    while counter <= 5:
+        print("Counter:", counter)
+        counter += 1</code></pre>
+      <p>
+        Be careful with <strong>infinite loops</strong>! Make sure your condition eventually becomes <code>False</code>.
+      </p>
+    
+      <h3>3.5 for Loop</h3>
+      <p>
+        A <code>for</code> loop repeats a block a specific number of times. We usually use it with <code>range()</code>.
+      </p>
+      <pre><code class="language-python">for i in range(1, 6):
+        print("Iteration:", i)</code></pre>
+      <p>
+        You can also loop through a list:
+      </p>
+      <pre><code class="language-python">fruits = ["apple", "banana", "cherry"]
+    
+    for fruit in fruits:
+        print("I like", fruit)</code></pre>
+    
+      <h3>3.6 break and continue</h3>
+      <p>
+        Use <code>break</code> to exit a loop early, and <code>continue</code> to skip to the next iteration.
+      </p>
+      <pre><code class="language-python">for i in range(1, 10):
+        if i == 5:
+            break   # stops loop at 5
+        print(i)</code></pre>
+    
+      <pre><code class="language-python">for i in range(1, 6):
+        if i == 3:
+            continue  # skip 3
+        print(i)</code></pre>
+    
+      <h3>3.7 Nested Conditions and Loops</h3>
+      <p>
+        You can nest <code>if</code> statements or loops inside others, but keep indentation clear and organized.
+      </p>
+      <pre><code class="language-python">for number in range(1, 6):
+        if number % 2 == 0:
+            print(number, "is even")
+        else:
+            print(number, "is odd")</code></pre>
+    
+      <h3>Mini Challenges</h3>
+      <ol>
+        <li>Create a program that asks the user for a number and tells them whether it's even or odd.</li>
+        <li>Write a program that asks for a password. If it matches the correct one, print “Access granted”. Otherwise, print “Try again” and keep asking (using a <code>while</code> loop).</li>
+        <li>Print all multiples of 3 from 1 to 30 using a <code>for</code> loop and <code>continue</code> to skip non-multiples.</li>
+        <li>Ask the user to input 5 numbers. At the end, print the total and average.</li>
+        <li>Write a guessing game where the user must guess a secret number between 1 and 10. The program should give hints ("too high" / "too low") and count attempts.</li>
+        <li>Create a loop that prints a triangle made of stars like this:
+          <pre><code>*
+    **
+    ***
+    ****
+    *****</code></pre>
+        </li>
+        <li>Make a simple menu using <code>while True</code>:
+          <ul>
+            <li>1. Show greeting</li>
+            <li>2. Show date</li>
+            <li>3. Exit</li>
+          </ul>
+          Let the user choose an option until they press 3.
+        </li>
+      </ol>
+    </section>
+    <section id="functions">
+      <h2>4. Functions and Code Reuse</h2>
+    
+      <p>
+        As programs grow in size and complexity, repeating code becomes inefficient and error-prone. 
+        This is where <strong>functions</strong> come into play. Functions allow you to group blocks of code under a name 
+        so they can be reused easily throughout your program. Learning to use functions effectively 
+        is a key step in becoming a confident and efficient programmer.
+      </p>
+    
+      <h3>4.1 What Is a Function?</h3>
+      <p>
+        A function is a reusable block of code designed to perform a specific task. You define a function once, 
+        and you can “call” it (execute it) as many times as needed, even with different data.
+      </p>
+    
+      <p>
+        To define a function in Python, use the <code>def</code> keyword followed by a name, parentheses <code>()</code>, 
+        and a colon <code>:</code>. Inside the parentheses, you can specify input values (called <em>parameters</em>). 
+        The indented block that follows is the body of the function.
+      </p>
+    
+      <pre><code class="language-python">def greet(name):
+        print("Hello, " + name + "!")
+    
+    greet("Alice")
+    greet("Bob")</code></pre>
+    
+      <p>
+        In this example, <code>greet</code> is a function that takes one parameter called <code>name</code>. 
+        When called, it prints a personalized greeting.
+      </p>
+    
+      <h3>4.2 Return Values</h3>
+      <p>
+        Often, functions do more than display information — they compute results. 
+        You can use the <code>return</code> keyword to send data back to the part of the program that called the function.
+      </p>
+    
+      <pre><code class="language-python">def add(a, b):
+        return a + b
+    
+    result = add(3, 5)
+    print(result)  # Output: 8</code></pre>
+    
+      <p>
+        The function <code>add()</code> calculates the sum of two numbers and returns the result.
+        This makes it more versatile than simply printing the value inside the function.
+      </p>
+    
+      <h3>4.3 Parameters vs Arguments</h3>
+      <ul>
+        <li><strong>Parameters</strong> are the placeholders defined in the function header.</li>
+        <li><strong>Arguments</strong> are the actual values you pass when calling the function.</li>
+      </ul>
+    
+      <p>Example:</p>
+    
+      <pre><code class="language-python">def multiply(x, y):   # x and y are parameters
+        return x * y
+    
+    multiply(4, 3)         # 4 and 3 are arguments</code></pre>
+    
+      <h3>4.4 Function Scope</h3>
+      <p>
+        A variable’s <strong>scope</strong> defines where it can be accessed. 
+        Variables defined inside a function are <strong>local</strong> and exist only during the function's execution. 
+        This helps prevent accidental changes to variables from other parts of the code.
+      </p>
+    
+      <pre><code class="language-python">def show():
+        message = "Hi!"
+        print(message)
+    
+    show()
+    print(message)  # Error: 'message' is not defined outside the function</code></pre>
+    
+      <h3>4.5 Default Parameters</h3>
+      <p>
+        You can assign default values to parameters. These are used when no argument is provided for that parameter.
+      </p>
+    
+      <pre><code class="language-python">def greet(name="friend"):
+        print("Hello, " + name + "!")
+    
+    greet()           # Uses default: friend
+    greet("Carlos")   # Uses argument: Carlos</code></pre>
+    
+      <h3>4.6 Keyword Arguments</h3>
+      <p>
+        Functions with multiple parameters can be called using <strong>keyword arguments</strong> 
+        (naming the parameter), which improves readability and avoids mistakes.
+      </p>
+    
+      <pre><code class="language-python">def student_info(name, age, grade):
+        print(f"{name} is {age} years old and in grade {grade}.")
+    
+    student_info(age=15, name="Eva", grade=9)</code></pre>
+    
+      <h3>4.7 Why Use Functions?</h3>
+      <ul>
+        <li>They help avoid repeating code.</li>
+        <li>They make programs easier to understand and maintain.</li>
+        <li>They allow collaboration by dividing tasks into smaller parts.</li>
+        <li>They enable <strong>modular programming</strong>: writing code in organized, logical pieces.</li>
+      </ul>
+    
+      <h3>4.8 Common Mistakes to Avoid</h3>
+      <ul>
+        <li>Forgetting to <code>return</code> a value when needed.</li>
+        <li>Using variables outside their scope.</li>
+        <li>Confusing parameter names with arguments.</li>
+        <li>Calling a function before defining it.</li>
+      </ul>
+    
+      <h3>4.9 Mini Challenges</h3>
+      <ol>
+        <li>Create a function <code>area_of_circle(radius)</code> that returns the area (use π = 3.14).</li>
+        <li>Write a function <code>is_even(n)</code> that returns True if the number is even, False otherwise.</li>
+        <li>Write a function <code>reverse_string(text)</code> that returns the text reversed.</li>
+        <li>Make a function <code>fahrenheit_to_celsius(f)</code> to convert temperature.</li>
+        <li>Write a function <code>greet_many(names)</code> that takes a list of names and greets each person.</li>
+        <li>Create a function <code>factorial(n)</code> that calculates the factorial of a number (e.g., 5! = 5×4×3×2×1).</li>
+        <li>Build a function <code>password_strength(password)</code> that returns "Weak", "Medium", or "Strong" depending on length and character types.</li>
+        <li>Define <code>max_of_three(a, b, c)</code> without using <code>max()</code>.</li>
+        <li>Write a function <code>count_vowels(text)</code> that returns how many vowels are in the string.</li>
+        <li>Make a simple calculator function <code>calculate(a, b, operator)</code> that performs basic math operations.</li>
+      </ol>
+    
+      <div class="callout tip">
+        <p><strong>Tip:</strong> Start using functions as soon as your code becomes repetitive or has multiple steps. 
+        Even simple programs become more readable and organized with good use of functions.</p>
+      </div>
+    </section>
+    <section id="data-structures">
+      <h2>5. Working with Data Structures</h2>
+    
+      <p>
+        When working with data in programming, it's important to organize and store information efficiently. 
+        Python provides several built-in data structures that allow you to group values together, manage collections, 
+        and access or manipulate them in powerful ways. The most common are: <strong>lists</strong>, <strong>tuples</strong>, 
+        <strong>dictionaries</strong>, and <strong>sets</strong>.
+      </p>
+    
+      <h3>5.1 Lists</h3>
+      <p>
+        A <strong>list</strong> is an ordered and mutable collection of items. You can store any data type 
+        (numbers, strings, even other lists), change values, and add or remove elements.
+      </p>
+    
+      <pre><code class="language-python">fruits = ["apple", "banana", "cherry"]
+    print(fruits[0])          # "apple"
+    fruits.append("orange")   # Add to the end
+    fruits[1] = "pear"        # Change an item
+    fruits.remove("cherry")   # Remove an item
+    print(fruits)             # ['apple', 'pear', 'orange']</code></pre>
+    
+      <p>
+        Lists are very useful when you need to work with a collection of related items — like names, numbers, or inputs from the user.
+      </p>
+    
+      <h3>5.2 Tuples</h3>
+      <p>
+        A <strong>tuple</strong> is like a list, but <strong>immutable</strong> — once created, its values cannot be changed. 
+        Tuples are useful for fixed collections of values, such as coordinates or days of the week.
+      </p>
+    
+      <pre><code class="language-python">colors = ("red", "green", "blue")
+    print(colors[1])  # "green"
+    # colors[0] = "yellow"  → Error: tuples cannot be changed</code></pre>
+    
+      <p>
+        Because they are immutable, tuples are safer to use when you don't want the data to change accidentally.
+      </p>
+    
+      <h3>5.3 Dictionaries</h3>
+      <p>
+        A <strong>dictionary</strong> stores data in <strong>key-value pairs</strong>. 
+        This is useful when you want to label your data, like storing information about a person.
+      </p>
+    
+      <pre><code class="language-python">person = {
+      "name": "Alice",
+      "age": 30,
+      "city": "London"
+    }
+    
+    print(person["name"])       # Alice
+    person["age"] = 31          # Update value
+    person["email"] = "a@mail.com"  # Add new key
+    del person["city"]          # Remove a key
+    </code></pre>
+    
+      <p>
+        Dictionaries are extremely flexible and widely used in real applications, especially when managing structured data.
+      </p>
+    
+      <h3>5.4 Sets</h3>
+      <p>
+        A <strong>set</strong> is an unordered collection of <strong>unique</strong> items. 
+        Sets are useful for removing duplicates and performing mathematical operations like union, intersection, or difference.
+      </p>
+    
+      <pre><code class="language-python">a = {1, 2, 3, 4}
+    b = {3, 4, 5, 6}
+    
+    print(a | b)  # Union: {1, 2, 3, 4, 5, 6}
+    print(a & b)  # Intersection: {3, 4}
+    print(a - b)  # Difference: {1, 2}</code></pre>
+    
+      <p>
+        You can convert a list to a set to remove duplicates:
+      </p>
+    
+      <pre><code class="language-python">numbers = [1, 2, 2, 3, 4, 4, 5]
+    unique_numbers = set(numbers)
+    print(unique_numbers)  # {1, 2, 3, 4, 5}</code></pre>
+    
+      <h3>5.5 Iterating Over Data Structures</h3>
+      <p>
+        You can use <code>for</code> loops to go through lists, tuples, dictionaries, or sets.
+      </p>
+    
+      <pre><code class="language-python"># List
+    for fruit in fruits:
+        print(fruit)
+    
+    # Dictionary
+    for key, value in person.items():
+        print(key + ":", value)</code></pre>
+    
+      <p>
+        Understanding how to iterate over different structures is essential for processing and analyzing data.
+      </p>
+    
+      <h3>5.6 Mini Challenges</h3>
+      <ol>
+        <li>Create a list of your 5 favorite foods. Replace one and print the updated list.</li>
+        <li>Make a tuple with your birth year, month, and day. Print each part separately.</li>
+        <li>Create a dictionary about a book (title, author, year). Add a "genre" and delete the "year".</li>
+        <li>Given a list with duplicates, convert it to a set and print the result.</li>
+        <li>Use a loop to print all items in a list of cities.</li>
+        <li>Write a program that asks the user to input 3 numbers and stores them in a list.</li>
+        <li>Given a dictionary of students and their scores, print only those who passed (score ≥ 60).</li>
+        <li>Make a list of integers and calculate the sum using a loop.</li>
+        <li>Create two sets of animals (land and sea). Find animals that are in both sets.</li>
+        <li>Write a program that stores people’s names and ages in a dictionary and allows the user to retrieve the age by entering a name.</li>
+      </ol>
+    
+      <div class="callout tip">
+        <p><strong>Tip:</strong> Practice using these structures with your own data — your favorite movies, books, scores, or hobbies. 
+        Real-world examples help reinforce your understanding!</p>
+      </div>
+    </section>
+
+    <section id="errors">
+      <h2>6. Error Handling and Debugging</h2>
+    
+      <p>
+        When writing code, errors are inevitable — especially when you're just starting out. Learning how to handle errors and debug your programs is an essential skill for any programmer. Python provides tools to catch and manage errors gracefully, helping prevent your program from crashing and improving its reliability.
+      </p>
+    
+      <h3>6.1 Common Types of Errors</h3>
+      <p>Before we handle errors, we need to understand the kinds of problems that can occur in a program:</p>
+      <ul>
+        <li><strong>SyntaxError:</strong> Happens when Python doesn't understand your code. Example: forgetting a colon.</li>
+        <li><strong>NameError:</strong> Occurs when a variable or function is used before it is defined.</li>
+        <li><strong>TypeError:</strong> Happens when you try to use a value in an incorrect way (e.g., adding a string and an integer).</li>
+        <li><strong>ValueError:</strong> Raised when a function receives an argument of the right type but inappropriate value (e.g., converting "abc" to an integer).</li>
+        <li><strong>IndexError:</strong> Accessing an element outside the valid range of a list.</li>
+      </ul>
+    
+      <h3>6.2 Using try and except</h3>
+      <p>
+        You can use the <code>try</code> and <code>except</code> blocks to "catch" and respond to errors without stopping the whole program.
+      </p>
+    
+      <pre><code class="language-python">try:
+        number = int(input("Enter a number: "))
+        print("You entered:", number)
+    except ValueError:
+        print("That's not a valid number!")</code></pre>
+    
+      <p>
+        In this example, the program will catch the <code>ValueError</code> if the user enters something that's not a number.
+      </p>
+    
+      <h3>6.3 Catching Multiple Exceptions</h3>
+      <pre><code class="language-python">try:
+        num = int(input("Enter a number: "))
+        result = 10 / num
+    except ValueError:
+        print("Please enter a valid number.")
+    except ZeroDivisionError:
+        print("You can't divide by zero!")</code></pre>
+    
+      <p>
+        You can handle multiple error types separately to provide more specific feedback to the user.
+      </p>
+    
+      <h3>6.4 The finally Block</h3>
+      <p>
+        You can add a <code>finally</code> block to execute code no matter what happens in the <code>try</code>/<code>except</code> block.
+      </p>
+    
+      <pre><code class="language-python">try:
+        f = open("example.txt", "r")
+        data = f.read()
+    except FileNotFoundError:
+        print("File not found.")
+    finally:
+        print("Execution finished.")</code></pre>
+    
+      <h3>6.5 Debugging Techniques</h3>
+      <ul>
+        <li><strong>Print statements:</strong> Use <code>print()</code> to inspect variable values and flow of the program.</li>
+        <li><strong>Use clear variable names:</strong> Makes it easier to read and understand code.</li>
+        <li><strong>Isolate the problem:</strong> Comment out sections of code to find where the error happens.</li>
+        <li><strong>Use a debugger:</strong> If you're using an IDE like VS Code or Thonny, it includes a debugger to step through your code.</li>
+        <li><strong>Read error messages carefully:</strong> Python provides useful messages with the type of error and the line number.</li>
+      </ul>
+    
+      <h3>6.6 Raising Custom Errors</h3>
+      <p>
+        You can also create and raise your own errors using <code>raise</code>:
+      </p>
+    
+      <pre><code class="language-python">def check_age(age):
+        if age < 0:
+            raise ValueError("Age can't be negative")
+        else:
+            print("Valid age:", age)
+    
+    check_age(-2)</code></pre>
+    
+      <div class="callout tip">
+        <p><strong>Tip:</strong> Always test your code with both correct and incorrect inputs to make sure it behaves as expected and handles errors gracefully.</p>
+      </div>
+    
+      <h3>Mini Challenges</h3>
+      <ol>
+        <li>Create a program that asks for a number and prints its square. Handle cases where the input is not a number.</li>
+        <li>Write a program that asks the user for a filename and tries to open it. If the file doesn't exist, show a friendly message.</li>
+        <li>Make a division calculator that handles invalid numbers and division by zero.</li>
+        <li>Write a function that receives a value and raises a <code>ValueError</code> if it's not positive.</li>
+        <li>Try to debug a faulty program: give students a script with 3 bugs and ask them to fix it using <code>print()</code> and reasoning.</li>
+      </ol>
+    </section>
+
+    <section id="files">
+      <h2>7. Working with Files</h2>
+    
+      <p>
+        Many programs need to save data or read information from files. Python makes it easy to work with files using built-in functions. In this section, you'll learn how to read from and write to text files, manage file resources properly, and use different file modes.
+      </p>
+    
+      <h3>7.1 Opening and Reading Files</h3>
+      <p>
+        To open a file for reading, use the <code>open()</code> function with mode <code>"r"</code> (read). Always make sure the file exists before trying to read it.
+      </p>
+    
+      <pre><code class="language-python">file = open("data.txt", "r")
+    content = file.read()
+    print(content)
+    file.close()</code></pre>
+    
+      <p>
+        You can also read line by line:
+      </p>
+    
+      <pre><code class="language-python">file = open("data.txt", "r")
+    for line in file:
+        print(line.strip())
+    file.close()</code></pre>
+    
+      <h3>7.2 Writing to Files</h3>
+      <p>
+        Use <code>"w"</code> mode to write to a file. If the file already exists, its content will be erased. Use <code>"a"</code> to append content instead.
+      </p>
+    
+      <pre><code class="language-python">file = open("output.txt", "w")
+    file.write("This is a line.\n")
+    file.write("This is another line.\n")
+    file.close()</code></pre>
+    
+      <p>
+        Appending data:
+      </p>
+    
+      <pre><code class="language-python">file = open("output.txt", "a")
+    file.write("New data added at the end.\n")
+    file.close()</code></pre>
+    
+      <h3>7.3 Using with Statement</h3>
+      <p>
+        It's recommended to use the <code>with</code> statement when working with files. It automatically closes the file even if an error occurs.
+      </p>
+    
+      <pre><code class="language-python">with open("data.txt", "r") as file:
+        lines = file.readlines()
+        for line in lines:
+            print(line.strip())</code></pre>
+    
+      <h3>7.4 File Modes</h3>
+      <ul>
+        <li><code>"r"</code>: Read (default). Error if file doesn't exist.</li>
+        <li><code>"w"</code>: Write. Creates new file or overwrites existing one.</li>
+        <li><code>"a"</code>: Append. Adds content at the end of the file.</li>
+        <li><code>"x"</code>: Create. Error if file already exists.</li>
+        <li><code>"b"</code>: Binary mode (e.g., <code>"rb"</code>, <code>"wb"</code>).</li>
+      </ul>
+    
+      <h3>7.5 Writing Lists or Multiple Lines</h3>
+      <p>You can write multiple lines at once using <code>writelines()</code>:</p>
+    
+      <pre><code class="language-python">lines = ["Line 1\n", "Line 2\n", "Line 3\n"]
+    with open("output.txt", "w") as file:
+        file.writelines(lines)</code></pre>
+    
+      <h3>7.6 Checking if File Exists</h3>
+      <p>
+        Use the <code>os</code> or <code>pathlib</code> module to check if a file exists before opening:
+      </p>
+    
+      <pre><code class="language-python">import os
+    
+    if os.path.exists("data.txt"):
+        with open("data.txt", "r") as f:
+            print(f.read())
+    else:
+        print("File not found.")</code></pre>
+    
+      <h3>Mini Challenges</h3>
+      <ol>
+        <li>Create a file named <code>notes.txt</code> and write three lines of text into it.</li>
+        <li>Write a program that reads and prints the contents of a file line by line.</li>
+        <li>Modify a program to append new user input to a file each time it runs.</li>
+        <li>Ask the user for a filename, and check if it exists before reading it.</li>
+        <li>Save a list of student names into a file using <code>writelines()</code>, one per line.</li>
+        <li>Create a file log system that records every time the script is run (with date/time).</li>
+        <li>Bonus: Write a program that copies the content of one file into a new one.</li>
+      </ol>
+    
+      <div class="callout tip">
+        <p><strong>Tip:</strong> Always test your file paths. Use <code>with</code> to avoid forgetting to close files, especially in larger programs.</p>
+      </div>
+    </section>
+    <section id="projects">
+      <h2>8. Simple Projects and Challenges</h2>
+    
+      <p>
+        Now that you've learned the fundamentals of Python — variables, control structures, functions, and file handling — it's time to apply your knowledge in small but meaningful projects. These challenges are designed to reinforce your skills and encourage creative thinking. Each project includes clear goals, and you’re encouraged to test, break, and expand each idea on your own.
+      </p>
+    
+      <h3>8.1 Calculator App</h3>
+      <p>
+        Build a simple calculator that asks the user for two numbers and an operation (+, –, *, /) and displays the result. Make sure to handle division by zero and invalid input.
+      </p>
+      <pre><code class="language-python"># Sample outline
+    num1 = float(input("Enter first number: "))
+    num2 = float(input("Enter second number: "))
+    op = input("Choose operation (+ - * /): ")
+    
+    if op == "+":
+        print(num1 + num2)
+    elif op == "-":
+        print(num1 - num2)
+    elif op == "*":
+        print(num1 * num2)
+    elif op == "/":
+        if num2 != 0:
+            print(num1 / num2)
+        else:
+            print("Error: Division by zero")
+    else:
+        print("Invalid operation")</code></pre>
+    
+      <h3>8.2 Grade Average Calculator</h3>
+      <p>
+        Ask the user for a number of student grades and calculate the average. Show a message based on performance (e.g., "Excellent", "Needs Improvement").
+      </p>
+    
+      <h3>8.3 To-Do List (with Files)</h3>
+      <p>
+        Create a simple to-do list where the user can add, view, or delete tasks. Save tasks in a text file so that they persist between sessions.
+      </p>
+    
+      <h3>8.4 Number Guessing Game</h3>
+      <p>
+        Generate a random number and ask the user to guess it. Give hints like "Too high" or "Too low" until the user gets it right. Count the number of attempts.
+      </p>
+    
+      <h3>8.5 Contact Book</h3>
+      <p>
+        Create a contact book where users can add names, phone numbers, and emails. Let them search by name and export the list to a file.
+      </p>
+    
+      <h3>8.6 Text Analyzer</h3>
+      <p>
+        Ask the user to input a paragraph of text and then analyze it: count words, characters, most frequent word, number of sentences, etc.
+      </p>
+    
+      <h3>8.7 Expense Tracker</h3>
+      <p>
+        Build a basic expense tracking system. Allow users to input expense categories and amounts, then calculate the total and show a breakdown by category. Store data in a file.
+      </p>
+    
+      <h3>8.8 Quiz Game</h3>
+      <p>
+        Create a simple multiple-choice quiz. Store questions and answers in a list or dictionary, and track the user’s score.
+      </p>
+    
+      <h3>8.9 Password Strength Checker</h3>
+      <p>
+        Ask the user for a password and analyze its strength based on length, uppercase/lowercase letters, numbers, and symbols.
+      </p>
+    
+      <h3>8.10 Project Ideas for Further Practice</h3>
+      <ul>
+        <li>Weather app using API data (e.g., OpenWeatherMap)</li>
+        <li>Simple text-based RPG game</li>
+        <li>Mini banking system (withdrawal, deposit, balance)</li>
+        <li>Flashcard app to study vocabulary</li>
+        <li>Rock, Paper, Scissors game with score tracking</li>
+      </ul>
+    
+      <div class="callout info">
+        <p><strong>Tip:</strong> Before starting a project, write down what inputs you’ll need, what logic is required, and how you will show the results. Start simple — you can always improve later.</p>
+      </div>
+    
+      <h3>Mini Challenges</h3>
+      <ol>
+        <li>Create a program that converts temperatures between Celsius and Fahrenheit.</li>
+        <li>Write a stopwatch or timer tool using loops and <code>time.sleep()</code>.</li>
+        <li>Simulate a dice roll or coin toss.</li>
+        <li>Create a random password generator.</li>
+        <li>Ask the user for a word and check if it's a palindrome.</li>
+        <li>Write a program that encrypts a message using a simple Caesar cipher.</li>
+        <li>Build a leaderboard that stores names and scores in a file.</li>
+      </ol>
+    </section>
+        
+    
+  </main>
+</div>
+
+<a href="#top" class="backtotop" aria-label="Volver arriba">↑</a>
+
+<footer class="site-footer" role="contentinfo" class="wrap">
+  <div>
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer" title="CC BY-NC-SA 4.0">
+      <img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="Licencia Creative Commons BY-NC-SA 4.0">
+    </a>
+  </div>
+</footer>
+
+<!-- JS de navegación (ajustado a tus clases e IDs) -->
+<script>
+(function(){
+  // Topbar toggle
+  var btn = document.querySelector('.topnav-toggle');
+  var nav = document.getElementById('topnav');
+  if (btn && nav) {
+    btn.addEventListener('click', function(){
+      var open = nav.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    nav.addEventListener('click', function(e){
+      if (e.target.tagName === 'A' && nav.classList.contains('open')) {
+        nav.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  // Resalta enlace activo en el TOC según sección visible
+  var links = document.querySelectorAll('.toc a[href^="#"]');
+  var targets = Array.prototype.map.call(links, function(a){
+    try { return document.querySelector(a.getAttribute('href')); } catch(e){ return null; }
+  }).filter(Boolean);
+
+  if ('IntersectionObserver' in window) {
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          var id = '#' + entry.target.id;
+          links.forEach(function(a){
+            a.classList.toggle('active', a.getAttribute('href') === id);
+          });
+        }
+      });
+    }, { rootMargin: "-40% 0px -55% 0px", threshold: 0 });
+    targets.forEach(function(t){ obs.observe(t); });
+  }
+})();
+</script>
+</body>
+</html>
+

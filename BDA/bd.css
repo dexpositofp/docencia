@@ -1,0 +1,479 @@
+/* =========================================================
+   Curso LM · Modelo mixto (Topbar + Sidebar) — Responsive/Accesible
+   ========================================================= */
+
+/* --------- Tokens y diseño global --------- */
+:root{
+  --font-sans: system-ui, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+
+  --fs-300: .9rem;
+  --fs-400: 1rem;
+  --fs-500: 1.0625rem;  /* tamaño base algo más compacto para ganar espacio */
+  --fs-600: 1.35rem;
+  --fs-700: 1.6rem;
+  --fs-800: 2rem;
+
+  --space-1: .25rem;
+  --space-2: .5rem;
+  --space-3: .75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+
+  --radius-1: 6px;
+  --radius-2: 10px;
+
+  /* Paleta clara (auto dark más abajo) */
+  --bg: #ffffff;
+  --fg: #0f172a;
+  --muted: #64748b;
+  --border: #e2e8f0;
+  --panel: #f8fafc;
+  --brand: #6176BA;
+  --brand-strong: #1F1769;
+  --brand-weak: #eef2ff;
+
+  --success: #16a34a;
+  --warn: #d97706;
+  --danger: #dc2626;
+
+  /* Contenedor ancho y paddings contenidos */
+  --container: min(1620px, 96vw);
+  --shadow-1: 0 1px 2px rgba(0,0,0,.05), 0 2px 8px rgba(0,0,0,.04);
+
+  /* Alturas de barras (para scroll-margin y sticky) */
+  --topbar-h: 74px;
+}
+
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg: #0b1020;
+    --fg: #e5e7eb;
+    --muted: #9ca3af;
+    --border: #1f2937;
+    --panel: #0f172a;
+    --brand-weak: #1e293b;
+    --shadow-1: 0 1px 2px rgba(0,0,0,.40), 0 2px 10px rgba(0,0,0,.35);
+  }
+}
+
+/* --------- Reset suave --------- */
+*,
+*::before,
+*::after{ box-sizing: border-box; }
+html{ scroll-behavior: smooth; }
+body{
+  margin:0;
+  color:var(--fg);
+  background:var(--bg);
+  font-family:var(--font-sans);
+  line-height:1.65;
+  font-size: var(--fs-400);
+}
+@media (min-width: 1100px){
+  body{ font-size: var(--fs-500); }
+}
+img,svg,video{ max-width:100%; height:auto; }
+
+/* Enlaces */
+a{ color:var(--brand); text-decoration: none; }
+a:hover{ text-decoration: underline; }
+
+/* Código (sin subrayado nunca) */
+code, pre, kbd, samp { text-decoration: none; font-family: var(--font-mono); font-size: .95em; }
+pre{
+  background:#0b1020; color:#e5e7eb;
+  padding: var(--space-4);
+  border-radius: var(--radius-2);
+  overflow:auto; box-shadow: var(--shadow-1);
+}
+pre code{ background: transparent; padding:0; }
+a code, a kbd, a samp { text-decoration: none; }
+/* Si el navegador soporta :has, evita subrayar cuando el enlace contiene <code> */
+a:has(code):hover{ text-decoration: none; }
+
+/* Focus accesible */
+:focus-visible{ outline: 2px solid var(--brand); outline-offset: 2px; }
+
+/* =========================================================
+   1) Topbar horizontal (navegación entre páginas)
+   ========================================================= */
+.topbar{
+  position: sticky; top: 0; z-index: 70;
+  height: var(--topbar-h);
+  background: linear-gradient(180deg, var(--brand) 0%, var(--brand-strong) 100%);
+  color:#fff;
+  border-bottom: 0;
+  box-shadow: var(--shadow-1);
+}
+.topbar .wrap{
+  max-width: var(--container);
+  margin: 0 auto;
+  height: var(--topbar-h);
+  padding: 0 var(--space-4);
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--space-2);
+}
+.site-brand{
+  display:flex; align-items:center; gap:.6rem;
+  font-weight: 800; letter-spacing:.2px;font-size:1.3em;
+}
+.site-brand a{ color:#fff; text-decoration:none; }
+.site-brand small{ color:rgba(255,255,255,.85); font-weight:600; }
+
+.topnav-toggle{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:42px; height:42px;
+  border:1px solid rgba(255,255,255,.25);
+  border-radius: var(--radius-1);
+  background: transparent; color:#fff;
+}
+.topnav-toggle svg{ width:22px; height:22px; }
+
+.topnav{
+  display:none;
+  position:absolute; left:0; right:0; top:var(--topbar-h);
+  background: linear-gradient(180deg, var(--brand) 0%, var(--brand-strong) 100%);
+  border-bottom:1px solid rgba(255,255,255,.12);
+}
+.topnav.open{ display:block; }
+.topnav ul{
+  list-style:none; margin:0; padding:.5rem var(--space-4);
+  display:grid; gap:.25rem;
+}
+.topnav a{
+  display:block; color:#fff; text-decoration:none; font-weight:600;
+  padding:.55rem .6rem; border-radius:var(--radius-1);
+}
+.topnav a:hover{ background: transparent; }
+
+@media (min-width: 900px){
+  .topnav{ position: static; display:block; background: transparent; border:0; }
+  .topnav ul{ display:flex; gap:.25rem; padding:0; }
+  .topnav a{ padding:.5rem .75rem; }
+  .topnav-toggle{ display:none; }
+}
+
+/* =========================================================
+   2) Layout de página con Sidebar (navegación interna)
+   ========================================================= */
+.layout{
+  display:grid;
+  grid-template-columns: 300px 1fr; /* sidebar ancho y contenido flexible */
+  gap: 1.25rem;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: var(--space-4) var(--space-4) var(--space-8);
+}
+
+/* Sidebar escritorio */
+.sidebar{
+  position: sticky;
+  top: calc(var(--topbar-h) + 150px);
+  align-self: start;
+  height: max-content;
+  background: var(--panel);
+  border:1px solid var(--border);
+  border-radius: var(--radius-2);
+  box-shadow: var(--shadow-1);
+  padding: .85rem;
+}
+.sidebar h2{
+  font-size: .95rem; margin:.25rem 0 .5rem; color: var(--muted); letter-spacing:.3px;
+}
+.toc{ list-style:none; margin:0; padding:0; display:grid; gap:.25rem; }
+.toc a{
+  display:block; padding:.45rem .55rem; border-radius: var(--radius-1);
+  color: var(--fg); text-decoration:none; font-weight: 500;
+}
+.toc a:hover{ background: var(--brand-weak); }
+.toc a.active{
+  background: var(--brand-weak);
+  border:1px solid var(--border);
+}
+
+/* Contenido */
+.content{ 
+
+    min-width:0; 
+    margin-top: 50px;
+    margin-left:50px;
+} /* evita overflow en grid */
+
+/* Móvil: la sidebar se convierte en “drawer” */
+@media (max-width: 900px){
+  .layout{
+    display:block; /* una sola columna */
+    padding: var(--space-3) var(--space-4) var(--space-8);
+  }
+  .sidebar-toggle{
+    position: sticky; top: var(--topbar-h); z-index: 60;
+    display:flex; justify-content: space-between; align-items:center;
+    padding:.6rem var(--space-4);
+    background: linear-gradient(180deg, var(--brand) 0%, var(--brand-strong) 100%);
+    color:#fff; box-shadow: var(--shadow-1);
+    margin: 0 calc(-1 * var(--space-4)); /* full-bleed */
+  }
+  .sidebar-toggle button{
+    border:1px solid rgba(255,255,255,.25); background: transparent; color:#fff;
+    border-radius: var(--radius-1); padding: .45rem .6rem;
+  }
+  .sidebar{
+    position: fixed; inset: 0 0 0 auto; width: 86%;
+    max-width: 340px; transform: translateX(100%);
+    transition: transform .22s ease;
+    z-index: 65; border-left:1px solid var(--border);
+    border-radius:0; height:100dvh; overflow:auto;
+  }
+  .sidebar.open{ transform: translateX(0); }
+  .backdrop{
+    position: fixed; inset:0; background: rgba(0,0,0,.45);
+    display:none; z-index: 64;
+  }
+  .backdrop.visible{ display:block; }
+}
+
+/* Ajuste de anclaje de secciones bajo topbar sticky */
+:where(h1, h2, h3, section, [id]){ scroll-margin-top: calc(var(--topbar-h) + 14px); }
+
+/* =========================================================
+   3) Componentes docentes / utilidades
+   ========================================================= */
+header.page{
+  margin-bottom: var(--space-5);
+  padding-bottom: var(--space-3);
+  border-bottom:1px solid var(--border);
+}
+h1{ font-size: clamp(2rem, 3.5vw, 2.6rem); color: var(--brand); /* azul principal */ font-weight: 800; margin: 0 0 var(--space-2); margin-bottom: .75rem;line-height:1.2; }
+h2{ font-size: clamp(1.6rem, 3vw, 2.1rem);color: #7E91C4; /* azul medio */ font-weight: 700; margin: var(--space-6) 0 var(--space-2); line-height:1.25;  margin-top: 2.5rem; margin-bottom: .6rem;}
+h3{ margin-bottom: .6rem; color: #334155; /* gris oscuro */ font-weight: 600;  margin: var(--space-5) 0 var(--space-2); line-height:1.3;  margin-top: 1.8rem;  margin-bottom: .4rem;}
+h4 {
+  font-size: 1.1rem;
+  color: #475569; /* gris intermedio */
+  font-weight: 600;
+  margin-top: 1.2rem;
+  margin-bottom: .3rem;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+p{ margin:.6rem 0; color: var(--fg); }
+small, .muted{ color: var(--muted); }
+
+.demo{
+  border:1px solid var(--border);
+  border-radius: var(--radius-2);
+  background: var(--bg);
+  padding: var(--space-4);
+  margin: var(--space-4) 0;
+  box-shadow: var(--shadow-1);
+}
+.fila{ display:flex; gap: var(--space-2); align-items:center; flex-wrap:wrap; }
+
+button, .btn{
+  -webkit-tap-highlight-color: transparent;
+  cursor:pointer;
+  border-radius: var(--radius-1);
+  border:1px solid var(--border);
+  background: var(--panel);
+  padding:.55rem .9rem;
+  transition: transform .06s ease, background .15s, border-color .15s;
+  color: var(--fg);
+}
+button:hover, .btn:hover{ background: var(--brand-weak); }
+button:active, .btn:active{ transform: translateY(1px); }
+button.primary{ background: var(--brand); border-color: var(--brand); color:#fff; }
+button.primary:hover{ filter: brightness(.96); }
+
+/* Inputs */
+input[type="text"], input[type="email"], input[type="number"], select, textarea{
+  font: inherit; color: inherit; background: var(--panel);
+  border:1px solid var(--border); border-radius: var(--radius-1); padding:.5rem .6rem;
+}
+input.error, textarea.error, select.error{
+  border-color: var(--danger); box-shadow: 0 0 0 2px rgba(220,38,38,.15);
+}
+.error{ color: var(--danger); }
+
+/* Callouts */
+.callout{
+  border:1px solid var(--border); border-radius: var(--radius-2);
+  background: var(--panel); padding:.75rem 1rem; margin: var(--space-3) 0;
+  box-shadow: var(--shadow-1); position: relative;
+}
+.callout::before{
+  content:""; position:absolute; left:0; top:0; bottom:0; width:4px;
+  border-radius: var(--radius-2) 0 0 var(--radius-2); background: var(--brand);
+}
+.callout.info::before{ background: var(--brand); }
+.callout.tip::before{ background: var(--success); }
+.callout.warn::before{ background: var(--warn); }
+
+/* Tabs */
+.tabs{ display:flex; gap: var(--space-2); margin-bottom: var(--space-3); flex-wrap:wrap; }
+.tab{ border:1px solid var(--border); background: var(--panel); padding:.45rem .75rem; border-radius: var(--radius-1); }
+.tab.activa{ background: var(--brand-weak); border-color: var(--brand); }
+.panel{ display:none; }
+.panel.visible{ display:block; }
+
+/* Modal */
+.overlay{
+  position: fixed; inset:0; display:none; align-items:center; justify-content:center;
+  background: rgba(0,0,0,.45); padding: var(--space-4); z-index:80;
+}
+.overlay.visible{ display:flex; }
+.modal{
+  background: var(--bg); color: var(--fg); border:1px solid var(--border);
+  border-radius: var(--radius-2); padding: var(--space-4);
+  min-width: 260px; max-width: 720px; width: 100%;
+  box-shadow: var(--shadow-1);
+}
+
+/* Tablas */
+table{ width:100%; border-collapse: collapse; margin: var(--space-4) 0; }
+th, td{ padding:.6rem .5rem; border-bottom:1px solid var(--border); text-align:left; }
+thead th{ background: var(--panel); }
+
+/* Utilidades */
+.badge{ display:inline-block; font-size:.8rem; padding:.15rem .5rem; border-radius:999px; background:var(--brand-weak); color:#3730a3; margin-left:.5rem; }
+.muted{ color: var(--muted); }
+.right{ text-align:right; }
+.center{ text-align:center; }
+.sr-only{
+  position:absolute !important; width:1px; height:1px; padding:0; margin:-1px;
+  overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
+}
+
+
+/* Botón volver arriba */
+.backtotop{
+  position: fixed;
+  bottom: 1.25rem; right: 1.25rem;
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: var(--brand);
+  color:#fff; font-size: 1.4rem; font-weight: bold;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow: var(--shadow-1);
+  transition: background .2s, transform .15s;
+  z-index: 90;
+}
+.backtotop:hover{
+  background: #BA7A22;
+  text-decoration:none;
+  transform: translateY(-2px);
+}
+
+
+/* imágenes */
+.media-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 2em 0;
+  padding: 1em;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background-color: var(--bg-color-secondary);
+  box-shadow: var(--shadow);
+}
+
+.media-box img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.media-caption {
+  font-size: 0.9em;
+  color: var(--text-color-light);
+  margin-top: 0.5em;
+  text-align: center;
+  font-style: italic;
+}
+
+
+
+/* ====== Footer a juego (opcional, coherente con la topbar) ====== */
+.site-footer{
+  background: var(--panel);
+  border-top: 1px solid var(--border);
+}
+.site-footer .wrap{
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 1rem var(--space-4);
+  display:flex; flex-wrap:wrap; gap:.75rem; align-items:center; justify-content:space-between;
+}
+.site-footer small, .site-footer a{ color: var(--muted); }
+.site-footer a:hover{ text-decoration: underline; }
+
+.site-footer div{
+  display: flex;
+  justify-content: center; /* centra horizontal */
+  padding: 1rem 0;
+}
+
+@media (min-width: 900px){
+  .topbar .wrap {
+    display: grid;
+    grid-template-columns: auto 1fr auto; /* marca | nav | hueco (opcional) */
+    align-items: center;
+  }
+
+  .site-brand {
+    justify-self: start; /* fuerza a la izquierda */
+  }
+
+  .topnav {
+    justify-self: center; /* coloca el bloque nav en el centro */
+  }
+
+  .topnav ul {
+    display: flex;
+    gap: .5rem;
+    padding: 0;
+    justify-content: center;
+  }
+
+    .topnav a{
+    position: relative;
+    padding:.5rem .75rem;
+  }
+  .topnav a::after{
+    content:"";
+    position:absolute;
+    left:0; right:0; bottom:0;
+    height:3px;
+   background: #BA7A22;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .25s ease;
+  }
+  .topnav a:hover::after{
+    transform: scaleX(1);
+  }
+}
+
+/* --------- Responsividad tipográfica --------- */
+@media (max-width: 520px){
+  h1{ font-size: 1.6rem; }
+  h2{ font-size: 1.35rem; }
+  h3{ font-size: 1.15rem; }
+}
+
+/* --------- Reduce motion --------- */
+@media (prefers-reduced-motion: reduce){
+  *{ transition:none !important; animation:none !important; }
+}
+
+/* --------- Impresión --------- */
+@media print{
+  body{ background:#fff; color:#000; }
+  a{ color:#000; text-decoration: underline; }
+  .topbar, .sidebar, .sidebar-toggle, .backdrop{ display:none !important; }
+  .layout{ display:block; padding:0; max-width:100%; }
+  pre{ box-shadow:none; }
+}
+

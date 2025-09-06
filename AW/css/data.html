@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aplicaciones Web — HTML</title>
+  <link rel="stylesheet" href="./aw.css">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Playfair+Display:wght@700&family=Source+Code+Pro:wght@400&display=swap" rel="stylesheet">
+  <meta name="description" content="Unidad de HTML: estructura, semántica, formularios, tablas, multimedia y validación.">
+</head>
+<body>
+
+<header class="topbar" role="banner">
+  <div class="wrap">
+    <div class="site-brand">
+      <a href="./index.html">Aplicaciones Web</a>
+      <small>2º SMR</small>
+    </div>
+
+    <button class="topnav-toggle" aria-expanded="false" aria-controls="topnav">
+      <span class="sr-only">Abrir menú</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <nav id="topnav" class="topnav" aria-label="Site navigation">
+      <ul>
+        <li><a href="./index.html">Home</a></li>
+        <li><a href="./webapp.html">WebApp</a></li>
+        <li><a href="./html.html" aria-current="page">HTML</a></li>
+        <li><a href="./css.html">CSS</a></li>
+        <li><a href="./cms.html">CMS</a></li>
+        <li><a href="./data.html">Data Storage</a></li>
+        <li><a href="./lms.html">LMS</a></li>
+        <li><a href="./python.html">Python</a></li>
+      </ul>
+    </nav>
+    
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="sidebar" id="sidebar" aria-label="Unit index">
+    <h2>Contents</h2>
+    <nav>
+      <ul>
+        <li><a href="#data">1. Introduction to Data </a></li>
+        <li><a href="#cloud">2. Cloud Computing Overview</a></li>
+        <li><a href="#databases">3. Databases Overview</a></li>
+        <li><a href="#mysql">4. Getting Started with MySQL</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <div class="backdrop" id="backdrop" hidden></div>
+
+  <main class="content">
+    <header class="page">
+      <h1 id="intro">Data Storage</h1>
+      <p class="muted">Fundamentals of data storage: from cloud infrastructure to relational databases like MySQL. Learn how information is organized, stored, and accessed efficiently.</p>
+    </header>
+  
+
+    
+    <!-- 1) Introducción -->
+    <section id="data">
+      <h2>1. Introduction to Data</h2>
+    
+      <p>
+        In the digital era, data is one of the most valuable assets for individuals, companies, and governments. 
+        Understanding how data is generated, stored, processed, and secured is essential for web developers and 
+        IT professionals. Additionally, modern infrastructure heavily relies on <strong>cloud computing</strong> to provide 
+        scalable, reliable, and cost-efficient solutions for managing data at scale.
+      </p>
+    
+      <h3>1.1 What is Data?</h3>
+      <p>
+        <strong>Data</strong> refers to pieces of information collected for reference or analysis. It can take various forms:
+      </p>
+      <ul>
+        <li><strong>Structured data</strong>: organized in tables (e.g., databases).</li>
+        <li><strong>Unstructured data</strong>: images, videos, audio, social media posts, etc.</li>
+        <li><strong>Semi-structured data</strong>: emails, XML/JSON files, log files.</li>
+      </ul>
+    
+      <p>
+        Data can be collected through sensors, web forms, APIs, or user activity. To use it efficiently, it needs to be 
+        stored in a format that allows easy access, processing, and analysis.
+      </p>
+    </section>
+
+    <section id="cloud">
+    
+      <h2>2. Cloud Computing Overview</h2>
+
+<p>
+  <strong>Cloud computing</strong> refers to the delivery of computing services—such as servers, storage, databases,
+  networking, software, analytics, and intelligence—over the internet ("the cloud") to offer faster innovation,
+  flexible resources, and economies of scale. Instead of owning and maintaining physical servers or infrastructure,
+  individuals and organizations can access computing resources on demand via a cloud provider.
+</p>
+
+<h3>2.1 Key Characteristics of Cloud Computing</h3>
+<p>
+  Cloud computing has transformed how digital services are delivered, shifting from locally hosted infrastructures to flexible, on-demand resources accessed over the internet. To fully understand this paradigm, it's important to explore its fundamental characteristics. In this section, we will examine the key attributes that define cloud computing—such as scalability, elasticity, measured service, and resource pooling—and how these characteristics make the cloud an ideal platform for modern applications and businesses.
+</p>
+
+<ul>
+  <li><strong>On-Demand Self-Service:</strong> Users can provision resources like servers or storage automatically, without human intervention.</li>
+  <li><strong>Broad Network Access:</strong> Services are available via standard interfaces (e.g., browsers, APIs).</li>
+  <li><strong>Resource Pooling:</strong> Providers share resources among multiple customers using a multi-tenant model.</li>
+  <li><strong>Rapid Elasticity:</strong> Resources can scale dynamically as needed, often appearing unlimited to users.</li>
+  <li><strong>Measured Service:</strong> Usage is monitored and billed based on actual consumption.</li>
+</ul>
+
+<h3> 2.2 Main Cloud Service Models</h3>
+<p>
+  Cloud computing offers different service models to accommodate a variety of needs, from infrastructure provisioning to full application deployment. Understanding these models is essential for selecting the right type of cloud service depending on the project requirements. This section introduces the three primary cloud service models—Infrastructure as a Service (IaaS), Platform as a Service (PaaS), and Software as a Service (SaaS)—and highlights the key features, advantages, and use cases of each.
+</p>
+
+<ul>
+  <li>
+    <strong>IaaS (Infrastructure as a Service):</strong>
+    Offers fundamental resources like virtual machines and storage. Customers manage OS and applications.<br>
+    <em>Examples:</em> AWS EC2, Google Compute Engine, Azure Virtual Machines.
+  </li>
+  <li>
+    <strong>PaaS (Platform as a Service):</strong>
+    Provides a ready-to-use platform for development and deployment without infrastructure management.<br>
+    <em>Examples:</em> Heroku, Google App Engine, Azure App Services.
+  </li>
+  <li>
+    <strong>SaaS (Software as a Service):</strong>
+    Delivers software applications over the internet.<br>
+    <em>Examples:</em> Google Workspace, Microsoft 365, Dropbox.
+  </li>
+</ul>
+
+<h3>2.3 Deployment Models</h3>
+<p>
+  Cloud deployment models define how cloud services are made available to users and how the infrastructure is owned and managed. Choosing the right deployment model is crucial for meeting security, scalability, and compliance requirements. In this section, we explore the four main cloud deployment models—Public Cloud, Private Cloud, Hybrid Cloud, and Community Cloud—highlighting their characteristics, advantages, and common use cases.
+</p>
+
+<ul>
+  <li><strong>Public Cloud:</strong> Services provided over the internet and shared across customers (e.g., AWS, Azure).</li>
+  <li><strong>Private Cloud:</strong> Dedicated infrastructure for one organization, managed internally or by a third party.</li>
+  <li><strong>Hybrid Cloud:</strong> Combines public and private clouds to allow data and apps to move between them.</li>
+  <li><strong>Multi-Cloud:</strong> Use of services from multiple cloud providers to avoid vendor lock-in and improve flexibility.</li>
+</ul>
+
+<h3>2.4 Advantages of Cloud Computing</h3>
+<p>
+  Cloud computing offers numerous advantages that have transformed how individuals, businesses, and governments store data, run applications, and manage IT infrastructure. From cost savings and scalability to increased flexibility and accessibility, the benefits of cloud services are significant across all sectors. In this section, we examine the key advantages of adopting cloud computing and how they contribute to greater efficiency and innovation.
+</p>
+
+<ul>
+  <li><strong>Cost Efficiency:</strong> Pay only for what you use, no upfront hardware investment.</li>
+  <li><strong>Scalability:</strong> Scale resources up or down quickly and automatically.</li>
+  <li><strong>Performance:</strong> Access high-performance infrastructure across global regions.</li>
+  <li><strong>Security:</strong> Enterprise-level security, data encryption, and compliance support.</li>
+  <li><strong>Disaster Recovery:</strong> Built-in tools to ensure continuity and backups.</li>
+</ul>
+
+<h3>2.5 Common Use Cases</h3>
+<p>
+  Cloud computing has become a foundational technology for a wide range of real-world applications. Its flexibility and power make it ideal for use cases across industries—from hosting websites and storing large volumes of data, to enabling remote collaboration and supporting artificial intelligence. In this section, we explore the most common and impactful ways organizations and individuals leverage the cloud in their daily operations.
+</p>
+
+<ul>
+  <li>Web hosting and web app deployment</li>
+  <li>Cloud storage and backups</li>
+  <li>Big data analytics and machine learning</li>
+  <li>IoT (Internet of Things) platforms</li>
+  <li>Streaming media services</li>
+  <li>Collaboration and productivity apps</li>
+</ul>
+
+<div class="callout info">
+  <p>
+    <strong>In summary:</strong> Cloud computing has revolutionized the way we build, deploy, and scale digital solutions.
+    It allows individuals and organizations to focus on innovation, efficiency, and global accessibility, while cloud providers manage the heavy infrastructure.
+  </p>
+</div>
+
+<h3>Activities for Students</h3>
+<ol>
+  <li>
+    <strong>Activity 1: Compare Cloud Models</strong><br>
+    In your own words, describe the differences between IaaS, PaaS, and SaaS.
+    Provide at least one real-world example for each and explain which use case it best serves.
+  </li>
+  <li>
+    <strong>Activity 2: Choose a Deployment Strategy</strong><br>
+    You are launching a new web app for a small business. Choose between public, private, hybrid, or multi-cloud deployment.
+    Justify your decision based on cost, scalability, and security needs.
+  </li>
+</ol>
+</section>
+
+<section id="databases">
+<h2>3. Databases Overview</h2>
+
+<p>
+  A <strong>database</strong> is an organized collection of data that can be easily accessed, managed, and updated.
+  Databases are essential in web development, powering features like user authentication, content management, and e-commerce transactions.
+</p>
+
+<h3>3.1 Types of Databases</h3>
+
+<ul>
+  <li><strong>Relational Databases (SQL):</strong> Use tables and enforce relationships using keys (e.g., MySQL, PostgreSQL).</li>
+  <li><strong>NoSQL Databases:</strong> Designed for flexibility and scalability, often used with unstructured data (e.g., MongoDB, Firebase).</li>
+  <li><strong>Cloud Databases:</strong> Hosted by cloud providers, offering scalability, backup, and high availability (e.g., Amazon RDS, Google Cloud SQL).</li>
+</ul>
+
+<h3>3.2 What is SQL?</h3>
+<p>
+  <strong>SQL (Structured Query Language)</strong> is the standard language used to interact with relational databases.
+  It allows you to define, manipulate, secure, and manage data through different categories of statements.
+</p>
+
+<h3>3.3 SQL Command Categories</h3>
+<p>
+  To work effectively with relational databases, it’s important to understand the different types of operations you can perform using SQL. These operations are grouped into distinct command categories, each serving a specific purpose in how data is structured, accessed, modified, or secured. Before diving into individual statements, this section introduces the major categories of SQL commands and how they fit into the overall workflow of database management.
+</p>
+
+<ul>
+  <li>
+    <strong>DDL (Data Definition Language)</strong><br>
+    Used to define and modify the structure of database objects like tables, schemas, and indexes.
+    <ul>
+      <li><code>CREATE</code> – Creates new tables or databases</li>
+      <li><code>ALTER</code> – Modifies existing tables (add/remove columns, etc.)</li>
+      <li><code>DROP</code> – Deletes tables or databases</li>
+      <li><code>TRUNCATE</code> – Removes all rows from a table without logging individual deletions</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>DML (Data Manipulation Language)</strong><br>
+    Deals with the actual data within the tables.
+    <ul>
+      <li><code>SELECT</code> – Retrieves data from one or more tables</li>
+      <li><code>INSERT</code> – Adds new rows to a table</li>
+      <li><code>UPDATE</code> – Modifies existing data</li>
+      <li><code>DELETE</code> – Removes specific rows</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>DCL (Data Control Language)</strong><br>
+    Manages permissions and access control.
+    <ul>
+      <li><code>GRANT</code> – Gives user access privileges</li>
+      <li><code>REVOKE</code> – Removes access privileges</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>TCL (Transaction Control Language)</strong><br>
+    Handles transactions to ensure data integrity and consistency.
+    <ul>
+      <li><code>COMMIT</code> – Saves all changes made during the current transaction</li>
+      <li><code>ROLLBACK</code> – Cancels all changes made in the current transaction</li>
+      <li><code>SAVEPOINT</code> – Sets a point within a transaction to roll back to</li>
+    </ul>
+  </li>
+</ul>
+
+<h3>3.4 Sample SQL Queries</h3>
+<p>
+  Once you understand the structure of a database and the categories of SQL commands, it's time to see them in action. This section presents a series of common SQL queries that illustrate how to retrieve, insert, update, and delete data. These examples are designed to reinforce the concepts you've learned and provide practical templates you can adapt to your own projects.
+</p>
+
+<pre><code class="language-sql">-- DDL: Create a table
+CREATE TABLE users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(100) UNIQUE NOT NULL
+);
+
+-- DML: Insert a record
+INSERT INTO users (name, email) VALUES ('Alice Smith', 'alice@example.com');
+
+-- DML: Update a record
+UPDATE users SET email = 'alice_new@example.com' WHERE id = 1;
+
+-- DML: Select data
+SELECT * FROM users;
+
+-- DML: Delete a user
+DELETE FROM users WHERE id = 1;
+
+-- TCL: Rollback changes
+ROLLBACK;
+
+-- DCL: Grant access
+GRANT SELECT, INSERT ON users TO 'student'@'localhost';
+</code></pre>
+
+<h3>3.5 MySQL: A Popular Relational DBMS</h3>
+<p>
+  <strong>MySQL</strong> is an open-source relational database management system (RDBMS) widely used in web applications.
+  It is highly compatible with PHP, Laravel, Node.js, and integrates well with cloud hosting platforms.
+</p>
+<ul>
+  <li>Follows SQL standards with additional features</li>
+  <li>Supports large datasets and optimized indexing</li>
+  <li>Ideal for small and large-scale applications</li>
+  <li>Can be managed using GUI tools like MySQL Workbench or CLI</li>
+</ul>
+
+<h3>Student Activities</h3>
+<ol>
+  <li>
+    <strong>Activity 1: SQL Categories in Practice</strong><br>
+    For each SQL command category (DDL, DML, DCL, TCL), write a simple example that could be used in a blog application.
+  </li>
+  <li>
+    <strong>Activity 2: Build a Basic Database</strong><br>
+    Design a "tasks" database with at least one table. Write SQL commands to:
+    <ul>
+      <li>Create the table</li>
+      <li>Add 3 tasks</li>
+      <li>Update one task</li>
+      <li>Delete one task</li>
+    </ul>
+  </li>
+</ol>
+
+<div class="callout tip">
+  <p>
+    <strong>Tip:</strong> Always practice SQL with sample data. Use free tools like db-fiddle.com or local installations to test your queries in real environments.
+  </p>
+</div>
+</section>
+
+<section id="mysql">
+<h2>4. Getting Started with MySQL</h2>
+
+<p>
+  <strong>MySQL</strong> is an open-source Relational Database Management System (RDBMS) based on Structured Query Language (SQL). 
+  It is widely used in web applications to store, retrieve, and manipulate data in a structured way using tables, columns, and rows.
+</p>
+
+<p>
+  Understanding how to use MySQL is essential for any backend or full-stack developer. 
+  This section introduces the fundamentals: how to define databases and tables, insert and retrieve information, and apply good design practices.
+</p>
+
+
+
+<h3>4.1. Installing MySQL</h3>
+<p>You can work with MySQL in different environments:</p>
+
+<ul>
+  <li><strong>Local Installation:</strong> You can install MySQL directly on your machine. Options include:</li>
+  <ul>
+    <li><a href="https://dev.mysql.com/downloads/installer/">MySQL Installer</a> (Windows/Mac)</li>
+    <li><a href="https://www.apachefriends.org/index.html">XAMPP</a> – includes Apache, MySQL, and phpMyAdmin</li>
+    <li>Docker (using <code>mysql</code> container)</li>
+  </ul>
+  <li><strong>Cloud Platforms:</strong> Cloud solutions like AWS RDS, Google Cloud SQL, or PlanetScale offer scalable MySQL databases.</li>
+  <li><strong>Browser-based tools:</strong> Tools like <a href="https://www.db-fiddle.com">db-fiddle</a> or <a href="https://sqlfiddle.com/">SQL Fiddle</a> let you practice without installation.</li>
+</ul>
+
+
+
+<h3>4.2. What Is a Relational Database?</h3>
+<p>
+  A relational database stores data in related tables, using rows (records) and columns (fields). Each table represents one type of entity: 
+  for example, a <code>users</code> table for people, and a <code>tasks</code> table for their to-do items.
+</p>
+<p>
+  These tables are linked through <strong>relationships</strong>, typically using <code>PRIMARY KEY</code> and <code>FOREIGN KEY</code> constraints.
+</p>
+
+
+
+<h3>4.3. Creating a Database and Tables</h3>
+<p>Let’s walk through creating a basic project management database called <code>task_manager</code>.</p>
+
+<pre><code class="language-sql">-- Step 1: Create a new database
+CREATE DATABASE task_manager;
+
+-- Step 2: Use the new database
+USE task_manager;
+
+-- Step 3: Create a 'users' table
+CREATE TABLE users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(100) NOT NULL UNIQUE,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Step 4: Create a 'tasks' table
+CREATE TABLE tasks (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  description TEXT,
+  status ENUM('pending', 'in_progress', 'completed') DEFAULT 'pending',
+  user_id INT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(id)
+);
+</code></pre>
+
+<p>
+  <strong>Explanation:</strong>
+  <ul>
+    <li><code>AUTO_INCREMENT</code>: Automatically increases the ID for each new record.</li>
+    <li><code>VARCHAR</code>: Used for text fields of variable length.</li>
+    <li><code>ENUM</code>: Limits a field to specific values (great for status fields).</li>
+    <li><code>FOREIGN KEY</code>: Creates a link between <code>tasks.user_id</code> and <code>users.id</code>.</li>
+  </ul>
+</p>
+
+
+
+<h3>4.4. Inserting Records</h3>
+<p>We can now populate our tables with example data:</p>
+
+<pre><code class="language-sql">-- Insert users
+INSERT INTO users (name, email) VALUES
+('Alice Johnson', 'alice@example.com'),
+('Bob Smith', 'bob@example.com');
+
+-- Insert tasks
+INSERT INTO tasks (title, description, status, user_id) VALUES
+('Buy groceries', 'Milk, eggs, bread', 'pending', 1),
+('Finish report', 'Due by Monday', 'in_progress', 2),
+('Clean workspace', 'Desk and shelves', 'completed', 1);
+</code></pre>
+
+<p>Each task is linked to a user through the <code>user_id</code> field.</p>
+
+
+
+<h3>4.5. Querying the Database</h3>
+<p>Now we can retrieve and manipulate data using <code>SELECT</code> statements:</p>
+
+<pre><code class="language-sql">-- View all users
+SELECT * FROM users;
+
+-- View all tasks for Alice
+SELECT title, status
+FROM tasks
+WHERE user_id = 1;
+
+-- Join tasks and users
+SELECT tasks.title, tasks.status, users.name
+FROM tasks
+JOIN users ON tasks.user_id = users.id;
+
+-- Count tasks by status
+SELECT status, COUNT(*) AS count
+FROM tasks
+GROUP BY status;
+
+-- Show most recent task
+SELECT * FROM tasks
+ORDER BY created_at DESC
+LIMIT 1;
+</code></pre>
+
+
+<h3>4.6. Updating and Deleting Records</h3>
+<p>You can also modify or remove data from the database:</p>
+
+<pre><code class="language-sql">-- Update a task's status
+UPDATE tasks
+SET status = 'completed'
+WHERE id = 2;
+
+-- Delete a task
+DELETE FROM tasks
+WHERE id = 3;
+</code></pre>
+
+
+<h3>4.7. Good Database Practices</h3>
+<p>
+  Designing and managing a database goes beyond writing correct SQL queries. To ensure efficiency, reliability, and maintainability, it's essential to follow a set of good practices. This section highlights fundamental guidelines for creating well-structured databases, preventing common errors, and promoting scalability. Applying these principles early on helps avoid performance issues and supports long-term development.
+</p>
+
+<ul>
+  <li><strong>Normalize your tables:</strong> Avoid duplication by separating concerns into different tables.</li>
+  <li><strong>Use meaningful names:</strong> Tables and columns should describe the data they contain.</li>
+  <li><strong>Always define primary and foreign keys:</strong> This keeps data structured and prevents orphaned records.</li>
+  <li><strong>Add indexes:</strong> On frequently searched fields for faster performance.</li>
+  <li><strong>Backup regularly:</strong> Always keep data secure and backed up—especially in production environments.</li>
+</ul>
+
+
+<h3>Student Exercises</h3>
+
+<h4>Activity 1: Build Your Own To-Do App Schema</h4>
+<ol>
+  <li>Create a new database called <code>todo_app</code>.</li>
+  <li>Define two tables:
+    <ul>
+      <li><code>users</code> with fields: id, name, email.</li>
+      <li><code>todos</code> with fields: id, title, due_date, completed (as BOOLEAN), user_id (FK).</li>
+    </ul>
+  </li>
+  <li>Insert 3 users and 5 to-do items, each assigned to a user.</li>
+  <li>Write queries to:
+    <ul>
+      <li>Show all incomplete tasks for one user</li>
+      <li>List completed tasks ordered by due date</li>
+      <li>Count how many tasks each user has</li>
+    </ul>
+  </li>
+</ol>
+
+<h4>Activity 2: Analyze and Refactor</h4>
+<ol>
+  <li>Review your schema: Are there redundant fields or missing constraints?</li>
+  <li>Modify one table to add a <code>created_at</code> field with default timestamp.</li>
+  <li>Try adding a <code>status</code> ENUM to track tasks (e.g., planned, in_progress, done).</li>
+</ol>
+
+<div class="callout tip">
+  <p><strong>Tip:</strong> Once you complete this, try visualizing your tables with <code>DESCRIBE table_name;</code> or using a GUI like MySQL Workbench or phpMyAdmin.</p>
+</div>
+
+</section>
+    
+    
+
+   
+
+  </main>
+</div>
+
+<a href="#top" class="backtotop" aria-label="Volver arriba">↑</a>
+
+<footer class="site-footer" role="contentinfo" class="wrap">
+  <div>
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer" title="CC BY-NC-SA 4.0">
+      <img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="Licencia Creative Commons BY-NC-SA 4.0">
+    </a>
+  </div>
+</footer>
+
+<!-- JS de navegación (ajustado a tus clases e IDs) -->
+<script>
+(function(){
+  // Topbar toggle
+  var btn = document.querySelector('.topnav-toggle');
+  var nav = document.getElementById('topnav');
+  if (btn && nav) {
+    btn.addEventListener('click', function(){
+      var open = nav.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    nav.addEventListener('click', function(e){
+      if (e.target.tagName === 'A' && nav.classList.contains('open')) {
+        nav.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  // Resalta enlace activo en el TOC según sección visible
+  var links = document.querySelectorAll('.toc a[href^="#"]');
+  var targets = Array.prototype.map.call(links, function(a){
+    try { return document.querySelector(a.getAttribute('href')); } catch(e){ return null; }
+  }).filter(Boolean);
+
+  if ('IntersectionObserver' in window) {
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          var id = '#' + entry.target.id;
+          links.forEach(function(a){
+            a.classList.toggle('active', a.getAttribute('href') === id);
+          });
+        }
+      });
+    }, { rootMargin: "-40% 0px -55% 0px", threshold: 0 });
+    targets.forEach(function(t){ obs.observe(t); });
+  }
+})();
+</script>
+</body>
+</html>
+

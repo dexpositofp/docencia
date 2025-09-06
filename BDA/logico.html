@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aplicaciones Web — HTML</title>
+  <link rel="stylesheet" href="./bd.css">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Playfair+Display:wght@700&family=Source+Code+Pro:wght@400&display=swap" rel="stylesheet">
+  <meta name="description" content="Unidad de HTML: estructura, semántica, formularios, tablas, multimedia y validación.">
+</head>
+<body>
+
+<header class="topbar" role="banner">
+  <div class="wrap">
+    <div class="site-brand">
+      <a href="./index.html">Bases de Datos</a>
+      <small>1º DAW</small>
+    </div>
+
+    <button class="topnav-toggle" aria-expanded="false" aria-controls="topnav">
+      <span class="sr-only">Abrir menú</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <nav id="topnav" class="topnav" aria-label="Site navigation">
+      <ul>
+        <li><a href="index.html" class="active">Inicio</a></li>
+        <li><a href="almacenamiento.html">Almacenamiento</a></li>
+        <li><a href="logico.html">Diseño Lógico</a></li>
+        <li><a href="relacional.html">Modelo Relacional</a></li>
+        <li><a href="sql.html">SQL</a></li>
+        <li><a href="plsql.html">PL/SQL</a></li>
+        <li><a href="persistencia.html">Persistencia</a></li>
+        <li><a href="nosql.html">NoSQL</a></li>
+    </ul>
+    </nav>
+    
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="sidebar" id="sidebar" aria-label="Unit index">
+    <h2>Contents</h2>
+    <nav>
+      <ul class="toc" id="toc">
+        <li><a href="#objetivos">Objetivos</a></li>
+                <li><a href="#competencias">1. Competencias</a></li>
+                <li><a href="#contenidos">2. Contenidos</a></li>
+                <li><a href="#metodologia">3. Metodología</a></li>
+                <li><a href="#evaluacion">4. Evaluación</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <div class="backdrop" id="backdrop" hidden></div>
+
+  <main class="content">
+    <header class="page">
+      <h1 id="intro">Web Applications and the Cloud</h1>
+      <p class="muted">Understanding the evolution of the web and the power of cloud-based applications</p>
+    </header>
+
+    <section>
+      <h2>1. Diseño lógico</h2>
+      <h3>1.1 ¿Qué es el diseño lógico?</h3>
+      <p>
+        El diseño lógico es una fase fundamental en el proceso de construcción de una base de datos. Su objetivo principal es
+        traducir los requerimientos recogidos durante el análisis en una estructura de datos clara, coherente y
+        normalizada, independientemente del sistema de gestión de bases de datos (SGBD) que se vaya a utilizar
+        posteriormente.
+      </p>
+    
+      <p>
+        A diferencia del diseño físico, que se centra en la implementación y optimización del almacenamiento en disco,
+        el diseño lógico trabaja a un nivel de abstracción superior. Aquí se definen entidades, atributos, relaciones y
+        restricciones que organizan la información de forma estructurada, comprensible y útil para los usuarios y los
+        desarrolladores.
+      </p>
+    
+      <p>
+        Una vez completado este diseño, se podrá transformar en un esquema relacional y posteriormente implementar
+        en un SGBD concreto como MySQL, Oracle o PostgreSQL.
+      </p>
+    
+      <div class="callout tip">
+        <p><strong>Consejo:</strong> Antes de comenzar con el diseño lógico, asegúrate de haber comprendido bien las necesidades de la aplicación y haber recogido todos los requisitos. Un error en esta fase puede repercutir en todo el desarrollo posterior.</p>
+      </div>
+    
+      <h4>Características clave del diseño lógico:</h4>
+      <ul>
+        <li>Independencia del sistema gestor (SGBD).</li>
+        <li>Representación detallada de la información: entidades, atributos y relaciones.</li>
+        <li>Aplicación de restricciones de integridad (por ejemplo, claves primarias y foráneas).</li>
+        <li>Preparación para su conversión al modelo relacional.</li>
+        <li>Base para realizar la normalización de datos.</li>
+      </ul>
+    
+      <p>
+        En definitiva, el diseño lógico es la etapa en la que se toma lo conceptual y se transforma en algo técnico,
+        pero todavía independiente de la tecnología concreta. Es un puente entre la abstracción del modelo Entidad-Relación
+        y la implementación real de una base de datos.
+      </p>
+
+      <h3>1.2 El modelo Entidad-Relación (E/R)</h3>
+
+      <p>
+        Antes de implementar una base de datos, es esencial realizar un buen diseño conceptual que nos permita comprender la
+        estructura de la información. El modelo Entidad-Relación (E/R), propuesto por Peter Chen en 1976, se utiliza como herramienta
+        visual para representar de forma lógica y coherente los datos que serán almacenados. Gracias a él, es posible identificar
+        claramente qué información se va a almacenar, cómo se relacionan los distintos elementos y cuáles son las restricciones 
+        que debemos tener en cuenta.
+      </p>
+    
+      <p>
+        Este modelo es uno de los pasos fundamentales del diseño de una base de datos, ya que actúa como puente entre el mundo real
+        (la realidad que queremos representar) y el modelo lógico que más adelante se convertirá en código SQL. 
+      </p>
+    
+      <div class="callout tip">
+        <p><strong>Consejo:</strong> No subestimes el diseño conceptual. Un buen diagrama E/R reduce errores, mejora la calidad del software y facilita la colaboración entre técnicos y usuarios.</p>
+      </div>
+    
+      <h4>4.1 ¿Qué elementos componen un modelo E/R?</h4>
+
+      <p>El modelo Entidad-Relación (E/R) es una representación gráfica que permite visualizar de forma estructurada cómo se relacionan los datos en un sistema. Este modelo está compuesto por distintos elementos fundamentales: entidades, atributos, relaciones y cardinalidades.</p>
+      
+      <h5>Entidades</h5>
+      
+      <p>Las <strong>entidades</strong> representan objetos del mundo real que tienen existencia propia dentro del sistema. Pueden tener diferentes tipos:</p>
+      
+      <ul>
+        <li><strong>Entidad fuerte:</strong> Aquella que tiene existencia independiente, es decir, no depende de ninguna otra entidad para existir. Suele tener su propia clave primaria.</li>
+      </ul>
+      
+      <div class="media-box">
+        <img src="img/entidad_fuerte.png" alt="Entidad fuerte en un modelo E/R">
+        <div class="media-caption">Figura 1: Representación de una entidad fuerte</div>
+      </div>
+      
+      <ul>
+        <li><strong>Entidad débil:</strong> Es una entidad que depende de otra para existir. No tiene clave primaria propia, sino que se identifica a través de una entidad fuerte asociada y una clave parcial.</li>
+      </ul>
+      
+      <div class="media-box">
+        <img src="img/entidad_debil.png" alt="Entidad débil en un modelo E/R">
+        <div class="media-caption">Figura 2: Representación de una entidad débil</div>
+      </div>
+      
+      <h5>Atributos</h5>
+      
+      <p>Los <strong>atributos</strong> son las propiedades o características que describen a una entidad o a una relación. Según su naturaleza, se clasifican en:</p>
+      
+      <ul>
+        <li>
+          <strong>Simples:</strong> No se pueden subdividir. Ejemplo: <em>edad</em>.
+          <div class="media-box">
+            <img src="img/atributo_simple.png" alt="Atributo simple en un modelo E/R">
+            <div class="media-caption">Figura 3: Representación de un atributo simple</div>
+          </div>
+        </li>
+        <li>
+          <strong>Compuestos:</strong> Pueden descomponerse en otros atributos más simples. Ejemplo: <em>nombre completo</em> → nombre + apellidos.
+          <div class="media-box">
+            <img src="img/atributo_compuesto.png" alt="Atributo compuesto en un modelo E/R">
+            <div class="media-caption">Figura 4: Representación de un atributo compuesto</div>
+          </div>
+        </li>
+        <li>
+          <strong>Multivaluados:</strong> Pueden contener más de un valor para una sola entidad. Ejemplo: <em>teléfonos</em>.
+          <div class="media-box">
+            <img src="img/atributo_multivaluado.png" alt="Atributos multivaluados en E/R">
+            <div class="media-caption">Figura 5: Representación de un atributo multivaluado</div>
+          </div>
+          
+        </li>
+        <li>
+          <strong>Derivados:</strong> No se almacenan directamente, sino que se calculan a partir de otros. Ejemplo: <em>edad</em> a partir de la <em>fecha de nacimiento</em>.
+          <div class="media-box">
+            <img src="img/atributo_derivado.png" alt="Atributos derivados en E/R">
+            <div class="media-caption">Figura 6: Representación de un atributo derivado</div>
+          </div>
+        </li>
+      </ul>
+      
+     
+      <h5>Relaciones</h5>
+      
+      <p>Las <strong>relaciones</strong> representan asociaciones entre dos o más entidades. Por ejemplo, un <em>Profesor</em> <strong>imparte</strong> una <em>Asignatura</em>. Dependiendo del número de entidades involucradas, las relaciones se clasifican en:</p>
+      
+      <ul>
+        <li>
+          <strong>Binarias:</strong> Entre dos entidades.
+          <div class="media-box">
+            <img src="img/binaria2.png" alt="Relación binaria en E/R">
+            <div class="media-caption">Figura 7: Representación de una relación binaria</div>
+          </div>
+        </li>
+        <li>
+          <strong>Reflexivas:</strong> Una entidad se relaciona consigo misma. Ejemplo: <em>Empleado supervisa a Empleado</em>.
+          <div class="media-box">
+            <img src="img/reflexiva.png" alt="Relación reflexiva en E/R">
+            <div class="media-caption">Figura 8: Representación de una relación reflexiva</div>
+          </div>
+        </li>
+        <li>
+          <strong>Ternarias (o n-arias):</strong> Involucran tres o más entidades.
+          <div class="media-box">
+            <img src="img/ternaria.png" alt="Relación ternaria en E/R">
+            <div class="media-caption">Figura 9: Representación de una relación ternaria</div>
+          </div>
+        </li>
+        <li>
+          <strong>Agregación:</strong> Permite tratar una relación como una entidad para asociarla con otra.
+        </li>
+      </ul>
+  
+      
+      <h5>Cardinalidad</h5>
+      
+      <p>La <strong>cardinalidad</strong> indica el número de ocurrencias de una entidad que pueden estar asociadas con otra entidad dentro de una relación. Los tipos más comunes son:</p>
+      
+      <ul>
+        <li><strong>1:1 (uno a uno):</strong> Un registro de una entidad se asocia con solo uno de otra entidad. Ejemplo: Persona – DNI.</li>
+        <li><strong>1:N (uno a muchos):</strong> Un registro de una entidad se asocia con varios de otra. Ejemplo: Cliente – Facturas.</li>
+        <li><strong>N:M (muchos a muchos):</strong> Varios registros de una entidad pueden relacionarse con varios de otra. Ejemplo: Alumnos – Asignaturas.</li>
+      </ul>
+          
+    
+      <h4>Otros elementos importantes</h4>
+    
+      <ul>
+        <li>
+          <strong>Claves primarias (Identificadores):</strong> Atributo(s) que permiten identificar de forma única cada instancia
+          de una entidad. Son fundamentales para garantizar la integridad de los datos.
+        </li>
+        <li>
+          <strong>Entidades débiles:</strong> No tienen una clave primaria por sí mismas y dependen de una entidad fuerte.
+          Deben estar relacionadas mediante una <strong>relación identificadora</strong>.
+        </li>
+        <li>
+          <strong>Jerarquías (Especialización/Generalización):</strong> Se utilizan para modelar subtipos. Por ejemplo,
+          una entidad <em>Empleado</em> puede especializarse en <em>Médico</em> y <em>Enfermero</em>. Se deben indicar las condiciones:
+          <ul>
+            <li>¿Es disjunta o solapada?</li>
+            <li>¿Es total o parcial?</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Relaciones reflexivas:</strong> Una entidad se relaciona consigo misma. Ejemplo: un <em>Empleado</em> puede ser supervisor de otro <em>Empleado</em>.
+        </li>
+      </ul>
+    
+      <h4>Errores comunes al diseñar un E/R</h4>
+    
+      <ul>
+        <li>Confundir atributos con entidades o relaciones.</li>
+        <li>No definir correctamente la cardinalidad.</li>
+        <li>Omitir atributos clave o necesarios.</li>
+        <li>Diseñar relaciones redundantes o innecesarias.</li>
+      </ul>
+    
+      <h4>¿Cómo se representa visualmente?</h4>
+      <p>
+        En los diagramas E/R:
+      </p>
+      <ul>
+        <li>Las <strong>entidades</strong> se dibujan como rectángulos.</li>
+        <li>Los <strong>atributos</strong> como elipses conectadas a su entidad.</li>
+        <li>Las <strong>relaciones</strong> como rombos entre las entidades participantes.</li>
+        <li>Las <strong>especializaciones</strong> como líneas con triángulos apuntando al subtipo.</li>
+      </ul>
+    
+      <div class="callout tip">
+        <p><strong>Recomendación:</strong> Siempre empieza tu modelo conceptual con una buena lluvia de ideas sobre los objetos clave del sistema y sus relaciones. El diagrama crecerá de forma orgánica si las relaciones están bien pensadas.</p>
+      </div>
+    
+      <h4>Ejemplo de diagrama E/R</h4>
+      <p>En este ejemplo se representan las entidades principales de un sistema hospitalario y sus relaciones clave:</p>
+      <img src="img/ejemplo-er.png" alt="Ejemplo de diagrama Entidad-Relación" style="max-width: 100%; border: 1px solid #ccc; padding: 10px;" />
+    
+    </section>
+ 
+
+  </main>
+</div>
+
+<a href="#top" class="backtotop" aria-label="Volver arriba">↑</a>
+
+<footer class="site-footer" role="contentinfo" class="wrap">
+  <div>
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer" title="CC BY-NC-SA 4.0">
+      <img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="Licencia Creative Commons BY-NC-SA 4.0">
+    </a>
+  </div>
+</footer>
+
+<!-- JS de navegación (ajustado a tus clases e IDs) -->
+<script>
+(function(){
+  // Topbar toggle
+  var btn = document.querySelector('.topnav-toggle');
+  var nav = document.getElementById('topnav');
+  if (btn && nav) {
+    btn.addEventListener('click', function(){
+      var open = nav.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    nav.addEventListener('click', function(e){
+      if (e.target.tagName === 'A' && nav.classList.contains('open')) {
+        nav.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  // Resalta enlace activo en el TOC según sección visible
+  var links = document.querySelectorAll('.toc a[href^="#"]');
+  var targets = Array.prototype.map.call(links, function(a){
+    try { return document.querySelector(a.getAttribute('href')); } catch(e){ return null; }
+  }).filter(Boolean);
+
+  if ('IntersectionObserver' in window) {
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          var id = '#' + entry.target.id;
+          links.forEach(function(a){
+            a.classList.toggle('active', a.getAttribute('href') === id);
+          });
+        }
+      });
+    }, { rootMargin: "-40% 0px -55% 0px", threshold: 0 });
+    targets.forEach(function(t){ obs.observe(t); });
+  }
+})();
+</script>
+</body>
+</html>
+

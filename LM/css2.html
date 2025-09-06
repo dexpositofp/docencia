@@ -1,0 +1,1538 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Curso LM · CSS — Estructura, Layout y Responsive</title>
+
+  <!-- Hoja de estilos del curso -->
+  <link rel="stylesheet" href="./css/curso-lm2.css" />
+
+  <!-- Fuente opcional: puedes quitarla si ya defines tipografías en el CSS -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  
+  <meta name="description" content="Unidad de CSS: fundamentos, cascada, selectores, box model, Flexbox, Grid, responsive, variables, transiciones y animaciones, buenas prácticas."/>
+</head>
+<body>
+
+  <!-- ======= Topbar horizontal (navegación entre páginas) ======= -->
+  <header class="topbar" role="banner">
+    <div class="wrap">
+      <div class="site-brand">
+        <a href="./index.html" aria-label="Ir al inicio">Lenguaje de Marcas</a>
+        <small>DAW · 1º y 2º</small>
+      </div>
+
+      <button class="topnav-toggle" id="topnavToggle" aria-expanded="false" aria-controls="topnav" aria-label="Abrir menú principal">
+        <!-- ícono hamburguesa -->
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <rect x="3" y="6" width="18" height="2"></rect>
+          <rect x="3" y="11" width="18" height="2"></rect>
+          <rect x="3" y="16" width="18" height="2"></rect>
+        </svg>
+      </button>
+
+      <nav class="topnav" id="topnav" role="navigation" aria-label="Navegación principal">
+        <ul>
+          <li><a href="./index.html">Presentación</a></li>
+          <li><a href="./lmarcas.html">L.Marcas</a></li>
+          <li><a href="./html.html">HTML</a></li>
+          <li><a href="./css.html" aria-current="page">CSS</a></li>
+          <li><a href="./js.html">JavaScript</a></li>
+          <li><a href="./thymeleaf.html">Thymeleaf</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ======= Toggle móvil del índice interno ======= -->
+  <div class="sidebar-toggle">
+    <div><strong>Unidad: CSS</strong> <span class="muted">índice</span></div>
+    <button id="btnSidebar" aria-expanded="false" aria-controls="sidebar">Índice</button>
+  </div>
+
+  <!-- ======= Layout con Sidebar + Contenido ======= -->
+  <div class="layout">
+    <!-- Sidebar (índice interno) -->
+    <aside class="sidebar" id="sidebar" aria-label="Índice de la unidad">
+      <h2>Contenido</h2>
+      <nav>
+        <ul class="toc" id="toc">
+          <li><a href="#hero-css">Portada</a></li>
+          <li><a href="#intro-css">1. Qué es CSS</a></li>
+          <li><a href="#arquitectura-cascada">2. Cascada, herencia y especificidad</a></li>
+          <li><a href="#selectores">3. Selectores</a></li>
+          <li><a href="#unidades-colores">4. Unidades, funciones y color</a></li>
+          <li><a href="#box-model">5. Box model y sizing</a></li>
+          <li><a href="#tipografia-texto">6. Tipografía y texto</a></li>
+          <li><a href="#display-posicion">7. Display, flujo y posicionamiento</a></li>
+          <li><a href="#flexbox">8. Flexbox</a></li>
+          <li><a href="#grid">9. CSS Grid</a></li>
+          <li><a href="#responsive">10. Responsive (media queries)</a></li>
+          <li><a href="#variables-css">11. Variables CSS</a></li>
+          <li><a href="#pseudoclases-elementos">12. Pseudo-clases y pseudoelementos</a></li>
+          <li><a href="#transforms-transitions-animations">13. Transform, Transition, Animation</a></li>
+          <li><a href="#fondos-bordes-sombras">14. Fondos, bordes y sombras</a></li>
+          <li><a href="#organizacion-buenas-practicas">15. Organización (BEM) y buenas prácticas</a></li>
+          <li><a href="#frameworks">16. Bootstrap (visión general)</a></li>
+          <li><a href="#sass">17. Sass (preprocesadores)</a></li>
+          <li><a href="#accesibilidad-rendimiento">18. Accesibilidad y rendimiento</a></li>
+          <li><a href="#ejercicios-css">Ejercicios</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <div class="backdrop" id="backdrop" hidden></div>
+
+    <!-- Contenido principal -->
+    <main class="content" id="contenido">
+
+      <!-- ======= Hero / Portada ======= -->
+      <section class="unit-hero" id="hero-css" aria-labelledby="tit-unidad-css">
+        <div class="wrap">
+          <h1 id="tit-unidad-css">CSS: del estilo básico al layout profesional</h1>
+          <p class="muted" style="color:rgba(255,255,255,.9)">
+            Fundamentos, arquitectura, layout moderno, responsive, rendimiento y accesibilidad
+          </p>
+          <figure class="hero-media">
+            <img src="./img/design.png" alt="Ilustración de interfaz estilizada con CSS">
+          </figure>
+        </div>
+      </section>
+
+      <!-- ======= 1. Qué es CSS ======= -->
+      <section id="intro-css">
+  <h2>1. Qué es CSS</h2>
+
+  <div class="callout info">
+    <p><strong>Objetivos de aprendizaje</strong>: al finalizar esta sección podrás explicar qué resuelve CSS, diferenciarlo de HTML y JS, y aplicar estilos básicos separando presentación de estructura.</p>
+  </div>
+
+  <h3>1.1. Rol de CSS en la web</h3>
+  <p><strong>CSS (Cascading Style Sheets)</strong> define la presentación de un documento HTML: tipografía, colores, espaciados, disposición (layout), animaciones y adaptación a distintos dispositivos. La idea clave es la <em>separación de responsabilidades</em>: HTML estructura el contenido, CSS lo presenta, y JavaScript aporta interacción y lógica.</p>
+
+  <h3>1.2. Cómo “piensa” el navegador</h3>
+  <ol>
+    <li>Lee tu HTML y construye el <em>árbol DOM</em> (la estructura de nodos).</li>
+    <li>Lee tu CSS y construye el <em>árbol de estilos</em> (qué reglas aplican a qué nodos).</li>
+    <li>Calcula los estilos finales por nodo (cascada, herencia, especificidad) y compone el <em>layout</em>.</li>
+    <li>Dibuja (pinta) el resultado y, si hay cambios, re-calcula lo necesario.</li>
+  </ol>
+
+  <h3>1.3. Dónde escribir CSS</h3>
+  <ul>
+    <li><strong>Hoja externa</strong> (recomendado): <code>&lt;link rel="stylesheet" href="curso-lm2.css"&gt;</code>. Escalable y cacheable.</li>
+    <li><strong>Bloque &lt;style&gt;</strong> en el <code>&lt;head&gt;</code>: útil para demos/locales.</li>
+    <li><strong>Estilo en línea</strong> (<code>style="..."</code>): evita en proyectos reales; difícil de mantener y rompe la separación.</li>
+  </ul>
+
+  <h3>1.4. Primer ejemplo comentado</h3>
+  <pre><code class="language-html">&lt;h1 class="title"&gt;Hola, CSS&lt;/h1&gt;</code></pre>
+  <pre><code class="language-css">/* Base tipográfica */
+html{ font-size:100% } 
+body{ font: 1rem/1.6 system-ui, sans-serif; }
+
+/* Componente */
+.title{
+  color:#1F1769;              /* color de texto */
+  letter-spacing:.3px;        /* espaciado de letras */
+  margin-block: .5rem 1rem;   /* márgenes verticales */
+}</code></pre>
+
+  <div class="callout tip">
+    <p><strong>Buena práctica</strong>: define “tokens” de diseño como variables CSS (<code>--brand</code>, <code>--space-4</code>, etc.) para mantener coherencia a lo largo del sitio.</p>
+  </div>
+
+  <h3>1.5. Errores frecuentes</h3>
+  <ul>
+    <li>Abusar del <code>style=</code> en línea: dificulta el mantenimiento.</li>
+    <li>Mezclar estructura y presentación en HTML (por ejemplo, tablas para maquetar).</li>
+    <li>No planificar tipografía/espaciado globales: cada pantalla “se siente” distinta.</li>
+  </ul>
+
+  <h3>1.6. Mini-retos</h3>
+  <ol>
+    <li>Crea una cabecera con un título y un subtítulo y aplícales tamaños distintos manteniendo la misma familia tipográfica.</li>
+    <li>Define un color de marca como variable (<code>--brand</code>) y úsalo para enlaces y botones.</li>
+  </ol>
+
+  <details class="demo">
+    <summary><strong>Posible solución explicada</strong></summary>
+    <pre><code class="language-css">:root{ --brand:#6176BA; }
+h1{ font-size: clamp(1.6rem, 2.5vw + .5rem, 2.2rem); }
+h2{ font-size: clamp(1.2rem, 1.5vw + .5rem, 1.5rem); color: var(--brand); }
+a, .btn{ color: var(--brand); }</code></pre>
+    <p>Usamos <code>clamp()</code> para tipografía fluida y una variable para el color de marca.</p>
+  </details>
+
+  <h3>1.7. Autoevaluación</h3>
+  <ul>
+    <li>¿Puedo enumerar tres ventajas de separar HTML y CSS?</li>
+    <li>¿Sé dónde conviene colocar CSS en un proyecto real?</li>
+    <li>¿Entiendo a alto nivel el flujo “DOM → estilos → layout → pintado”?</li>
+  </ul>
+</section>
+
+
+
+
+<section id="selectores-css" aria-labelledby="tit-selectores">
+  <h2 id="tit-selectores">2. Selectores en CSS</h2>
+
+  <div class="callout info">
+    <p><strong>Objetivos de aprendizaje</strong>: reconocer los distintos tipos de selectores, combinarlos de forma precisa y entender cómo afectan a la especificidad. Podrás estructurar reglas claras y predecibles sin recurrir a <code>!important</code>.</p>
+  </div>
+
+  <h3>2.1. Anatomía de una regla</h3>
+  <pre><code class="language-css">selector {
+  propiedad: valor;   /* declaración */
+  /* ... */
+}</code></pre>
+  <p>El <em>selector</em> indica a qué elementos HTML se aplican las declaraciones. Si el selector no coincide, el estilo no se aplica.</p>
+
+  <h3>2.2. Selectores básicos</h3>
+  <ul>
+    <li><strong>Tipo (o elemento)</strong>: coincide con etiquetas HTML. <code>p</code>, <code>h1</code>, <code>button</code>.</li>
+    <li><strong>Clase</strong>: coincide con <code>class</code>. Múltiples elementos pueden compartirla. <code>.card</code>.</li>
+    <li><strong>ID</strong>: coincide con <code>id</code>. Debe ser único en documento. <code>#main</code>.</li>
+    <li><strong>Universal</strong>: coincide con cualquier elemento. <code>*</code> (úsalo con moderación).</li>
+  </ul>
+
+  <div class="demo demo-s1" aria-label="Demo selectores básicos">
+    <style>
+      .demo-s1 p { color: #1f2937; }
+      .demo-s1 .destacado { font-weight: 700; color: #b91c1c; }
+      .demo-s1 #unico { background: #fde68a; padding: .25rem .5rem; border-radius: 6px; }
+      .demo-s1 * { font-family: system-ui, sans-serif; }
+    </style>
+
+    <p>Este párrafo coincide con el selector de tipo <code>p</code>.</p>
+    <p class="destacado">Este coincide con la clase <code>.destacado</code>.</p>
+    <p id="unico">Este coincide con el <code>#id</code> (único).</p>
+  </div>
+
+  <div class="callout tip">
+    <p><strong>Guía de uso</strong>: prefiere <em>clases</em> para estilos (son reutilizables y con especificidad moderada). Evita basarte en IDs para estilado salvo casos muy concretos.</p>
+  </div>
+
+  <h3>2.3. Combinadores</h3>
+  <ul>
+    <li><strong>Descendiente</strong> (<code> </code>): <code>.card p</code> &rarr; cualquier <code>p</code> dentro de <code>.card</code>.</li>
+    <li><strong>Hijo directo</strong> (<code>&gt;</code>): <code>.card &gt; p</code> &rarr; solo los <code>p</code> hijos inmediatos.</li>
+    <li><strong>Hermano adyacente</strong> (<code>+</code>): <code>h2 + p</code> &rarr; el primer <code>p</code> justo después de un <code>h2</code>.</li>
+    <li><strong>Hermanos generales</strong> (<code>~</code>): <code>h2 ~ p</code> &rarr; todos los <code>p</code> posteriores con el mismo padre.</li>
+  </ul>
+
+  <div class="demo demo-s2" aria-label="Demo combinadores">
+    <style>
+      .demo-s2 div p { color: #065f46; }              /* descendiente */
+      .demo-s2 div > p { background: #e5e7eb; }       /* hijo directo */
+      .demo-s2 h2 + p { text-decoration: underline; } /* hermano adyacente */
+    </style>
+
+    <div>
+      <p>Hijo directo de div (gris) y también descendiente (verde).</p>
+      <section>
+        <p>Descendiente (verde), NO hijo directo.</p>
+      </section>
+      <p>Otro hijo directo de div (gris + verde).</p>
+    </div>
+
+    <h2>Un título H2</h2>
+    <p>Este párrafo está justo después del h2 (subrayado).</p>
+    <p>Este ya no es adyacente, por tanto no se subraya.</p>
+  </div>
+
+  <h3>2.4. Selectores de atributo</h3>
+  <p>Permiten filtrar por presencia o patrón de un atributo.</p>
+  <ul>
+    <li><code>[attr]</code> &rarr; tiene el atributo. <code>a[href]</code></li>
+    <li><code>[attr="valor"]</code> &rarr; valor exacto. <code>input[type="email"]</code></li>
+    <li><code>[attr^="ini"]</code> &rarr; empieza por. <code>a[href^="https"]</code></li>
+    <li><code>[attr$="fin"]</code> &rarr; termina en. <code>a[href$=".pdf"]</code></li>
+    <li><code>[attr*="cont"]</code> &rarr; contiene. <code>[class*="btn-"]</code></li>
+    <li><code>[attr~="palabra"]</code> &rarr; lista separada por espacios que contiene “palabra”.</li>
+    <li><code>[attr|="prefijo"]</code> &rarr; idioma o prefijo seguido de guion. <code>[lang|="es"]</code></li>
+  </ul>
+
+  <div class="demo demo-s3" aria-label="Demo selectores de atributo">
+    <style>
+      .demo-s3 a[href$=".pdf"] { color: #d97706; font-weight: 600; }
+      .demo-s3 a[href^="https"]::after { content: " ↗"; opacity: .7; }
+      .demo-s3 input[required] { border: 2px solid #2563eb; }
+    </style>
+
+    <p><a href="programa.pdf">Descargar programa (PDF)</a></p>
+    <p><a href="https://ejemplo.com">Enlace externo</a></p>
+    <label>Correo (required): <input type="email" required></label>
+  </div>
+
+  <h3>2.5. Pseudo-clases y pseudoelementos</h3>
+  <p>
+    Las <strong>pseudo-clases</strong> seleccionan elementos según su <em>estado</em> (interacción, validez, posición).  
+    Los <strong>pseudoelementos</strong> seleccionan partes generadas o sub-partes del elemento.
+  </p>
+
+  <div class="callout">
+    <ul>
+      <li><strong>Estados de interacción</strong>: <code>:hover</code>, <code>:active</code>, <code>:focus</code>, <code>:focus-visible</code>.</li>
+      <li><strong>Formularios</strong>: <code>:required</code>, <code>:valid</code>, <code>:invalid</code>, <code>:checked</code>.</li>
+      <li><strong>Posición</strong>: <code>:first-child</code>, <code>:last-child</code>, <code>:nth-child()</code>, <code>:not()</code>.</li>
+      <li><strong>Contenido</strong>: <code>::before</code>, <code>::after</code>, <code>::first-line</code>, <code>::first-letter</code>, <code>::selection</code>.</li>
+    </ul>
+  </div>
+
+  <div class="demo demo-s4" aria-label="Demo pseudo-clases y pseudoelementos">
+    <style>
+      .demo-s4 a { text-decoration: none; border-bottom: 1px dashed #94a3b8; }
+      .demo-s4 a:hover { color: #b91c1c; }
+      .demo-s4 input:focus { border: 2px solid #2563eb; outline: none; }
+      .demo-s4 p::first-line { font-weight: 700; }
+      .demo-s4 .badge::before { content: "★ "; color: #f59e0b; }
+    </style>
+
+    <p>La <em>primera línea</em> de este párrafo aparece en negrita gracias a <code>::first-line</code>. El resto mantiene el peso normal.</p>
+    <p><a href="#">Pasa el ratón por aquí (hover)</a></p>
+    <p><label>Foco: <input type="text" placeholder="Haz clic aquí"></label></p>
+    <p class="badge">Etiqueta con icono generado vía <code>::before</code>.</p>
+  </div>
+
+  <h3>2.6. Selectores modernos: <code>:is()</code>, <code>:where()</code>, <code>:has()</code></h3>
+  <pre><code class="language-css">/* :is() agrupa alternativas y toma la especificidad mayor del grupo */
+:is(h1, h2, h3).title { margin-block: .5rem; }
+
+/* :where() es como :is() pero con especificidad 0 (ideal para bases) */
+:where(.card){ border-radius: 10px; }
+
+/* :has() permite seleccionar al padre si dentro hay algo que coincide */
+.form-row:has(input:invalid){ background: rgba(220, 38, 38, .06); }</code></pre>
+
+  <div class="callout warn">
+    <p><strong>Especificidad y mantenimiento</strong>: evita encadenar muchos selectores (p. ej. <code>#app .layout main .card p span</code>). Es preferible una clase semántica en el nodo objetivo. Reservar <code>!important</code> para casos excepcionales.</p>
+  </div>
+
+  <h3>2.7. Autoevaluación rápida</h3>
+  <ul>
+    <li>¿Cuándo usarías un combinador de hijo directo frente al descendiente?</li>
+    <li>¿Qué ventaja tiene <code>:where()</code> frente a repetir una clase “base” en media docena de reglas?</li>
+    <li>¿Cómo seleccionarías todos los enlaces externos y añadirías un icono sin tocar el HTML?</li>
+  </ul>
+
+  <h3>2.8. Ejercicios propuestos</h3>
+  <ol>
+    <li>Crea una lista de navegación y aplica estilos distintos al primer y último elemento usando <code>:first-child</code> y <code>:last-child</code>. Añade <code>:hover</code> y <code>:focus-visible</code> accesible.</li>
+    <li>Estiliza un formulario: resalta <code>:required</code> y marca <code>:invalid</code> en rojo. Usa <code>:has()</code> para colorear el <em>row</em> que contenga un campo inválido.</li>
+    <li>Marca con un icono (vía <code>::after</code>) los enlaces cuyo <code>href</code> termine en <code>.pdf</code>; con otro icono los que empiecen por <code>https</code>.</li>
+  </ol>
+</section>
+
+
+<section id="propiedades-css">
+    <h2>Propiedades CSS más utilizadas</h2>
+    <p>
+        CSS dispone de cientos de propiedades que permiten controlar el aspecto visual de una página web. 
+        Sin embargo, en la práctica diaria, la mayoría de los proyectos hacen uso recurrente de un conjunto 
+        reducido de propiedades. A continuación veremos las más comunes, organizadas por categorías, con 
+        ejemplos prácticos para que puedas observar su efecto de manera inmediata.
+    </p>
+    <p>
+        Para ampliar la información, la mejor referencia oficial es 
+        <a href="https://developer.mozilla.org/es/docs/Web/CSS/Reference" target="_blank" rel="noopener">
+            MDN Web Docs – Referencia de CSS
+        </a>.
+    </p>
+
+    <!-- 1. Tipografía y texto -->
+    <article>
+        <h3>Propiedades de tipografía y texto</h3>
+        <p>
+            Estas propiedades controlan el aspecto del texto en pantalla: tipo de letra, tamaño, 
+            color, alineación o decoración.
+        </p>
+        <ul>
+            <li><code>color</code>: Define el color del texto.</li>
+            <li><code>font-family</code>: Establece la familia tipográfica (por ejemplo, Arial, Verdana, sans-serif).</li>
+            <li><code>font-size</code>: Ajusta el tamaño de la fuente.</li>
+            <li><code>font-weight</code>: Controla el grosor (normal, bold, 100–900).</li>
+            <li><code>text-align</code>: Alinea el texto (left, right, center, justify).</li>
+            <li><code>line-height</code>: Define el interlineado.</li>
+            <li><code>text-decoration</code>: Subraya, tacha o elimina decoraciones.</li>
+        </ul>
+
+        <h4>Ejemplo:</h4>
+        <pre><code class="language-css">
+p {
+    color: darkblue;
+    font-family: "Georgia", serif;
+    font-size: 18px;
+    line-height: 1.5;
+    text-align: justify;
+}
+        </code></pre>
+
+        <div class="demo">
+            <style>
+                .demo-texto p {
+                    color: darkblue;
+                    font-family: Georgia, serif;
+                    font-size: 18px;
+                    line-height: 1.5;
+                    text-align: justify;
+                }
+            </style>
+            <div class="demo-texto">
+                <p>
+                    Este párrafo aplica color azul oscuro, tipografía Georgia, tamaño de letra 
+                    18px y alineación justificada. Además, el interlineado se ha incrementado 
+                    para mejorar la legibilidad.
+                </p>
+            </div>
+        </div>
+    </article>
+
+    <!-- 2. Fondo y color -->
+    <article>
+        <h3>Propiedades de fondo y color</h3>
+        <p>
+            Permiten añadir colores de fondo, imágenes o degradados que complementan el diseño visual.
+        </p>
+        <ul>
+            <li><code>background-color</code>: Define el color de fondo.</li>
+            <li><code>background-image</code>: Permite usar una imagen de fondo.</li>
+            <li><code>background-size</code>: Ajusta cómo se escala la imagen (cover, contain, valores en px o %).</li>
+            <li><code>background-repeat</code>: Controla si la imagen se repite (repeat, no-repeat, repeat-x, repeat-y).</li>
+            <li><code>background-position</code>: Posiciona la imagen en el contenedor.</li>
+        </ul>
+
+        <h4>Ejemplo:</h4>
+        <pre><code class="language-css">
+.caja {
+    background-color: lightgray;
+    background-image: url('https://picsum.photos/200');
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 200px;
+    height: 150px;
+}
+        </code></pre>
+
+        <div class="demo">
+            <style>
+                .demo-fondo .caja {
+                    background-color: lightgray;
+                    background-image: url('https://picsum.photos/200');
+                    background-size: cover;
+                    background-repeat: no-repeat;
+                    width: 200px;
+                    height: 150px;
+                }
+            </style>
+            <div class="demo-fondo">
+                <div class="caja"></div>
+            </div>
+        </div>
+    </article>
+
+    <!-- 3. Modelo de caja -->
+    <article>
+        <h3>Propiedades del modelo de caja (Box Model)</h3>
+        <p>
+            Todo elemento en HTML puede considerarse como una caja rectangular. El box model describe cómo se 
+            calculan sus dimensiones, márgenes y rellenos. Las propiedades más importantes son:
+        </p>
+        <ul>
+            <li><code>width</code> / <code>height</code>: Anchura y altura del contenido.</li>
+            <li><code>margin</code>: Espacio exterior que separa la caja de otras.</li>
+            <li><code>padding</code>: Espacio interior entre el contenido y el borde.</li>
+            <li><code>border</code>: Define un borde con grosor, estilo y color.</li>
+        </ul>
+
+        <h4>Ejemplo:</h4>
+        <pre><code class="language-css">
+.tarjeta {
+    width: 200px;
+    padding: 20px;
+    margin: 15px;
+    border: 2px solid black;
+    background-color: #f9f9f9;
+}
+        </code></pre>
+
+        <div class="demo">
+            <style>
+                .demo-caja .tarjeta {
+                    width: 200px;
+                    padding: 20px;
+                    margin: 15px;
+                    border: 2px solid black;
+                    background-color: #f9f9f9;
+                }
+            </style>
+            <div class="demo-caja">
+                <div class="tarjeta">
+                    Soy una tarjeta con margen, relleno y borde.
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <!-- 4. Visualización -->
+    <article>
+        <h3>Propiedades de visualización</h3>
+        <p>
+            Determinan cómo se muestra un elemento en el flujo del documento.
+        </p>
+        <ul>
+            <li><code>display</code>: Define el modo de visualización (<code>block</code>, <code>inline</code>, <code>inline-block</code>, <code>none</code>).</li>
+            <li><code>visibility</code>: Define si el elemento es visible u oculto (<code>visible</code>, <code>hidden</code>).</li>
+            <li><code>overflow</code>: Controla cómo se maneja el contenido desbordado (<code>visible</code>, <code>hidden</code>, <code>scroll</code>, <code>auto</code>).</li>
+        </ul>
+    </article>
+
+    <!-- 5. Posicionamiento -->
+    <article>
+        <h3>Propiedades de posicionamiento</h3>
+        <p>
+            Permiten colocar un elemento en posiciones específicas dentro de la página.
+        </p>
+        <ul>
+            <li><code>position</code>: Puede ser <code>static</code> (por defecto), <code>relative</code>, <code>absolute</code>, <code>fixed</code>, o <code>sticky</code>.</li>
+            <li><code>top</code>, <code>right</code>, <code>bottom</code>, <code>left</code>: Definen la posición relativa al contenedor.</li>
+            <li><code>z-index</code>: Controla la superposición entre elementos.</li>
+        </ul>
+    </article>
+
+    <!-- 6. Listas y tablas -->
+    <article>
+        <h3>Propiedades para listas y tablas</h3>
+        <p>
+            Es común personalizar listas y tablas para mejorar su presentación:
+        </p>
+        <ul>
+            <li><code>list-style-type</code>: Controla el estilo de viñetas (disc, circle, square, none).</li>
+            <li><code>list-style-image</code>: Permite usar una imagen personalizada como viñeta.</li>
+            <li><code>border-collapse</code>: Controla si los bordes de una tabla se fusionan.</li>
+            <li><code>border-spacing</code>: Define el espacio entre celdas.</li>
+        </ul>
+    </article>
+
+    <!-- 7. Flexbox y Grid -->
+    <article>
+        <h3>Propiedades de maquetación (Flexbox y Grid)</h3>
+        <p>
+            CSS moderno introduce sistemas de diseño muy potentes para organizar el contenido:
+        </p>
+        <ul>
+            <li><code>display: flex;</code>: Activa el modo flexbox.</li>
+            <li><code>justify-content</code>: Alinea elementos horizontalmente (flex-start, center, space-between).</li>
+            <li><code>align-items</code>: Alinea elementos verticalmente (flex-start, center, stretch).</li>
+            <li><code>display: grid;</code>: Activa el modo grid.</li>
+            <li><code>grid-template-columns</code>: Define la cantidad y tamaño de columnas.</li>
+            <li><code>gap</code>: Define la separación entre filas y columnas.</li>
+        </ul>
+    </article>
+</section>
+
+
+<!-- =========================== -->
+<!--  SECCIÓN: POSICIONAMIENTO  -->
+<!-- =========================== -->
+<section id="posicionamiento">
+  <h2>Posicionamiento en CSS (flujo, clásico, Flexbox y Grid)</h2>
+
+  <div class="callout info">
+    <p><strong>Objetivos de aprendizaje</strong>: entender el <em>flujo normal</em> del documento, cuándo y cómo usar
+      <code>position</code> (<code>relative</code>, <code>absolute</code>, <code>fixed</code>, <code>sticky</code>),
+      crear layouts con <strong>Flexbox</strong> (un eje) y <strong>CSS Grid</strong> (dos ejes), y razonar sobre <code>z-index</code> y <em>stacking context</em>.</p>
+  </div>
+
+  <h3>1) Flujo normal del documento</h3>
+  <p>Por defecto, los elementos siguen el <strong>flujo normal</strong>: los de tipo <em>block</em> ocupan todo el ancho disponible y se apilan verticalmente; los <em>inline</em> se disponen en línea y sólo ocupan el contenido. El posicionamiento clásico modifica esta mecánica.</p>
+
+  <div class="pos-demo pos-flow">
+    <div class="pos-box">Bloque A</div>
+    <span class="pos-chip">inline 1</span>
+    <span class="pos-chip">inline 2</span>
+    <div class="pos-box">Bloque B</div>
+  </div>
+
+  <h3>2) Posicionamiento clásico</h3>
+  <ul>
+    <li><strong>static</strong> (por defecto): ignora <code>top/right/bottom/left</code>.</li>
+    <li><strong>relative</strong>: mantiene su hueco en el flujo, pero se puede “desplazar” visualmente.</li>
+    <li><strong>absolute</strong>: sale del flujo y se posiciona respecto al <em>contenedor posicionado</em> más cercano (el ancestro con <code>position</code> distinto de <code>static</code>).</li>
+    <li><strong>fixed</strong>: se “pega” al viewport (pantalla) y permanece al hacer scroll.</li>
+    <li><strong>sticky</strong>: se comporta como <em>relative</em> hasta alcanzar un umbral (p. ej. <code>top: 0</code>), a partir del cual se queda fijo.</li>
+  </ul>
+
+  <div class="pos-grid-2">
+    <figure class="pos-demo pos-rel">
+      <figcaption><strong>relative</strong> (con <code>top/left</code>)</figcaption>
+      <div class="pos-stage">
+        <div class="pos-card">Normal</div>
+        <div class="pos-card pos-relative">Movida<br><small>top: -10px; left: 14px;</small></div>
+        <div class="pos-card">Normal</div>
+      </div>
+    </figure>
+
+    <figure class="pos-demo pos-abs">
+      <figcaption><strong>absolute</strong> dentro de un contenedor posicionado</figcaption>
+      <div class="pos-stage pos-container">
+        <div class="pos-card">Fondo</div>
+        <div class="pos-badge-abs">ABS</div>
+        <div class="pos-card">Fondo</div>
+      </div>
+      <pre><code class="language-css">.pos-container{ position: relative; }
+.pos-badge-abs{ position:absolute; top:6px; right:6px; }</code></pre>
+    </figure>
+  </div>
+
+  <div class="pos-grid-2">
+    <figure class="pos-demo pos-fixed">
+      <figcaption><strong>fixed</strong> (botón flotante)</figcaption>
+      <div class="pos-stage tall">
+        <p class="muted">Haz scroll en la página: el botón permanece.</p>
+      </div>
+      <div class="pos-fab">↑</div>
+      <pre><code class="language-css">.pos-fab{ position:fixed; right:1rem; bottom:1rem; z-index:999; }</code></pre>
+    </figure>
+
+    <figure class="pos-demo pos-sticky">
+      <figcaption><strong>sticky</strong> (cabecera de sección)</figcaption>
+      <div class="pos-sticky-wrap">
+        <div class="pos-sticky-head">Título sticky (top: 0.5rem)</div>
+        <div class="pos-sticky-content">
+          <p>Contenido…</p><p>Más contenido…</p><p>Aún más contenido…</p>
+        </div>
+      </div>
+      <pre><code class="language-css">.pos-sticky-head{ position: sticky; top:.5rem; }</code></pre>
+    </figure>
+  </div>
+
+  <h4>2.1) <code>z-index</code> y <em>stacking context</em></h4>
+  <p><code>z-index</code> define el apilamiento (eje Z). Solo funciona en elementos posicionados (o que crean <em>stacking context</em> por otras causas: <code>opacity &lt; 1</code>, <code>transform</code>, <code>filter</code>, etc.). Cada <em>stacking context</em> es un “universo” de capas: elevar <code>z-index</code> dentro de uno no supera al hermano superior en otro contexto.</p>
+
+  <div class="pos-demo pos-z">
+    <div class="pos-layer a">A<br><small>z:1</small></div>
+    <div class="pos-layer b">B<br><small>z:5</small></div>
+    <div class="pos-layer c">C<br><small>z:3</small></div>
+  </div>
+
+  <div class="callout tip">
+    <p><strong>Regla práctica</strong>: minimiza <code>z-index</code> altos y contextos innecesarios. Reserva capas altas para overlays/modales.</p>
+  </div>
+
+  <hr class="pos-sep">
+
+  <h3>3) Flexbox — alineación en un eje</h3>
+  <p><strong>Flexbox</strong> simplifica la distribución en una dimensión (fila o columna) y el alineado/espaciado de ítems. Perfecto para barras de navegación, tarjetas alineadas y formularios.</p>
+
+  <h4>3.1) Conceptos clave</h4>
+  <ul>
+    <li>Contenedor: <code>display: flex | inline-flex</code>, define <em>eje principal</em> con <code>flex-direction</code> (row/column).</li>
+    <li>Distribución: <code>justify-content</code> (en eje principal) y <code>align-items</code> (en eje transversal).</li>
+    <li>Multilínea: <code>flex-wrap</code> permite saltar de línea; con <code>gap</code> espacias sin márgenes manuales.</li>
+    <li>Hijos: <code>flex</code> = <code>grow shrink basis</code>, y <code>align-self</code> para ajustes individuales.</li>
+  </ul>
+
+  <div class="pos-demo">
+    <div class="pos-flex-controls">
+      <label>direction
+        <select id="f-dir">
+          <option>row</option><option>row-reverse</option>
+          <option>column</option><option>column-reverse</option>
+        </select>
+      </label>
+      <label>justify-content
+        <select id="f-just">
+          <option>flex-start</option><option>center</option>
+          <option>space-between</option><option>space-around</option>
+          <option>flex-end</option>
+        </select>
+      </label>
+      <label>align-items
+        <select id="f-align">
+          <option>stretch</option><option>center</option>
+          <option>flex-start</option><option>flex-end</option>
+          <option>baseline</option>
+        </select>
+      </label>
+      <label><input type="checkbox" id="f-wrap"> wrap</label>
+    </div>
+
+    <div class="pos-flex" id="flexBox">
+      <div class="pos-it">A</div><div class="pos-it">B</div>
+      <div class="pos-it">C</div><div class="pos-it">D</div>
+    </div>
+  </div>
+
+  <div class="pos-columns">
+    <pre><code class="language-css">.toolbar{
+  display:flex; gap:.75rem; align-items:center; justify-content:space-between;
+}
+.toolbar__item{ flex: 0 0 auto; }</code></pre>
+    <pre><code class="language-css">/* Crecimiento proporcional */
+.card{ flex: 1 1 240px; }  /* grow=1, shrink=1, basis=240px */
+.grid-flex{ display:flex; flex-wrap:wrap; gap:1rem; }</code></pre>
+  </div>
+
+  <div class="callout info">
+    <p><strong>Cuándo usar Flex</strong>: barras, listas, paneles en fila/columna, componentes que necesitan alineación “inteligente” en un único eje.</p>
+  </div>
+
+  <hr class="pos-sep">
+
+  <h3>4) CSS Grid — distribución en dos ejes</h3>
+  <p><strong>Grid</strong> está pensado para layouts bidimensionales: defines filas y columnas, y colocas ítems por líneas o por áreas con nombre.</p>
+
+  <h4>4.1) Rejilla con áreas</h4>
+  <div class="pos-demo">
+    <div class="pos-grid-areas">
+      <header class="pos-cell head">Header</header>
+      <aside class="pos-cell aside">Aside</aside>
+      <main class="pos-cell main">Main</main>
+      <footer class="pos-cell foot">Footer</footer>
+    </div>
+  </div>
+
+  <pre><code class="language-css">.layout{
+  display:grid; gap: .75rem;
+  grid-template-columns: 220px 1fr;
+  grid-template-areas:
+    "head head"
+    "aside main"
+    "foot foot";
+}
+.head{ grid-area: head; }
+.aside{ grid-area: aside; }
+.main{ grid-area: main; }
+.foot{ grid-area: foot; }</code></pre>
+
+  <h4>4.2) Rejilla fluida de tarjetas (auto-fit)</h4>
+  <div class="pos-demo">
+    <div class="pos-cards">
+      <div class="pos-card">1</div><div class="pos-card">2</div>
+      <div class="pos-card">3</div><div class="pos-card">4</div>
+      <div class="pos-card">5</div>
+    </div>
+  </div>
+
+  <pre><code class="language-css">.cards{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}</code></pre>
+
+  <div class="callout tip">
+    <p><strong>Flex vs Grid</strong>: usa <em>Flex</em> para alinear en un eje (y “repartir espacio”); usa <em>Grid</em> cuando tu problema natural son filas <em>y</em> columnas.
+      En proyectos reales es habitual <em>combinar</em> ambos.</p>
+  </div>
+
+  <hr class="pos-sep">
+
+  <h3>5) Patrones típicos</h3>
+  <ul>
+    <li><strong>Header sticky</strong> con sombra al fijarse.</li>
+    <li><strong>Menú principal con Flex</strong> y botones que crecen.</li>
+    <li><strong>Layout de dos columnas con Grid</strong> que colapsa a una en móvil.</li>
+    <li><strong>Botón “volver arriba”</strong> fijo con <code>position: fixed</code>.</li>
+  </ul>
+
+  <h3>6) Errores frecuentes</h3>
+  <ul>
+    <li>Usar <code>absolute</code> para maquetar “todo” (difícil de mantener, rompe el flujo).</li>
+    <li>Olvidar <code>position: relative</code> en el contenedor al usar hijos <code>absolute</code>.</li>
+    <li>Crear <em>stacking contexts</em> innecesarios con <code>transform</code>/<code>opacity</code> y luego “no funciona” el <code>z-index</code>.</li>
+  </ul>
+
+  <h3>7) Ejercicios</h3>
+  <ol>
+    <li><strong>Absolute</strong>: coloca un <em>badge</em> en la esquina superior derecha de una tarjeta (recuerda <code>position: relative</code> en el contenedor).</li>
+    <li><strong>Fixed</strong>: crea un botón flotante de “volver arriba” accesible y con sombra.</li>
+    <li><strong>Flex</strong>: barra con logo a la izquierda, menú centrado y CTA a la derecha; que pliegue a columna en móvil.</li>
+    <li><strong>Grid</strong>: layout con header, aside, main y footer; usa <code>auto-fit</code> para una galería responsive.</li>
+  </ol>
+
+  <!-- ========================= -->
+  <!-- Estilos AISLADOS de demo  -->
+  <!-- ========================= -->
+  <style>
+    /* Contenedor de demos */
+    .pos-demo{
+      border:1px solid var(--border);
+      border-radius: var(--radius-2);
+      background: var(--bg);
+      padding: var(--space-4);
+      margin: var(--space-4) 0;
+      box-shadow: var(--shadow-1);
+    }
+    .pos-sep{ border:0; height:1px; background:var(--border); margin:1.25rem 0; }
+
+    /* Flujo normal */
+    .pos-flow .pos-box{
+      background: var(--brand-weak);
+      border:1px solid var(--border);
+      padding:.5rem .75rem; border-radius:6px; margin:.25rem 0;
+    }
+    .pos-flow .pos-chip{
+      display:inline-block; padding:.25rem .5rem; border-radius:999px;
+      border:1px solid var(--border); margin-right:.25rem; background: var(--panel);
+    }
+
+    /* Grid de dos columnas para ejemplos pares */
+    .pos-grid-2{
+      display:grid; gap:1rem;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 900px){
+      .pos-grid-2{ grid-template-columns: 1fr 1fr; }
+    }
+
+    /* Escenario base */
+    .pos-stage{
+      position: relative;
+      border:1px dashed var(--border);
+      min-height: 120px; padding:.75rem; border-radius:6px;
+      background: var(--panel);
+    }
+    .pos-stage.tall{ min-height: 200px; }
+
+    .pos-card{
+      display:inline-flex; align-items:center; justify-content:center;
+      min-width: 80px; min-height: 48px;
+      margin:.25rem; border-radius:8px;
+      border:1px solid var(--border); background: var(--bg);
+      box-shadow: var(--shadow-1);
+    }
+
+    /* relative */
+    .pos-relative{ position: relative; top:-10px; left:14px; }
+
+    /* absolute dentro de contenedor posicionado */
+    .pos-container{ position: relative; }
+    .pos-badge-abs{
+      position:absolute; top:8px; right:8px;
+      background: var(--brand); color:#fff; font-weight:700;
+      padding:.2rem .45rem; border-radius:999px; font-size:.9em;
+      box-shadow: var(--shadow-1);
+    }
+
+    /* fixed: botón flotante (sólo para demo visual) */
+    .pos-fab{
+      position: fixed; right: 1.25rem; bottom: 1.25rem;
+      width:44px; height:44px; border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      background: var(--brand); color:#fff; font-weight:800;
+      box-shadow: var(--shadow-1);
+    }
+
+    /* sticky */
+    .pos-sticky-wrap{ max-height: 200px; overflow:auto; border:1px dashed var(--border); border-radius:6px; }
+    .pos-sticky-head{
+      position: sticky; top:.5rem;
+      background: var(--brand-weak); border:1px solid var(--border);
+      border-radius:6px; padding:.35rem .6rem; margin:.5rem;
+    }
+    .pos-sticky-content{ padding:0 .75rem 1rem; }
+    .pos-sticky-content p{ margin:.75rem 0; }
+
+    /* z-index demo */
+    .pos-z{ position: relative; height: 150px; }
+    .pos-layer{
+      position:absolute; width:130px; height:90px;
+      border-radius:10px; display:flex; align-items:center; justify-content:center;
+      color:#fff; font-weight:700; box-shadow: var(--shadow-1);
+    }
+    .pos-layer.a{ background:#64748b; left:10px; top:40px; z-index:1; }
+    .pos-layer.b{ background:#1e40af; left:60px; top:20px; z-index:5; }
+    .pos-layer.c{ background:#334155; left:110px; top:60px; z-index:3; }
+
+    /* Flex controls + playground */
+    .pos-flex-controls{
+      display:flex; flex-wrap:wrap; gap:.5rem; align-items:center; margin-bottom:.5rem;
+    }
+    .pos-flex-controls label{ font-size:.95em; color: var(--muted); display:flex; gap:.35rem; align-items:center; }
+    .pos-flex-controls select{ padding:.25rem .4rem; }
+
+    .pos-flex{
+      display:flex; gap:.5rem; border:1px dashed var(--border);
+      padding:.75rem; border-radius:6px; min-height:68px; flex-wrap:nowrap;
+      background: var(--bg);
+    }
+    .pos-it{
+      background: var(--brand-weak);
+      border:1px solid var(--border);
+      padding:.45rem .7rem; border-radius:6px; min-width:42px;
+      display:flex; align-items:center; justify-content:center;
+    }
+
+    /* Grid areas demo */
+    .pos-grid-areas{
+      display:grid; gap:.5rem;
+      grid-template-areas:
+        "head head"
+        "aside main"
+        "foot foot";
+      grid-template-columns: 220px 1fr;
+    }
+    .pos-cell{ border:1px solid var(--border); background: var(--panel); border-radius:6px; padding:.6rem; }
+    .pos-grid-areas .head{ grid-area: head; }
+    .pos-grid-areas .aside{ grid-area: aside; }
+    .pos-grid-areas .main{ grid-area: main; }
+    .pos-grid-areas .foot{ grid-area: foot; }
+
+    /* Cards auto-fit */
+    .pos-cards{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap:.6rem;
+    }
+    .pos-cards .pos-card{ min-height:64px; }
+
+    /* Layouts auxiliares de código */
+    .pos-columns{
+      display:grid; gap:.75rem; grid-template-columns: 1fr; margin:.5rem 0;
+    }
+    @media (min-width: 900px){
+      .pos-columns{ grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+
+  <!-- ========= JS local de la sección (aislado) ========= -->
+  <script>
+    (function(){
+      // Flex playground
+      const root = document.currentScript.closest('#posicionamiento');
+      const box  = root.querySelector('#flexBox');
+      const d    = root.querySelector('#f-dir');
+      const j    = root.querySelector('#f-just');
+      const a    = root.querySelector('#f-align');
+      const w    = root.querySelector('#f-wrap');
+
+      function update(){
+        if(!box) return;
+        box.style.flexDirection  = d.value;
+        box.style.justifyContent = j.value;
+        box.style.alignItems     = a.value;
+        box.style.flexWrap       = w.checked ? 'wrap' : 'nowrap';
+      }
+      [d,j,a].forEach(sel => sel && sel.addEventListener('change', update));
+      w && w.addEventListener('change', update);
+      update();
+    })();
+  </script>
+
+  <div class="callout warn">
+    <p><strong>Referencia oficial</strong>: consulta la especificación y compatibilidad actualizada en MDN/Web Docs cuando tengas dudas sobre propiedades o soporte de navegador.</p>
+  </div>
+</section>
+
+
+
+
+
+
+      <!-- ======= 2. Cascada / Herencia / Especificidad ======= -->
+      <section id="arquitectura-cascada">
+        <h2>2. Cascada, herencia y especificidad</h2>
+        <h3>Cascada</h3>
+        <p>Si varias reglas coinciden, el navegador decide por: <strong>origen</strong> (user-agent &lt; autor &lt; usuario), <strong>importancia</strong> (<code>!important</code>), <strong>especificidad</strong> y <strong>orden</strong> (última gana a igualdad de lo anterior).</p>
+
+        <h3>Herencia</h3>
+        <p>Propiedades como <code>color</code>, <code>font-family</code> o <code>line-height</code> se heredan a los descendientes; otras (p. ej. <code>margin</code>, <code>padding</code>) no. Controla herencia con <code>inherit</code>, <code>initial</code>, <code>revert</code> y <code>unset</code>.</p>
+
+        <h3>Especificidad</h3>
+        <pre><code>/* Especificidad de menor a mayor */
+p { }                  /* tipo        */
+.article p { }         /* combinador  */
+.highlight { }         /* clase       */
+#menu { }              /* id          */
+style="..."            /* inline      */</code></pre>
+
+        <div class="callout warn">
+          <p><strong>Evita</strong> el abuso de <code>!important</code> y selectores con ID dentro de árboles profundos. Prefiere reglas simples y predecibles.</p>
+        </div>
+
+        <h3>@layer (cascada por capas)</h3>
+        <pre><code>@layer reset, base, components, utilities;
+
+@layer reset { *,*::before,*::after{ box-sizing:border-box } }
+@layer base  { body{ font: 16px/1.6 system-ui } }
+@layer components { .btn{ padding:.5rem .8rem } }
+@layer utilities { .mt-2{ margin-top:.5rem } }</code></pre>
+        <p><code>@layer</code> explicita el orden de grandes bloques de CSS y reduce sorpresas en la cascada.</p>
+      </section>
+
+      <!-- ======= 3. Selectores ======= -->
+      <section id="selectores">
+        <h2>3. Selectores (clásicos y modernos)</h2>
+
+        <h3>3.1. Clásicos y combinadores</h3>
+        <pre><code>/* Tipo / clase / id */
+p { } .card { } #main { }
+
+/* Combinadores */
+.card p       { /* descendiente */ }
+.card &gt; p     { /* hijo directo */ }
+h2 + p        { /* hermano adyacente */ }
+h2 ~ p        { /* hermano general  */ }</code></pre>
+
+        <h3>3.2. Atributo</h3>
+        <pre><code>input[type="email"] { }
+a[target="_blank"]::after { content:" ↗"; }
+img[alt~="producto"]{ outline:1px dashed var(--border); }</code></pre>
+
+        <h3>3.3. Pseudo-clases de estado y forma</h3>
+        <pre><code>a:hover, a:focus-visible, button:active
+:required, :valid, :invalid, :checked
+:is(ul, ol) :nth-child(odd)</code></pre>
+
+        <div class="callout tip">
+          <p><strong>Especificidad moderna:</strong> <code>:where()</code> aporta <em>0</em> especificidad (ideal como base); <code>:is()</code> toma la mayor de sus opciones; <code>:has()</code> permite estilos condicionales en el padre (soporte moderno).</p>
+        </div>
+
+        <h3>3.4. Selectores modernos</h3>
+        <pre><code>/* :is() reduce repetición */
+:is(h1, h2, h3).title{ margin-block: .5rem }
+
+/* :where() para estilos base sin “pesar” */
+:where(.card){ border-radius: var(--radius-2); }
+
+/* :has() — estilo al contenedor si dentro hay algo */
+.form-row:has(input:invalid){ background: rgba(220,38,38,.05); }</code></pre>
+      </section>
+
+      <!-- ======= 4. Unidades, funciones y color ======= -->
+      <section id="unidades-colores">
+        <h2>4. Unidades, funciones y color</h2>
+        <h3>Unidades</h3>
+        <ul>
+          <li>Relativas: <code>em</code>, <code>rem</code> (recomendadas), <code>%</code>, <code>vw/vh</code>, <code>dvh/svh</code> (viewports modernos).</li>
+          <li>Absolutas: <code>px</code> (útil, pero no escala tipográficamente).</li>
+        </ul>
+        <h3>Funciones modernas</h3>
+        <pre><code>/* Tipografía fluida */
+:root{ --fs-min: 1rem; --fs-max: 1.5rem; }
+h1{ font-size: clamp(var(--fs-min), 2vw + 1rem, var(--fs-max)); }
+
+/* Cálculos compuestos */
+.card{ width: calc(100% - 2rem); }</code></pre>
+        <h3>Color</h3>
+        <p>Usa <code>rgb()</code>/<code>hsl()</code> y variables. Controla contraste (WCAG). Si el soporte lo permite, explora <code>oklch()</code> por su linealidad perceptual.</p>
+      </section>
+
+      <!-- ======= 5. Box model y sizing ======= -->
+      <section id="box-model">
+        <h2>5. Box model y sizing</h2>
+        <p>El modelo de caja define contenido, <em>padding</em>, <em>border</em> y <em>margin</em>. Configura <code>box-sizing: border-box;</code> globalmente para que ancho/alto incluyan padding y borde.</p>
+        <pre><code>*,*::before,*::after{ box-sizing: border-box; }</code></pre>
+        <p>Controla overflow y scroll:</p>
+        <pre><code>.scroll{ overflow:auto; overscroll-behavior:contain; }</code></pre>
+      </section>
+
+      <!-- ======= 6. Tipografía ======= -->
+      <section id="tipografia-texto">
+        <h2>6. Tipografía y texto</h2>
+        <ul>
+          <li>Define una <em>stack</em> segura y usa <code>font-display: swap</code> al cargar webfonts.</li>
+          <li><code>line-height</code> relativo (p. ej. <code>1.5</code>) y ancho de línea de 60–75 caracteres.</li>
+          <li>Jerarquía escalonada con <code>rem</code> y <code>clamp()</code>.</li>
+        </ul>
+        <pre><code>html{ font-size: 100%; }
+body{ font: 1rem/1.6 system-ui; }
+h1{ font-size: clamp(1.75rem, 2vw + 1rem, 2.25rem); }</code></pre>
+      </section>
+
+      <!-- ======= 7. Display / Posicionamiento ======= -->
+      <section id="display-posicion">
+        <h2>7. Display, flujo y posicionamiento</h2>
+        <p><strong>display</strong> gobierna el flujo (<code>block</code>, <code>inline</code>, <code>inline-block</code>, <code>flow-root</code>, <code>flex</code>, <code>grid</code>). El posicionamiento (<code>relative</code>, <code>absolute</code>, <code>fixed</code>, <code>sticky</code>) controla cómo sacar/ubicar un elemento respecto al flujo y al viewport.</p>
+        <pre><code>.sticky-bar{ position: sticky; top: 0; z-index: 10; }</code></pre>
+        <p><strong>Stacking context</strong>: se crea con <code>position</code> + <code>z-index</code>, <code>opacity&lt;1</code>, <code>transform</code>, etc. Úsalo de forma deliberada para overlays, modales y tooltips.</p>
+      </section>
+
+      <!-- ======= 8. Flexbox (playground) ======= -->
+      <section id="flexbox">
+        <h2>8. Flexbox — alineación en un eje</h2>
+        <p>Flexbox simplifica la distribución en <em>fila o columna</em>, el centrado y el reparto de espacio. Ideal para barras de navegación, tarjetas y formularios.</p>
+
+        <div class="lab-controls">
+          <label>justify-content</label>
+          <select id="flexJustify">
+            <option>flex-start</option><option>center</option><option>space-between</option><option>space-around</option><option>flex-end</option>
+          </select>
+          <label>align-items</label>
+          <select id="flexAlign">
+            <option>stretch</option><option>center</option><option>flex-start</option><option>flex-end</option><option>baseline</option>
+          </select>
+          <label>direction</label>
+          <select id="flexDir">
+            <option>row</option><option>row-reverse</option><option>column</option><option>column-reverse</option>
+          </select>
+          <label><input type="checkbox" id="flexWrap"> wrap</label>
+        </div>
+
+        <div class="lab-flex" id="flexPlayground">
+          <div class="item">A</div><div class="item">B</div><div class="item">C</div><div class="item">D</div>
+        </div>
+
+        <div class="lab-code"><pre><code>.row{
+  display:flex; gap:.75rem; align-items:center; justify-content:space-between; flex-wrap:wrap;
+}
+.col{ flex: 1 1 240px; }</code></pre></div>
+      </section>
+
+      <!-- ======= 9. Grid (áreas y auto-fit) ======= -->
+      <section id="grid">
+        <h2>9. CSS Grid — dos ejes y áreas</h2>
+        <p>Útil para layouts bidimensionales. Define columnas/filas y áreas nombradas para composiciones complejas y adaptables.</p>
+
+        <div class="lab-grid-areas" id="gridAreas">
+          <div class="header">Header</div>
+          <div class="aside">Aside</div>
+          <div class="main">Main content</div>
+          <div class="footer">Footer</div>
+        </div>
+
+        <div class="lab-sep"></div>
+        <p class="lab-note"><strong>Auto-fit</strong> crea rejillas fluidas para tarjetas:</p>
+        <div class="lab-code"><pre><code>.cards{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}</code></pre></div>
+      </section>
+
+      <!-- ======= 10. Responsive ======= -->
+      <section id="responsive">
+        <h2>10. Responsive (mobile-first)</h2>
+        <pre><code>/* Base móvil */
+.card{ padding:1rem; }
+
+/* ≥768px */
+@media (min-width: 768px){
+  .card{ padding:1.25rem 1.5rem; }
+}
+
+/* ≥1100px */
+@media (min-width: 1100px){
+  .grid{ grid-template-columns: repeat(12, 1fr); }
+}</code></pre>
+
+        <div class="callout info">
+          <p><strong>Container queries</strong> (soporte moderno): estiliza según el tamaño del <em>contenedor</em>, no del viewport.</p>
+        </div>
+        <pre><code>/* Contenedor “sensible” */
+.component{ container-type: inline-size; }
+
+/* Consultas de contenedor */
+@container (min-width: 480px){
+  .component .media{ display:flex; gap:1rem; }
+}</code></pre>
+      </section>
+
+      <!-- ======= 11. Variables CSS ======= -->
+      <section id="variables-css">
+        <h2>11. Variables CSS (custom properties)</h2>
+        <pre><code>:root{
+  --brand: #6176BA; --radius: 10px; --fs: 1rem;
+}
+.card{ background: var(--brand-weak); border-radius: var(--radius); font-size: var(--fs); }</code></pre>
+        <p class="lab-note">Puedes mutarlas en tiempo real:</p>
+        <pre><code>document.documentElement.style.setProperty('--brand', '#e63946');</code></pre>
+      </section>
+
+      <!-- ======= 12. Pseudo-clases y pseudoelementos ======= -->
+      <section id="pseudoclases-elementos">
+        <h2>12. Pseudo-clases y pseudoelementos</h2>
+        <h3>Interacción y validación</h3>
+        <pre><code>.btn:hover{ filter: brightness(.95); }
+.btn:focus-visible{ outline:2px solid var(--brand); outline-offset:2px; }
+input:invalid{ border-color:#dc2626; }</code></pre>
+
+        <h3>Contenido generado</h3>
+        <pre><code>.title::before{ content:"👉 "; opacity:.6; }
+p::first-letter{ font-size: 180%; font-weight:700; }
+::selection{ background: var(--brand); color:#fff; }</code></pre>
+      </section>
+
+      <!-- ======= 13. Transform / Transition / Animation (demos visibles) ======= -->
+      <section id="transforms-transitions-animations">
+        <h2>13. Transform, Transition y Animation</h2>
+
+        <h3>13.1 Transitions — “antes y después” con suavidad</h3>
+        <p>Transiciona propiedades animables (color, background-color, opacity, transform...). Evita cambiar <em>layout</em> (width/height/top/left) para no forzar reflow.</p>
+
+        <div class="lab-grid">
+          <div>
+            <div class="ejemplo-caja ejemplo1">Transición simple (bg)</div>
+            <div class="lab-code"><pre><code>.ejemplo1{ background-color:#ffcccb; transition: background-color .5s ease; }
+.ejemplo1:hover{ background-color:#ff5733; }</code></pre></div>
+          </div>
+
+          <div>
+            <div class="ejemplo-caja ejemplo2">Color + escala</div>
+            <div class="lab-code"><pre><code>.ejemplo2{ background:#ccffcc; transform: scale(1);
+  transition: transform .3s ease-in-out, background-color .3s; }
+.ejemplo2:hover{ background:#28a745; transform: scale(1.2); }</code></pre></div>
+          </div>
+
+          <div>
+            <div class="ejemplo-caja ejemplo3">Con retraso + rotación</div>
+            <div class="lab-code"><pre><code>.ejemplo3{ background:#cce7ff; transition: background-color .5s ease, transform .5s ease .2s; }
+.ejemplo3:hover{ background:#007bff; transform: rotate(15deg); }</code></pre></div>
+          </div>
+
+          <div>
+            <div class="ejemplo-caja ejemplo4">all + formas</div>
+            <div class="lab-code"><pre><code>.ejemplo4{ background:#f9c74f; transition: all .5s ease; }
+.ejemplo4:hover{ background:#f8961e; transform: scale(1.5) rotate(10deg); border-radius:50%; }</code></pre></div>
+          </div>
+        </div>
+
+        <div class="callout warn">
+          <p><strong>Rendimiento:</strong> prioriza animar <code>transform</code> y <code>opacity</code>. Respeta <code>prefers-reduced-motion</code> para accesibilidad (ya incluido en este material).</p>
+        </div>
+
+        <h3>13.2 Transform — laboratorio interactivo</h3>
+        <div class="lab-controls">
+          <label>Rotar: <span id="rotVal">0</span>°</label>
+          <input type="range" id="rotRange" min="-180" max="180" value="0">
+          <label>Escala: <span id="scaleVal">1.00</span></label>
+          <input type="range" id="scaleRange" min="50" max="150" value="100">
+          <label>Trasladar X: <span id="txVal">0</span>px</label>
+          <input type="range" id="txRange" min="-120" max="120" value="0">
+        </div>
+        <div class="lab-box" id="transformBox">Transform en vivo</div>
+        <div class="lab-note">Este laboratorio actualiza <code>transform: translateX() scale() rotate()</code> en tiempo real.</div>
+
+        <h3>13.3 Animations — keyframes y control</h3>
+        <div class="lab-grid">
+          <div>
+            <div class="ejemplo5">Movimiento</div>
+            <div class="lab-code"><pre><code>@keyframes mover{
+  0%{ transform: translateX(0) }
+  50%{ transform: translateX(100px) }
+  100%{ transform: translateX(0) }
+}
+.ejemplo5{ animation: mover 2s infinite; }</code></pre></div>
+          </div>
+          <div>
+            <div class="ejemplo6">Cambio color</div>
+            <div class="lab-code"><pre><code>@keyframes cambioColor{
+  0%{ background-color:#ffcccb }
+  50%{ background-color:#ff5733 }
+  100%{ background-color:#ffcccb }
+}
+.ejemplo6{ animation: cambioColor 3s infinite; }</code></pre></div>
+          </div>
+          <div>
+            <div class="ejemplo7">Rotación</div>
+            <div class="lab-code"><pre><code>@keyframes rotar{
+  0%{ transform: rotate(0) }
+  100%{ transform: rotate(360deg) }
+}
+.ejemplo7{ animation: rotar 2s linear infinite; }</code></pre></div>
+          </div>
+          <div>
+            <div class="ejemplo8">Combinada</div>
+            <div class="lab-code"><pre><code>@keyframes combinado{
+  0%{ transform: translateY(0) scale(1); background:#f9c74f }
+  50%{ transform: translateY(-20px) scale(1.2); background:#f8961e }
+  100%{ transform: translateY(0) scale(1); background:#f9c74f }
+}
+.ejemplo8{ animation: combinado 1.5s ease-in-out infinite; }</code></pre></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======= 14. Fondos / Bordes / Sombras ======= -->
+      <section id="fondos-bordes-sombras">
+        <h2>14. Fondos, bordes y sombras</h2>
+        <pre><code>.hero{
+  background: linear-gradient(180deg, var(--brand) 0%, #1F1769 100%);
+  background-size: cover; background-position: center;
+}
+.box{
+  border:1px solid var(--border); border-radius:12px; box-shadow: 0 2px 8px rgba(0,0,0,.08);
+}</code></pre>
+      </section>
+
+      <!-- ======= 15. Organización y buenas prácticas ======= -->
+      <section id="organizacion-buenas-practicas">
+        <h2>15. Organización y buenas prácticas</h2>
+        <h3>BEM</h3>
+        <pre><code>&lt;article class="card"&gt;
+  &lt;h3 class="card__title"&gt;...&lt;/h3&gt;
+  &lt;button class="card__btn card__btn--primary"&gt;Acción&lt;/button&gt;
+&lt;/article&gt;
+
+.card{ }
+.card__btn{ }
+.card__btn--primary{ }</code></pre>
+
+        <h3>Cascada por capas</h3>
+        <pre><code>@layer reset, base, components, utilities;</code></pre>
+
+        <div class="callout tip">
+          <p><strong>Checklist:</strong> baja especificidad, <code>box-sizing: border-box</code>, mobile-first, tokens (espaciado/colores/radios), <code>:focus-visible</code>, contrastes, minificar y eliminar CSS no usado.</p>
+        </div>
+      </section>
+
+      <!-- ======= 16. Bootstrap ======= -->
+      <section id="frameworks">
+        <h2>16. Bootstrap (visión general)</h2>
+        <pre><code>&lt;link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"&gt;</code></pre>
+      </section>
+
+      <!-- ======= 17. Sass ======= -->
+      <section id="sass">
+        <h2>17. Sass (preprocesadores)</h2>
+        <pre><code>$brand: #6176BA;
+@mixin radius($r){ border-radius:$r; }
+.button{ background:$brand; @include radius(10px); }</code></pre>
+      </section>
+
+      <!-- ======= 18. Accesibilidad y rendimiento ======= -->
+      <section id="accesibilidad-rendimiento">
+        <h2>18. Accesibilidad y rendimiento</h2>
+        <ul>
+          <li>Usa <code>:focus-visible</code> y buenos contrastes (WCAG AA/AAA).</li>
+          <li>Evita animar propiedades de layout; respeta <code>prefers-reduced-motion</code>.</li>
+          <li>Minifica CSS y evita CSS no utilizado; <em>font-display: swap</em> en webfonts.</li>
+        </ul>
+      </section>
+
+      <!-- ======= Ejercicios ======= -->
+      <section id="ejercicios-css">
+        <h2>Ejercicios</h2>
+
+        <h3>Bloque A — Fundamentos</h3>
+        <ul>
+          <li>Replica una tarjeta con tipografía fluida usando <code>clamp()</code>, variables de color y <code>border-box</code>.</li>
+          <li>Escribe tres reglas que compitan y explica por qué gana la final (cascada/especificidad).</li>
+        </ul>
+
+        <h3>Bloque B — Selectores y pseudo-clases</h3>
+        <ul>
+          <li>Estiliza un menú usando combinadores (<code>&gt;</code>, <code>+</code>, <code>~</code>) y <code>:hover</code>, <code>:focus-visible</code>.</li>
+          <li>Aplica <code>:nth-child()</code> para filetear filas de una tabla y <code>::marker</code> para listas.</li>
+        </ul>
+
+        <h3>Bloque C — Layout</h3>
+        <ul>
+          <li>Construye un header con Flexbox (logo izquierda, nav centrado, CTA derecha) que colapse en móvil.</li>
+          <li>Maqueta una página con Grid (aside + main + footer) y cambia el layout a una columna en &lt;768px.</li>
+        </ul>
+
+        <h3>Bloque D — Interacción (transformaciones visibles)</h3>
+        <ul>
+          <li>Recrea los ejemplos <strong>1–4</strong> de transición y añade una variante propia.</li>
+          <li>Crea una animación con <code>@keyframes</code> y desactívala con <code>prefers-reduced-motion</code>.</li>
+        </ul>
+
+        <h3>Bloque E — Arquitectura</h3>
+        <ul>
+          <li>Refactoriza un componente a BEM y documenta sus modificadores.</li>
+          <li>Implementa tokens (espaciado, radios, sombras) con variables CSS y aplícalos a dos componentes.</li>
+        </ul>
+      </section>
+
+      <!-- Botón volver arriba -->
+      <a href="#arriba" class="back-to-top" aria-label="Volver arriba">↑</a>
+    </main>
+  </div>
+
+  <!-- ======= Footer ======= -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="wrap center">
+      <div style="margin-bottom:.5rem;">
+        <strong>Lenguaje de Marcas — CSS</strong>
+      </div>
+      <div class="muted" style="margin-bottom:.75rem;">
+        Material docente • Autora/or: <em>Tu Nombre</em>
+      </div>
+      <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer" title="CC BY-NC-SA 4.0">
+        <img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="Licencia Creative Commons BY-NC-SA 4.0">
+      </a>
+    </div>
+  </footer>
+
+  <!-- ======= Estilos locales para los labs (aislados por prefijo) ======= -->
+  <style>
+    .lab-grid{ display:grid; gap:1rem; }
+    .lab-row{ display:flex; flex-wrap:wrap; gap:.75rem; align-items:center; }
+    .lab-code pre{ margin:0 }
+    .lab-box, .ejemplo-caja, .ejemplo5, .ejemplo6, .ejemplo7, .ejemplo8{
+      display:flex; align-items:center; justify-content:center;
+      min-height:64px; padding:1rem; border:1px solid var(--border);
+      border-radius: var(--radius-1); background: var(--panel); box-shadow: var(--shadow-1);
+      transition: background .2s ease, transform .2s ease, box-shadow .2s ease;
+    }
+    .lab-box.small{ min-height:40px; padding:.6rem .8rem }
+    .lab-controls{ display:flex; flex-wrap:wrap; gap:.5rem; align-items:center }
+    .lab-controls label{ font-size:.95em; color:var(--muted) }
+    .lab-controls input[type="range"]{ width:180px }
+    .lab-sep{ height:1px; background: var(--border); margin: .75rem 0 }
+    .lab-note{ font-size:.95em; color:var(--muted) }
+
+    /* Demos de transiciones (compatibles con tu versión anterior) */
+    .ejemplo1{ background-color:#ffcccb; }
+    .ejemplo1:hover{ background-color:#ff5733; }
+    .ejemplo2{ background-color:#ccffcc; transform: scale(1); }
+    .ejemplo2:hover{ background-color:#28a745; transform: scale(1.2); }
+    .ejemplo3{ background-color:#cce7ff; }
+    .ejemplo3:hover{ background-color:#007bff; transform: rotate(15deg); }
+    .ejemplo4{ background-color:#f9c74f; }
+    .ejemplo4:hover{ background-color:#f8961e; transform: scale(1.5) rotate(10deg); border-radius:50%; }
+
+    /* Transitions predefinidas */
+    .ejemplo1, .ejemplo2, .ejemplo3, .ejemplo4{
+      transition: all .5s ease;
+    }
+
+    /* Demos de ANIMACIONES (nombres conservados) */
+    @keyframes mover {
+      0% { transform: translateX(0); }
+      50% { transform: translateX(100px); }
+      100% { transform: translateX(0); }
+    }
+    .ejemplo5{ background:#ffe8e4; animation: mover 2s infinite; }
+
+    @keyframes cambioColor {
+      0% { background-color: #ffcccb; }
+      50% { background-color: #ff5733; color:#fff; }
+      100% { background-color: #ffcccb; }
+    }
+    .ejemplo6{ animation: cambioColor 3s infinite; }
+
+    @keyframes rotar {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .ejemplo7{ animation: rotar 2s linear infinite; }
+
+    @keyframes combinado {
+      0% { transform: translateY(0) scale(1); background-color: #f9c74f; }
+      50%{ transform: translateY(-20px) scale(1.2); background-color: #f8961e; }
+      100%{ transform: translateY(0) scale(1); background-color: #f9c74f; }
+    }
+    .ejemplo8{ animation: combinado 1.5s ease-in-out infinite; }
+
+    /* Respeto a reduce-motion */
+    @media (prefers-reduced-motion: reduce){
+      .ejemplo5, .ejemplo6, .ejemplo7, .ejemplo8{ animation: none !important; }
+      .ejemplo1, .ejemplo2, .ejemplo3, .ejemplo4{ transition: none !important; }
+    }
+
+    /* Mini playgrounds de Flex y Grid */
+    .lab-flex{ display:flex; gap:.5rem; border:1px dashed var(--border); padding:.75rem; border-radius: var(--radius-1); }
+    .lab-flex .item{ background:var(--brand-weak); border:1px solid var(--border); padding:.4rem .6rem; border-radius:6px; }
+    .lab-grid-areas{
+      display:grid; grid-template-areas:
+        "header header"
+        "aside main"
+        "footer footer";
+      grid-template-columns: 220px 1fr; gap:.5rem;
+    }
+    .lab-grid-areas > div{ background:var(--panel); border:1px solid var(--border); padding:.6rem; border-radius:6px; }
+    .lab-grid-areas .header{ grid-area: header; }
+    .lab-grid-areas .aside{ grid-area: aside; }
+    .lab-grid-areas .main { grid-area: main; }
+    .lab-grid-areas .footer{ grid-area: footer; }
+  </style>
+
+  <!-- ======= JS: Topbar móvil, Sidebar móvil y resaltado de sección ======= -->
+  <script>
+    // Topbar hamburger
+    (function(){
+      var toggle = document.getElementById('topnavToggle');
+      var nav = document.getElementById('topnav');
+      if (toggle && nav){
+        toggle.addEventListener('click', function(){
+          var open = nav.classList.toggle('open');
+          toggle.setAttribute('aria-expanded', String(open));
+        });
+      }
+    })();
+
+    // Sidebar drawer (móvil) y backdrop
+    (function(){
+      var btn = document.getElementById('btnSidebar');
+      var sidebar = document.getElementById('sidebar');
+      var backdrop = document.getElementById('backdrop');
+      function openSB(){ sidebar.classList.add('open'); backdrop.classList.add('visible'); backdrop.hidden=false; btn.setAttribute('aria-expanded','true'); }
+      function closeSB(){ sidebar.classList.remove('open'); backdrop.classList.remove('visible'); backdrop.hidden=true; btn.setAttribute('aria-expanded','false'); }
+      if (btn && sidebar && backdrop){
+        btn.addEventListener('click', function(){ sidebar.classList.contains('open') ? closeSB() : openSB(); });
+        backdrop.addEventListener('click', closeSB);
+        document.addEventListener('keydown', function(e){ if (e.key==='Escape' && sidebar.classList.contains('open')) closeSB(); });
+        sidebar.addEventListener('click', function(e){ if (e.target.tagName === 'A') closeSB(); });
+      }
+    })();
+
+    // Resaltado de sección activa en la ToC
+    (function(){
+      var links = document.querySelectorAll('.toc a[href^="#"]');
+      var targets = Array.prototype.map.call(links, function(a){
+        try { return document.querySelector(a.getAttribute('href')); } catch(e){ return null; }
+      }).filter(Boolean);
+      if ('IntersectionObserver' in window){
+        var obs = new IntersectionObserver(function(entries){
+          entries.forEach(function(entry){
+            if (entry.isIntersecting){
+              var id = '#' + entry.target.id;
+              links.forEach(function(a){ a.classList.toggle('active', a.getAttribute('href') === id); });
+            }
+          });
+        }, { rootMargin: "-40% 0px -55% 0px", threshold: 0 });
+        targets.forEach(function(t){ obs.observe(t); });
+      }
+    })();
+
+    // ==== Labs: Transform Playground y Flex Playground ====
+    (function(){
+      // Transform Playground
+      const box = document.getElementById('transformBox');
+      const rotR = document.getElementById('rotRange');
+      const scR  = document.getElementById('scaleRange');
+      const txR  = document.getElementById('txRange');
+      const rotV = document.getElementById('rotVal');
+      const scV  = document.getElementById('scaleVal');
+      const txV  = document.getElementById('txVal');
+
+      function updateTransform(){
+        if (!box) return;
+        const rot = Number(rotR.value);
+        const sc  = Number(scR.value)/100;
+        const tx  = Number(txR.value);
+        box.style.transform = `translateX(${tx}px) scale(${sc}) rotate(${rot}deg)`;
+        rotV.textContent = rot;
+        scV.textContent  = sc.toFixed(2);
+        txV.textContent  = tx;
+      }
+      [rotR, scR, txR].forEach(i => i && i.addEventListener('input', updateTransform));
+      if (box) updateTransform();
+
+      // Flex Playground
+      const flex = document.getElementById('flexPlayground');
+      const selJ = document.getElementById('flexJustify');
+      const selA = document.getElementById('flexAlign');
+      const selD = document.getElementById('flexDir');
+      const cbW  = document.getElementById('flexWrap');
+
+      function updateFlex(){
+        if (!flex) return;
+        flex.style.justifyContent = selJ.value;
+        flex.style.alignItems     = selA.value;
+        flex.style.flexDirection  = selD.value;
+        flex.style.flexWrap       = cbW.checked ? 'wrap' : 'nowrap';
+      }
+      ;[selJ, selA, selD].forEach(s => s && s.addEventListener('change', updateFlex));
+      cbW && cbW.addEventListener('change', updateFlex);
+      updateFlex();
+    })();
+  </script>
+</body>
+</html>
+

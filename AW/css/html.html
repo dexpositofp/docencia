@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aplicaciones Web — HTML</title>
+  <link rel="stylesheet" href="./aw.css">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Playfair+Display:wght@700&family=Source+Code+Pro:wght@400&display=swap" rel="stylesheet">
+  <meta name="description" content="Unidad de HTML: estructura, semántica, formularios, tablas, multimedia y validación.">
+</head>
+<body>
+
+<header class="topbar" role="banner">
+  <div class="wrap">
+    <div class="site-brand">
+      <a href="./index.html">Aplicaciones Web</a>
+      <small>2º SMR</small>
+    </div>
+
+    <button class="topnav-toggle" aria-expanded="false" aria-controls="topnav">
+      <span class="sr-only">Abrir menú</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <nav id="topnav" class="topnav" aria-label="Site navigation">
+      <ul>
+        <li><a href="./index.html">Home</a></li>
+        <li><a href="./webapp.html">WebApp</a></li>
+        <li><a href="./html.html" aria-current="page">HTML</a></li>
+        <li><a href="./css.html">CSS</a></li>
+        <li><a href="./cms.html">CMS</a></li>
+        <li><a href="./data.html">Data Storage</a></li>
+        <li><a href="./lms.html">LMS</a></li>
+        <li><a href="./python.html">Python</a></li>
+      </ul>
+    </nav>
+    
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="sidebar" id="sidebar" aria-label="Unit index">
+    <h2>Contents</h2>
+    <nav>
+      <ul class="toc" id="toc">
+        <li><a href="#anatomia-documento">Document Anatomy</a></li>
+        <li><a href="#introduccion-html">Introduction to HTML</a></li>
+        <li><a href="#sintaxis-etiquetas-basicas">Syntax and Basic Tags</a></li>
+        <li><a href="#nuevas-etiquetas-html5">New HTML5 Tags</a></li>
+        <li><a href="#principios-diseno">Web Design Principles</a></li>
+        <li><a href="#usabilidad-accesibilidad">Usability and Accessibility</a></li>
+        <li><a href="#formularios">Forms</a></li>
+          <ul>
+            <li><a href="#estructura-basica">— Basic Structure</a></li>
+            <li><a href="#atributos-form">— Attributes and States</a></li>
+            <li><a href="#elementos-basicos">— Common Controls</a></li>
+            <li><a href="#agrupacion-formularios">— Grouping and Aids</a></li>
+            <li><a href="#validacion">— Validation</a></li>
+            <li><a href="#ejercicios-form">— Exercises</a></li>
+          </ul>
+        <li><a href="#html-lists">HTML Lists</a></li>
+        <li><a href="#tablas-multimedia">Tables and Multimedia</a></li>
+        <li><a href="#validacion-html">HTML Validation</a></li>
+        <li><a href="#restricciones-xhtml">XHTML Restrictions</a></li>
+        <li><a href="#ejercicios-basicos-html">Basic HTML Exercises</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <div class="backdrop" id="backdrop" hidden></div>
+
+  <main class="content">
+    <header class="page">
+      <h1 id="intro">HTML</h1>
+      <p class="muted">Structure and meaning of the content of a web page</p>
+    </header>
+  
+
+    
+    <!-- 1) Introducción -->
+    <section id="introduccion-html">
+      <h2>Introduction to HTML</h2>
+      <p><strong>HTML</strong> (HyperText Markup Language) is the standard for structuring documents on the web. Together with <em>CSS</em> (presentation) and <em>JavaScript</em> (interactivity), it forms the technological foundation of the front-end.</p>
+    
+      <h3>What is HTML?</h3>
+      <p>It is a <strong>markup language</strong>: it does not program, but labels content to describe its function (paragraphs, lists, images, tables, forms…). Browsers interpret these tags to build the document tree (DOM) and render it.</p>
+    
+      <h3>Meaning of the acronym</h3>
+      <ul>
+        <li><strong>Hyper</strong>: hyperlinks that connect resources to each other.</li>
+        <li><strong>Text</strong>: the content that is presented (text, image, multimedia).</li>
+        <li><strong>Markup</strong>: semantic tags that give structure and meaning.</li>
+        <li><strong>Language</strong>: formal set of elements and attributes with defined syntax.</li>
+      </ul>
+    
+      <h3>History (very brief) and HTML5</h3>
+      <p>Since 1991, HTML has evolved into <strong>HTML5</strong>, which includes semantic tags (<code>header</code>, <code>nav</code>, <code>main</code>, <code>section</code>, <code>article</code>…), enhanced forms, and modern browser APIs (multimedia, canvas, etc.).</p>
+    
+      <h3>Minimal example</h3>
+      <pre><code class="language-html">&lt;!DOCTYPE html&gt;
+    &lt;html lang="en"&gt;
+    &lt;head&gt;...&lt;/head&gt;
+    &lt;body&gt;
+      &lt;h1&gt;Hello, world!&lt;/h1&gt;
+      &lt;p&gt;First HTML document.&lt;/p&gt;
+    &lt;/body&gt;
+    &lt;/html&gt;</code></pre>
+    
+      <div class="callout info">
+        <p><strong>Separation of concerns:</strong> HTML (structure and meaning), CSS (presentation), JS (behavior). This separation improves accessibility, maintenance, and testing.</p>
+      </div>
+    </section>
+    
+
+    <!-- 2) Sintaxis y básicas -->
+    <section id="sintaxis-etiquetas-basicas">
+      <h2>Syntax and Basic Tags</h2>
+      <p>An HTML element consists of an opening tag, content, and (usually) a closing tag. Attributes add metadata or behavior. Always use semantic tags when possible, and reserve <code>&lt;div&gt;</code>/<code>&lt;span&gt;</code> for when there's no better alternative.</p>
+    
+      <h3>Text, Headings, and Links</h3>
+      <ul class="listacodigo">
+        <li><code>&lt;h1..h6&gt;</code>: heading hierarchy. Usually one <code>&lt;h1&gt;</code> per page or main content block.</li>
+        <li><code>&lt;p&gt;</code>: paragraphs; <code>&lt;strong&gt;</code>/<code>&lt;em&gt;</code> for emphasis (semantic, not visual).</li>
+        <li><code>&lt;a href&gt;</code>: links with meaningful text (avoid “click here”). If opening in a new tab, add <code>rel="noopener noreferrer"</code>.</li>
+      </ul>
+    
+      <pre><code class="language-html">&lt;h1&gt;Travel Guide&lt;/h1&gt;
+    &lt;p&gt;Check the &lt;a href="#tips"&gt;pre-travel tips&lt;/a&gt; before booking.&lt;/p&gt;
+    &lt;p&gt;Deals are &lt;strong&gt;available&lt;/strong&gt; until the end of the month.&lt;/p&gt;</code></pre>
+    
+      <h3>Lists: Unordered, Ordered, and Definition</h3>
+      <p>Choose the list type based on meaning, not appearance:</p>
+      <ul>
+        <li><strong>Unordered</strong> (<code>&lt;ul&gt;</code>): a group with no inherent order.</li>
+        <li><strong>Ordered</strong> (<code>&lt;ol&gt;</code>): steps or a hierarchy with order.</li>
+        <li><strong>Definition</strong> (<code>&lt;dl&gt;</code>): terms and their descriptions.</li>
+      </ul>
+    
+      <pre><code class="language-html">&lt;h2&gt;Travel Checklist&lt;/h2&gt;
+    &lt;ul&gt;
+      &lt;li&gt;Passport&lt;/li&gt;
+      &lt;li&gt;Health card&lt;/li&gt;
+      &lt;li&gt;Plug adapter&lt;/li&gt;
+    &lt;/ul&gt;
+    
+    &lt;h2&gt;Steps to Book&lt;/h2&gt;
+    &lt;ol&gt;
+      &lt;li&gt;Choose destination&lt;/li&gt;
+      &lt;li&gt;Compare flights&lt;/li&gt;
+      &lt;li&gt;Confirm accommodation&lt;/li&gt;
+    &lt;/ol&gt;
+    
+    &lt;h2&gt;Key Terms&lt;/h2&gt;
+    &lt;dl&gt;
+      &lt;dt&gt;Check-in&lt;/dt&gt;&lt;dd&gt;Check-in at the accommodation.&lt;/dd&gt;
+      &lt;dt&gt;Stopover&lt;/dt&gt;&lt;dd&gt;An intermediate stop between flights.&lt;/dd&gt;
+    &lt;/dl&gt;</code></pre>
+    
+      <div class="callout tip">
+        <p><strong>Tip:</strong> nesting lists is fine when the hierarchy makes sense, but avoid deep levels (they lose clarity).</p>
+      </div>
+    
+      <h3>Images (alt, dimensions, responsive)</h3>
+      <ul class="listacodigo">
+        <li><code>&lt;img src alt&gt;</code>: <code>alt</code> describes the image; if decorative, use <code>alt=""</code>.</li>
+        <li><code>width</code>/<code>height</code> help avoid layout shifts.</li>
+        <li><strong>Responsive:</strong> use <code>srcset</code>/<code>sizes</code> or <code>&lt;picture&gt;</code> for alternative formats.</li>
+      </ul>
+    
+      <pre><code class="language-html">&lt;figure&gt;
+      &lt;img
+        src="img/beach-800.jpg"
+        srcset="img/beach-400.jpg 400w, img/beach-800.jpg 800w, img/beach-1200.jpg 1200w"
+        sizes="(max-width: 600px) 90vw, 800px"
+        width="800" height="533"
+        alt="Beach with clear sky and umbrellas"&gt;
+      &lt;figcaption&gt;View of the beach at sunset.&lt;/figcaption&gt;
+    &lt;/figure&gt;</code></pre>
+    
+      <div class="callout warn">
+        <p><strong>Correct alt:</strong> what the image is and why it’s there. Avoid “image of…”. Describe relevant info for the context.</p>
+      </div>
+    
+      <h3>Paths and URLs in <code>src</code>/<code>href</code></h3>
+      <ul>
+        <li><strong>Relative</strong> (e.g., <code>../img/logo.svg</code>).</li>
+        <li><strong>Absolute</strong> (e.g., <code>https://example.com</code>).</li>
+        <li><strong>Fragment</strong> (e.g., <code>#contact</code>).</li>
+      </ul>
+    
+      <h3>Neutral Containers (use wisely)</h3>
+      <ul class="listacodigo">
+        <li><code>&lt;div&gt;</code>: block-level with no semantics (for grouping).</li>
+        <li><code>&lt;span&gt;</code>: inline with no semantics (for small fragments inside text).</li>
+      </ul>
+    
+      <div class="callout info">
+        <p><strong>Golden rule:</strong> if there’s a specific semantic tag for your case (e.g., <code>&lt;header&gt;</code> instead of <code>&lt;div class="header"&gt;</code>), use it.</p>
+      </div>
+    </section>
+    
+
+    <!-- 3) Nuevas etiquetas HTML5 (Semántica de seccionado) -->
+    <section id="nuevas-etiquetas-html5">
+      <h2>Semantic Sectioning Tags (HTML5)</h2>
+      <p>These tags give structure and meaning to the document. They improve accessibility, SEO, and maintainability. They do not change appearance by themselves (that's what CSS does), but they create a clear semantic “spine.”</p>
+    
+      <h3>&lt;main&gt;</h3>
+      <p>The unique main content of the page. It should appear only once and should not contain other landmark regions such as the site’s <code>header</code> or <code>footer</code>.</p>
+    
+      <h3>&lt;header&gt; and &lt;footer&gt;</h3>
+      <ul>
+        <li><strong>Page-level:</strong> global site header and footer.</li>
+        <li><strong>Section or article-level:</strong> you can have <em>local headers/footers</em> within <code>section</code>/<code>article</code> for titles, metadata, local navigation, etc.</li>
+      </ul>
+    
+      <h3>&lt;nav&gt;</h3>
+      <p>Navigation block with primary or secondary links. There can be more than one (global nav, breadcrumb nav, section nav).</p>
+    
+      <h3>&lt;section&gt; vs &lt;article&gt;</h3>
+      <ul>
+        <li><code>&lt;article&gt;</code>: a self-contained, reusable unit of content (post, product card, news). It makes sense out of context.</li>
+        <li><code>&lt;section&gt;</code>: groups related content with its own heading, but <em>depends</em> on the page context.</li>
+      </ul>
+    
+      <h3>&lt;aside&gt;</h3>
+      <p>Content tangential to the main content (sidebars, promos, glossaries). In screen readers, it's announced as complementary.</p>
+    
+      <h3>&lt;figure&gt; and &lt;figcaption&gt;</h3>
+      <p>For images, charts, code snippets, or tables that need a caption or explanation.</p>
+    
+      <h3>&lt;time datetime&gt;</h3>
+      <p>Machine-readable date/time (useful for SEO, microformats, and sorting).</p>
+    
+      <h3>Semantic Page Pattern</h3>
+      <pre><code class="language-html">&lt;header&gt;
+      &lt;h1&gt;Site Name&lt;/h1&gt;
+      &lt;nav&gt;
+        &lt;ul&gt;&lt;li&gt;&lt;a href="/"&gt;Home&lt;/a&gt;&lt;/li&gt;...&lt;/ul&gt;
+      &lt;/nav&gt;
+    &lt;/header&gt;
+    
+    &lt;main&gt;
+      &lt;article&gt;
+        &lt;header&gt;
+          &lt;h2&gt;Article Title&lt;/h2&gt;
+          &lt;p&gt;&lt;time datetime="2025-10-18"&gt;Oct 18, 2025&lt;/time&gt; — By Ana&lt;/p&gt;
+        &lt;/header&gt;
+    
+        &lt;section&gt;
+          &lt;h3&gt;Introduction&lt;/h3&gt;
+          &lt;p&gt;...&lt;/p&gt;
+        &lt;/section&gt;
+    
+        &lt;section&gt;
+          &lt;h3&gt;Development&lt;/h3&gt;
+          &lt;figure&gt;
+            &lt;img src="img/diagram.svg" alt="System workflow diagram"&gt;
+            &lt;figcaption&gt;Workflow diagram.&lt;/figcaption&gt;
+          &lt;/figure&gt;
+        &lt;/section&gt;
+    
+        &lt;footer&gt;
+          &lt;p&gt;Tags: &lt;a href="/tags/html"&gt;HTML&lt;/a&gt;, &lt;a href="/tags/accessibility"&gt;Accessibility&lt;/a&gt;&lt;/p&gt;
+        &lt;/footer&gt;
+      &lt;/article&gt;
+    
+      &lt;aside&gt;
+        &lt;h2&gt;Related&lt;/h2&gt;
+        &lt;ul&gt;
+          &lt;li&gt;&lt;a href="/article-1"&gt;Good ALT Practices&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/aside&gt;
+    &lt;/main&gt;
+    
+    &lt;footer&gt;
+      &lt;small&gt;© 2025 — School Name&lt;/small&gt;
+    &lt;/footer&gt;</code></pre>
+    
+      <div class="callout info">
+        <p><strong>Headings and outline:</strong> use <code>h1..h6</code> levels hierarchically. A typical pattern is: 1× <code>h1</code> for the page title, then <code>h2</code> for sections, <code>h3</code> for subsections, and so on.</p>
+      </div>
+    
+      <h3>Useful Native Widgets</h3>
+      <ul>
+        <li><code>&lt;details&gt;</code> + <code>&lt;summary&gt;</code> for accessible accordions without JS.</li>
+        <li><code>&lt;progress&gt;</code> / <code>&lt;meter&gt;</code> to represent progress/values.</li>
+        <li><code>&lt;dialog&gt;</code> (with some JS) for accessible modals.</li>
+      </ul>
+      <pre><code class="language-html">&lt;details&gt;
+      &lt;summary&gt;View minimum requirements&lt;/summary&gt;
+      &lt;ul&gt;&lt;li&gt;Modern browser&lt;/li&gt;&lt;li&gt;Stable connection&lt;/li&gt;&lt;/ul&gt;
+    &lt;/details&gt;</code></pre>
+    
+      <div class="callout warn">
+        <p><strong>Avoid</strong> using <code>&lt;div&gt;</code> with class names like <code>header</code>/<code>footer</code>/<code>section</code> when real semantic tags exist. It improves landmark navigation for screen readers and clarifies the DOM.</p>
+      </div>
+    </section>
+    
+    <!-- 4) Principios de diseño -->
+    <section id="principios-diseno">
+      <h2>Web Design Principles</h2>
+      <p>They guide the user experience: <strong>usability</strong> (clear flow), <strong>consistency</strong> (patterns), <strong>readability</strong> (typography, contrast), <strong>accessibility</strong> (content for everyone), and <strong>performance</strong> (reasonable load times).</p>
+      <ul>
+        <li><strong>Navigation:</strong> predictable placement, visual feedback on state, accessible menus.</li>
+        <li><strong>Typography:</strong> relative sizes, generous line heights, reasonably short paragraphs.</li>
+        <li><strong>Color:</strong> sufficient contrast (WCAG); don’t rely on color alone to convey meaning.</li>
+      </ul>
+      <div class="callout tip">
+        <p><strong>Tip:</strong> design the information flow first; the styling should enhance it, not hide it.</p>
+      </div>
+    </section>
+    
+
+    <!-- 5) Usabilidad y accesibilidad -->
+    <section id="usabilidad-accesibilidad">
+      <h2>Usability and Accessibility</h2>
+      <p><strong>Usability</strong> means effectiveness + efficiency + satisfaction. <strong>Accessibility</strong> means content is usable by people with different abilities (keyboard users, screen readers, low vision, etc.).</p>
+      <ul>
+        <li>Use landmarks (<code>header/nav/main/footer</code>), hierarchical headings, and proper <code>alt</code> text.</li>
+        <li>In forms: <code>&lt;label for&gt;</code> + <code>id</code>, <code>required</code>, and associated messages (<code>aria-describedby</code>).</li>
+        <li>Focus management: logical sequence, <em>visible focus</em>, and ARIA roles only when native semantics are missing.</li>
+      </ul>
+      <pre><code class="language-html">&lt;a class="skip-link" href="#main"&gt;Skip to content&lt;/a&gt;</code></pre>
+    </section>
+    
+
+    <!-- 6) Formularios -->
+    <section id="formularios">
+      <article id="introduccion">
+        <h2>Forms</h2>
+        <p>They collect user data. A good form combines semantics, accessibility, client-side validation (HTML5), and server-side validation.</p>
+      </article>
+    
+      <article id="estructura-basica">
+        <h3>Basic Structure</h3>
+        <p>The <code>&lt;form&gt;</code> tag wraps the controls. Always use <code>name</code> to send data and <code>label</code> for accessibility.</p>
+        <pre><code class="language-html">&lt;form action="/submit" method="post" novalidate&gt;
+      &lt;div&gt;
+        &lt;label for="nombre"&gt;Name&lt;/label&gt;
+        &lt;input id="nombre" name="nombre" type="text" required autocomplete="name"&gt;
+      &lt;/div&gt;
+      &lt;div&gt;
+        &lt;label for="email"&gt;Email&lt;/label&gt;
+        &lt;input id="email" name="email" type="email" required autocomplete="email"&gt;
+      &lt;/div&gt;
+      &lt;button type="submit"&gt;Send&lt;/button&gt;
+    &lt;/form&gt;</code></pre>
+    
+        <div class="callout info">
+          <p><strong>method:</strong> <code>get</code> for queries or filters (parameters in URL); <code>post</code> for submissions. <strong>action:</strong> path for processing.</p>
+        </div>
+      </article>
+    
+      <article id="atributos-form">
+        <h3>Useful Attributes and States</h3>
+        <ul>
+          <li><code>required</code>, <code>min</code>, <code>max</code>, <code>minlength</code>, <code>maxlength</code>, <code>step</code>, <code>pattern</code></li>
+          <li>CSS pseudo-classes: <code>:required</code>, <code>:optional</code>, <code>:valid</code>, <code>:invalid</code>, <code>:in-range</code>, <code>:out-of-range</code></li>
+          <li>Help text using <code>aria-describedby</code> managed by <code>id</code>.</li>
+        </ul>
+        <pre><code class="language-html">&lt;label for="tel"&gt;Phone (9 digits)&lt;/label&gt;
+    &lt;input id="tel" name="tel" type="tel" pattern="[0-9]{9}" required
+           aria-describedby="help-tel"&gt;
+    &lt;small id="help-tel" class="muted"&gt;Numbers only, no spaces.&lt;/small&gt;</code></pre>
+      </article>
+    
+      <article id="elementos-basicos">
+        <h3>Common Elements and Controls</h3>
+        <table>
+          <thead><tr><th>Element</th><th>Description</th><th>Example</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><code>&lt;input type="text"&gt;</code></td>
+              <td>Short text</td>
+              <td><pre><code>&lt;input name="user" placeholder="Username"&gt;</code></pre></td>
+            </tr>
+            <tr>
+              <td><code>&lt;input type="password"&gt;</code></td>
+              <td>Passwords</td>
+              <td><pre><code>&lt;input name="password" type="password" autocomplete="new-password"&gt;</code></pre></td>
+            </tr>
+            <tr>
+              <td><code>&lt;input type="email"&gt;</code></td>
+              <td>Email format</td>
+              <td><pre><code>&lt;input name="email" type="email" required&gt;</code></pre></td>
+            </tr>
+            <tr>
+              <td><code>&lt;input type="date"&gt;</code></td>
+              <td>Date</td>
+              <td><pre><code>&lt;input name="date" type="date"&gt;</code></pre></td>
+            </tr>
+            <tr>
+              <td><code>&lt;input type="file"&gt;</code></td>
+              <td>File upload</td>
+              <td><pre><code>&lt;input name="file" type="file" accept=".jpg,.png"&gt;</code></pre></td>
+            </tr>
+            <tr>
+              <td><code>&lt;input type="radio"&gt;</code></td>
+              <td>Single selection</td>
+              <td><pre><code>&lt;input type="radio" name="gender" value="m"&gt; M
+    &lt;input type="radio" name="gender" value="f"&gt; F</code></pre></td>
+            </tr>
+            <tr>
+              <td><code>&lt;input type="checkbox"&gt;</code></td>
+              <td>Multiple options</td>
+              <td><pre><code>&lt;input type="checkbox" name="interest" value="sports"&gt; Sports</code></pre></td>
+            </tr>
+            <tr>
+              <td><code>&lt;select&gt;</code></td>
+              <td>Dropdown list</td>
+              <td><pre><code>&lt;select name="country"&gt;
+      &lt;option value="es"&gt;Spain&lt;/option&gt;
+    &lt;/select&gt;</code></pre></td>
+            </tr>
+            <tr>
+              <td><code>&lt;textarea&gt;</code></td>
+              <td>Long text</td>
+              <td><pre><code>&lt;textarea name="comments" rows="4"&gt;&lt;/textarea&gt;</code></pre></td>
+            </tr>
+          </tbody>
+        </table>
+      </article>
+    
+      <article id="agrupacion-formularios">
+        <h3>Grouping and Assistance</h3>
+        <p>To structure and improve accessibility:</p>
+        <ul>
+          <li><code>&lt;fieldset&gt;</code> groups related controls + <code>&lt;legend&gt;</code> describes the group.</li>
+          <li><code>&lt;optgroup&gt;</code> organizes options within <code>&lt;select&gt;</code>.</li>
+          <li><code>&lt;datalist&gt;</code> suggests values to an <code>&lt;input list&gt;</code>.</li>
+        </ul>
+        <pre><code class="language-html">&lt;fieldset&gt;
+      &lt;legend&gt;Personal Data&lt;/legend&gt;
+      &lt;label for="name"&gt;Name&lt;/label&gt;
+      &lt;input id="name" name="name" type="text"&gt;
+      &lt;label for="city"&gt;City&lt;/label&gt;
+      &lt;input list="cities" id="city" name="city"&gt;
+      &lt;datalist id="cities"&gt;
+        &lt;option value="Madrid"&gt;
+        &lt;option value="Valencia"&gt;
+      &lt;/datalist&gt;
+    &lt;/fieldset&gt;</code></pre>
+      </article>
+    
+      <article id="validacion">
+        <h3>Browser Validation</h3>
+        <p>HTML5 implements native validation: formats (<code>email</code>, <code>url</code>), patterns (regex), required fields, ranges, etc. This is <em>complementary</em> to server-side validation.</p>
+        <pre><code class="language-html">&lt;input type="email" name="email" required&gt;
+    &lt;input type="text" name="phone" pattern="[0-9]{9}" required&gt;</code></pre>
+        <div class="callout warn">
+          <p><strong>Important:</strong> never rely solely on client-side validation; always validate and sanitize on the server.</p>
+        </div>
+      </article>
+    
+      <article id="ejercicios-form">
+        <h3>Form Practice Exercises</h3>
+        <ul>
+          <li>Registration form with name, surname, email, password, and confirmation (with <code>required</code> and format help).</li>
+          <li>Appointment booking: date, time, and service list (<code>select</code>/<code>radio</code>).</li>
+          <li>Image upload: accept only <code>.jpg</code> and <code>.png</code> (<code>accept</code> attribute).</li>
+          <li>Survey with <code>checkbox</code> and <code>radio</code> plus a comment field.</li>
+          <li>Contact form with email and phone validation using pattern.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section id="html-lists">
+      <h2>Lists in HTML</h2>
+      <p>Lists allow you to group related content and present it in a structured, semantic way. HTML provides three main types of lists, each suited for different content types:</p>
+    
+      <h3>Unordered Lists (<code>&lt;ul&gt;</code>)</h3>
+      <p>Used when the order of items does not matter. Each item is wrapped in an <code>&lt;li&gt;</code> tag.</p>
+      <pre><code class="language-html">&lt;ul&gt;
+      &lt;li&gt;Apples&lt;/li&gt;
+      &lt;li&gt;Oranges&lt;/li&gt;
+      &lt;li&gt;Bananas&lt;/li&gt;
+    &lt;/ul&gt;</code></pre>
+    
+      <h3>Ordered Lists (<code>&lt;ol&gt;</code>)</h3>
+      <p>Use these when the order of the items is important (e.g., steps, rankings).</p>
+      <pre><code class="language-html">&lt;ol&gt;
+      &lt;li&gt;Register an account&lt;/li&gt;
+      &lt;li&gt;Log in&lt;/li&gt;
+      &lt;li&gt;Start learning&lt;/li&gt;
+    &lt;/ol&gt;</code></pre>
+    
+      <h3>Description Lists (<code>&lt;dl&gt;</code>)</h3>
+      <p>Best for terms and definitions or any label-description pair. Uses <code>&lt;dt&gt;</code> (term) and <code>&lt;dd&gt;</code> (description).</p>
+      <pre><code class="language-html">&lt;dl&gt;
+      &lt;dt&gt;HTML&lt;/dt&gt;
+      &lt;dd&gt;The standard markup language for web pages.&lt;/dd&gt;
+    
+      &lt;dt&gt;CSS&lt;/dt&gt;
+      &lt;dd&gt;A language to describe the style of an HTML document.&lt;/dd&gt;
+    &lt;/dl&gt;</code></pre>
+    
+      <div class="callout tip">
+        <p><strong>Tip:</strong> Choose your list type based on the meaning of the content, not on how it looks. Use CSS to control presentation, not semantics.</p>
+      </div>
+    </section>
+    
+    
+    <!-- 7) Tablas y multimedia -->
+    <section id="tablas-multimedia">
+      <h2>Tables and Multimedia</h2>
+    
+      <article id="tablas">
+        <h3>Accessible Tables</h3>
+        <p>Use them for tabular data, not for layout. Include <code>&lt;caption&gt;</code>, headers, and appropriate <code>scope</code>.</p>
+        <pre><code class="language-html">&lt;table&gt;
+      &lt;caption&gt;Quarterly Results&lt;/caption&gt;
+      &lt;thead&gt;
+        &lt;tr&gt;&lt;th scope="col"&gt;Month&lt;/th&gt;&lt;th scope="col"&gt;Sales&lt;/th&gt;&lt;/tr&gt;
+      &lt;/thead&gt;
+      &lt;tbody&gt;
+        &lt;tr&gt;&lt;th scope="row"&gt;January&lt;/th&gt;&lt;td&gt;120k&lt;/td&gt;&lt;/tr&gt;
+      &lt;/tbody&gt;
+    &lt;/table&gt;</code></pre>
+      </article>
+    
+      <article id="etiquetas-multimedia">
+        <h3>Multimedia in HTML5</h3>
+        <ul class="listacodigo">
+          <li><code>&lt;audio&gt;</code> and <code>&lt;video&gt;</code> with <code>controls</code>, <code>preload</code>, and caption tracks (<code>&lt;track kind="captions"&gt;</code>).</li>
+          <li><code>&lt;canvas&gt;</code> for JS-rendered graphics; <code>&lt;svg&gt;</code> for semantic vector graphics.</li>
+        </ul>
+    
+        <pre><code class="language-html">&lt;video width="480" controls preload="metadata"&gt;
+      &lt;source src="movie.mp4" type="video/mp4"&gt;
+      &lt;track src="sub.vtt" kind="captions" srclang="es" label="Spanish"&gt;
+      Your browser does not support video.
+    &lt;/video&gt;</code></pre>
+    
+        <pre><code class="language-html">&lt;canvas id="chart" width="240" height="120"&gt;&lt;/canvas&gt;
+    &lt;script&gt;
+      const ctx = document.getElementById('chart').getContext('2d');
+      ctx.fillRect(10, 10, 80, 40);
+    &lt;/script&gt;</code></pre>
+      </article>
+    </section>
+    
+    <section id="validacion-html">
+      <h2>HTML Document Validation</h2>
+      <p>Validation helps catch markup errors and improve compatibility. Make it part of your workflow (validators, linters, testing across browsers/screen readers).</p>
+      <div class="callout tip">
+        <p><strong>Quick checklist:</strong> correct <em>lang</em> and <em>charset</em>, proper semantics, good contrast, images with <em>alt</em>, labeled forms, and no errors in the W3C validator.</p>
+      </div>
+    </section>
+    
+    <section id="restricciones-xhtml">
+      <h2>XHTML Restrictions</h2>
+      <p>XHTML is HTML rewritten as XML. It requires <em>well-formed</em> documents: lowercase tags, required closing tags, quoted attributes, and a single root element. While its strictness promoted interoperability and XML tooling, HTML5 now dominates. Still, "well-formed" rules are useful as formal discipline.</p>
+    </section>
+    
+    <section id="ejercicios-basicos-html">
+      <h2>Basic HTML Exercises</h2>
+      <ol>
+        <li>
+          <h3>Personal Introduction</h3>
+          <p>Include an <code>&lt;h1&gt;</code> with your name, a paragraph with your interests, and a list of favorites.</p>
+        </li>
+        <li>
+          <h3>Basic Structure</h3>
+          <p>Create a minimal document with <code>&lt;!DOCTYPE&gt;</code>, <code>&lt;html&gt;</code>, <code>&lt;head&gt;</code>, and <code>&lt;body&gt;</code>, using <code>lang="es"</code>, <code>charset</code>, and <code>viewport</code>.</p>
+        </li>
+        <li>
+          <h3>Link and Image</h3>
+          <p>Add an <code>&lt;a&gt;</code> with meaningful text and a centered <code>&lt;img&gt;</code> with descriptive <code>alt</code>.</p>
+        </li>
+        <li>
+          <h3>Basic Form</h3>
+          <p>Name, email, comments, and a submit button, using <code>label</code> and <code>required</code>.</p>
+        </li>
+        <li>
+          <h3>Simple Table</h3>
+          <p>3×3 table with headers in the first row and a <code>&lt;caption&gt;</code>.</p>
+        </li>
+      </ol>
+    </section>
+    
+
+   
+
+  </main>
+</div>
+
+<a href="#top" class="backtotop" aria-label="Volver arriba">↑</a>
+
+<footer class="site-footer" role="contentinfo" class="wrap">
+  <div>
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer" title="CC BY-NC-SA 4.0">
+      <img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="Licencia Creative Commons BY-NC-SA 4.0">
+    </a>
+  </div>
+</footer>
+
+<!-- JS de navegación (ajustado a tus clases e IDs) -->
+<script>
+(function(){
+  // Topbar toggle
+  var btn = document.querySelector('.topnav-toggle');
+  var nav = document.getElementById('topnav');
+  if (btn && nav) {
+    btn.addEventListener('click', function(){
+      var open = nav.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    nav.addEventListener('click', function(e){
+      if (e.target.tagName === 'A' && nav.classList.contains('open')) {
+        nav.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  // Resalta enlace activo en el TOC según sección visible
+  var links = document.querySelectorAll('.toc a[href^="#"]');
+  var targets = Array.prototype.map.call(links, function(a){
+    try { return document.querySelector(a.getAttribute('href')); } catch(e){ return null; }
+  }).filter(Boolean);
+
+  if ('IntersectionObserver' in window) {
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          var id = '#' + entry.target.id;
+          links.forEach(function(a){
+            a.classList.toggle('active', a.getAttribute('href') === id);
+          });
+        }
+      });
+    }, { rootMargin: "-40% 0px -55% 0px", threshold: 0 });
+    targets.forEach(function(t){ obs.observe(t); });
+  }
+})();
+</script>
+</body>
+</html>
+

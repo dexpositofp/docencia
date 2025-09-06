@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lenguaje de Marcas</title>
+  <link rel="stylesheet" href="./css/curso-lm2.css">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Playfair+Display:wght@700&family=Source+Code+Pro:wght@400&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header id="arriba" class="topbar">
+    <div class="wrap">
+      <div class="site-brand">
+        <a href="./index.html">Lenguajes de Marcas</a>
+        <small>Curso LM</small>
+      </div>
+      <nav class="topnav">
+        <ul>
+        <li><a href="./index.html">Inicio</a></li>
+        <li><a href="./lm.html">L. Marcas</a></li>
+        <li><a href="./html.html">HTML</a></li>
+        <li><a href="./css.html">CSS</a></li>
+        <li><a href="./js.html">JavaScript</a></li>
+      </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="sidebar">
+      <h2>Índice de la Unidad</h2>
+      <ul class="toc">
+        <li><a href="#que-es-lenguaje-de-marcas">¿Qué es un lenguaje de marcas?</a></li>
+        <li><a href="#xml">XML</a></li>
+        <li><a href="#validacion">Validación de XML</a></li>
+        <li><a href="#markdown">Markdown</a></li>
+        <li><a href="#ejercicios">Ejercicios</a></li>
+      </ul>
+    </aside>
+
+    <article class="content">
+
+     <header class="page">
+  <h1>Lenguaje de Marcas</h1>
+  <p class="muted">Unidad didáctica — 1º DAW · Estructura, semántica y validación</p>
+</header>
+
+<!-- =========================================================
+     1) ¿Qué es un Lenguaje de Marcas?
+     ========================================================= -->
+<section id="que-es-lenguaje-de-marcas">
+  <h2>¿Qué es un Lenguaje de Marcas?</h2>
+  <p>
+    Un <strong>lenguaje de marcas</strong> utiliza etiquetas (marcas) para describir la <em>estructura</em>, 
+    el <em>significado</em> y, a veces, la <em>presentación</em> de la información en un documento. 
+    No ejecuta operaciones como un lenguaje de programación: su propósito es organizar datos y contenido de forma que 
+    persona y máquina entiendan la jerarquía, el contexto y la relación entre partes.
+  </p>
+
+  <div class="callout info">
+    <p><strong>Idea clave:</strong> con marcado, un mismo contenido se vuelve <em>estructurado</em>, 
+    <em>semántico</em> y <em>procesable</em>. La capa visual se delega a otras tecnologías (por ejemplo, CSS en el caso de HTML).</p>
+  </div>
+
+  <h3>Tipos y usos habituales</h3>
+  <ul>
+    <li><strong>HTML</strong>: describe la estructura de páginas web (títulos, párrafos, enlaces, formularios...).</li>
+    <li><strong>XML</strong>: describe datos intercambiables y autodescriptivos entre sistemas.</li>
+    <li><strong>Markdown</strong>: formato ligero de texto que se convierte a HTML, muy usado en documentación.</li>
+  </ul>
+
+  <h3>Comparativa rápida</h3>
+  <table>
+    <thead>
+      <tr><th>Lenguaje</th><th>Objetivo principal</th><th>Ventajas</th><th>Consideraciones</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>HTML</td>
+        <td>Estructura y contenido web</td>
+        <td>Estándar de la web; semántica rica; accesible</td>
+        <td>No es para datos arbitrarios; presentación con CSS</td>
+      </tr>
+      <tr>
+        <td>XML</td>
+        <td>Datos estructurados e intercambio</td>
+        <td>Extensible; validable; autodescriptivo</td>
+        <td>Verborrea; requiere definir reglas (DTD/XSD)</td>
+      </tr>
+      <tr>
+        <td>Markdown</td>
+        <td>Redacción ligera y legible</td>
+        <td>Curva de entrada corta; ideal para documentación</td>
+        <td>Variantes (GFM, CommonMark); limitado sin extensiones</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout tip">
+    <p><strong>Consejo:</strong> separa responsabilidades: el <em>marcado</em> define significado/estructura; 
+    el <em>estilo</em> (CSS) define apariencia; la <em>lógica</em> (JS) define interactividad.</p>
+  </div>
+</section>
+
+<!-- =========================================================
+     2) XML (conceptos teóricos)
+     ========================================================= -->
+<section id="conceptos-teoricos">
+  <h2>XML</h2>
+  <p>
+    <strong>XML (eXtensible Markup Language)</strong> es un lenguaje de marcas diseñado para describir e intercambiar datos. 
+    Su fortaleza es la <em>extensibilidad</em>: tú defines las etiquetas adecuadas a tu dominio (catálogo, pacientes, pedidos…). 
+    XML no decide cómo se presenta; describe qué es cada dato.
+  </p>
+
+  <h3>Bien formado vs válido</h3>
+  <ul>
+    <li><strong>Bien formado</strong>: cumple las reglas sintácticas de XML (cierre de etiquetas, anidación correcta, un único elemento raíz, atributos entre comillas, distinción de mayúsculas/minúsculas).</li>
+    <li><strong>Válido</strong>: además de estar bien formado, <em>cumple</em> un conjunto de reglas declaradas en un DTD o un XML Schema (XSD).</li>
+  </ul>
+
+  <h3>Estructura básica</h3>
+  <pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;catalogo&gt;
+  &lt;producto id="P-001"&gt;
+    &lt;nombre&gt;Teclado mecánico&lt;/nombre&gt;
+    &lt;precio moneda="EUR"&gt;89.90&lt;/precio&gt;
+  &lt;/producto&gt;
+&lt;/catalogo&gt;</code></pre>
+
+  <h3>Prolog y codificación</h3>
+  <ul>
+    <li><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;</code>: declara versión y charset. <strong>UTF-8</strong> es la opción recomendada.</li>
+    <li><code>standalone="yes|no"</code>: indica si el documento depende de declaraciones externas (DTD).</li>
+  </ul>
+
+  <h3>Entidades y secciones CDATA</h3>
+  <ul>
+    <li>Escapa caracteres especiales: <code>&amp;lt;</code>, <code>&amp;gt;</code>, <code>&amp;amp;</code>, <code>&amp;quot;</code>, <code>&amp;apos;</code>.</li>
+    <li>Para incluir texto sin parsear (p. ej., trozos de código con <code>&lt;</code>): usa <code>&lt;![CDATA[ ... ]]&gt;</code>.</li>
+  </ul>
+
+  <h3>Nombres y espacios de nombres (namespaces)</h3>
+  <p>
+    Para evitar colisiones, XML permite definir <em>namespaces</em> con <code>xmlns</code>. 
+    Se antepone un prefijo a los nombres calificados:
+  </p>
+  <pre><code>&lt;rss xmlns:dc="http://purl.org/dc/elements/1.1/"&gt;
+  &lt;item&gt;
+    &lt;title&gt;Noticia&lt;/title&gt;
+    &lt;dc:creator&gt;Redacción&lt;/dc:creator&gt;
+  &lt;/item&gt;
+&lt;/rss&gt;</code></pre>
+
+  <div class="callout warn">
+    <p><strong>Errores comunes:</strong> múltiples elementos raíz, etiquetas sin cerrar, mezcla de mayúsculas/minúsculas, 
+    atributos sin comillas, uso incorrecto de namespaces.</p>
+  </div>
+
+  <h3>¿Atributos o elementos?</h3>
+  <ul>
+    <li>Usa <strong>elementos</strong> para contenido estructurado o repetible: <code>&lt;direccion&gt;</code>, <code>&lt;linea&gt;</code>.</li>
+    <li>Usa <strong>atributos</strong> para metadatos del elemento: identificadores, unidades, idioma, etc.</li>
+  </ul>
+
+  <h3>Comparativa XML/JSON (de cara a 2º curso)</h3>
+  <table>
+    <thead><tr><th>Aspecto</th><th>XML</th><th>JSON</th></tr></thead>
+    <tbody>
+      <tr><td>Esquema</td><td>DTD/XSD (fuerte)</td><td>JSON Schema (opcional)</td></tr>
+      <tr><td>Verborrea</td><td>Alta</td><td>Baja</td></tr>
+      <tr><td>Metadatos</td><td>Elementos + atributos</td><td>Claves/valores</td></tr>
+      <tr><td>Transformación</td><td>XSLT, XPath</td><td>Mapeos, utilidades JSON</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- =========================================================
+     3) Ejemplos prácticos (XML)
+     ========================================================= -->
+<section id="ejemplos-practicos">
+  <h2>Ejemplos prácticos</h2>
+
+  <article class="demo">
+    <h3>Ejemplo 1 · Catálogo con atributos y CDATA</h3>
+    <p>Demostración de atributos para metadatos y uso de CDATA para texto “sin interpretar”.</p>
+    <pre><code>&lt;catalogo fecha="2025-09-18" version="1.2"&gt;
+  &lt;producto id="P-001" activo="true"&gt;
+    &lt;nombre&gt;Teclado mecánico&lt;/nombre&gt;
+    &lt;descripcion&gt;&lt;![CDATA[
+      Teclado con switches &lt;clicky&gt; y retroiluminación.
+      Compatibilidad: Windows, Linux, macOS.
+    ]]&gt;&lt;/descripcion&gt;
+    &lt;precio moneda="EUR"&gt;89.90&lt;/precio&gt;
+    &lt;tags&gt;&lt;tag&gt;periférico&lt;/tag&gt;&lt;tag&gt;teclados&lt;/tag&gt;&lt;/tags&gt;
+  &lt;/producto&gt;
+&lt;/catalogo&gt;</code></pre>
+  </article>
+
+  <article class="demo">
+    <h3>Ejemplo 2 · Contenido mixto (texto + elementos)</h3>
+    <p>Útil cuando el texto fluye alrededor de marcas (citas, énfasis, referencias).</p>
+    <pre><code>&lt;parrafo&gt;Esta es una &lt;enfasis nivel="fuerte"&gt;nota importante&lt;/enfasis&gt; 
+que conviene leer con &lt;ref id="R-12"&gt;atención&lt;/ref&gt;.&lt;/parrafo&gt;</code></pre>
+  </article>
+
+  <article class="demo">
+    <h3>Ejemplo 3 · Namespaces y enlaces</h3>
+    <pre><code>&lt;doc xmlns:xlink="http://www.w3.org/1999/xlink"&gt;
+  &lt;recurso xlink:href="https://ejemplo.com/spec" xlink:title="Especificación"/&gt;
+&lt;/doc&gt;</code></pre>
+  </article>
+
+  <div class="callout tip">
+    <p><strong>Siguiente paso (2º curso):</strong> aplicar XPath para consultar nodos y XSLT para transformar XML en HTML/PDF.</p>
+  </div>
+</section>
+
+<!-- =========================================================
+     4) Validación: DTD y XSD
+     ========================================================= -->
+<section id="validacion">
+  <h2>Validación de XML</h2>
+  <p>
+    Validar un XML significa comprobar que su estructura y valores cumplen unas reglas. 
+    Las dos vías más comunes son <strong>DTD</strong> (histórica y ligera) y <strong>XSD</strong> (potente y tipada).
+  </p>
+
+  <h3>DTD (Document Type Definition)</h3>
+  <p>Define <em>qué elementos</em> puede tener un documento, su <em>orden</em> y <em>cardinalidad</em>, y los <em>atributos</em> permitidos.</p>
+  <ul>
+    <li><strong>Modelos de contenido</strong>: <code>(a,b)</code> secuencia; <code>(a|b)</code> elección.</li>
+    <li><strong>Cuantificadores</strong>: <code>*</code> (0..n), <code>+</code> (1..n), <code>?</code> (0..1).</li>
+    <li><strong>Tipos de atributo</strong>: <code>CDATA</code>, <code>ID</code>, <code>IDREF</code>, <code>ENUMERATION</code>…</li>
+  </ul>
+
+  <article class="demo">
+    <h3>DTD interno · Biblioteca</h3>
+    <pre><code>&lt;!DOCTYPE biblioteca [
+  &lt;!ELEMENT biblioteca (libro+)&gt;
+  &lt;!ELEMENT libro (titulo, autor, genero, anio)&gt;
+  &lt;!ATTLIST libro isbn ID #REQUIRED&gt;
+  &lt;!ELEMENT titulo (#PCDATA)&gt;
+  &lt;!ELEMENT autor (#PCDATA)&gt;
+  &lt;!ELEMENT genero (#PCDATA)&gt;
+  &lt;!ELEMENT anio (#PCDATA)&gt;
+]&gt;
+&lt;biblioteca&gt;
+  &lt;libro isbn="ISBN-001"&gt;
+    &lt;titulo&gt;XML práctico&lt;/titulo&gt;
+    &lt;autor&gt;A. López&lt;/autor&gt;
+    &lt;genero&gt;Técnico&lt;/genero&gt;
+    &lt;anio&gt;2024&lt;/anio&gt;
+  &lt;/libro&gt;
+&lt;/biblioteca&gt;</code></pre>
+  </article>
+
+  <div class="callout warn">
+    <p><strong>Ten en cuenta:</strong> <code>ID</code> debe ser único en todo el documento; <code>IDREF</code> 
+    debe referenciar a un <code>ID</code> existente.</p>
+  </div>
+
+  <h3>XML Schema (XSD)</h3>
+  <p>
+    XSD añade <em>tipos de datos</em>, <em>restricciones (facets)</em> y construcción de <em>tipos complejos</em>. 
+    Admite <strong>namespaces</strong>, claves/relaciones (<code>xs:key</code>, <code>xs:keyref</code>) y reutilización de tipos.
+  </p>
+
+  <article class="demo">
+    <h3>XSD con tipos y restricciones</h3>
+    <pre><code>&lt;xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified"&gt;
+
+  &lt;!-- Tipo simple restringido --&gt;
+  &lt;xs:simpleType name="isbnType"&gt;
+    &lt;xs:restriction base="xs:string"&gt;
+      &lt;xs:pattern value="ISBN-\d{3}"/&gt;
+    &lt;/xs:restriction&gt;
+  &lt;/xs:simpleType&gt;
+
+  &lt;!-- Tipo complejo libro --&gt;
+  &lt;xs:complexType name="LibroType"&gt;
+    &lt;xs:sequence&gt;
+      &lt;xs:element name="titulo" type="xs:string"/&gt;
+      &lt;xs:element name="autor" type="xs:string"/&gt;
+      &lt;xs:element name="genero" type="xs:string"/&gt;
+      &lt;xs:element name="anio" type="xs:gYear"/&gt;
+    &lt;/xs:sequence&gt;
+    &lt;xs:attribute name="isbn" type="isbnType" use="required"/&gt;
+  &lt;/xs:complexType&gt;
+
+  &lt;!-- Elemento raíz --&gt;
+  &lt;xs:element name="biblioteca"&gt;
+    &lt;xs:complexType&gt;
+      &lt;xs:sequence&gt;
+        &lt;xs:element name="libro" type="LibroType" maxOccurs="unbounded"/&gt;
+      &lt;/xs:sequence&gt;
+    &lt;/xs:complexType&gt;
+    &lt;!-- Clave única por ISBN --&gt;
+    &lt;xs:key name="k_isbn"&gt;
+      &lt;xs:selector xpath="libro"/&gt;
+      &lt;xs:field xpath="@isbn"/&gt;
+    &lt;/xs:key&gt;
+  &lt;/xs:element&gt;
+&lt;/xs:schema&gt;</code></pre>
+  </article>
+
+  <div class="callout tip">
+    <p><strong>Uso en documentos:</strong> referencia tu XSD con 
+    <code>xsi:noNamespaceSchemaLocation="biblioteca.xsd"</code> o 
+    <code>xsi:schemaLocation="URI-NS ruta.xsd"</code> cuando trabajes con namespaces.</p>
+  </div>
+</section>
+
+<!-- =========================================================
+     5) Markdown
+     ========================================================= -->
+<section id="que-es-markdown">
+  <h2>Markdown</h2>
+  <p>
+    <strong>Markdown</strong> es un lenguaje de marcado ligero pensado para escribir con rapidez 
+    y convertir a HTML (o PDF/Docx mediante herramientas como Pandoc). Su sintaxis es mínima y legible 
+    en texto plano, lo que lo hace ideal para documentación técnica, apuntes y README en repositorios.
+  </p>
+
+  <h3>Sintaxis esencial</h3>
+  <pre><code># Título de nivel 1
+## Título de nivel 2
+
+Texto en **negrita** y *cursiva*. Código en `inline`.
+
+- Lista no ordenada
+1. Lista ordenada
+
+[Enlace](https://ejemplo.com)
+![Alt descriptivo](img/diagrama.png)</code></pre>
+
+  <h3>Funciones útiles (GFM)</h3>
+  <ul>
+    <li><strong>Tablas</strong>:
+<pre><code>| Campo | Tipo |
+|------:|:----:|
+| id    | int  |</code></pre>
+    </li>
+    <li><strong>Listas de tareas</strong>:
+<pre><code>- [x] Definir esquema
+- [ ] Escribir XSD
+- [ ] Validar ejemplos</code></pre>
+    </li>
+    <li><strong>Bloques de código</strong>:
+<pre><code>```xml
+&lt;persona&gt;&lt;nombre&gt;Ana&lt;/nombre&gt;&lt;/persona&gt;
+```</code></pre>
+    </li>
+  </ul>
+
+  <div class="callout warn">
+    <p><strong>Ten en cuenta:</strong> existen <em>variantes</em> de Markdown (CommonMark, GFM). 
+    Algunas funciones (tablas, tareas, notas al pie) dependen del motor que procese el Markdown.</p>
+  </div>
+</section>
+
+<!-- =========================================================
+     6) Ejercicios propuestos
+     ========================================================= -->
+<section id="ejercicios">
+  <h2>Ejercicios propuestos</h2>
+
+  <article class="demo" id="ej-xml-1">
+    <h3>XML · Contactos con DTD</h3>
+    <p><strong>Enunciado:</strong> crea un XML <code>&lt;contactos&gt;</code> con elementos <code>&lt;contacto&gt;</code> (nombre, teléfono, email). 
+      Define un DTD que exija <em>al menos</em> un contacto, fuerce el patrón del email y marque el teléfono como obligatorio.
+    </p>
+    <p><strong>Pistas:</strong> usa <code>ID</code> para un identificador único; en DTD, los patrones complejos se suelen resolver por convenio (o se valida con XSD).</p>
+    <ul class="task">
+      <li>XML bien formado y válido con DTD.</li>
+      <li>Al menos 3 contactos.</li>
+      <li>Entrega: <code>contactos.xml</code> y <code>contactos.dtd</code>.</li>
+    </ul>
+  </article>
+
+  <article class="demo" id="ej-xml-2">
+    <h3>XML/XSD · Biblioteca tipada</h3>
+    <p><strong>Enunciado:</strong> modela una <code>&lt;biblioteca&gt;</code> con <code>&lt;libro&gt;</code> (isbn, título, autor, género, año). 
+      Crea un XSD que exija formato de ISBN (<code>ISBN-123</code>), <code>anio</code> como <code>gYear</code> y género como enumeración fija.</p>
+    <p><strong>Pistas:</strong> <code>xs:pattern</code> para ISBN; <code>xs:enumeration</code> para género; <code>xs:key</code> para unicidad.</p>
+    <ul class="task">
+      <li>XML válido contra XSD.</li>
+      <li>Al menos 5 libros.</li>
+      <li>Entrega: <code>biblioteca.xml</code>, <code>biblioteca.xsd</code>.</li>
+    </ul>
+  </article>
+
+  <article class="demo" id="ej-xml-3">
+    <h3>XML · Eventos con namespaces</h3>
+    <p><strong>Enunciado:</strong> define <code>&lt;agenda&gt;</code> con <code>&lt;evento&gt;</code> (nombre, fecha, hora, lugar). 
+      Declara un <em>namespace</em> propio (por ejemplo, <code>xmlns:ev="https://tu-centro/agenda"</code>) y usa atributos en prefijo para metadatos (p. ej., <code>ev:categoria</code>).</p>
+    <p><strong>Pistas:</strong> decide qué va como atributo y qué como elemento; evita colisiones de nombres con prefijos.</p>
+  </article>
+
+  <article class="demo" id="ej-md-1">
+    <h3>Markdown · README técnico</h3>
+    <p><strong>Enunciado:</strong> documenta en Markdown uno de tus XML (contexto, estructura, decisiones de modelado, cómo validar). 
+      Incluye tablas, bloques de código y lista de tareas.</p>
+    <ul class="task">
+      <li>Archivo: <code>README.md</code>.</li>
+      <li>Debe incluir al menos una tabla y un bloque de código con sintaxis.</li>
+    </ul>
+  </article>
+
+  <article class="demo" id="ej-md-2">
+    <h3>Markdown · Informe breve</h3>
+    <p><strong>Enunciado:</strong> redacta un informe comparando DTD vs XSD (fortalezas, limitaciones, casos de uso), con enlaces y citas.</p>
+  </article>
+
+  <div class="callout info">
+    <p><strong>Criterios de evaluación (resumen):</strong> corrección sintáctica (bien formado), calidad del modelo (elección de elementos/atributos), 
+    uso de validación (DTD/XSD), y calidad de la documentación (Markdown claro, completo y con ejemplos).</p>
+  </div>
+</section>
+
+<!-- =========================================================
+     7) Markdown: ejercicios del material original (ampliados)
+     ========================================================= -->
+<section id="ejercicio-1">
+  <h2>Ejercicios Propuestos (Markdown)</h2>
+  <h3>Crear una lista de tareas</h3>
+  <p>Usa casillas tipo GFM para reflejar progreso de trabajo real (planificación del proyecto).</p>
+  <pre><code>- [x] Definir entidades
+- [ ] Completar XSD
+- [ ] Validar con ejemplo real</code></pre>
+</section>
+
+<section id="ejercicio-2">
+  <h3>Crear un texto con formato</h3>
+  <p>Escribe un texto técnico breve combinando negrita, cursiva y tachado para resaltar decisiones y cambios.</p>
+  <pre><code># Informe del modelo de datos
+
+Este es un **borrador** del esquema. El tipo &lt;anio&gt; será *provisional*.
+La versión anterior queda ~~obsoleta~~ por inconsistencias en claves.</code></pre>
+</section>
+
+<section id="ejercicio-3">
+  <h3>Crear una tabla en Markdown</h3>
+  <p>Modela una tabla que resuma elementos y atributos clave de tu XSD.</p>
+  <pre><code>| Elemento | Tipo        | Obligatorio |
+|----------|-------------|-------------|
+| libro    | LibroType   | Sí          |
+| titulo   | string      | Sí          |
+| isbn     | atributo ID | Sí          |</code></pre>
+</section>
+
+<!-- Botón volver arriba (si no lo tienes ya en la plantilla) -->
+<a href="#top" class="backtotop" aria-label="Volver arriba">↑</a>
+
+  </main>
+
+  <footer class="site-footer" role="contentinfo" class="wrap">
+  <div >
+      <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer" title="CC BY-NC-SA 4.0">
+        <img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="Licencia Creative Commons BY-NC-SA 4.0">
+      </a>
+
+  </div>
+</footer>
+</body>
+</html>
+

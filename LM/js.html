@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>JavaScript en el navegador — Guía didáctica</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- CSS unificado -->
+  <link rel="stylesheet" href="css/curso-lm2.css">
+</head>
+<body>
+
+  <header class="topbar" role="banner">
+  <div class="wrap">
+    <div class="site-brand">
+      <a href="/fp2024/LM/index.html">Lenguaje de Marcas</a>
+      <small>1º DAW</small>
+    </div>
+
+    <button class="topnav-toggle" aria-expanded="false" aria-controls="topnav">
+      <span class="sr-only">Abrir menú</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <nav id="topnav" class="topnav" aria-label="Navegación del sitio">
+      <ul>
+        <li><a href="./index.html">Inicio</a></li>
+        <li><a href="./lm.html">L. Marcas</a></li>
+        <li><a href="./html.html">HTML</a></li>
+        <li><a href="./css.html">CSS</a></li>
+        <li><a href="./js.html">JavaScript</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+
+ <!-- Toggle móvil del índice interno -->
+
+
+<div class="layout">
+  <aside class="sidebar" id="sidebar" aria-label="Índice de la unidad">
+    <h2>Contenido</h2>
+    <nav>
+      <ul class="toc" id="toc">
+        <li><a href="#intro">Introducción</a></li>
+        <li><a href="#variables">Variables</a></li>
+        <li><a href="#condiciones">Condiciones</a></li>
+        <li><a href="#bucles">Bucles</a></li>
+        <li><a href="#funciones">Funciones</a></li>
+        <li><a href="#dom">DOM</a></li>
+        <li><a href="#eventos">Eventos</a></li>
+        <li><a href="#proyecto-lista-compra">Proyecto</a></li>
+        <li><a href="#ejercicios">Ejercicios</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <div class="backdrop" id="backdrop" hidden></div>
+
+  <main class="content">
+    <!-- Tu contenido con ids que coinciden con el TOC -->
+    <header class="page">
+      <h1 id="intro">Introducción a JavaScript</h1>
+      <p class="muted">Guía didáctica del módulo Lenguajes de Marcas — 1º DAW</p>
+    </header>
+
+    <header>
+<h1>JavaScript en el navegador: Guía didáctica <span class="badge">1º DAW · LM</span></h1>
+<p>Objetivo: que el alumnado pueda entender y practicar JavaScript mirando <strong>solo este material</strong>. Cada bloque incluye explicación, ejemplo y ejercicios.</p>
+</header>
+<section class="demo" id="intro">
+<h2>1) ¿Qué es JavaScript y dónde se usa?</h2>
+<p><strong>JavaScript (JS)</strong> es un lenguaje de programación que hoy se utiliza en <em>muchos entornos</em>, no solo en el navegador.</p>
+<h3>1.1 ¿Dónde puede ejecutarse JS?</h3>
+<ul>
+<li><strong>Navegador (frontend)</strong>: añade interactividad a páginas web (DOM, eventos, animaciones, fetch…).</li>
+<li><strong>Servidor (backend)</strong> con <em>runtimes</em> como Node.js, Deno o Bun: APIs REST, websockets, tareas de servidor.</li>
+<li><strong>Escritorio</strong> (Electron, Tauri): apps multiplataforma usando tecnologías web.</li>
+<li><strong>Móvil</strong> (React Native, Ionic, NativeScript): apps nativas/híbridas.</li>
+<li><strong>Automatización/CLI</strong>: scripts de línea de comandos, tooling, testeo.</li>
+<li><strong>IoT y otros</strong>: control de dispositivos, pequeños servicios.</li>
+</ul>
+<div class="callout tip">
+<p><strong>Idea clave:</strong> el mismo lenguaje en cliente y servidor → curva de aprendizaje más suave y posibilidad de compartir lógica.</p>
+</div>
+<h3>1.2 ¿Qué diferencia hay entre navegador y servidor?</h3>
+<ul>
+<li>En <strong>navegador</strong> tienes el <code>DOM</code>, <code>window</code>, <code>document</code> y APIs web (Eventos, localStorage…).</li>
+<li>En <strong>servidor</strong> <em>no existe</em> el DOM; en su lugar hay APIs del runtime (sistema de archivos, red, procesos…).</li>
+</ul>
+<p><em>Ejemplo:</em> <code>document.getElementById</code> funciona en el navegador, pero no en Node.js.</p>
+<h3>1.3 Estándar y versiones</h3>
+<ul>
+<li>JS se define por el estándar <strong>ECMAScript</strong> (ES). “ES6/ES2015” introdujo <code>let</code>, <code>const</code>, módulos, etc.</li>
+<li>Hoy hablamos de “JS moderno”: usar <code>let</code>/<code>const</code>, módulos, <code>classList</code>, <code>fetch</code>, <code>async/await</code>…</li>
+<li><strong>TypeScript</strong> es un superconjunto con tipos que se “transpila” a JS; muy común en proyectos medianos/grandes.</li>
+</ul>
+<h3>1.4 Cómo incluir JS en HTML</h3>
+<p>Mejor en archivo externo para separar estructura y lógica:</p>
+<pre><code>&lt;!-- En el &lt;head&gt; o antes de cerrar &lt;body&gt; --&gt;
+&lt;script src="app.js" defer&gt;&lt;/script&gt;</code></pre>
+<ul>
+<li><code>defer</code>: descarga en paralelo y <strong>ejecuta cuando el HTML esté parseado</strong> (mantiene el orden). Recomendado.</li>
+<li><code>async</code>: descarga y ejecuta en cuanto llega (no garantiza orden). Útil para scripts independientes (analítica, etc.).</li>
+<li>Módulos ES nativos:
+      <pre><code>&lt;script type="module" src="app.js"&gt;&lt;/script&gt;</code></pre>
+      Permite <code>import</code>/<code>export</code> sin herramientas extra.
+    </li>
+</ul>
+<h3>1.5 Rasgos del lenguaje</h3>
+<ul>
+<li><strong>Tipado dinámico</strong>: las variables pueden cambiar de tipo.</li>
+<li><strong>Modelo single-thread con <em>event loop</em></strong>: JS atiende tareas de forma no bloqueante; para esperar resultados usa <code>Promise</code> y <code>async/await</code>.</li>
+<li><strong>Orientado a eventos</strong> en el navegador: reaccionamos a <code>click</code>, <code>keydown</code>, etc.</li>
+</ul>
+<div class="callout warn">
+<p><strong>En esta primera parte</strong> de contenidos, nos centraremos en <u>JS en el navegador</u>: DOM, eventos, manipulación de elementos y mini-proyectos. Más adelante podrás ver Node.js en servidor.</p>
+</div>
+<h3>1.6 Ejemplo mínimo (archivo externo)</h3>
+<pre><code>&lt;!-- index.html --&gt;
+&lt;button id="saludar"&gt;Saludar&lt;/button&gt;
+&lt;script src="app.js" defer&gt;&lt;/script&gt;
+
+/* app.js */
+const btn = document.getElementById("saludar");
+btn.addEventListener("click", function () {
+  alert("¡Hola desde JavaScript!");
+});</code></pre>
+<h3>1.7 Buenas prácticas desde el día 1</h3>
+<ul>
+<li>Usa <strong><code>let</code></strong> y <strong><code>const</code></strong> (evita <code>var</code>).</li>
+<li>Separa HTML/JS (archivo <code>.js</code> externo) y usa <code>defer</code>.</li>
+<li>Comenta el código que pueda confundir y nombra bien las variables.</li>
+<li>Prefiere <code>textContent</code> frente a <code>innerHTML</code> si solo insertas texto.</li>
+<li>Valida entradas del usuario (por ejemplo, con <code>.trim()</code> para evitar vacíos).</li>
+</ul>
+</section>
+
+<section class="demo" id="variables">
+<h2>2) Variables, tipos de datos y operaciones</h2>
+<p>
+    En cualquier lenguaje de programación necesitamos una forma de almacenar valores en memoria.  
+    En JavaScript, ese almacenamiento se realiza mediante <strong>variables</strong>.
+  </p>
+<h3>2.1 Declaración de variables</h3>
+<p>
+    En JavaScript moderno existen dos palabras clave principales para declarar variables:
+  </p>
+<ul>
+<li><code>let</code> → para valores cuyo contenido puede modificarse a lo largo del programa.</li>
+<li><code>const</code> → para valores que deben permanecer inmutables tras su inicialización.</li>
+</ul>
+<pre><code>let contador = 0;
+contador = contador + 1;   // permitido
+
+const PI = 3.1416;
+// PI = 3.2;               // ❌ Error: no se puede reasignar un const</code></pre>
+<div class="callout tip">
+<p><strong>Buena práctica:</strong> utilizar <code>const</code> por defecto.  
+    Emplear <code>let</code> únicamente cuando la variable deba cambiar su valor.</p>
+</div>
+<h3>2.2 Tipos de datos primitivos</h3>
+<p>
+    JavaScript es un lenguaje de <em>tipado dinámico</em>: el tipo de una variable se determina en tiempo de ejecución.  
+    Los tipos primitivos más relevantes son:
+  </p>
+<ul>
+<li><strong>number</strong>: valores numéricos, enteros y decimales (no hay distinción entre ambos).</li>
+<li><strong>string</strong>: cadenas de texto, delimitadas por comillas simples (<code>'</code>), dobles (<code>"</code>) o backticks (<code>`</code>).</li>
+<li><strong>boolean</strong>: valores lógicos <code>true</code> o <code>false</code>.</li>
+<li><strong>null</strong>: valor asignado explícitamente para indicar ausencia.</li>
+<li><strong>undefined</strong>: valor por defecto de variables declaradas sin inicializar.</li>
+</ul>
+<pre><code>let nombre = "Ana";         // string
+let edad = 20;              // number
+let estudiante = true;      // boolean
+let desconocido = null;     // null
+let noDefinida;             // undefined
+
+console.log(typeof edad);   // "number"
+console.log(typeof nombre); // "string"</code></pre>
+<h3>2.3 Operadores</h3>
+<p>
+    JavaScript proporciona operadores para realizar cálculos y comparaciones:
+  </p>
+<ul>
+<li><strong>Aritméticos</strong>: <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>%</code> (módulo), <code>**</code> (potencia).</li>
+<li><strong>Asignación</strong>: <code>=</code>, <code>+=</code>, <code>-=</code>, etc.</li>
+<li><strong>Comparación</strong>:
+      <ul>
+<li><code>==</code> → compara tras conversión de tipos (comparación laxa).</li>
+<li><code>===</code> → compara valor y tipo (comparación estricta).</li>
+<li>Otros: <code>!=</code>, <code>!==</code>, <code>&gt;</code>, <code>&lt;</code>, <code>&gt;=</code>, <code>&lt;=</code>.</li>
+</ul>
+</li>
+<li><strong>Lógicos</strong>: <code>&amp;&amp;</code> (AND), <code>||</code> (OR), <code>!</code> (NOT).</li>
+</ul>
+<pre><code>let a = 10;
+let b = 3;
+
+console.log(a + b);    // 13
+console.log(a % b);    // 1
+console.log(a &gt; b);    // true
+
+console.log(a == "10");   // true  (conversión implícita)
+console.log(a === "10");  // false (tipos distintos)</code></pre>
+<div class="callout warn">
+<p>⚠️ Recomendación: utilizar siempre <code>===</code> y <code>!==</code> para evitar errores por conversión automática de tipos.</p>
+</div>
+<h3>2.4 Manipulación de cadenas</h3>
+<p>
+    La concatenación de cadenas puede hacerse con el operador <code>+</code> o mediante <em>template literals</em>, 
+    que permiten incrustar variables y expresiones dentro de un texto.
+  </p>
+<pre><code>let nombre = "Ana";
+let edad = 20;
+
+// Concatenación clásica
+console.log("Me llamo " + nombre + " y tengo " + edad + " años.");
+
+// Template literal (más legible)
+console.log(`Me llamo ${nombre} y tengo ${edad} años.`);</code></pre>
+<div class="callout tip">
+<p>Se recomienda el uso de <strong>template literals</strong> por su claridad y menor propensión a errores.</p>
+</div>
+<h3>2.5 Ejercicios propuestos</h3>
+<ol>
+<li>Declara una variable <code>precio</code> con valor 19.99 y otra <code>cantidad</code> con valor 3. Calcula el importe total.</li>
+<li>Crea variables <code>nombre</code> y <code>edad</code>. Muestra un mensaje en consola con template literals en la forma: <em>“Soy Marta y tengo 22 años”</em>.</li>
+<li>Evalúa en consola las expresiones <code>5 == "5"</code> y <code>5 === "5"</code>. Explica la diferencia de resultados.</li>
+</ol>
+</section>
+<section class="demo" id="condiciones">
+<h2>3) Estructuras condicionales</h2>
+<p>
+    Una de las características fundamentales de cualquier lenguaje de programación es la capacidad de tomar decisiones en función de determinadas condiciones.  
+    Hasta ahora hemos visto cómo declarar variables y operar con ellas, pero no siempre queremos que todas las instrucciones se ejecuten de la misma manera.  
+    Muchas veces necesitamos que un programa siga caminos diferentes dependiendo de un valor, una comparación o el estado de alguna variable.  
+    Para cubrir esta necesidad, JavaScript nos proporciona distintas <strong>estructuras condicionales</strong>, que nos permiten ejecutar distintos bloques de código según se cumpla o no una determinada condición.
+  </p>
+<h3>3.1 La instrucción <code>if</code></h3>
+<p>
+    La estructura condicional más básica en JavaScript es <code>if</code>.  
+    Su funcionamiento consiste en evaluar una condición que debe dar como resultado un valor booleano (<code>true</code> o <code>false</code>).  
+    Si la condición resulta ser verdadera, se ejecuta el bloque de código asociado; en caso contrario, ese bloque se ignora y la ejecución continúa después del <code>if</code>.
+  </p>
+<pre><code>let edad = 20;
+
+if (edad &gt;= 18) {
+  console.log("Mayor de edad");
+}
+console.log("Fin del programa");</code></pre>
+<p>
+    En este ejemplo, la condición <code>edad &gt;= 18</code> se evalúa como <code>true</code>, por lo que se imprime en consola el mensaje <em>“Mayor de edad”</em>.  
+    Posteriormente, el programa continúa con normalidad y ejecuta la siguiente línea.  
+    Si la variable <code>edad</code> tuviera un valor inferior a 18, el bloque de dentro del <code>if</code> simplemente no se ejecutaría.
+  </p>
+<h3>3.2 <code>if ... else</code></h3>
+<p>
+    En muchas situaciones necesitamos ejecutar un bloque de código cuando la condición es verdadera y un bloque alternativo cuando es falsa.  
+    Para ello utilizamos la estructura <code>if ... else</code>, que garantiza que siempre se ejecutará uno de los dos caminos.
+  </p>
+<pre><code>let edad = 16;
+
+if (edad &gt;= 18) {
+  console.log("Mayor de edad");
+} else {
+  console.log("Menor de edad");
+}</code></pre>
+<p>
+    Aquí, dado que <code>edad</code> es menor que 18, la condición no se cumple, y por tanto se ejecuta el bloque del <code>else</code>.  
+    El resultado en este caso es <em>“Menor de edad”</em>.  
+    Esta estructura es muy habitual cuando solo existen dos posibilidades y necesitamos cubrir ambos casos de forma explícita.
+  </p>
+<h3>3.3 Condiciones múltiples: <code>else if</code></h3>
+<p>
+    En ocasiones no basta con dos alternativas, sino que necesitamos evaluar varias posibilidades distintas.  
+    JavaScript permite encadenar comprobaciones mediante la cláusula <code>else if</code>.  
+    De esta forma, se van evaluando las condiciones en orden, y el primer bloque cuya condición sea verdadera es el que se ejecuta.
+  </p>
+<pre><code>let nota = 7;
+
+if (nota &gt;= 9) {
+  console.log("Sobresaliente");
+} else if (nota &gt;= 7) {
+  console.log("Notable");
+} else if (nota &gt;= 5) {
+  console.log("Aprobado");
+} else {
+  console.log("Suspenso");
+}</code></pre>
+<div class="callout info"><p>
+    En este ejemplo, el valor de <code>nota</code> es 7.  
+    La primera condición (<code>nota &gt;= 9</code>) es falsa, pero la segunda (<code>nota &gt;= 7</code>) es verdadera, por lo que se ejecuta su bloque y se muestra en pantalla <em>“Notable”</em>.  
+    A partir de ahí, el resto de condiciones ya no se evalúan, puesto que el programa ha encontrado un caso válido.  
+    Esta estructura resulta muy útil cuando queremos clasificar un valor en rangos o categorías.
+  </p></div>
+<h3>3.4 La instrucción <code>switch</code></h3>
+<p>
+    Cuando lo que necesitamos es comprobar el valor exacto de una variable frente a varias opciones concretas, la instrucción <code>switch</code> puede resultar más clara y legible que encadenar varios <code>if ... else if</code>.  
+    El <code>switch</code> evalúa la expresión indicada una única vez y la compara con cada una de las alternativas posibles (<code>case</code>).  
+    Si encuentra coincidencia, ejecuta el bloque de instrucciones correspondiente hasta que se alcanza la palabra clave <code>break</code>.
+  </p>
+<pre><code>let opcion = "b";
+
+switch (opcion) {
+  case "a":
+    console.log("Has elegido la opción A");
+    break;
+  case "b":
+    console.log("Has elegido la opción B");
+    break;
+  case "c":
+    console.log("Has elegido la opción C");
+    break;
+  default:
+    console.log("Opción no válida");
+}</code></pre>
+<p>
+    En este ejemplo, la variable <code>opcion</code> contiene el valor <code>"b"</code>, por lo que se ejecuta el bloque del caso <code>"b"</code>.  
+    El <code>break</code> es necesario para evitar que el programa continúe ejecutando las siguientes ramas de forma automática.  
+    Finalmente, la cláusula <code>default</code> actúa como un caso por defecto que se ejecuta únicamente si ninguno de los anteriores coincide.
+  </p>
+<h3>3.5 Valores truthy y falsy</h3>
+<p>
+    Una particularidad importante de JavaScript es que, además de los valores booleanos <code>true</code> y <code>false</code>, existen otros valores que se interpretan como verdaderos o falsos en un contexto condicional.  
+    A los que se consideran falsos se les denomina <em>falsy</em>, e incluyen: <code>0</code>, <code>""</code> (cadena vacía), <code>null</code>, <code>undefined</code> y <code>NaN</code>.  
+    Cualquier otro valor distinto de estos se evalúa como verdadero (<em>truthy</em>).
+  </p>
+<pre><code>if ("texto") {
+  console.log("Se ejecuta");   // "texto" es truthy
+}
+
+if (0) {
+  console.log("No se ejecuta"); // 0 es falsy
+}</code></pre>
+<h3>3.6 Operador condicional ternario</h3>
+<p>
+    En situaciones en las que necesitamos asignar un valor en función de una condición simple, podemos utilizar el operador condicional ternario.  
+    Su sintaxis es <code>condición ? valorSiTrue : valorSiFalse</code>, y permite expresar decisiones en una sola línea.
+  </p>
+<pre><code>let edad = 20;
+let acceso = (edad &gt;= 18) ? "Permitido" : "Denegado";
+console.log(acceso);   // "Permitido"</code></pre>
+<h3>3.7 Ejercicios propuestos</h3>
+<ol>
+<li>Escribe un programa que pida una nota (0-10) y muestre si el resultado es “Aprobado” (≥5) o “Suspenso”.</li>
+<li>Extiende el ejercicio anterior para mostrar también “Notable” (≥7) y “Sobresaliente” (≥9).</li>
+<li>Crea un programa que pida el día de la semana (en texto) y muestre si corresponde a un día laborable o a fin de semana, utilizando <code>switch</code>.</li>
+<li>Usa un operador ternario para comprobar si una variable <code>x</code> contiene un número par o impar.</li>
+</ol>
+</section>
+<section class="demo" id="bucles">
+<h2>4) Bucles en JavaScript</h2>
+<p>
+    En programación es muy común necesitar repetir un bloque de instrucciones varias veces.  
+    Por ejemplo, recorrer todos los elementos de una lista, mostrar una serie de números, o repetir una acción hasta que se cumpla una condición concreta.  
+    Para resolver este tipo de problemas utilizamos las <strong>estructuras de repetición</strong>, conocidas habitualmente como <em>bucles</em>.  
+    JavaScript ofrece varias formas de crear bucles, cada una con sus particularidades y casos de uso más adecuados.
+  </p>
+<h3>4.1 El bucle <code>while</code></h3>
+<p>
+    La estructura <code>while</code> ejecuta un bloque de instrucciones <em>mientras</em> se cumpla una condición.  
+    Antes de cada iteración, la condición se evalúa; si es verdadera, se ejecuta el cuerpo del bucle; si es falsa, el bucle se detiene y la ejecución continúa con la siguiente instrucción fuera del mismo.
+  </p>
+<pre><code>let contador = 1;
+
+while (contador &lt;= 5) {
+  console.log("Iteración número " + contador);
+  contador++;
+}
+console.log("Fin del bucle");</code></pre>
+<p>
+    En este ejemplo, la variable <code>contador</code> comienza con valor 1 y se incrementa en cada vuelta.  
+    El bucle se repite hasta que <code>contador</code> es mayor que 5, momento en el que la condición deja de cumplirse.  
+    Es importante que la condición se modifique dentro del bucle para evitar bucles infinitos.
+  </p>
+<h3>4.2 El bucle <code>do ... while</code></h3>
+<p>
+    Una variante es <code>do ... while</code>.  
+    La diferencia principal es que en este caso la condición se evalúa al final de cada iteración, lo que garantiza que el cuerpo del bucle se ejecuta al menos una vez, incluso si la condición es falsa desde el principio.
+  </p>
+<pre><code>let numero = 7;
+
+do {
+  console.log("El número es " + numero);
+  numero++;
+} while (numero &lt; 7);</code></pre>
+<p>
+    Aunque la condición <code>numero &lt; 7</code> es falsa desde el inicio, el bloque se ejecuta una vez antes de comprobarla.  
+    Esta estructura resulta útil cuando queremos asegurarnos de que una acción se realiza al menos en la primera iteración (por ejemplo, al solicitar datos al usuario).
+  </p>
+<h3>4.3 El bucle <code>for</code></h3>
+<p>
+    El bucle <code>for</code> es una de las estructuras más utilizadas en JavaScript.  
+    Se emplea cuando conocemos de antemano cuántas veces queremos repetir el bloque.  
+    Su sintaxis se compone de tres partes: inicialización de la variable de control, condición de continuación y actualización en cada iteración.
+  </p>
+<pre><code>for (let i = 1; i &lt;= 5; i++) {
+  console.log("Valor de i: " + i);
+}</code></pre>
+<p>
+    En este caso, la variable <code>i</code> se inicializa con valor 1, el bucle se repite mientras <code>i &lt;= 5</code>, y en cada iteración se incrementa con <code>i++</code>.  
+    El resultado es la impresión de los números del 1 al 5.  
+    Este patrón es muy habitual para recorrer rangos numéricos.
+  </p>
+<h3>4.4 Recorrer colecciones: <code>for ... of</code></h3>
+<p>
+    JavaScript proporciona una sintaxis más sencilla para recorrer estructuras de datos iterables, como arrays o cadenas de texto.  
+    El bucle <code>for ... of</code> permite iterar directamente sobre los valores de la colección sin necesidad de índices explícitos.
+  </p>
+<pre><code>let frutas = ["manzana", "plátano", "naranja"];
+
+for (let fruta of frutas) {
+  console.log(fruta);
+}</code></pre>
+<p>
+    En este ejemplo, la variable <code>fruta</code> va tomando sucesivamente los valores de cada elemento del array, 
+    lo que simplifica mucho el código en comparación con un <code>for</code> clásico basado en índices.  
+    Esta forma de bucle resulta muy recomendable cuando simplemente queremos acceder a todos los elementos de una lista.
+  </p>
+<h3>4.5 Palabras clave <code>break</code> y <code>continue</code></h3>
+<p>
+    Dentro de un bucle podemos utilizar dos instrucciones especiales para controlar el flujo:  
+  </p>
+<ul>
+<li><code>break</code>: termina por completo la ejecución del bucle, aunque la condición siga siendo verdadera.</li>
+<li><code>continue</code>: salta a la siguiente iteración, omitiendo el resto de instrucciones en la actual.</li>
+</ul>
+<pre><code>for (let i = 1; i &lt;= 5; i++) {
+  if (i === 3) {
+    continue;              // omite la iteración 3
+  }
+  if (i === 5) {
+    break;                 // detiene el bucle en i=5
+  }
+  console.log("i vale " + i);
+}</code></pre>
+<h3>4.6 Ejercicios propuestos</h3>
+<ol>
+<li>Escribe un programa que muestre en consola los números del 1 al 10 utilizando un bucle <code>for</code>.</li>
+<li>Usa un bucle <code>while</code> para calcular la suma de los números del 1 al 100.</li>
+<li>Recorre un array de nombres con <code>for ... of</code> y muestra cada nombre en consola.</li>
+<li>Utiliza un bucle <code>for</code> con <code>continue</code> para saltar los múltiplos de 3 entre 1 y 20.</li>
+</ol>
+</section>
+<section class="demo" id="funciones">
+<h2>5) Funciones en JavaScript</h2>
+<p>
+    En programación, una <strong>función</strong> es un bloque de código que realiza una tarea concreta y que puede reutilizarse en distintos momentos del programa.  
+    La idea principal es evitar repetir código y estructurar mejor los programas, dividiéndolos en pequeñas unidades con una responsabilidad bien definida.  
+    Una función puede recibir datos de entrada (llamados <em>parámetros</em>), procesarlos y devolver un resultado (el <em>valor de retorno</em>).
+  </p>
+<h3>5.1 Declaración y llamada de funciones</h3>
+<p>
+    Para declarar una función en JavaScript utilizamos la palabra clave <code>function</code>, seguida del nombre de la función, una lista opcional de parámetros entre paréntesis y el bloque de instrucciones entre llaves.  
+    Para ejecutar la función, basta con escribir su nombre y pasarle los argumentos necesarios.
+  </p>
+<pre><code>function saludar(nombre) {
+  console.log("Hola, " + nombre);
+}
+
+// llamada
+saludar("Ana");   // imprime: Hola, Ana
+saludar("Luis");  // imprime: Hola, Luis</code></pre>
+<p>
+    En este ejemplo la función <code>saludar</code> recibe un parámetro <code>nombre</code> y muestra un mensaje en consola.  
+    La misma función puede utilizarse con distintos valores, lo que demuestra su reutilización.
+  </p>
+<h3>5.2 Valores de retorno</h3>
+<p>
+    Una función no solo puede ejecutar instrucciones, también puede devolver un resultado utilizando la palabra clave <code>return</code>.  
+    Ese valor podrá almacenarse en una variable o utilizarse directamente en una expresión.
+  </p>
+<pre><code>function sumar(a, b) {
+  return a + b;
+}
+
+let resultado = sumar(4, 5);
+console.log(resultado);         // 9
+console.log(sumar(10, 20));     // 30</code></pre>
+<p>
+    Aquí, la función <code>sumar</code> devuelve la suma de sus dos parámetros.  
+    El valor de retorno se convierte en el resultado de la llamada, y puede usarse como si fuera cualquier otro valor del programa.
+  </p>
+<h3>5.3 Ámbito de las variables (scope)</h3>
+<p>
+    Las variables declaradas dentro de una función tienen un <strong>ámbito local</strong>, es decir, solo existen mientras se ejecuta la función y no son accesibles desde fuera.  
+    Por el contrario, las variables declaradas fuera de cualquier función tienen un <strong>ámbito global</strong> y son accesibles desde cualquier punto del programa.
+  </p>
+<pre><code>let global = "Soy global";
+
+function ejemploScope() {
+  let local = "Soy local";
+  console.log(global); // accesible
+  console.log(local);  // accesible
+}
+
+ejemploScope();
+console.log(global); // accesible
+console.log(local);  // ❌ Error: no definida</code></pre>
+<p>
+    Este concepto es muy importante para evitar conflictos de nombres y para mantener el código organizado, ya que cada función gestiona sus propias variables internas.
+  </p>
+<h3>5.4 Funciones anónimas y expresiones de función</h3>
+<p>
+    Además de la declaración clásica con <code>function</code>, JavaScript permite definir <strong>funciones anónimas</strong> (sin nombre) y asignarlas a variables o pasarlas como argumento a otras funciones.  
+    Esto se conoce como <em>expresión de función</em>.
+  </p>
+<pre><code>// expresión de función asignada a una variable
+let multiplicar = function(x, y) {
+  return x * y;
+};
+
+console.log(multiplicar(3, 4));  // 12</code></pre>
+<p>
+    Aunque el funcionamiento es similar, la diferencia es que en este caso la función se almacena en una variable.  
+    Esto nos permite mayor flexibilidad, por ejemplo, al pasar funciones como parámetros a otras funciones.
+  </p>
+<h3>5.5 Funciones flecha (arrow functions)</h3>
+<p>
+    A partir de ECMAScript 6 (ES6), JavaScript introdujo una sintaxis más compacta para definir funciones: las <strong>funciones flecha</strong> (<em>arrow functions</em>).  
+    Esta notación resulta más breve y se utiliza sobre todo para funciones sencillas.
+  </p>
+<pre><code>// forma clásica
+function cuadrado(n) {
+  return n * n;
+}
+
+// función flecha equivalente
+let cuadradoFlecha = (n) =&gt; {
+  return n * n;
+};
+
+// versión aún más reducida (cuando solo hay una expresión)
+let cuadradoCorto = n =&gt; n * n;
+
+console.log(cuadrado(4));       // 16
+console.log(cuadradoFlecha(4)); // 16
+console.log(cuadradoCorto(4));  // 16</code></pre>
+<p>
+    Las funciones flecha no sustituyen a las funciones tradicionales en todos los casos, pero resultan muy útiles en operaciones simples, especialmente en combinación con arrays y métodos como <code>map</code>, <code>filter</code> o <code>forEach</code>.
+  </p>
+<h3>5.6 Ejercicios propuestos</h3>
+<ol>
+<li>Define una función <code>esPar</code> que reciba un número y devuelva <code>true</code> si es par o <code>false</code> en caso contrario.</li>
+<li>Crea una función <code>maximo</code> que reciba dos números y devuelva el mayor de los dos.</li>
+<li>Convierte la función <code>maximo</code> en una función flecha.</li>
+<li>Escribe una función <code>saludoPersonalizado</code> que reciba dos parámetros (<em>nombre</em> y <em>hora</em>) y devuelva un mensaje distinto dependiendo de la hora (por ejemplo, <em>“Buenos días, Ana”</em>, <em>“Buenas tardes, Ana”</em>, etc.).</li>
+</ol>
+</section>
+<section class="demo" id="dom">
+<h2>6) El DOM (Document Object Model)</h2>
+<p>
+    Cuando escribimos un documento HTML, el navegador interpreta su contenido y lo convierte en una estructura de objetos accesible desde JavaScript.  
+    Esta representación estructurada se denomina <strong>DOM</strong> (<em>Document Object Model</em>), y nos permite manipular los elementos de una página web de forma dinámica: añadir o eliminar nodos, cambiar atributos, modificar estilos o incluso reaccionar a las acciones del usuario.
+  </p>
+<div class="callout info">
+<p>
+      El DOM es una <em>interfaz de programación</em> que describe el documento como un árbol de nodos.  
+      Cada etiqueta HTML (por ejemplo, <code>&lt;h1&gt;</code> o <code>&lt;p&gt;</code>) se convierte en un nodo dentro de este árbol, y JavaScript puede recorrerlo y modificarlo en cualquier momento.
+    </p>
+</div>
+<h3>6.1 Estructura en forma de árbol</h3>
+<p>
+    El DOM organiza el documento HTML en un árbol jerárquico.  
+    El nodo raíz es <code>document</code>, que contiene al elemento <code>&lt;html&gt;</code>.  
+    Este, a su vez, contiene las ramas <code>&lt;head&gt;</code> y <code>&lt;body&gt;</code>, y dentro de ellas se encuentran los distintos elementos (párrafos, enlaces, listas, etc.).  
+    Cada nodo puede tener nodos hijos y un nodo padre, lo que permite recorrer la estructura de manera muy flexible.
+  </p>
+<h3>6.2 Acceso a elementos del DOM</h3>
+<p>
+    JavaScript proporciona varios métodos para localizar elementos dentro del DOM y poder trabajar con ellos.  
+    Los más utilizados son:
+  </p>
+<ul>
+<li><code>document.getElementById("id")</code> → devuelve el elemento que tiene el atributo <code>id</code> especificado.</li>
+<li><code>document.querySelector("selector")</code> → devuelve el primer elemento que coincida con un selector CSS.</li>
+<li><code>document.querySelectorAll("selector")</code> → devuelve una lista de todos los elementos que coinciden con el selector.</li>
+</ul>
+<pre><code>&lt;h1 id="titulo"&gt;Bienvenido&lt;/h1&gt;
+&lt;p class="texto"&gt;Primer párrafo&lt;/p&gt;
+&lt;p class="texto"&gt;Segundo párrafo&lt;/p&gt;
+
+&lt;script&gt;
+  let cabecera = document.getElementById("titulo");
+  let primerTexto = document.querySelector(".texto");
+  let todosLosParrafos = document.querySelectorAll(".texto");
+
+  console.log(cabecera.textContent);   // "Bienvenido"
+  console.log(primerTexto.textContent); // "Primer párrafo"
+  console.log(todosLosParrafos.length); // 2
+&lt;/script&gt;</code></pre>
+<div class="callout tip">
+<p>
+      Aunque <code>getElementById</code> sigue siendo muy común, en proyectos modernos suele preferirse <code>querySelector</code> y <code>querySelectorAll</code>,  
+      ya que permiten utilizar selectores CSS más flexibles y potentes.
+    </p>
+</div>
+<h3>6.3 Modificación de contenido</h3>
+<p>
+    Una vez tenemos una referencia a un elemento del DOM, podemos modificar su contenido.  
+    Para ello, se utilizan propiedades como <code>textContent</code> (para el texto) o <code>innerHTML</code> (para el contenido HTML interno).
+  </p>
+<pre><code>let titulo = document.getElementById("titulo");
+
+titulo.textContent = "Nuevo título";          // cambia solo el texto
+titulo.innerHTML = "&lt;em&gt;Título en cursiva&lt;/em&gt;"; // interpreta etiquetas</code></pre>
+<div class="callout warn">
+<p>
+      ⚠️ Cuidado con <code>innerHTML</code>: al interpretar cadenas como HTML, puede abrir la puerta a problemas de seguridad (inyecciones de código) si el contenido proviene del usuario.  
+      Siempre que sea posible, usa <code>textContent</code> para trabajar con texto plano.
+    </p>
+</div>
+<h3>6.4 Modificación de atributos</h3>
+<p>
+    También podemos leer y cambiar atributos de los elementos, como <code>src</code>, <code>href</code>, <code>alt</code> o <code>id</code>.  
+    Esto se hace con los métodos <code>getAttribute()</code> y <code>setAttribute()</code>.
+  </p>
+<pre><code>&lt;img id="logo" src="logo.png" alt="Logo"&gt;
+
+&lt;script&gt;
+  let imagen = document.getElementById("logo");
+
+  console.log(imagen.getAttribute("src")); // "logo.png"
+  imagen.setAttribute("alt", "Nuevo texto alternativo");
+&lt;/script&gt;</code></pre>
+<h3>6.5 Estilos y clases CSS</h3>
+<p>
+    Desde JavaScript podemos modificar directamente el estilo en línea de un elemento mediante la propiedad <code>style</code>, o bien añadir y quitar clases CSS utilizando <code>classList</code>.
+  </p>
+<pre><code>let titulo = document.getElementById("titulo");
+
+titulo.style.color = "red";   // aplica estilo en línea
+
+titulo.classList.add("resaltado");    // añade una clase
+titulo.classList.remove("oculto");    // elimina una clase
+titulo.classList.toggle("activo");    // alterna la clase
+</code></pre>
+<div class="callout tip">
+<p>
+      Se recomienda usar <code>classList</code> en lugar de modificar <code>style</code> directamente,  
+      ya que así mantenemos la separación entre estructura (HTML), presentación (CSS) y comportamiento (JavaScript).
+    </p>
+</div>
+<h3>6.6 Crear y eliminar elementos</h3>
+<p>
+    El DOM también permite generar nuevos nodos y añadirlos a la página, o bien eliminar elementos existentes.  
+    Esto se logra con métodos como <code>createElement()</code>, <code>appendChild()</code>, <code>removeChild()</code> o <code>remove()</code>.
+  </p>
+<pre><code>let lista = document.getElementById("miLista");
+
+// Crear un nuevo elemento
+let nuevoItem = document.createElement("li");
+nuevoItem.textContent = "Elemento nuevo";
+
+// Insertarlo en la lista
+lista.appendChild(nuevoItem);
+
+// Eliminarlo
+lista.removeChild(nuevoItem);</code></pre>
+<div class="callout warn">
+<p>
+      Cuando usamos <code>removeChild()</code>, debemos indicar exactamente qué nodo queremos eliminar.  
+      Si el nodo no pertenece al elemento padre, se producirá un error.  
+      Alternativamente, desde ES6 podemos usar <code>element.remove()</code> directamente sobre el nodo a eliminar.
+    </p>
+</div>
+<h3>6.7 Ejercicios propuestos</h3>
+<ol>
+<li>Selecciona un elemento de tu página con <code>getElementById</code> y cambia su texto.</li>
+<li>Usa <code>querySelectorAll</code> para contar cuántos párrafos (<code>&lt;p&gt;</code>) tiene tu documento.</li>
+<li>Crea desde JavaScript un nuevo párrafo con el texto <em>“Añadido dinámicamente”</em> y añádelo al final del <code>&lt;body&gt;</code>.</li>
+<li>Modifica el atributo <code>src</code> de una imagen existente para que muestre otra imagen diferente.</li>
+<li>Añade y elimina una clase CSS a un elemento al hacer clic en un botón (lo veremos más adelante con eventos).</li>
+</ol>
+</section>
+<section class="demo" id="eventos">
+<h2>7) Eventos en JavaScript</h2>
+<p>
+    Una página web no solo muestra información de forma estática: también debe reaccionar a la interacción del usuario y a ciertos sucesos que ocurren en el navegador.  
+    Estas interacciones se gestionan mediante el sistema de <strong>eventos</strong>.  
+    Un evento es una señal que indica que “algo ha ocurrido”: un clic sobre un botón, la pulsación de una tecla, el envío de un formulario, la carga de la página, etc.  
+    JavaScript nos permite <em>escuchar</em> esos eventos y ejecutar código en respuesta a ellos.
+  </p>
+<div class="callout info">
+<p>
+      En JavaScript, los eventos son la base de la <strong>programación orientada a la interacción</strong>.  
+      Gracias a ellos, el código deja de ejecutarse de forma lineal y empieza a responder dinámicamente a lo que hace el usuario o a lo que ocurre en el documento.
+    </p>
+</div>
+<h3>7.1 Escuchar eventos: <code>addEventListener</code></h3>
+<p>
+    Para asociar un evento con un elemento del DOM se utiliza el método <code>addEventListener</code>.  
+    Este método recibe dos parámetros principales: el nombre del evento a escuchar y la función que se ejecutará cuando ocurra.  
+    De esta forma podemos asignar múltiples eventos al mismo elemento sin sobrescribir otros manejadores.
+  </p>
+<pre><code>&lt;button id="btn"&gt;Haz clic&lt;/button&gt;
+
+&lt;script&gt;
+  let boton = document.getElementById("btn");
+
+  boton.addEventListener("click", function() {
+    console.log("¡Has hecho clic en el botón!");
+  });
+&lt;/script&gt;</code></pre>
+<div class="callout tip">
+<p>
+      Se recomienda usar <code>addEventListener</code> en lugar de atributos HTML como <code>onclick="..."</code>,  
+      ya que permite separar el HTML del JavaScript y mantener el código más limpio y modular.
+    </p>
+</div>
+<h3>7.2 Principales tipos de eventos</h3>
+<p>
+    Existen decenas de eventos en JavaScript, pero los más habituales en el desarrollo web son:
+  </p>
+<ul>
+<li><strong>Eventos de ratón:</strong> <code>click</code>, <code>dblclick</code>, <code>mouseover</code>, <code>mouseout</code>, <code>contextmenu</code>.</li>
+<li><strong>Eventos de teclado:</strong> <code>keydown</code>, <code>keyup</code>, <code>keypress</code>.</li>
+<li><strong>Eventos de formulario:</strong> <code>submit</code>, <code>change</code>, <code>input</code>, <code>focus</code>, <code>blur</code>.</li>
+<li><strong>Eventos de ventana:</strong> <code>load</code>, <code>resize</code>, <code>scroll</code>.</li>
+</ul>
+<pre><code>&lt;input type="text" id="nombre" placeholder="Escribe tu nombre"&gt;
+
+&lt;script&gt;
+  let input = document.getElementById("nombre");
+
+  input.addEventListener("focus", () =&gt; console.log("El campo tiene el foco"));
+  input.addEventListener("blur", () =&gt; console.log("El campo ha perdido el foco"));
+  input.addEventListener("input", () =&gt; console.log("Texto actual: " + input.value));
+&lt;/script&gt;</code></pre>
+<h3>7.3 Objeto <code>event</code></h3>
+<p>
+    Cada vez que ocurre un evento, JavaScript genera un objeto especial llamado <code>event</code> que contiene información detallada sobre lo sucedido.  
+    Este objeto se pasa como argumento a la función manejadora, lo que nos permite acceder a propiedades como la tecla pulsada, la posición del ratón o el elemento que lanzó el evento.
+  </p>
+<pre><code>&lt;div id="zona" style="width:200px; height:100px; background:#eee"&gt;&lt;/div&gt;
+
+&lt;script&gt;
+  let zona = document.getElementById("zona");
+
+  zona.addEventListener("mousemove", function(evento) {
+    console.log("Posición X: " + evento.clientX + ", Y: " + evento.clientY);
+  });
+&lt;/script&gt;</code></pre>
+<div class="callout info">
+<p>
+      La propiedad <code>event.target</code> indica el elemento exacto sobre el que ocurrió el evento,  
+      lo que resulta muy útil en listas o formularios con múltiples elementos similares.
+    </p>
+</div>
+<h3>7.4 Eliminar manejadores de eventos</h3>
+<p>
+    A veces necesitamos dejar de escuchar un evento.  
+    Para ello existe el método <code>removeEventListener</code>, que elimina un manejador previamente registrado.  
+    Es importante que la función pasada a <code>removeEventListener</code> sea exactamente la misma que se usó en <code>addEventListener</code>.
+  </p>
+<pre><code>function saludo() {
+  console.log("Hola");
+}
+
+boton.addEventListener("click", saludo);
+// más adelante...
+boton.removeEventListener("click", saludo);</code></pre>
+<div class="callout warn">
+<p>
+      ⚠️ No es posible eliminar un manejador de evento si se registró con una función anónima.  
+      Por eso, si vamos a necesitar eliminarlo más adelante, debemos definir la función aparte y pasarla como referencia.
+    </p>
+</div>
+<h3>7.5 Propagación y delegación de eventos</h3>
+<p>
+    Cuando un evento ocurre en un elemento, este puede “propagarse” hacia sus elementos padre en el árbol del DOM.  
+    Este mecanismo se llama <strong>propagación de eventos</strong> y tiene dos fases: <em>captura</em> y <em>burbuja</em>.  
+    Por defecto, los eventos se gestionan en la fase de burbuja, es decir, se ejecutan primero en el elemento objetivo y luego suben hacia sus ancestros.
+  </p>
+<pre><code>&lt;div id="contenedor"&gt;
+  &lt;button id="btn"&gt;Púlsame&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+  let contenedor = document.getElementById("contenedor");
+  let boton = document.getElementById("btn");
+
+  contenedor.addEventListener("click", () =&gt; console.log("Click en contenedor"));
+  boton.addEventListener("click", () =&gt; console.log("Click en botón"));
+&lt;/script&gt;</code></pre>
+<p>
+    Al hacer clic sobre el botón, se ejecutará primero el manejador del botón y después el del contenedor.  
+    Esta característica se puede aprovechar para la llamada <strong>delegación de eventos</strong>, que consiste en asignar el evento a un elemento padre y comprobar con <code>event.target</code> qué hijo lo generó.  
+    Es una técnica muy útil cuando tenemos listas dinámicas con muchos elementos.
+  </p>
+<h3>7.6 Ejercicios propuestos</h3>
+<ol>
+<li>Crea un botón que, al hacer clic, cambie el color de fondo de la página.</li>
+<li>Haz que un campo de texto muestre en consola cada tecla que el usuario pulse.</li>
+<li>Implementa un formulario que al enviarse muestre un mensaje en pantalla en lugar de recargar la página (usa el evento <code>submit</code>).</li>
+<li>Construye una lista de elementos y usa la delegación de eventos para mostrar en consola qué elemento fue pulsado.</li>
+</ol>
+</section>
+<section class="demo" id="proyecto-lista-compra">
+<h2>Proyecto · Lista de la compra</h2>
+<p>
+    Este proyecto integra los contenidos trabajados (variables, condiciones, funciones, DOM y eventos) en un ejemplo práctico y progresivo.  
+    En cada paso se facilita el <strong>HTML + CSS de partida</strong> y el alumnado debe desarrollar <strong>exclusivamente el JavaScript</strong> que complete la funcionalidad descrita.
+  </p>
+<div class="callout info">
+<p>
+      Los pasos son acumulativos: el código JavaScript del Paso 2 parte del Paso 1, y así sucesivamente.  
+      Puede resolverse con funciones tradicionales y <code>addEventListener</code>, sin necesidad de librerías ni frameworks.
+    </p>
+</div>
+<!-- ===================================================== -->
+<!-- PASO 1: Lista para añadir -->
+<!-- ===================================================== -->
+<article id="paso1">
+<h3>Paso 1 · Añadir elementos a la lista</h3>
+<p>
+      Objetivo: capturar el valor del campo de texto y añadirlo como <code>&lt;li&gt;</code> a la lista cuando el usuario pulse el botón “Añadir”.
+      Además, al finalizar la operación, vaciar el campo y devolverle el foco para mejorar la usabilidad.
+    </p>
+<div class="callout tip">
+<p>
+        Estructura mínima en JS: cachea el DOM con <code>getElementById</code>, registra el evento <code>click</code> del botón y, dentro del manejador, usa <code>createElement</code> y <code>appendChild</code> para construir la lista.
+      </p>
+</div>
+<h4>Base (HTML + CSS)</h4>
+<pre><code>&lt;section class="lista-compra demo"&gt;
+  &lt;h3&gt;Lista de la compra&lt;/h3&gt;
+
+  &lt;div class="fila"&gt;
+    &lt;input id="entradaItem" type="text" placeholder="Añadir producto..." /&gt;
+    &lt;button id="btnAgregar"&gt;Añadir&lt;/button&gt;
+  &lt;/div&gt;
+
+  &lt;ul id="lista"&gt;&lt;/ul&gt;
+&lt;/section&gt;
+
+&lt;style&gt;
+  .demo { border:1px solid #e5e7eb; border-radius:8px; padding:1rem; background:#fff; }
+  .fila { display:flex; gap:.5rem; margin-bottom:1rem; }
+  input[type="text"] { flex:1; padding:.5rem; }
+  button { padding:.5rem .75rem; cursor:pointer; }
+  ul { margin:0; padding-left:1.2rem; }
+&lt;/style&gt;</code></pre>
+<h4>Tu tarea (solo JS)</h4>
+<ul>
+<li>Selecciona: <code>#entradaItem</code>, <code>#btnAgregar</code>, <code>#lista</code>.</li>
+<li>Al hacer <strong>click</strong> en <code>#btnAgregar</code>, crea un <code>&lt;li&gt;</code> con el texto del input y añádelo al final de <code>#lista</code>.</li>
+<li>Vacía el input y vuelve a darle <code>focus()</code>.</li>
+<li>(Opcional) Permite añadir también con la tecla <strong>Enter</strong> en el input.</li>
+</ul>
+</article>
+<hr/>
+<!-- ===================================================== -->
+<!-- PASO 2: Controlar no añadir elementos vacíos -->
+<!-- ===================================================== -->
+<article id="paso2">
+<h3>Paso 2 · Evitar entradas vacías</h3>
+<p>
+      Objetivo: impedir que se añadan elementos vacíos o formados únicamente por espacios.  
+      La validación debe ocurrir antes de crear el <code>&lt;li&gt;</code>.
+    </p>
+<div class="callout warn">
+<p>
+        Realiza la validación con <code>trim()</code> para eliminar espacios laterales.  
+        Si la cadena resultante es vacía, aborta la operación (y, si lo deseas, informa al usuario).
+      </p>
+</div>
+<h4>Base (HTML + CSS)</h4>
+<p>Usa exactamente la misma base que en el <strong>Paso 1</strong>.</p>
+<h4>Tu tarea (solo JS)</h4>
+<ul>
+<li>Antes de crear el <code>&lt;li&gt;</code>, guarda <code>let texto = input.value.trim()</code>.</li>
+<li>Si <code>texto === ""</code>, no añadas nada. Opcionalmente, puedes:
+        <ul>
+<li>Mostrar un mensaje en consola o con <code>alert()</code>.</li>
+<li>Resaltar temporalmente el input (por ejemplo, añadiendo una clase CSS).</li>
+</ul>
+</li>
+<li>Si es válido, continúa igual que en el Paso 1.</li>
+</ul>
+</article>
+<hr/>
+<!-- ===================================================== -->
+<!-- PASO 3: Vaciar toda la lista -->
+<!-- ===================================================== -->
+<article id="paso3">
+<h3>Paso 3 · Vaciar toda la lista</h3>
+<p>
+      Objetivo: añadir un botón “Vaciar” que elimine todos los elementos de la lista de una sola vez.
+    </p>
+<div class="callout tip">
+<p>
+        Para vaciar la lista rápidamente puedes asignar <code>innerHTML = ""</code> sobre el <code>&lt;ul&gt;</code>.  
+        Alternativamente, podrías eliminar nodos uno a uno con un bucle mientras existan elementos.
+      </p>
+</div>
+<h4>Base (HTML + CSS)</h4>
+<pre><code>&lt;section class="lista-compra demo"&gt;
+  &lt;h3&gt;Lista de la compra&lt;/h3&gt;
+
+  &lt;div class="fila"&gt;
+    &lt;input id="entradaItem" type="text" placeholder="Añadir producto..." /&gt;
+    &lt;button id="btnAgregar"&gt;Añadir&lt;/button&gt;
+    &lt;button id="btnVaciar" class="secundario"&gt;Vaciar&lt;/button&gt;
+  &lt;/div&gt;
+
+  &lt;ul id="lista"&gt;&lt;/ul&gt;
+&lt;/section&gt;
+
+&lt;style&gt;
+  .demo { border:1px solid #e5e7eb; border-radius:8px; padding:1rem; background:#fff; }
+  .fila { display:flex; gap:.5rem; margin-bottom:1rem; flex-wrap:wrap; }
+  input[type="text"] { flex:1; min-width:220px; padding:.5rem; }
+  button { padding:.5rem .75rem; cursor:pointer; }
+  .secundario { background:#f3f4f6; border:1px solid #e5e7eb; }
+  ul { margin:0; padding-left:1.2rem; }
+&lt;/style&gt;</code></pre>
+<h4>Tu tarea (solo JS)</h4>
+<ul>
+<li>Selecciona también <code>#btnVaciar</code>.</li>
+<li>Registra su evento <code>click</code> para vaciar <code>#lista</code> de forma inmediata.</li>
+<li>(Opcional) Desactiva el botón “Vaciar” cuando la lista esté vacía y actívalo cuando tenga elementos.</li>
+</ul>
+</article>
+<hr/>
+<!-- ===================================================== -->
+<!-- PASO 4: Eliminar elementos concretos -->
+<!-- ===================================================== -->
+<article id="paso4">
+<h3>Paso 4 · Eliminar un elemento concreto</h3>
+<p>
+      Objetivo: que cada elemento de la lista incorpore un botón “Eliminar” que permita borrar ese único <code>&lt;li&gt;</code> sin afectar a los demás.
+    </p>
+<div class="callout info">
+<p>
+        Puedes resolverlo de dos maneras:  
+        <strong>(A)</strong> creando un listener por botón cuando generas el <code>&lt;li&gt;</code>, o  
+        <strong>(B)</strong> usando <em>delegación de eventos</em> con un único listener en el <code>&lt;ul&gt;</code> que compruebe <code>event.target</code>.  
+        Para grupos grandes de elementos, la delegación es más eficiente en memoria.
+      </p>
+</div>
+<h4>Base (HTML + CSS)</h4>
+<pre><code>&lt;section class="lista-compra demo"&gt;
+  &lt;h3&gt;Lista de la compra&lt;/h3&gt;
+
+  &lt;div class="fila"&gt;
+    &lt;input id="entradaItem" type="text" placeholder="Añadir producto..." /&gt;
+    &lt;button id="btnAgregar"&gt;Añadir&lt;/button&gt;
+    &lt;button id="btnVaciar" class="secundario"&gt;Vaciar&lt;/button&gt;
+  &lt;/div&gt;
+
+  &lt;ul id="lista"&gt;&lt;/ul&gt;
+&lt;/section&gt;
+
+&lt;style&gt;
+  .demo { border:1px solid #e5e7eb; border-radius:8px; padding:1rem; background:#fff; }
+  .fila { display:flex; gap:.5rem; margin-bottom:1rem; flex-wrap:wrap; }
+  input[type="text"] { flex:1; min-width:220px; padding:.5rem; }
+  button { padding:.5rem .75rem; cursor:pointer; }
+  .secundario { background:#f3f4f6; border:1px solid #e5e7eb; }
+  ul { margin:0; padding-left:1.2rem; }
+  .btn-eliminar { margin-left:.5rem; }
+&lt;/style&gt;</code></pre>
+<h4>Tu tarea (solo JS)</h4>
+<ul>
+<li>Cuando crees cada <code>&lt;li&gt;</code>, añade un botón interno con clase <code>.btn-eliminar</code> y texto “Eliminar”.</li>
+<li><strong>Opción A (directa):</strong> registra un <code>addEventListener("click", ...)</code> en ese botón que llame a <code>li.remove()</code> o <code>lista.removeChild(li)</code>.</li>
+<li><strong>Opción B (delegación):</strong> añade un único listener de <code>click</code> en <code>#lista</code> y, dentro del manejador, comprueba si <code>event.target</code> coincide con <code>.btn-eliminar</code>; si es así, elimina su elemento padre.</li>
+<li>(Opcional) Si estás controlando el estado de “Vaciar”, recuerda deshabilitarlo cuando la lista quede vacía.</li>
+</ul>
+<div class="callout warn">
+<p>
+        Si usas <code>removeChild(li)</code>, asegúrate de pasar la referencia exacta del nodo hijo a eliminar;  
+        si no pertenece a ese padre, se producirá un error.  
+        Con <code>li.remove()</code> (ES6) eliminas directamente el propio nodo.
+      </p>
+</div>
+</article>
+<hr/>
+<!-- ===================================================== -->
+<!-- Criterios y extensiones -->
+<!-- ===================================================== -->
+<article id="criterios">
+<h3>Criterios de corrección (sugeridos)</h3>
+<ul>
+<li>Uso correcto de <code>let</code>/<code>const</code> y nombres de variables descriptivos.</li>
+<li>Manipulación del DOM mediante <code>createElement</code>, <code>appendChild</code>, <code>textContent</code> y eliminación segura.</li>
+<li>Gestión de eventos con <code>addEventListener</code> (sin atributos inline como <code>onclick</code>).</li>
+<li>Validación con <code>trim()</code> para evitar entradas vacías.</li>
+<li>Restablecimiento del foco y limpieza del input tras añadir.</li>
+<li>Código legible, comentado y organizado en funciones cuando proceda.</li>
+</ul>
+<h3>Extensiones (para quien termine antes)</h3>
+<ul>
+<li>Contador de elementos visibles (p. ej., “3 artículos”).</li>
+<li>Deshabilitar “Vaciar” cuando la lista esté vacía.</li>
+<li>Editar un elemento en línea (reemplazar texto por <code>&lt;input&gt;</code> temporal y confirmar con botón “Guardar”).</li>
+<li>Persistir la lista en <code>localStorage</code> y restaurarla al cargar la página.</li>
+</ul>
+</article>
+</section>
+  </main>
+  </div>
+  <a href="#top" class="backtotop" aria-label="Volver arriba">↑</a>
+
+  <footer class="site-footer" role="contentinfo" class="wrap">
+    <div>
+      <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer" title="CC BY-NC-SA 4.0">
+        <img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="Licencia Creative Commons BY-NC-SA 4.0">
+      </a>
+    </div>
+  </footer>
+  
+  <!-- JS de navegación (ajustado a tus clases e IDs) -->
+  <script>
+  (function(){
+    // Topbar toggle
+    var btn = document.querySelector('.topnav-toggle');
+    var nav = document.getElementById('topnav');
+    if (btn && nav) {
+      btn.addEventListener('click', function(){
+        var open = nav.classList.toggle('open');
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      nav.addEventListener('click', function(e){
+        if (e.target.tagName === 'A' && nav.classList.contains('open')) {
+          nav.classList.remove('open');
+          btn.setAttribute('aria-expanded', 'false');
+        }
+      });
+    }
+  
+    // Resalta enlace activo en el TOC según sección visible
+    var links = document.querySelectorAll('.toc a[href^="#"]');
+    var targets = Array.prototype.map.call(links, function(a){
+      try { return document.querySelector(a.getAttribute('href')); } catch(e){ return null; }
+    }).filter(Boolean);
+  
+    if ('IntersectionObserver' in window) {
+      var obs = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if (entry.isIntersecting) {
+            var id = '#' + entry.target.id;
+            links.forEach(function(a){
+              a.classList.toggle('active', a.getAttribute('href') === id);
+            });
+          }
+        });
+      }, { rootMargin: "-40% 0px -55% 0px", threshold: 0 });
+      targets.forEach(function(t){ obs.observe(t); });
+    }
+  })();
+  </script>
+  </body>
+  </html>
+  

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Web Applications – SMR</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./aw.css">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Playfair+Display:wght@700&family=Source+Code+Pro:wght@400&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <div class="site-brand">
+      <a href="./index.html">Web Applications</a>
+      <small>2º SMR</small>
+    </div>
+    <button class="topnav-toggle" aria-expanded="false" aria-controls="topnav">
+      <span class="sr-only">Toggle menu</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+      </svg>
+    </button>
+    <nav id="topnav" class="topnav" aria-label="Site navigation">
+      <ul>
+        <li><a href="./index.html">Home</a></li>
+        <li><a href="./webapp.html">WebApp</a></li>
+        <li><a href="./html.html" aria-current="page">HTML</a></li>
+        <li><a href="./css.html">CSS</a></li>
+        <li><a href="./cms.html">CMS</a></li>
+        <li><a href="./data.html">Data Storage</a></li>
+        <li><a href="./lms.html">LMS</a></li>
+        <li><a href="./python.html">Python</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="layout">
+
+  <aside class="sidebar" aria-label="Index">
+    <h2>Course Overview</h2>
+    <ul class="toc">
+      <li><a href="#intro">Introduction</a></li>
+      <li><a href="#objectives">Course Objectives</a></li>
+      <li><a href="#structure">Units</a></li>
+      <li><a href="#assessment">Assessment</a></li>
+      <li><a href="#resources">Resources</a></li>
+    </ul>
+  </aside>
+
+  <main class="content">
+
+    <header class="page">
+      <h1 id="intro">Web Applications</h1>
+      <p class="muted">HTML, CSS, WordPress, cloud storage, LMS, and Python for web automation</p>
+    </header>
+
+    <section id="objectives">
+      <h2>Course Objectives</h2>
+      <ul>
+        <li>Understand the basics of web applications and the client-server model.</li>
+        <li>Create websites using HTML and CSS with semantic, accessible design.</li>
+        <li>Install and customize WordPress to build functional sites.</li>
+        <li>Manage file and data storage in cloud systems and simple databases.</li>
+        <li>Install and manage a learning platform (Moodle).</li>
+        <li>Write small programs in Python to add automation or interactivity to websites.</li>
+      </ul>
+    </section>
+
+    <section id="structure">
+      <h2>Course Structure</h2>
+      <ol>
+        <li><strong>UD1 – Introduction to Web Applications:</strong> Internet basics, client-server, browsers, protocols.</li>
+        <li><strong>UD2 – Creating Web Content (HTML, CSS & CMS):</strong> Semantic HTML, responsive CSS, and WordPress.</li>
+        <li><strong>UD3 – Data Storage:</strong> Cloud platforms (Drive, Nextcloud), and introduction to databases.</li>
+        <li><strong>UD4 – Learning Management Systems:</strong> Installing and using Moodle as a virtual classroom.</li>
+        <li><strong>UD5 – Intro to Programming:</strong> Python basics and automation in web projects.</li>
+      </ol>
+    </section>
+
+    <section id="assessment">
+      <h2>Assessment</h2>
+      <ul>
+        <li>✅ Practical tasks and lab exercises (HTML/CSS, CMS, Python, LMS)</li>
+        <li>✅ Unit quizzes or short tests</li>
+        <li>✅ Final mini-project combining two or more course topics</li>
+      </ul>
+    </section>
+
+    <section id="resources">
+      <h2>Recommended Tools</h2>
+      <ul>
+        <li>Visual Studio Code (or any other editor)</li>
+        <li>Chrome/Firefox with DevTools enabled</li>
+        <li>GitHub for hosting static sites (optional)</li>
+        <li>MDN Web Docs, W3Schools, WordPress Docs, Moodle Docs, Python Docs</li>
+      </ul>
+    </section>
+
+  </main>
+</div>
+
+<a href="#top" class="backtotop" aria-label="Volver arriba">↑</a>
+
+<footer class="site-footer" role="contentinfo" class="wrap">
+  <div>
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer" title="CC BY-NC-SA 4.0">
+      <img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="Licencia Creative Commons BY-NC-SA 4.0">
+    </a>
+  </div>
+</footer>
+
+<!-- JS de navegación (ajustado a tus clases e IDs) -->
+<script>
+(function(){
+  // Topbar toggle
+  var btn = document.querySelector('.topnav-toggle');
+  var nav = document.getElementById('topnav');
+  if (btn && nav) {
+    btn.addEventListener('click', function(){
+      var open = nav.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    nav.addEventListener('click', function(e){
+      if (e.target.tagName === 'A' && nav.classList.contains('open')) {
+        nav.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  // Resalta enlace activo en el TOC según sección visible
+  var links = document.querySelectorAll('.toc a[href^="#"]');
+  var targets = Array.prototype.map.call(links, function(a){
+    try { return document.querySelector(a.getAttribute('href')); } catch(e){ return null; }
+  }).filter(Boolean);
+
+  if ('IntersectionObserver' in window) {
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          var id = '#' + entry.target.id;
+          links.forEach(function(a){
+            a.classList.toggle('active', a.getAttribute('href') === id);
+          });
+        }
+      });
+    }, { rootMargin: "-40% 0px -55% 0px", threshold: 0 });
+    targets.forEach(function(t){ obs.observe(t); });
+  }
+})();
+</script>
+</body>
+</html>
+

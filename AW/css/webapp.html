@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aplicaciones Web — HTML</title>
+  <link rel="stylesheet" href="./aw.css">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Playfair+Display:wght@700&family=Source+Code+Pro:wght@400&display=swap" rel="stylesheet">
+  <meta name="description" content="Unidad de HTML: estructura, semántica, formularios, tablas, multimedia y validación.">
+</head>
+<body>
+
+<header class="topbar" role="banner">
+  <div class="wrap">
+    <div class="site-brand">
+      <a href="./index.html">Aplicaciones Web</a>
+      <small>2º SMR</small>
+    </div>
+
+    <button class="topnav-toggle" aria-expanded="false" aria-controls="topnav">
+      <span class="sr-only">Abrir menú</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <nav id="topnav" class="topnav" aria-label="Site navigation">
+      <ul>
+        <li><a href="./index.html">Home</a></li>
+        <li><a href="./webapp.html">WebApp</a></li>
+        <li><a href="./html.html" aria-current="page">HTML</a></li>
+        <li><a href="./css.html">CSS</a></li>
+        <li><a href="./cms.html">CMS</a></li>
+        <li><a href="./data.html">Data Storage</a></li>
+        <li><a href="./lms.html">LMS</a></li>
+        <li><a href="./python.html">Python</a></li>
+      </ul>
+    </nav>
+    
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="sidebar" id="sidebar" aria-label="Unit index">
+    <h2>Contents</h2>
+    <nav>
+      <ul class="toc" id="toc">
+        <li><a href="#internet-vs-web">1. The Internet vs. The Web</a></li>
+        <li><a href="#website-vs-webapp">2. Website vs Web Application</a></li>
+        <li><a href="#evolution">3. Evolution: From Static to Dynamic</a></li>
+        <li><a href="#browsing">4. Browsing, Search Techniques, and URLs</a></li>
+        <li><a href="#examples">5. Real-World Web Applications</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <div class="backdrop" id="backdrop" hidden></div>
+
+  <main class="content">
+    <header class="page">
+    <header class="page">
+      <h1 id="intro">Web Applications and the Cloud</h1>
+      <p class="muted">Understanding the evolution of the web and the power of cloud-based applications</p>
+    </header>
+
+    <section id="internet-vs-web">
+      <h2>1. The Internet vs. The Web</h2>
+    
+      <p>
+        Although the terms "Internet" and "Web" (or "World Wide Web") are often used interchangeably in everyday language, they refer to two distinct but related technologies. Understanding their differences is essential for anyone learning about digital technologies or web development.
+      </p>
+    
+      <h3>1.1 What is the Internet?</h3>
+      <p>
+        The <strong>Internet</strong> is a global network of interconnected computers and devices. It is a vast infrastructure that enables the exchange of data through a set of standardized protocols, most notably the <code>TCP/IP</code> protocol suite. The Internet allows communication between devices regardless of their physical location.
+      </p>
+    
+      <p>
+        Think of the Internet as the physical and logical system made up of cables, routers, servers, satellites, cellular towers, and software that makes it possible for devices to connect and share data.
+      </p>
+    
+      <p><strong>Key characteristics of the Internet:</strong></p>
+      <ul>
+        <li>Decentralized and distributed system.</li>
+        <li>Supports various services: email, file transfer, messaging, video streaming, and the Web itself.</li>
+        <li>Based on open standards and protocols (e.g., IP, TCP, HTTP, FTP, DNS).</li>
+        <li>Does not rely on a single company or authority for its functioning.</li>
+      </ul>
+    
+      <h3>1.2 What is the Web (World Wide Web)?</h3>
+      <p>
+        The <strong>World Wide Web</strong> is a service that operates on top of the Internet. It is a system of interlinked digital documents and resources, accessed via web browsers using the <code>HTTP</code> or <code>HTTPS</code> protocols. These documents, written primarily in <code>HTML</code>, can include text, images, videos, links, and interactive content.
+      </p>
+    
+      <p>
+        The Web relies on a client-server model: users (clients) request information using a web browser, and web servers respond by delivering content. The content is usually organized through hyperlinks that form a giant web of information.
+      </p>
+    
+      <p><strong>Key characteristics of the Web:</strong></p>
+      <ul>
+        <li>Accessed using web browsers like Chrome, Firefox, Safari, and Edge.</li>
+        <li>Uses web technologies such as HTML, CSS, JavaScript, and media files.</li>
+        <li>Primarily based on the HTTP/HTTPS protocols.</li>
+        <li>Includes both static and dynamic websites and web applications.</li>
+      </ul>
+    
+      <h3>1.3 Analogy: The Internet as Roads, the Web as Cars</h3>
+      <p>
+        A useful analogy is to think of the <strong>Internet as a system of roads and highways</strong>, and the <strong>Web as the vehicles</strong> (cars, trucks, etc.) that travel on those roads. The Internet provides the infrastructure; the Web is one way we use that infrastructure to access and share information.
+      </p>
+    
+      <h3>1.4 Other Internet Services (Beyond the Web)</h3>
+      <p>
+        It’s important to understand that the Web is just one of many services that use the Internet. Other services include:
+      </p>
+      <ul>
+        <li><strong>Email (SMTP, IMAP, POP3):</strong> Used for sending and receiving messages.</li>
+        <li><strong>File Transfer Protocol (FTP):</strong> Used to transfer files between systems.</li>
+        <li><strong>VoIP:</strong> Voice over Internet Protocol (e.g., Skype, Zoom, WhatsApp calls).</li>
+        <li><strong>Online gaming, messaging, IoT, and more.</strong></li>
+      </ul>
+    
+      <h3>1.5 Summary Table: Internet vs. Web</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Internet</th>
+            <th>Web</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Definition</td>
+            <td>Global network of connected computers</td>
+            <td>Service that uses the Internet to access documents</td>
+          </tr>
+          <tr>
+            <td>Technology</td>
+            <td>TCP/IP, routers, cables, satellites</td>
+            <td>HTTP/HTTPS, HTML, CSS, JavaScript</td>
+          </tr>
+          <tr>
+            <td>Services</td>
+            <td>Email, FTP, VoIP, Web, etc.</td>
+            <td>Web pages and web applications</td>
+          </tr>
+          <tr>
+            <td>Access method</td>
+            <td>Varied (apps, terminals, devices)</td>
+            <td>Web browsers</td>
+          </tr>
+          <tr>
+            <td>Origin</td>
+            <td>1960s (ARPANET)</td>
+            <td>1989 (Tim Berners-Lee)</td>
+          </tr>
+        </tbody>
+      </table>
+    
+      <div class="callout info">
+        <p><strong>Did you know?</strong> The Web was invented in 1989 by Sir Tim Berners-Lee at CERN. The first web page went online in 1991.</p>
+      </div>
+    
+      <h3>1.6 Activities</h3>
+      <ol>
+        <li>Explain the difference between the Internet and the Web in your own words. Include examples of services that are part of the Internet but not part of the Web.</li>
+        <li>Create a simple visual or infographic that compares the Internet and the Web (you can use Google Slides, Canva, Figma, or draw it by hand).</li>
+      </ol>
+    </section>
+    
+
+    <section id="website-vs-webapp">
+      <h2>2. Website vs. Web Application</h2>
+    
+      <p>
+        In the digital world, terms like <strong>website</strong> and <strong>web application</strong> are frequently used, but they describe different types of digital products. Understanding the difference between the two is key to determining how they are built, maintained, and used.
+      </p>
+    
+      <h3>2.1 What is a Website?</h3>
+      <p>
+        A <strong>website</strong> is a collection of interlinked web pages hosted under a common domain name. It primarily serves to present information to users, usually in a static or semi-static format. Websites can include text, images, videos, links, and downloadable content.
+      </p>
+    
+      <p><strong>Common characteristics of websites:</strong></p>
+      <ul>
+        <li>Mostly informational or promotional in nature.</li>
+        <li>Users consume content but rarely interact with it beyond basic navigation.</li>
+        <li>May include features like blogs, portfolios, product pages, or contact forms.</li>
+        <li>Examples: news sites, company homepages, portfolios, online brochures.</li>
+      </ul>
+    
+      <h3>2.2 What is a Web Application?</h3>
+      <p>
+        A <strong>web application</strong> is an interactive software application that runs in a web browser and allows users to perform tasks. It includes dynamic behavior, user input, authentication, and data manipulation, often in real time.
+      </p>
+    
+      <p><strong>Common characteristics of web applications:</strong></p>
+      <ul>
+        <li>Allow user interaction, data input/output, and logic processing.</li>
+        <li>Often require user authentication (login/sign-up).</li>
+        <li>Store and retrieve data from a database.</li>
+        <li>Include client-side (JavaScript) and server-side (e.g., Node.js, PHP, Python) components.</li>
+        <li>Examples: Gmail, Google Docs, Trello, banking apps, e-commerce dashboards.</li>
+      </ul>
+    
+      <h3>2.3 Key Differences</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Website</th>
+            <th>Web Application</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Purpose</td>
+            <td>Display information</td>
+            <td>Perform tasks, offer functionality</td>
+          </tr>
+          <tr>
+            <td>Interactivity</td>
+            <td>Low (mostly read-only)</td>
+            <td>High (user inputs, actions)</td>
+          </tr>
+          <tr>
+            <td>Technology</td>
+            <td>HTML, CSS, minimal JavaScript</td>
+            <td>HTML, CSS, advanced JavaScript, backend logic</td>
+          </tr>
+          <tr>
+            <td>Database</td>
+            <td>Optional</td>
+            <td>Usually required</td>
+          </tr>
+          <tr>
+            <td>User login</td>
+            <td>Not required</td>
+            <td>Commonly required</td>
+          </tr>
+        </tbody>
+      </table>
+    
+      <h3>2.4 Examples</h3>
+      <ul>
+        <li><strong>Website:</strong> National Geographic’s site presents articles and images without much user interaction.</li>
+        <li><strong>Web Application:</strong> Google Docs allows multiple users to write and edit documents in real-time.</li>
+      </ul>
+    
+      <div class="callout tip">
+        <p>
+          <strong>Tip:</strong> A web app can contain many of the same pages as a website (e.g., home, about, contact), but its main goal is to offer functionality — not just present content.
+        </p>
+      </div>
+    
+      <h3>2.5 Hybrid Solutions</h3>
+      <p>
+        Some modern platforms blend features of both websites and web applications. For example, an e-commerce site like Amazon offers rich content (product info, descriptions) and complex interactions (shopping cart, payments, user accounts).
+      </p>
+    
+      <h3>2.6 Activities</h3>
+      <ol>
+        <li>
+          Find three examples of websites and three examples of web applications. List their names, URLs, and explain why each one fits its category.
+        </li>
+        <li>
+          Design a basic homepage layout using paper or digital tools. Then, extend it into a web app by adding three possible interactive features.
+        </li>
+      </ol>
+    </section>
+    
+
+    <section id="evolution">
+      <h2>3. Evolution: From Static to Dynamic</h2>
+    
+      <p>
+        The web has come a long way since its early days. It began with simple, static pages that could only display basic information. Over time, it evolved into a dynamic, interactive platform capable of delivering rich user experiences, personalized content, and complex applications. Understanding this evolution helps contextualize current web technologies and their capabilities.
+      </p>
+    
+      <h3>3.1 Static Websites (Web 1.0)</h3>
+      <p>
+        In the early 1990s, websites were mostly static. They were built with plain HTML, and their content remained the same unless manually updated by a developer.
+      </p>
+      <ul>
+        <li><strong>Content:</strong> Fixed; no interaction or personalization.</li>
+        <li><strong>Technology:</strong> HTML, with minimal or no CSS or JavaScript.</li>
+        <li><strong>Maintenance:</strong> Updates required editing the code directly.</li>
+        <li><strong>Example:</strong> Personal homepages, academic pages, digital brochures.</li>
+      </ul>
+    
+      <h3>3.2 Dynamic Websites (Web 2.0)</h3>
+      <p>
+        With the rise of server-side technologies and databases, websites began to generate content dynamically, responding to user inputs and displaying up-to-date information without needing manual updates.
+      </p>
+      <ul>
+        <li><strong>Content:</strong> Generated in real-time based on user actions or data sources.</li>
+        <li><strong>Technology:</strong> HTML + CSS + JavaScript + server-side languages (PHP, Python, Node.js, etc.).</li>
+        <li><strong>Databases:</strong> Integrated for storing and retrieving content.</li>
+        <li><strong>Example:</strong> News websites, blogs, e-commerce platforms.</li>
+      </ul>
+    
+      <h3>3.3 Web Applications (Advanced Dynamic Web)</h3>
+      <p>
+        As web browsers and internet speeds improved, developers started creating full applications inside the browser — web applications that function like desktop or mobile apps.
+      </p>
+      <ul>
+        <li><strong>Content:</strong> Highly dynamic, responsive, and tailored to each user.</li>
+        <li><strong>Technology:</strong> Modern JavaScript frameworks (React, Angular, Vue), REST APIs, microservices.</li>
+        <li><strong>User Experience:</strong> Smooth interactions, real-time feedback, offline capabilities.</li>
+        <li><strong>Example:</strong> Google Docs, Figma, Spotify Web Player, online banking apps.</li>
+      </ul>
+    
+      <h3>3.4 Key Milestones in Web Evolution</h3>
+      <ul>
+        <li><strong>HTML 2.0 (1995):</strong> Introduced forms and basic structure for interactivity.</li>
+        <li><strong>CSS (1996):</strong> Allowed visual styling separate from HTML.</li>
+        <li><strong>JavaScript (1995–1997):</strong> Enabled client-side interactivity.</li>
+        <li><strong>AJAX (early 2000s):</strong> Enabled asynchronous page updates without full reloads.</li>
+        <li><strong>Mobile-first design (2010s):</strong> Optimized websites for smartphones and tablets.</li>
+        <li><strong>Progressive Web Apps (2015+):</strong> Blurred the line between web and native apps.</li>
+      </ul>
+    
+      <div class="callout info">
+        <p>
+          <strong>Did you know?</strong> The term <em>Web 2.0</em> was coined to describe the shift from static content to user-generated, interactive experiences — paving the way for social media platforms and real-time collaboration.
+        </p>
+      </div>
+    
+      <h3>3.5 Activities</h3>
+      <ol>
+        <li>
+          Create a timeline of major web technologies from 1990 to today. Highlight which innovations enabled dynamic behavior and web applications.
+        </li>
+        <li>
+          Visit two websites: one static (e.g., a portfolio) and one dynamic (e.g., a news platform or app). Describe the differences in how content is presented and how users interact with it.
+        </li>
+      </ol>
+    </section>
+    
+
+    <section id="browsing">
+      <h2>4. Web Browsing: Search, Navigation, and Smart Strategies</h2>
+    
+      <p>
+        Browsing the web is much more than clicking random links or typing simple search queries. It's a combination of structured navigation through <strong>hyperlinks</strong>, the use of <strong>search engines</strong> to locate specific content, and an understanding of how <strong>URLs</strong> function as web addresses.
+      </p>
+    
+      <h3>4.1 Hyperlinks and Navigation</h3>
+      <p>
+        Hyperlinks (or simply links) are clickable elements that take you from one web page to another. They can lead to:
+      </p>
+      <ul>
+        <li>Another section within the same page</li>
+        <li>A different page on the same website</li>
+        <li>An entirely different website</li>
+      </ul>
+      <p>
+        Learning how to follow, identify, and use hyperlinks is essential to navigating the web effectively.
+      </p>
+    
+      <h3>4.2 URLs (Uniform Resource Locators)</h3>
+      <p>
+        A URL is the unique address of a resource on the web. Each URL has several components:
+      </p>
+      <ul>
+        <li><strong>Protocol:</strong> Usually <code>https://</code>, indicating a secure connection.</li>
+        <li><strong>Domain:</strong> The name of the website (e.g., <code>wikipedia.org</code>).</li>
+        <li><strong>Path:</strong> The specific page or location on the site (e.g., <code>/wiki/HTML</code>).</li>
+        <li><strong>Query parameters:</strong> Extra instructions passed to the page (e.g., <code>?search=web</code>).</li>
+      </ul>
+    
+      <h3>4.3 Search Engines</h3>
+      <p>
+        Search engines like Google, Bing, and DuckDuckGo index billions of web pages. When you enter keywords, they return the most relevant results based on content, popularity, and your search intent.
+      </p>
+    
+      <h3>4.4 Advanced Search Techniques</h3>
+      <p>To find more specific information, you can use advanced search operators:</p>
+      <ul>
+        <li><code>"..."</code>: Search for an <strong>exact phrase</strong> (e.g., <code>"web development basics"</code>).</li>
+        <li><code>-</code>: <strong>Exclude</strong> terms (e.g., <code>Python tutorials -Java</code>).</li>
+        <li><code>site:</code>: Search within a specific domain (e.g., <code>site:wikipedia.org Python</code>).</li>
+        <li><code>filetype:</code>: Find a specific type of file (e.g., <code>web design filetype:pdf</code>).</li>
+        <li><code>intitle:</code>: Finds pages with a specific word in the title.</li>
+        <li><code>related:</code>: Find websites related to a specific URL.</li>
+      </ul>
+    
+      <div class="callout tip">
+        <p><strong>Tip:</strong> Combine multiple search operators to refine your results and find highly relevant content.</p>
+      </div>
+    
+      <h3>4.5 Practice Activities</h3>
+      <ol>
+        <li>Search for resources about <strong>"responsive web design"</strong> while excluding any results that mention JavaScript.</li>
+        <li>Find <strong>PDF documents</strong> on <strong>"web development"</strong> from educational websites using <code>site:.edu</code>.</li>
+        <li>Search Wikipedia for articles that cover the topic <strong>"HTML5"</strong>.</li>
+        <li>Use quotation marks to find exact information about <strong>"cloud computing services"</strong>.</li>
+        <li>Search for <strong>Word documents</strong> (.doc or .docx) that explain <strong>"CSS best practices"</strong>.</li>
+        <li>Find academic <strong>PDFs</strong> about <strong>"machine learning"</strong> but exclude those related to <strong>neural networks</strong>.</li>
+        <li>Locate <strong>Excel files</strong> (.xls or .xlsx) containing data about <strong>"e-commerce sales"</strong> from government websites (e.g., <code>site:.gov</code>).</li>
+        <li>Search for <strong>PowerPoint presentations</strong> (.ppt or .pptx) on <strong>"cybersecurity best practices"</strong>.</li>
+        <li>Find high-resolution <strong>images</strong> related to <strong>"web design trends"</strong>.</li>
+        <li>Look for <strong>recent academic articles</strong> on <strong>"AI in education"</strong> published within the last year.</li>
+      </ol>
+    
+      <div class="callout info">
+        <p><strong>Why this matters:</strong> Effective searching skills are essential in every profession. The ability to filter and extract precise information from the web is a key part of digital literacy.</p>
+      </div>
+    </section>
+    
+
+    <section id="examples">
+      <h2>5. Real-World Web Applications</h2>
+    
+      <p>
+        Web applications have transformed how we work, communicate, and entertain ourselves. Unlike traditional websites, these apps provide dynamic, interactive, and personalized experiences through the browser — often without the need for downloads or installations. Below are some popular and impactful real-world web applications used daily across various sectors.
+      </p>
+    
+      <ul>
+        <li>
+          <strong>Gmail:</strong> A cloud-based email service developed by Google. It offers real-time email communication, integrated calendar and task tools, powerful spam filtering, and seamless synchronization across devices.
+        </li>
+        <li>
+          <strong>Canva:</strong> A browser-based graphic design tool that allows users to create professional-quality visuals with drag-and-drop functionality. Ideal for marketing materials, presentations, social media posts, and more — no prior design experience required.
+        </li>
+        <li>
+          <strong>Spotify Web:</strong> A music streaming platform that provides access to millions of tracks and podcasts. Users can create playlists, discover new music via algorithms, and listen across devices using just a web browser.
+        </li>
+        <li>
+          <strong>Notion:</strong> An all-in-one productivity and collaboration tool for note-taking, databases, wikis, task management, and more. It works entirely in the cloud, enabling teams and individuals to stay organized and connected.
+        </li>
+        <li>
+          <strong>Figma:</strong> A collaborative design and prototyping tool used by UI/UX designers around the world. All changes are updated in real time, making it perfect for remote team collaboration via the web.
+        </li>
+        <li>
+          <strong>Google Docs:</strong> A web-based word processor that enables real-time document editing, commenting, and sharing. It supports multiple users working on the same document simultaneously, ideal for collaborative writing.
+        </li>
+      </ul>
+    
+      <div class="callout tip">
+        <p>
+          <strong>Tip:</strong> Most of these applications use modern technologies like JavaScript frameworks (React, Vue), REST APIs, and cloud infrastructure (e.g., Firebase, AWS) to provide seamless and scalable user experiences.
+        </p>
+      </div>
+    </section>
+    
+
+    <section id="activity">
+      <h2>6. Activities and Challenges</h2>
+      <ol>
+        <li>Find three websites and determine whether each is a website or a web application. Explain your reasoning.</li>
+        <li>Create a diagram that shows the relationship between the Internet, the Web, cloud services, and web applications.</li>
+        <li>Research a cloud provider (AWS, Azure, GCP) and list five services it offers. Explain how two of them are used in modern web development.</li>
+      </ol>
+    </section>
+
+  
+  </main>
+</div>
+
+<a href="#top" class="backtotop" aria-label="Volver arriba">↑</a>
+
+<footer class="site-footer" role="contentinfo" class="wrap">
+  <div>
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer" title="CC BY-NC-SA 4.0">
+      <img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="Licencia Creative Commons BY-NC-SA 4.0">
+    </a>
+  </div>
+</footer>
+
+<!-- JS de navegación (ajustado a tus clases e IDs) -->
+<script>
+(function(){
+  // Topbar toggle
+  var btn = document.querySelector('.topnav-toggle');
+  var nav = document.getElementById('topnav');
+  if (btn && nav) {
+    btn.addEventListener('click', function(){
+      var open = nav.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    nav.addEventListener('click', function(e){
+      if (e.target.tagName === 'A' && nav.classList.contains('open')) {
+        nav.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  // Resalta enlace activo en el TOC según sección visible
+  var links = document.querySelectorAll('.toc a[href^="#"]');
+  var targets = Array.prototype.map.call(links, function(a){
+    try { return document.querySelector(a.getAttribute('href')); } catch(e){ return null; }
+  }).filter(Boolean);
+
+  if ('IntersectionObserver' in window) {
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          var id = '#' + entry.target.id;
+          links.forEach(function(a){
+            a.classList.toggle('active', a.getAttribute('href') === id);
+          });
+        }
+      });
+    }, { rootMargin: "-40% 0px -55% 0px", threshold: 0 });
+    targets.forEach(function(t){ obs.observe(t); });
+  }
+})();
+</script>
+</body>
+</html>
+

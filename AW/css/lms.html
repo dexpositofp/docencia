@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aplicaciones Web — HTML</title>
+  <link rel="stylesheet" href="./aw.css">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Playfair+Display:wght@700&family=Source+Code+Pro:wght@400&display=swap" rel="stylesheet">
+  <meta name="description" content="Unidad de HTML: estructura, semántica, formularios, tablas, multimedia y validación.">
+</head>
+<body>
+
+<header class="topbar" role="banner">
+  <div class="wrap">
+    <div class="site-brand">
+      <a href="./index.html">Aplicaciones Web</a>
+      <small>2º SMR</small>
+    </div>
+
+    <button class="topnav-toggle" aria-expanded="false" aria-controls="topnav">
+      <span class="sr-only">Abrir menú</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <nav id="topnav" class="topnav" aria-label="Site navigation">
+      <ul>
+        <li><a href="./index.html">Home</a></li>
+        <li><a href="./webapp.html">WebApp</a></li>
+        <li><a href="./html.html" aria-current="page">HTML</a></li>
+        <li><a href="./css.html">CSS</a></li>
+        <li><a href="./cms.html">CMS</a></li>
+        <li><a href="./data.html">Data Storage</a></li>
+        <li><a href="./lms.html">LMS</a></li>
+        <li><a href="./python.html">Python</a></li>
+      </ul>
+    </nav>
+    
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="sidebar" id="sidebar" aria-label="Unit index">
+    <h2>Contents</h2>
+    <nav>
+      <ul class="toc" id="toc">
+        <li><a href="#intro">1. What is an LMS?</a></li>
+        <li><a href="#moodle">2. Moodle</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <div class="backdrop" id="backdrop" hidden></div>
+
+  <main class="content">
+    <header class="page">
+      <h1 id="intro">Moodle: Learning Management System</h1>
+      <p class="muted">
+        Discover how Moodle empowers online education by offering a flexible, open-source platform for creating, managing, and delivering digital learning experiences.
+      </p>
+    </header>
+
+    <section id="intro">
+      <h2>1 What is an LMS?</h2>
+    
+      <p>
+        A <strong>Learning Management System (LMS)</strong> is a software platform designed to help educators create, manage, and deliver educational content and experiences online. LMS platforms have become fundamental in both academic and corporate training environments, as they allow institutions to digitize courses, monitor learner progress, and promote interactive learning regardless of physical location.
+      </p>
+    
+      <p>
+        LMS tools provide a centralized, web-based environment where instructors and students can interact. From uploading materials and submitting assignments to participating in forums and tracking performance, an LMS makes it possible to replicate (and enhance) many of the activities traditionally done in a physical classroom.
+      </p>
+    
+      <h3>Key Functions of an LMS</h3>
+    
+      <p>
+        Learning Management Systems are equipped with a wide range of features that aim to support the entire learning cycle — from content creation to evaluation. Some of the most important functions include:
+      </p>
+    
+      <ul>
+        <li><strong>Course Management:</strong> Instructors can organize content into structured modules, upload resources (PDFs, videos, presentations), and control access to activities.</li>
+        <li><strong>User Management:</strong> Administrators can register students, assign roles (teacher, student, guest), and manage permissions easily.</li>
+        <li><strong>Assessment Tools:</strong> Includes quizzes, tests, assignments, and grading systems for monitoring student performance.</li>
+        <li><strong>Communication:</strong> Forums, messaging, and announcements help maintain active communication between users.</li>
+        <li><strong>Tracking & Reporting:</strong> Generates reports on student activity, grades, course completion, and participation.</li>
+        <li><strong>Integration:</strong> Most LMSs can integrate with external tools like Google Workspace, Zoom, plagiarism detectors, or third-party plugins.</li>
+      </ul>
+    
+      <h3>Popular LMS Platforms</h3>
+    
+      <p>
+        There are many LMS tools available on the market today, both open-source and commercial. Each has its strengths depending on the institution’s needs, budget, and technical expertise.
+      </p>
+    
+      <ul>
+        <li><strong>Moodle:</strong> The most widely used open-source LMS. Flexible, customizable, and supported by a large community.</li>
+        <li><strong>Google Classroom:</strong> Cloud-based LMS with deep integration into Google’s ecosystem. Easy to use, but limited in customization.</li>
+        <li><strong>Canvas:</strong> Modern, user-friendly LMS used by many universities. Offers both free and premium versions.</li>
+        <li><strong>Sakai:</strong> Open-source alternative with strong collaborative tools. Mainly used in higher education.</li>
+        <li><strong>Blackboard:</strong> Commercial platform offering robust features, analytics, and support — often used in universities and large institutions.</li>
+        <li><strong>Schoology:</strong> LMS tailored for K–12 education, combining learning tools with social networking features.</li>
+      </ul>
+    
+      <h3>Advantages of Using an LMS</h3>
+    
+      <p>
+        Integrating an LMS into an educational environment brings numerous benefits that enhance the learning experience and reduce administrative workload:
+      </p>
+    
+      <ul>
+        <li><strong>Accessibility:</strong> Learning can take place anywhere and anytime, as long as there is internet access.</li>
+        <li><strong>Centralization:</strong> All resources, communication, and assessments are managed in one unified system.</li>
+        <li><strong>Customization:</strong> Instructors can tailor content and activities to suit different learning styles.</li>
+        <li><strong>Automation:</strong> Tasks like grading quizzes or tracking attendance can be automated.</li>
+        <li><strong>Scalability:</strong> Can be used for small groups or thousands of students simultaneously.</li>
+        <li><strong>Analytics:</strong> Data-driven insights help identify learning gaps and improve teaching strategies.</li>
+      </ul>
+    
+      <h3>Disadvantages and Challenges</h3>
+    
+      <p>
+        Despite their many benefits, LMSs also come with certain limitations and challenges that institutions must consider:
+      </p>
+    
+      <ul>
+        <li><strong>Technical Complexity:</strong> Installing, configuring, and maintaining an LMS (especially open-source) may require technical expertise.</li>
+        <li><strong>Learning Curve:</strong> Teachers and students might need training to use all features effectively.</li>
+        <li><strong>Cost:</strong> While some platforms are free, others require subscriptions or licenses, and hidden costs may arise (hosting, maintenance, support).</li>
+        <li><strong>Over-Reliance:</strong> A poorly designed course or lack of teacher presence can turn LMS usage into a passive experience.</li>
+        <li><strong>Connectivity:</strong> Without stable internet access, students may struggle to engage consistently with online content.</li>
+      </ul>
+    
+      <div class="callout tip">
+        <p>
+          <strong>Tip:</strong> Choosing the right LMS depends on your institution’s needs, the technical support available, and the type of learning you want to deliver (self-paced, synchronous, blended...).
+        </p>
+      </div>
+    
+    </section>
+    
+    <section id="what-is-moodle">
+      <h2>2 Moodle</h2>
+    
+      <p>
+        Moodle (Modular Object-Oriented Dynamic Learning Environment) is one of the most widely used Learning Management Systems (LMS) in the world. Originally created in 2002 by Martin Dougiamas, Moodle was designed with educators in mind, providing a flexible and customizable platform for online learning. Being open-source, it is freely available for anyone to install, modify, and distribute, making it an attractive option for both individual educators and large institutions.
+      </p>
+    
+      <p>
+        At its core, Moodle enables educators to create digital learning environments where students can access materials, complete activities, and interact with peers and teachers. It supports a wide variety of pedagogical approaches and is especially well-suited for blended and distance learning. Its modular architecture allows for extensive customization through plugins, themes, and integration with external tools.
+      </p>
+    
+      <h3>2.1 Key Features</h3>
+      <ul>
+        <li><strong>Course Management:</strong> Teachers can create and organize courses with different formats (topics, weekly, single activity).</li>
+        <li><strong>User Roles and Permissions:</strong> Roles like teacher, student, or guest help manage access and interaction.</li>
+        <li><strong>Assessment Tools:</strong> Includes quizzes, assignments, grading tools, and rubrics for evaluating student progress.</li>
+        <li><strong>Forums and Messaging:</strong> Facilitates communication between users through discussion forums and private messages.</li>
+        <li><strong>SCORM and External Tools:</strong> Supports integration with learning objects and tools like H5P, BigBlueButton, and more.</li>
+        <li><strong>Tracking and Reporting:</strong> Logs and analytics provide data on student activity and performance.</li>
+      </ul>
+    
+      <h3>2.2What Makes Moodle Different?</h3>
+      <p>
+        Unlike many commercial LMS platforms, Moodle is entirely open-source. This makes it highly adaptable for specific institutional needs and promotes a large global community of developers, educators, and administrators who contribute improvements and share best practices. Its strong focus on education — rather than corporate training — ensures that its features are aligned with teaching and learning goals.
+      </p>
+    
+      <h3>2.3 Benefits of Using Moodle in Education</h3>
+      <ul>
+        <li><strong>Cost-effective:</strong> Being free and open-source, it reduces licensing costs for schools and institutions.</li>
+        <li><strong>Pedagogically Oriented:</strong> Designed to support various teaching methodologies and learning styles.</li>
+        <li><strong>Scalable:</strong> Suitable for small classes or large-scale deployments across entire regions.</li>
+        <li><strong>Accessible and Multilingual:</strong> Supports accessibility standards and translations into dozens of languages.</li>
+        <li><strong>Flexible and Customizable:</strong> Can be tailored with themes, plugins, and integrations with other systems.</li>
+      </ul>
+    
+      <h4>Real-World Use Case: AULES (Comunitat Valenciana)</h4>
+      <p>
+        One of the most prominent examples of Moodle implementation in Spain is <strong>AULES</strong>, the official learning platform provided by the <em>Generalitat Valenciana</em>. AULES is based entirely on Moodle and is used across all educational levels, including primary, secondary, and vocational education. It supports thousands of teachers and students, offering a consistent digital learning environment that is centrally managed and regularly updated. Teachers can easily create online classrooms, assign work, communicate with students, and monitor their progress. The platform has played a vital role in enabling remote and hybrid learning, particularly during the COVID-19 pandemic.
+      </p>
+    
+      <div class="callout info">
+        <p><strong>Did you know?</strong> Moodle is used by over 300 million users worldwide, in more than 40 languages, and in over 230 countries.</p>
+      </div>
+
+      <section id="install-moodle">
+        <h3>2.4 How to Install Moodle</h3>
+      
+        <p>
+          Installing Moodle requires setting up a web server environment that can support PHP and a database system like MySQL or MariaDB. While the process might seem technical at first, it becomes much easier when broken down into logical steps. Understanding how to install Moodle not only helps educators or administrators deploy the platform but also provides valuable insight into how web applications function behind the scenes. Below is a detailed breakdown of how to perform a basic Moodle installation on a local machine or a remote web server.
+        </p>
+      
+        <h4>2.4.1 System Requirements</h4>
+      
+        <p>
+          Before installation, it’s crucial to ensure that your system meets Moodle’s technical requirements. Moodle runs on a web server (typically Apache or Nginx) and requires PHP along with a database system. The recommended configuration for recent versions includes:
+        </p>
+      
+        <ul>
+          <li>Web server: Apache or Nginx</li>
+          <li>PHP: Version 8.0 or higher</li>
+          <li>Database: MySQL (5.7 or higher), MariaDB, PostgreSQL or Microsoft SQL Server</li>
+          <li>Disk space: At least 200 MB for the Moodle core, plus space for uploaded files and backups</li>
+          <li>Memory: A minimum of 512 MB RAM (2 GB or more recommended for production environments)</li>
+        </ul>
+      
+        <h4>2.4.2 Local vs Remote Installation</h4>
+      
+        <p>
+          Moodle can be installed locally for testing and development (using tools like XAMPP, MAMP, or WAMP), or on a remote web server to make it accessible online to users. Local installations are ideal for educators or developers experimenting with Moodle, while remote hosting is used for actual courses and student access.
+        </p>
+      
+        <h4>2.4.3 Downloading Moodle</h4>
+      
+        <p>
+          The official Moodle package can be downloaded from the <a href="https://download.moodle.org" target="_blank">Moodle Downloads page</a>. There you can choose the latest stable version. The downloaded ZIP or TGZ file should be extracted into the web server’s root directory (for example, <code>htdocs</code> in XAMPP or <code>/var/www/html</code> in Linux).
+        </p>
+      
+        <h4>2.4.4. Creating the Database</h4>
+      
+        <p>
+          Before starting the installation wizard, you must create a new, empty database for Moodle using a database management tool like phpMyAdmin or through the command line. When creating the database, ensure the character set is set to <code>utf8mb4</code> and the collation to <code>utf8mb4_unicode_ci</code>, which allows full Unicode compatibility — especially important for international and multilingual environments.
+        </p>
+      
+        <h4>2.4.5 Running the Installation Wizard</h4>
+      
+        <p>
+          Once the Moodle files are in place and the database is ready, navigate to your Moodle site using a web browser (e.g., <code>http://localhost/moodle</code> or your server's IP/domain). Moodle will automatically start its installation wizard, guiding you step by step through:
+        </p>
+      
+        <ul>
+          <li>Selecting the language</li>
+          <li>Verifying system requirements</li>
+          <li>Setting up database connection details</li>
+          <li>Configuring the site name and admin account</li>
+          <li>Completing the installation</li>
+        </ul>
+      
+        <p>
+          If all requirements are met and the database details are correct, Moodle will install the necessary tables and files. The process may take several minutes, depending on your server performance.
+        </p>
+      
+        <h4>2.4.6 First-Time Configuration</h4>
+      
+        <p>
+          After installation, you'll be taken to the Moodle dashboard as the site administrator. From here, you can begin configuring your site — such as enabling authentication methods, uploading a custom logo, choosing themes, and installing plugins. One of the first steps should be updating the default timezone, enabling email notifications (by configuring SMTP settings), and securing the site with HTTPS (if hosting it publicly).
+        </p>
+      
+        <h4>2.4.7 MoodleCloud: An Easier Alternative</h4>
+      
+        <p>
+          For educators who want to start using Moodle without worrying about technical setup, <strong>MoodleCloud</strong> is a great alternative. It’s a hosted service offered by Moodle itself, providing a pre-configured Moodle site instantly. It’s free for small classrooms (up to 50 users) and includes regular updates, backups, and technical maintenance. This is ideal for teachers, tutors, and small educational teams who need a quick and reliable solution without access to IT infrastructure.
+        </p>
+      
+        <div class="callout tip">
+          <p><strong>Tip:</strong> If you're working on a local machine, always stop and start your web server (Apache, Nginx, etc.) properly when making changes to configuration files. Also, remember to secure your installation by removing write permissions from critical files and disabling directory listings in the web server configuration.</p>
+        </div>
+      
+        <div class="callout info">
+          <p><strong>Did you know?</strong> Moodle's open-source community offers hundreds of free plugins and themes that can enhance functionality, including attendance tracking, gamification, and integrations with tools like Google Drive or Microsoft Teams.</p>
+        </div>
+    
+        <h3>2.5 User Roles and Management in Moodle</h3>
+
+  <p>
+    Before diving into course creation and content delivery, it is crucial to understand how user management works in Moodle. The platform is built on a role-based access control system, allowing institutions to assign specific permissions and responsibilities to different types of users. This modular structure ensures a secure, scalable, and well-organized digital learning environment.
+  </p>
+
+  <h4>2.5.1 Main User Roles</h4>
+
+  <p>Moodle includes several predefined roles, each with a distinct set of permissions:</p>
+
+  <ul>
+    <li><strong>Administrator:</strong> Has full access to all settings and content across the platform. This role is responsible for site configuration, plugin management, user accounts, and general maintenance.</li>
+    <li><strong>Manager:</strong> Can manage categories and courses without full administrative privileges. Useful in large institutions where responsibilities are divided.</li>
+    <li><strong>Teacher:</strong> Can create and edit courses, enroll students, grade assignments, and configure activities.</li>
+    <li><strong>Non-editing Teacher:</strong> Can view courses and grade students but cannot modify course content.</li>
+    <li><strong>Student:</strong> Has access to enrolled courses, can participate in activities, submit assignments, take quizzes, and receive grades.</li>
+    <li><strong>Guest:</strong> Has limited read-only access. Useful for open courses or demonstrations.</li>
+  </ul>
+
+  <h4>2.5.2 Creating and Managing User Accounts</h4>
+
+  <p>
+    Moodle supports both manual and automatic user account creation. For small institutions or testing environments, administrators can manually add users through <strong>Site administration &gt; Users &gt; Add a new user</strong>. For larger deployments, bulk upload via CSV files or integrations with LDAP/Active Directory are more efficient.
+  </p>
+
+  <p>
+    Each user has a profile including personal data, photo, contact information, and language preferences. Users can manage parts of their own profile (e.g., password, time zone), depending on site settings.
+  </p>
+
+  <h4>2.5.3 Assigning Roles</h4>
+
+  <p>
+    Roles can be assigned globally (across the whole site), within specific courses, or even within specific activities. This granularity allows flexible control. For instance, a student in one course could be a teacher in another.
+  </p>
+
+  <p>
+    To assign users to a course role, go to the course → <strong>Participants</strong> → <strong>Enroll users</strong> and select the appropriate role from the dropdown menu.
+  </p>
+
+  <h4>2.5.4 Cohorts and Groups</h4>
+
+  <p>
+    For easier user management at scale, Moodle includes two useful organizational tools:
+  </p>
+
+  <ul>
+    <li><strong>Cohorts:</strong> Site-wide or category-wide collections of users. Once created, entire cohorts can be enrolled in courses.</li>
+    <li><strong>Groups:</strong> Course-level subdivisions that allow differentiated activities and grading (e.g., Group A and Group B do different projects).</li>
+  </ul>
+
+  <div class="callout tip">
+    <p><strong>Tip:</strong> Use groups to personalize learning paths, assign projects to different teams, or create breakout discussions within forums.</p>
+  </div>
+
+  <div class="callout warn">
+    <p><strong>Important:</strong> Be careful when assigning administrative roles. A user with full admin access can make changes that affect the entire site, including deleting data or disabling core functionality.</p>
+  </div>
+
+  <h4>2.5.5 Authentication and Security</h4>
+
+  <p>
+    Moodle supports multiple authentication methods, including manual login, OAuth2 (Google, Microsoft), LDAP, and SAML. Institutions can choose the system that best integrates with their existing user directories and Single Sign-On (SSO) systems.
+  </p>
+
+  <p>
+    Security settings such as password policies, login failure thresholds, session timeouts, and reCAPTCHA protection can be configured to ensure a secure user experience.
+  </p>
+
+
+        <h3>2.6 Course Creation Basics</h3>
+
+        <p>
+          Once Moodle is installed and configured, one of the most essential tasks is to create courses. These courses serve as the digital equivalent of classrooms, allowing teachers to organize content, set learning objectives, assign activities, and interact with students. Moodle provides a wide variety of tools for creating and managing courses with flexibility and pedagogical intent.
+        </p>
+      
+        <p>
+          Understanding the structure and options available during course creation is key to building an effective virtual learning environment. Below, we’ll explore the fundamental steps involved in creating a course, from layout decisions to adding the first activities.
+        </p>
+      
+        <h4>2.6.1 Creating a New Course</h4>
+      
+        <p>
+          Only users with the appropriate permissions (usually administrators or teachers with editing rights) can create a new course. To begin, navigate to <strong>Site administration &gt; Courses &gt; Add a new course</strong>. The course creation form is divided into several sections:
+        </p>
+      
+        <ul>
+          <li><strong>General:</strong> Course full name, short name (used in menus and breadcrumbs), category (e.g., subject or department), and visibility.</li>
+          <li><strong>Description:</strong> A summary that appears on the course listing page. You can use text formatting, images, and even embedded videos here.</li>
+          <li><strong>Course format:</strong> Choose between formats like Weekly, Topics, Single Activity, or Social format — each offering different ways to organize content.</li>
+          <li><strong>Appearance:</strong> Choose how many announcements to show, whether to show grades, and how completion tracking works.</li>
+          <li><strong>Files and Completion:</strong> Upload a course image or document and set rules for course completion tracking.</li>
+        </ul>
+      
+        <h4>2.6.2. Enrolling Users</h4>
+      
+        <p>
+          After creating the course, the next step is to enroll participants. Moodle allows several enrollment methods, including manual enrollment, self-enrollment with optional passwords, and even enrollment via external plugins. From the course dashboard, click on <strong>Participants &gt; Enroll users</strong> to add teachers or students.
+        </p>
+      
+        <p>
+          Teachers can be given different roles with varying permissions — such as “Non-editing teacher” or “Manager” — depending on the needs of the course.
+        </p>
+      
+        <h4>2.6.3. Adding Resources and Activities</h4>
+      
+        <p>
+          Moodle provides a robust toolbox of resources (static content) and activities (interactive components). After turning on editing mode within the course, you can add new elements using the <strong>“Add an activity or resource”</strong> link inside each section. Some common types include:
+        </p>
+      
+        <ul>
+          <li><strong>Resources:</strong> Labels, Pages, Files (PDF, DOCX, etc.), URLs, Books (multi-page content).</li>
+          <li><strong>Activities:</strong> Assignments, Quizzes, Forums, Feedback, Surveys, H5P interactive content, and more.</li>
+        </ul>
+      
+        <p>
+          Each activity can be configured with availability dates, grading methods, and completion conditions. For example, a quiz might be timed, randomized, and automatically graded, while an assignment could allow students to submit files and receive feedback.
+        </p>
+      
+        <h4>2.6.4. Organizing the Course</h4>
+      
+        <p>
+          A well-organized course is easier to navigate and improves student engagement. Moodle offers flexibility in organizing content through:
+        </p>
+      
+        <ul>
+          <li>Sections: Represent weeks, topics, or modules.</li>
+          <li>Indentation and collapsible sections: For visual hierarchy and clarity.</li>
+          <li>Labels: To add visual separators, instructions, or announcements.</li>
+          <li>Icons and colors: Used to guide the learner visually through types of content.</li>
+        </ul>
+      
+        <h4>2.6.5 Setting Completion and Tracking</h4>
+      
+        <p>
+          Moodle’s completion tracking feature allows teachers and students to see progress through checkboxes and progress bars. You can define completion conditions — for example, “Student must view this resource” or “Submit assignment with grade higher than 5.”
+        </p>
+      
+        <p>
+          These features are especially helpful for self-paced learning, gamification, and ensuring accountability in long-term courses.
+        </p>
+      
+        <div class="callout tip">
+          <p><strong>Tip:</strong> Start simple. Don’t overload your course with too many tools at once. Use a clear naming system, a consistent visual layout, and introduce new functionalities gradually as students become familiar with the platform.</p>
+        </div>
+      
+        <div class="callout info">
+          <p><strong>Did you know?</strong> Moodle allows course templates to be reused across departments or semesters. This saves time and promotes a consistent learning experience.</p>
+        </div>
+
+        <h3 id="activities-resources">2.7 Managing Activities and Resources</h3>
+
+<p>
+  One of Moodle’s greatest strengths lies in its flexibility to integrate both <strong>resources</strong> (static content) and <strong>activities</strong> (interactive tools) within a course. Once the basic course structure is in place, educators can enrich it by adding diverse elements that inform, assess, engage, and challenge students.
+</p>
+
+<h4>2.7.1 What Are Resources?</h4>
+
+<p>
+  Resources are static learning materials that the teacher uploads or creates to present information to students. These include:
+</p>
+
+<ul>
+  <li><strong>Files:</strong> Upload PDFs, Word documents, presentations, spreadsheets, or multimedia content.</li>
+  <li><strong>Pages:</strong> Create rich-text pages directly in Moodle using the built-in HTML editor. Useful for inserting text, images, videos, or embedded content without uploading files.</li>
+  <li><strong>URLs:</strong> Link to external websites or online tools. Perfect for guiding learners to reliable sources or complementary platforms.</li>
+  <li><strong>Books:</strong> A structured multi-page resource that allows teachers to organize content in chapters — very useful for organizing long reading materials.</li>
+</ul>
+
+<p>
+  Resources help build the foundation of course content. A well-balanced course includes readings, instructions, visuals, and references presented through these resources.
+</p>
+
+<h4>2.7.2 What Are Activities?</h4>
+
+<p>
+  Activities are interactive tools that promote engagement, collaboration, and assessment. They are essential for student participation and active learning. Common activity types in Moodle include:
+</p>
+
+<ul>
+  <li><strong>Assignment:</strong> Students submit files or type directly into a text box. Teachers can grade and give feedback.</li>
+  <li><strong>Quiz:</strong> Create assessments with multiple-choice, true/false, matching, short answer, and more. Can be automatically graded.</li>
+  <li><strong>Forum:</strong> An asynchronous discussion space. Ideal for encouraging critical thinking and peer interaction.</li>
+  <li><strong>Choice:</strong> A simple polling activity to gather opinions or preferences.</li>
+  <li><strong>Glossary:</strong> Collaborative tool where students can create definitions of key terms.</li>
+  <li><strong>Database:</strong> Allows participants to build, display, and search a collection of entries (like a shared research project).</li>
+  <li><strong>Feedback:</strong> Used to collect anonymous responses or course evaluations.</li>
+  <li><strong>Lesson:</strong> Interactive, branching lessons that adapt based on student choices. Great for self-guided learning.</li>
+</ul>
+
+<h4>2.7.3 How to Add Activities and Resources</h4>
+
+<p>
+  In editing mode, educators can easily add new content:
+</p>
+
+<ol>
+  <li>Click on <strong>"Turn editing on"</strong> in the course.</li>
+  <li>Choose the section where you'd like to add content.</li>
+  <li>Click <strong>"Add an activity or resource"</strong>.</li>
+  <li>Select the type from the list and configure the settings.</li>
+  <li>Save and return to the course.</li>
+</ol>
+
+<p>
+  Each activity or resource comes with a detailed configuration panel, allowing the teacher to define the title, description, availability dates, visibility, grade settings, and completion tracking.
+</p>
+
+<h4>2.7.4 Organizing Your Course Effectively</h4>
+
+<p>
+  A well-structured course doesn’t just depend on content — it depends on clarity. Here are a few good practices:
+</p>
+
+<ul>
+  <li><strong>Group content into sections</strong> by topic or week using Moodle's built-in section feature.</li>
+  <li><strong>Use consistent naming conventions</strong> for files and activities (e.g., "Week 1: Introduction Quiz").</li>
+  <li><strong>Alternate content and interaction</strong>: for every 1–2 resources, insert an activity that reinforces or checks understanding.</li>
+  <li><strong>Apply restriction settings</strong> to control when students can access certain materials (based on date, grade, or completion of previous tasks).</li>
+</ul>
+
+<h4>2.7.5 Tracking and Feedback</h4>
+
+<p>
+  Many activities can be automatically tracked by Moodle, allowing students to see their progress and teachers to monitor engagement. Completion tracking can be set manually or automatically (e.g., after submitting a quiz).
+</p>
+
+<p>
+  Feedback can be built into activities (e.g., automatic quiz feedback), added manually, or gathered through surveys and forums.
+</p>
+
+<div class="callout tip">
+  <p>
+    <strong>Tip:</strong> Don’t overload a course with too many tools. Choose 2–3 key activities (like Assignments, Quizzes, and Forums) and use them consistently throughout the course to ensure students feel comfortable with the platform.
+  </p>
+</div>
+
+<h3 id="tracking-reports">2.8 Tracking Student Progress and Generating Reports</h3>
+
+<p>
+  One of Moodle’s key advantages as a Learning Management System is its powerful built-in tracking and reporting tools. These allow teachers and administrators to monitor student engagement, identify learning difficulties early, and ensure accountability across the learning process. With proper configuration, Moodle becomes more than a content delivery platform — it becomes a data-rich environment that supports continuous improvement.
+</p>
+
+<h4>2.8.1 Why Track Progress?</h4>
+
+<p>
+  Tracking student progress helps instructors:
+</p>
+
+<ul>
+  <li>Detect which students are falling behind and offer timely support.</li>
+  <li>Measure participation across different activities and resources.</li>
+  <li>Evaluate the effectiveness of course design.</li>
+  <li>Support fair and transparent assessment.</li>
+</ul>
+
+<p>
+  Monitoring progress is not about surveillance — it's about support, improvement, and learning personalization.
+</p>
+
+<h4>2.8.2 Completion Tracking</h4>
+
+<p>
+  Moodle includes a feature called <strong>Activity Completion</strong>, which allows teachers to define when an activity or resource is considered complete. This can be:
+</p>
+
+<ul>
+  <li><strong>Manual:</strong> Students mark an item as complete.</li>
+  <li><strong>Automatic:</strong> Completion occurs after submitting a quiz, viewing a page, receiving a grade, etc.</li>
+</ul>
+
+<p>
+  When enabled in the course settings, each item will display a checkbox to track progress. Teachers can view an overview of completion by student or by activity.
+</p>
+
+<h4>2.8.3 Course Completion</h4>
+
+<p>
+  Beyond individual items, Moodle also allows defining <strong>course completion criteria</strong>. A course may be marked as complete when a student has:
+</p>
+
+<ul>
+  <li>Finished all required activities.</li>
+  <li>Earned a passing grade.</li>
+  <li>Spent a minimum amount of time in the course.</li>
+</ul>
+
+<p>
+  This feature is especially useful for certifying training or controlling access to subsequent courses in a learning pathway.
+</p>
+
+<h4>2.8.4 Logs and Reports</h4>
+
+<p>
+  Moodle provides multiple reporting tools under the <strong>"Reports"</strong> section of each course. These include:
+</p>
+
+<ul>
+  <li><strong>Logs:</strong> A timeline of every action taken by users (e.g., viewed a page, submitted an assignment).</li>
+  <li><strong>Live logs:</strong> Real-time tracking of user activity in the course.</li>
+  <li><strong>Activity report:</strong> A summary of how many times each resource/activity has been viewed.</li>
+  <li><strong>Course participation report:</strong> Who has or hasn’t completed selected actions.</li>
+  <li><strong>Completion report:</strong> Shows which students have completed which activities, with checkmarks or progress bars.</li>
+</ul>
+
+<h4>2.8.5 Grades and the Gradebook</h4>
+
+<p>
+  All assessments in Moodle (assignments, quizzes, lessons, etc.) feed into the <strong>Gradebook</strong>, a centralized panel where teachers can:
+</p>
+
+<ul>
+  <li>Assign weights to grades or group them into categories (e.g., "Homework", "Exams").</li>
+  <li>Apply manual overrides, comments, and hidden grades.</li>
+  <li>Export grade reports as spreadsheets for offline analysis or archiving.</li>
+</ul>
+
+<p>
+  Students also have access to a personalized version of their grades, encouraging self-monitoring and responsibility.
+</p>
+
+<h4>2.8.6 Custom Reports and Plugins</h4>
+
+<p>
+  While Moodle’s default reports are powerful, advanced users and administrators can take advantage of plugins like <strong>Configurable Reports</strong> or <strong>IntelliBoard</strong> to create dynamic dashboards, visual analytics, and custom filters — especially useful in large institutions.
+</p>
+
+<h4>2.8.7 Tips for Effective Use of Tracking and Reports</h4>
+
+<ul>
+  <li>Activate completion tracking from the beginning of the course.</li>
+  <li>Clearly communicate to students which items are mandatory.</li>
+  <li>Review logs regularly to detect disengaged learners.</li>
+  <li>Use completion data to personalize feedback or trigger reminders.</li>
+  <li>Back up grades and reports at key milestones.</li>
+</ul>
+
+<div class="callout tip">
+  <p>
+    <strong>Tip:</strong> Moodle reports not only show what students have done — they also show what hasn’t been done. Use this to guide interventions and ensure no learner is left behind.
+  </p>
+</div>
+
+<h3 id="best-practices">2.9 Best Practices for Teaching with Moodle</h3>
+
+<p>
+  Using Moodle effectively goes beyond uploading files and creating quizzes. To design meaningful and engaging online learning experiences, educators should follow a series of pedagogical and technical best practices. These practices aim to maximize student participation, facilitate learning, and ensure that the platform truly supports your teaching goals.
+</p>
+
+<h4>2.9.1 Plan Before You Build</h4>
+<p>
+  Before adding content to your course, take time to structure your lessons. Define clear learning objectives, group activities by week or topic, and prepare a balance between resources (content to study) and activities (tasks to complete). A well-organized course is easier to navigate and more motivating for students.
+</p>
+
+<h4>2.9.2 Use Clear Titles and Instructions</h4>
+<p>
+  Name every activity and resource clearly. Instead of vague titles like “Lesson 1”, use something like “Week 1 – Introduction to Databases”. Add short descriptions and instructions, especially for assignments and forums, so students know exactly what is expected.
+</p>
+
+<h4>2.9.3 Diversify Your Resources</h4>
+<p>
+  Don’t rely only on PDFs or lecture slides. Use <strong>pages</strong>, <strong>videos</strong>, <strong>external links</strong>, or <strong>interactive tools</strong> like H5P to vary content delivery. Rich and multimedia content helps keep attention and supports different learning styles.
+</p>
+
+<h4>2.9.4 Encourage Interaction</h4>
+<p>
+  Learning is more effective when students interact. Use <strong>forums</strong> for discussion, <strong>wikis</strong> for collaboration, and <strong>peer review activities</strong> to create a sense of community. Participation should be encouraged and, if possible, graded to reinforce involvement.
+</p>
+
+<h4>2.9.5 Set Deadlines and Use the Calendar</h4>
+<p>
+  Set clear deadlines for tasks and quizzes, and use Moodle’s calendar and notifications to keep students informed. When dates are added to assignments, Moodle will automatically display them in students’ dashboards — reducing confusion and missed tasks.
+</p>
+
+<h4>2.9.6 Provide Feedback Often</h4>
+<p>
+  Feedback helps students improve. Use Moodle’s built-in grading tools to provide quick written comments, use rubrics, or even audio feedback if available. For quizzes, activate feedback by question to guide learners when they make mistakes.
+</p>
+
+<h4>2.9.7 Keep the Interface Clean</h4>
+<p>
+  Avoid overwhelming students with too many items on the course page. Use <strong>collapsed sections</strong> or <strong>weekly/topic formats</strong> to organize content in chunks. Hide or restrict access to items not yet needed, and consider using the <strong>“Stealth mode”</strong> for resources you want to link from elsewhere but not show directly on the main page.
+</p>
+
+<h4>2.9.8 Use Reports to Inform Teaching</h4>
+<p>
+  Regularly check activity reports to spot trends: Are students completing readings? Are forums active? Are there struggling students who haven't logged in? Use this data to adapt your approach and intervene early when necessary.
+</p>
+
+<h4>2.9.9 Be Inclusive and Accessible</h4>
+<p>
+  Ensure that your course is accessible to all. Use clear fonts, add alternative text to images, avoid heavy animations, and provide captions or transcripts when using video. Keep in mind students with slower connections or mobile-only access.
+</p>
+
+<h4>2.9.10 Keep Improving</h4>
+<p>
+  Ask students for feedback at the end of the course. What worked? What was confusing? What could be improved? Even anonymous surveys can provide valuable insights. Moodle evolves, and so should your teaching practices.
+</p>
+
+<div class="callout info">
+  <p><strong>Final thought:</strong> Moodle is just a tool — it’s the teacher who makes learning happen. By applying thoughtful planning, meaningful content, and an engaging approach, you can turn your Moodle course into a true learning environment that goes far beyond file-sharing.</p>
+</div>
+ 
+    </section>
+    
+  
+  </main>
+</div>
+
+<a href="#top" class="backtotop" aria-label="Volver arriba">↑</a>
+
+<footer class="site-footer" role="contentinfo" class="wrap">
+  <div>
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer" title="CC BY-NC-SA 4.0">
+      <img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="Licencia Creative Commons BY-NC-SA 4.0">
+    </a>
+  </div>
+</footer>
+
+<!-- JS de navegación (ajustado a tus clases e IDs) -->
+<script>
+(function(){
+  // Topbar toggle
+  var btn = document.querySelector('.topnav-toggle');
+  var nav = document.getElementById('topnav');
+  if (btn && nav) {
+    btn.addEventListener('click', function(){
+      var open = nav.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    nav.addEventListener('click', function(e){
+      if (e.target.tagName === 'A' && nav.classList.contains('open')) {
+        nav.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  // Resalta enlace activo en el TOC según sección visible
+  var links = document.querySelectorAll('.toc a[href^="#"]');
+  var targets = Array.prototype.map.call(links, function(a){
+    try { return document.querySelector(a.getAttribute('href')); } catch(e){ return null; }
+  }).filter(Boolean);
+
+  if ('IntersectionObserver' in window) {
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          var id = '#' + entry.target.id;
+          links.forEach(function(a){
+            a.classList.toggle('active', a.getAttribute('href') === id);
+          });
+        }
+      });
+    }, { rootMargin: "-40% 0px -55% 0px", threshold: 0 });
+    targets.forEach(function(t){ obs.observe(t); });
+  }
+})();
+</script>
+</body>
+</html>
+

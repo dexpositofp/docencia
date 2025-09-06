@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aplicaciones Web — HTML</title>
+  <link rel="stylesheet" href="./aw.css">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Playfair+Display:wght@700&family=Source+Code+Pro:wght@400&display=swap" rel="stylesheet">
+  <meta name="description" content="Unidad de HTML: estructura, semántica, formularios, tablas, multimedia y validación.">
+</head>
+<body>
+
+<header class="topbar" role="banner">
+  <div class="wrap">
+    <div class="site-brand">
+      <a href="./index.html">Aplicaciones Web</a>
+      <small>2º SMR</small>
+    </div>
+
+    <button class="topnav-toggle" aria-expanded="false" aria-controls="topnav">
+      <span class="sr-only">Abrir menú</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <nav id="topnav" class="topnav" aria-label="Site navigation">
+      <ul>
+        <li><a href="./index.html">Home</a></li>
+        <li><a href="./webapp.html">WebApp</a></li>
+        <li><a href="./html.html" aria-current="page">HTML</a></li>
+        <li><a href="./css.html">CSS</a></li>
+        <li><a href="./cms.html">CMS</a></li>
+        <li><a href="./data.html">Data Storage</a></li>
+        <li><a href="./lms.html">LMS</a></li>
+        <li><a href="./python.html">Python</a></li>
+      </ul>
+    </nav>
+    
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="sidebar" id="sidebar" aria-label="Unit index">
+    <h2>Contents</h2>
+    <nav>
+      <ul class="toc" id="toc">
+        <li><a href="#internet-vs-web">1. The Internet vs. The Web</a></li>
+        <li><a href="#website-vs-webapp">2. Website vs Web Application</a></li>
+        <li><a href="#evolution">3. Evolution: From Static to Dynamic</a></li>
+        <li><a href="#browsing">4. Browsing, Search Techniques, and URLs</a></li>
+        <li><a href="#examples">5. Real-World Web Applications</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <div class="backdrop" id="backdrop" hidden></div>
+
+  <main class="content">
+    <header class="page">
+      <h1 id="intro">CMS</h1>
+      <p class="muted">
+        Discover how Content Management Systems simplify website creation and maintenance, empowering users to build and manage content without coding.
+      </p>
+    </header>
+    
+   
+
+    <section id="cms-overview">
+      <h2>1. Introduction to Content Management Systems (CMS)</h2>
+    
+      <p>
+        A <strong>Content Management System (CMS)</strong> is software designed to simplify the creation, editing, organization, and delivery of digital content—especially for websites—as an intuitive, user-friendly interface. It empowers users to build and manage online content without extensive technical knowledge. 
+      </p>
+    
+      <h3>1.1 How a CMS Works</h3>
+      <p>
+        A Content Management System (CMS) is a software platform that allows users to create, manage, and modify digital content on a website without needing to write code from scratch.
+        It separates the content from the design and structure of the website, making it easier to manage.
+      </p>
+    
+      <p>
+        At its core, a CMS has two main components:
+      </p>
+      <ul>
+        <li><strong>Content Management Application (CMA):</strong> This is the part that users interact with — a graphical user interface (GUI) where they can write, edit, and publish content. No programming skills are needed to use it.</li>
+        <li><strong>Content Delivery Application (CDA):</strong> This is the backend part that compiles the content and templates, stores them in the database, and renders them to users when they visit the site.</li>
+      </ul>
+    
+      <p>
+        When a user visits a page, the CMS retrieves the content from a database, combines it with a design template, and displays it as a complete web page in the browser.
+        This process is done dynamically, which means changes can be reflected immediately without manual intervention.
+      </p>
+    
+      <p>
+        For example, if you write a blog post using a CMS, the system will save your content in the database. When someone visits your blog, the CMS retrieves your post, applies the visual layout, and serves it as a finished web page.
+      </p>
+    
+      <div class="callout info">
+        <p><strong>Did you know?</strong> Some CMSs offer visual page builders, allowing users to design pages with drag-and-drop tools—perfect for non-technical users.</p>
+      </div>
+    
+      <h4>Mini Challenge</h4>
+      <ol>
+        <li>Research a popular CMS (e.g., WordPress, Joomla, Drupal) and explain how it handles content storage and presentation.</li>
+        <li>Create a diagram that shows the flow of content in a CMS — from writing a post to displaying it in the browser.</li>
+      </ol>
+    
+      <h3>1.2 Infrastructure Required</h3>
+  <p>
+    To run a CMS, you need a specific set of hardware and software resources that work together to deliver content to users. This infrastructure can be hosted on your own servers (self-hosted) or managed by a cloud provider (hosted solution).
+  </p>
+
+  <p>
+    The basic infrastructure required to run a CMS includes:
+  </p>
+
+  <ul>
+    <li>
+      <strong>Web Server:</strong> Software like Apache or Nginx that handles HTTP requests from users and delivers web pages. It acts as the bridge between the CMS and the user's browser.
+    </li>
+    <li>
+      <strong>Database Server:</strong> CMS platforms store all content (articles, pages, users, settings) in a database such as MySQL or MariaDB.
+    </li>
+    <li>
+      <strong>Server-Side Scripting Language:</strong> Most CMSs are built using PHP, so the server must support it. Some CMSs may use Python, Node.js, or other languages.
+    </li>
+    <li>
+      <strong>File System / Storage:</strong> Media files (images, videos, documents) are stored in folders accessible to the CMS. Proper storage configuration is essential for performance and security.
+    </li>
+    <li>
+      <strong>Domain Name & DNS:</strong> A registered domain (e.g., mywebsite.com) and correctly configured DNS records so users can access your CMS online.
+    </li>
+    <li>
+      <strong>Optional - SSL Certificate:</strong> Enables secure connections (HTTPS), especially important for CMSs managing user data or e-commerce.
+    </li>
+  </ul>
+
+  <p>
+    If you opt for a cloud-based or managed CMS solution (like WordPress.com or Wix), this entire infrastructure is abstracted for you. But in self-hosted setups, you must configure and maintain these components yourself.
+  </p>
+
+  <div class="callout tip">
+    <p>
+      <strong>Tip:</strong> Many hosting providers offer one-click installations for CMSs like WordPress, which automatically configure the server, PHP, and database for you.
+    </p>
+  </div>
+
+  <h4>Mini Challenges</h4>
+  <ol>
+    <li>List the software components required to run a WordPress CMS on a local server using tools like XAMPP or MAMP.</li>
+    <li>Compare two types of hosting for CMSs: shared hosting and cloud hosting. Which one would you recommend for a personal blog?</li>
+  </ol>
+    
+      <h3>1.3 Advantages of Using a CMS</h3>
+
+      <p>
+        A Content Management System (CMS) simplifies the creation, management, and updating of digital content. It provides powerful tools that allow even non-technical users to build and maintain websites with ease. Below are the key advantages of using a CMS:
+      </p>
+    
+      <ul>
+        <li>
+          <strong>Ease of Use:</strong> Most CMSs have intuitive, user-friendly interfaces that allow users to create and edit pages using visual editors without needing to write code.
+        </li>
+        <li>
+          <strong>Separation of Content and Design:</strong> Content is stored separately from templates and styles. This makes it easy to redesign a site without rewriting all the content.
+        </li>
+        <li>
+          <strong>Collaboration and Roles:</strong> CMSs allow multiple users to work on a website simultaneously, with role-based permissions (e.g., authors, editors, administrators).
+        </li>
+        <li>
+          <strong>Plugins and Extensions:</strong> You can add new features (e.g., contact forms, SEO tools, e-commerce) by installing plugins—no coding required.
+        </li>
+        <li>
+          <strong>Templates and Themes:</strong> Ready-made design templates make it quick to launch a professional-looking website.
+        </li>
+        <li>
+          <strong>SEO Optimization:</strong> Many CMSs include tools for managing SEO-friendly URLs, metadata, and sitemaps to improve visibility in search engines.
+        </li>
+        <li>
+          <strong>Multilingual Support:</strong> Easily create content in multiple languages to reach a wider audience.
+        </li>
+        <li>
+          <strong>Community and Support:</strong> Popular CMSs like WordPress, Joomla, or Drupal have large communities that offer free tutorials, forums, and technical support.
+        </li>
+        <li>
+          <strong>Scalability:</strong> CMSs can handle small blogs as well as large corporate websites with thousands of pages and users.
+        </li>
+      </ul>
+    
+      <div class="callout info">
+        <p>
+          <strong>Example:</strong> A small business owner can use WordPress to launch a website in hours, using a free theme, a contact form plugin, and some custom content—without hiring a web developer.
+        </p>
+      </div>
+    
+      <h4>Mini Challenge</h4>
+      <ol>
+        <li>Write down three advantages of using a CMS for building a personal portfolio website.</li>
+        <li>Find and name one plugin or feature from WordPress that helps with SEO. How does it help improve a website's visibility?</li>
+      </ol>
+    
+      <h3>1.4 Disadvantages and Challenges</h3>
+
+  <p>
+    While Content Management Systems offer many benefits, it's important to understand their limitations as well. Choosing a CMS involves weighing both the advantages and the challenges, depending on the project's needs.
+  </p>
+
+  <ul>
+    <li>
+      <strong>Performance Overhead:</strong> CMS platforms often load many features by default, which can slow down websites if not optimized properly. Additional plugins can further affect performance.
+    </li>
+    <li>
+      <strong>Security Risks:</strong> CMSs are common targets for cyberattacks. Using outdated plugins, weak passwords, or failing to update the CMS regularly can expose the site to vulnerabilities.
+    </li>
+    <li>
+      <strong>Customization Limits:</strong> While many plugins and themes exist, creating very specific custom features might still require coding knowledge or developer support.
+    </li>
+    <li>
+      <strong>Plugin Conflicts:</strong> Using too many plugins or ones from unreliable sources can cause compatibility issues, break site functionality, or introduce bugs.
+    </li>
+    <li>
+      <strong>Learning Curve:</strong> Although CMSs are designed to be user-friendly, mastering them (especially complex ones like Drupal) can take time, especially for managing advanced features or troubleshooting.
+    </li>
+    <li>
+      <strong>Database Dependency:</strong> CMSs rely heavily on databases. If the database becomes corrupted or inaccessible, the entire site may crash or fail to load.
+    </li>
+    <li>
+      <strong>Maintenance Required:</strong> Regular updates (CMS core, themes, plugins) are necessary to ensure functionality and security. This requires attention and ongoing effort.
+    </li>
+  </ul>
+
+  <div class="callout warn">
+    <p>
+      <strong>Example:</strong> A small blog using WordPress might be hacked because of an outdated theme or plugin. The user must restore a backup and learn how to secure the site better.
+    </p>
+  </div>
+
+  <h4>Mini Challenge</h4>
+  <ol>
+    <li>List two potential risks of using too many plugins on a CMS site. What can be done to avoid them?</li>
+    <li>Research and write one security best practice for WordPress websites.</li>
+  </ol>
+    
+      <h3>1.5 Popular CMS Platforms</h3>
+      <p>
+        There are many CMS platforms available, each with unique features, advantages, and ideal use cases. Choosing the right CMS depends on the type of website, the user’s technical skills, and the project's specific requirements.
+      </p>
+    
+      <ul>
+        <li>
+          <strong>WordPress</strong> – <em>Most popular CMS globally.</em><br>
+          Originally built for blogging, WordPress now powers over 40% of all websites. It supports everything from simple blogs to e-commerce and portfolio sites. It offers thousands of themes and plugins, a user-friendly dashboard, and a large community.
+        </li>
+        <li>
+          <strong>Joomla</strong> – <em>More flexible but less beginner-friendly than WordPress.</em><br>
+          Joomla is suitable for complex websites and portals. It offers powerful user management and multilingual support but may require more technical knowledge for customization.
+        </li>
+        <li>
+          <strong>Drupal</strong> – <em>Advanced CMS for developers and large-scale projects.</em><br>
+          Highly customizable and secure, Drupal is ideal for institutions, governments, and complex data-driven sites. However, it has a steep learning curve and is best handled by experienced users.
+        </li>
+        <li>
+          <strong>Shopify</strong> – <em>Focused on e-commerce.</em><br>
+          A cloud-based CMS designed specifically for online stores. It handles inventory, payments, shipping, and product management with ease. It’s easy to use but has monthly fees and limited flexibility outside e-commerce.
+        </li>
+        <li>
+          <strong>Ghost</strong> – <em>Minimalist and fast blogging platform.</em><br>
+          Ideal for publishers and writers who want a clean, modern, and fast blogging experience. Ghost is focused on performance and simplicity.
+        </li>
+        <li>
+          <strong>Webflow</strong> – <em>Design-focused CMS for custom websites.</em><br>
+          Combines visual design tools with CMS capabilities. Great for designers and agencies who want more creative control without coding everything from scratch.
+        </li>
+        <li>
+          <strong>Wix</strong> / <strong>Squarespace</strong> – <em>All-in-one website builders.</em><br>
+          These platforms offer drag-and-drop interfaces for building visually appealing sites quickly. They are user-friendly but less customizable than open-source CMSs.
+        </li>
+      </ul>
+    
+      <div class="callout info">
+        <p>
+          <strong>Tip:</strong> WordPress is often the best starting point for beginners due to its ease of use, active community, and wide range of plugins. However, for more complex or specific needs, exploring alternatives like Drupal or Webflow can be beneficial.
+        </p>
+      </div>
+    
+      <h4>Activity</h4>
+      <ol>
+        <li>Choose one CMS from the list and write a short summary of its main features, advantages, and when you would recommend using it.</li>
+        <li>Compare WordPress and one other CMS (e.g., Drupal or Joomla) based on flexibility, ease of use, and performance.</li>
+      </ol>
+    
+      <h2>2. WordPress</h2>
+    
+      <h3>2.1 What Is WordPress?</h3>
+
+  <p>
+    WordPress is the world’s most popular open-source content management system (CMS), used by over 40% of all websites on the internet. Originally developed as a blogging platform in 2003, it has evolved into a full-featured tool for building everything from personal blogs to corporate websites, online stores, portfolios, and learning platforms.
+  </p>
+
+  <p>
+    WordPress allows users to create, manage, and publish content through an intuitive interface without needing advanced programming knowledge. It separates content from design, making it easy to update pages, articles, or media without touching a single line of code.
+  </p>
+
+  <h4>Key Features</h4>
+  <ul>
+    <li><strong>Open-source:</strong> Free to use, modify, and redistribute.</li>
+    <li><strong>Extensible:</strong> Thousands of plugins and themes allow for endless customization.</li>
+    <li><strong>User-friendly:</strong> Easy for beginners, with advanced features for developers.</li>
+    <li><strong>SEO-friendly:</strong> Built with search engine optimization in mind.</li>
+    <li><strong>Large community:</strong> Supported by millions of users, developers, and contributors worldwide.</li>
+  </ul>
+
+  <h4>Two Versions of WordPress</h4>
+  <ul>
+    <li><strong>WordPress.org:</strong> The self-hosted version. You download and install it on your own hosting service. Full control, flexibility, and the ability to install custom plugins/themes.</li>
+    <li><strong>WordPress.com:</strong> A hosted version managed by Automattic. No need to manage a server, but it comes with some limitations unless you pay for premium plans.</li>
+  </ul>
+
+  <h4>What Can You Build with WordPress?</h4>
+  <ul>
+    <li>Personal blogs and portfolios</li>
+    <li>Business websites and landing pages</li>
+    <li>Online stores (with plugins like WooCommerce)</li>
+    <li>News and magazine sites</li>
+    <li>E-learning platforms (using LMS plugins)</li>
+    <li>Membership sites or forums</li>
+  </ul>
+
+  <div class="callout info">
+    <p><strong>Fun Fact:</strong> WordPress powers websites of major organizations such as The New Yorker, TechCrunch, BBC America, and even The White House (archived versions).</p>
+  </div>
+
+  <h4>Activity</h4>
+  <ol>
+    <li>Research and compare the differences between WordPress.org and WordPress.com. Which one would you choose for a personal project? Justify your answer.</li>
+    <li>Make a list of five websites (school, business, blog, etc.) that you think were built using WordPress. Use browser tools or online detectors to confirm.</li>
+  </ol>
+    
+      <h3>2.2 Why Choose WordPress?</h3>
+      <p>
+        WordPress has become the go-to solution for building websites across all types of users — from beginners and small businesses to large corporations and developers. Its flexibility, simplicity, and wide range of features make it a powerful choice for any web project.
+      </p>
+    
+      <h4>Main Reasons to Choose WordPress</h4>
+      <ul>
+        <li><strong>Ease of Use:</strong> You don't need to know how to code to create and manage content. Its intuitive dashboard lets you add pages, media, and posts with just a few clicks.</li>
+        <li><strong>Highly Customizable:</strong> With thousands of free and premium themes and plugins, WordPress can be tailored to fit nearly any design or functionality requirement.</li>
+        <li><strong>Active Community:</strong> There’s an enormous global community offering support, tutorials, forums, and updates — making it easier to learn and solve problems quickly.</li>
+        <li><strong>SEO Friendly:</strong> WordPress generates clean, readable code and offers excellent SEO plugins that help boost your visibility in search engines.</li>
+        <li><strong>Scalability:</strong> From small blogs to high-traffic websites, WordPress can grow with your needs without requiring a platform change.</li>
+        <li><strong>Frequent Updates:</strong> Regular security patches and feature updates ensure the system stays modern, secure, and reliable.</li>
+        <li><strong>Mobile-Ready:</strong> Most themes are responsive and adapt to different screen sizes, providing a good experience on mobile devices.</li>
+        <li><strong>E-Commerce Ready:</strong> With plugins like <code>WooCommerce</code>, WordPress can become a powerful online store.</li>
+      </ul>
+    
+      <div class="callout tip">
+        <p><strong>Tip:</strong> Even large companies and media outlets use WordPress. It's not just for blogs — it's a full web development framework that can handle anything from portfolios to e-learning platforms.</p>
+      </div>
+    
+      <h4>Activity</h4>
+      <ol>
+        <li>Look up three popular websites built with WordPress and briefly describe what they use it for (e.g., blog, store, news).</li>
+        <li>Write a short paragraph explaining which feature of WordPress you find most useful and why you would recommend it to someone building their first website.</li>
+      </ol>
+    
+      <h3>2.3 Basic Installation Steps</h3>
+      <p>
+        WordPress is known for its ease of installation. Whether you're hosting your own website or using a managed platform, getting WordPress up and running can be done in a few minutes. Below are the common methods of installation, depending on your hosting environment.
+      </p>
+    
+      <h4>Option 1: One-Click Installation (Recommended for Beginners)</h4>
+      <p>
+        Many web hosting providers (like Bluehost, SiteGround, or Hostinger) offer a one-click installer from their control panels (e.g., cPanel or Plesk). This is the fastest and easiest way to get started with WordPress.
+      </p>
+      <ol>
+        <li>Log into your hosting control panel.</li>
+        <li>Find the “WordPress Installer” or “Softaculous App Installer.”</li>
+        <li>Choose your domain name.</li>
+        <li>Fill in your site title, admin username, password, and email.</li>
+        <li>Click “Install.”</li>
+      </ol>
+      <p><strong>Result:</strong> In a few seconds, your WordPress site will be live and ready to customize.</p>
+    
+      <h4>Option 2: Manual Installation (Recommended for Local Development or Custom Hosting)</h4>
+      <p>This method gives you more control and is ideal for local testing or advanced users:</p>
+      <ol>
+        <li>Download the latest version of WordPress from <a href="https://wordpress.org/download/" target="_blank">wordpress.org</a>.</li>
+        <li>Create a new database and user in your hosting panel (usually via phpMyAdmin).</li>
+        <li>Upload the WordPress files to your web server (typically to the <code>public_html</code> or <code>www</code> directory) via FTP or File Manager.</li>
+        <li>Access your domain to start the installation wizard.</li>
+        <li>Enter database information and site details.</li>
+        <li>Finish setup and log in to the WordPress admin dashboard.</li>
+      </ol>
+    
+      <h4>Option 3: Local Installation (For Testing and Development)</h4>
+      <p>
+        If you want to experiment with WordPress on your computer without publishing to the web, use a local server:
+      </p>
+      <ul>
+        <li><strong>XAMPP / MAMP / WAMP:</strong> Set up Apache, MySQL, and PHP on your machine.</li>
+        <li>Create a local database via phpMyAdmin.</li>
+        <li>Extract WordPress into your server root folder (e.g., <code>htdocs</code>).</li>
+        <li>Visit <code>localhost/yourfolder</code> to begin installation.</li>
+      </ul>
+    
+      <h4>Installation Requirements</h4>
+      <ul>
+        <li><strong>Server:</strong> Apache or Nginx</li>
+        <li><strong>PHP:</strong> Version 7.4 or greater</li>
+        <li><strong>Database:</strong> MySQL 5.7+ or MariaDB 10.4+</li>
+        <li><strong>HTTPS:</strong> Recommended for security</li>
+      </ul>
+    
+      <div class="callout tip">
+        <p>
+          <strong>Tip:</strong> Always keep your WordPress installation, themes, and plugins up to date. Choose a secure username and password during setup to prevent unauthorized access.
+        </p>
+      </div>
+    
+      <h4>Activity</h4>
+      <ol>
+        <li>Install WordPress locally using XAMPP or MAMP. Create a basic homepage with your name and one post.</li>
+        <li>Try both one-click installation and manual installation on a free web host (or simulate it). Compare the differences.</li>
+      </ol>
+    
+      <h3>2.4 Recommended Configuration Practices</h3>
+      <p>
+        Once WordPress is installed, it's essential to configure it properly to ensure your website is secure, optimized, and easy to manage. A few small decisions early on can make a big difference in the long-term performance and reliability of your site.
+      </p>
+    
+      <h4>Basic Settings</h4>
+      <ul>
+        <li>
+          <strong>Site Title and Tagline:</strong> Set these under <em>Settings → General</em>. They appear in the browser tab and are important for branding and SEO.
+        </li>
+        <li>
+          <strong>Permalink Structure:</strong> Go to <em>Settings → Permalinks</em> and choose “Post name” for cleaner, more readable URLs.
+        </li>
+        <li>
+          <strong>Time Zone and Language:</strong> Adjust these settings so your posts and logs reflect your local time and preferred language.
+        </li>
+      </ul>
+    
+      <h4>Security Best Practices</h4>
+      <ul>
+        <li><strong>Change the default "admin" username:</strong> Choose a custom admin name to prevent brute-force attacks.</li>
+        <li><strong>Use strong passwords:</strong> Especially for administrator accounts — and enable two-factor authentication if possible.</li>
+        <li><strong>Install a security plugin:</strong> Such as Wordfence or iThemes Security to monitor suspicious activity.</li>
+        <li><strong>Keep everything updated:</strong> Regularly update WordPress core, themes, and plugins to patch vulnerabilities.</li>
+      </ul>
+    
+      <h4>Performance Optimization</h4>
+      <ul>
+        <li><strong>Use a caching plugin:</strong> Like WP Super Cache or W3 Total Cache to reduce page load times.</li>
+        <li><strong>Install only essential plugins:</strong> Too many plugins can slow down your site or cause conflicts.</li>
+        <li><strong>Optimize images:</strong> Compress images using plugins like Smush or TinyPNG to save bandwidth.</li>
+        <li><strong>Choose a fast and lightweight theme:</strong> Avoid heavy themes that load unnecessary scripts or features.</li>
+      </ul>
+    
+      <h4>Backup and Recovery</h4>
+      <ul>
+        <li><strong>Set up automatic backups:</strong> Use plugins like UpdraftPlus to regularly save your site files and database.</li>
+        <li><strong>Store backups off-site:</strong> Save backups to external services like Google Drive or Dropbox to protect against server failure.</li>
+        <li><strong>Test your restore process:</strong> Ensure you know how to recover your site from a backup in case of emergency.</li>
+      </ul>
+    
+      <h4>Optional Enhancements</h4>
+      <ul>
+        <li><strong>Install an SEO plugin:</strong> Such as Yoast SEO or Rank Math to help optimize content for search engines.</li>
+        <li><strong>Add Google Analytics:</strong> Track visitor behavior to improve your site's performance and content.</li>
+        <li><strong>Create a child theme:</strong> If you plan to customize your theme's code, use a child theme to avoid losing changes after updates.</li>
+      </ul>
+    
+      <div class="callout tip">
+        <p><strong>Tip:</strong> After installation, it's a good idea to create a checklist of tasks to complete before launching your website. A well-configured WordPress site will save you time, boost security, and improve user experience.</p>
+      </div>
+    
+      <h4>Activity</h4>
+      <ol>
+        <li>Configure a local WordPress installation by adjusting basic settings (title, permalink structure, timezone).</li>
+        <li>Install one plugin for security, one for optimization, and one for backup — and explain the role of each.</li>
+      </ol>
+    
+      <h3>2.5 Activities for Students</h3>
+      <ol>
+        <li>Install WordPress locally (e.g., via MAMP, XAMPP) and create a basic blog or portfolio.</li>
+        <li>Activate a theme, add sample content, and install a plugin (e.g., SEO or caching).</li>
+        <li>Compare WordPress.com and WordPress.org — list pros and cons of each.</li>
+      </ol>
+    </section>
+    
+  
+  </main>
+</div>
+
+<a href="#top" class="backtotop" aria-label="Volver arriba">↑</a>
+
+<footer class="site-footer" role="contentinfo" class="wrap">
+  <div>
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer" title="CC BY-NC-SA 4.0">
+      <img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="Licencia Creative Commons BY-NC-SA 4.0">
+    </a>
+  </div>
+</footer>
+
+<!-- JS de navegación (ajustado a tus clases e IDs) -->
+<script>
+(function(){
+  // Topbar toggle
+  var btn = document.querySelector('.topnav-toggle');
+  var nav = document.getElementById('topnav');
+  if (btn && nav) {
+    btn.addEventListener('click', function(){
+      var open = nav.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    nav.addEventListener('click', function(e){
+      if (e.target.tagName === 'A' && nav.classList.contains('open')) {
+        nav.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  // Resalta enlace activo en el TOC según sección visible
+  var links = document.querySelectorAll('.toc a[href^="#"]');
+  var targets = Array.prototype.map.call(links, function(a){
+    try { return document.querySelector(a.getAttribute('href')); } catch(e){ return null; }
+  }).filter(Boolean);
+
+  if ('IntersectionObserver' in window) {
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          var id = '#' + entry.target.id;
+          links.forEach(function(a){
+            a.classList.toggle('active', a.getAttribute('href') === id);
+          });
+        }
+      });
+    }, { rootMargin: "-40% 0px -55% 0px", threshold: 0 });
+    targets.forEach(function(t){ obs.observe(t); });
+  }
+})();
+</script>
+</body>
+</html>
+

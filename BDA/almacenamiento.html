@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aplicaciones Web — HTML</title>
+  <link rel="stylesheet" href="./bd.css">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Playfair+Display:wght@700&family=Source+Code+Pro:wght@400&display=swap" rel="stylesheet">
+  <meta name="description" content="Unidad de HTML: estructura, semántica, formularios, tablas, multimedia y validación.">
+</head>
+<body>
+
+<header class="topbar" role="banner">
+  <div class="wrap">
+    <div class="site-brand">
+      <a href="./index.html">Bases de Datos</a>
+      <small>1º DAW</small>
+    </div>
+
+    <button class="topnav-toggle" aria-expanded="false" aria-controls="topnav">
+      <span class="sr-only">Abrir menú</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <nav id="topnav" class="topnav" aria-label="Site navigation">
+      <ul>
+        <li><a href="index.html" class="active">Inicio</a></li>
+        <li><a href="almacenamiento.html">Almacenamiento</a></li>
+        <li><a href="logico.html">Diseño Lógico</a></li>
+        <li><a href="relacional.html">Modelo Relacional</a></li>
+        <li><a href="sql.html">SQL</a></li>
+        <li><a href="plsql.html">PL/SQL</a></li>
+        <li><a href="persistencia.html">Persistencia</a></li>
+        <li><a href="nosql.html">NoSQL</a></li>
+    </ul>
+    </nav>
+    
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="sidebar" id="sidebar" aria-label="Unit index">
+    <h2>Contents</h2>
+    <nav>
+      <ul class="toc" id="toc">
+        <li><a href="#objetivos">Objetivos</a></li>
+                <li><a href="#competencias">1. Competencias</a></li>
+                <li><a href="#contenidos">2. Contenidos</a></li>
+                <li><a href="#metodologia">3. Metodología</a></li>
+                <li><a href="#evaluacion">4. Evaluación</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <div class="backdrop" id="backdrop" hidden></div>
+
+  <main class="content">
+    <header class="page">
+      <h1 id="intro">Web Applications and the Cloud</h1>
+      <p class="muted">Understanding the evolution of the web and the power of cloud-based applications</p>
+    </header>
+
+    <section id="datos">
+      <h2>1. Datos e Información</h2>
+      <p>
+        Antes de introducirnos en el mundo de las bases de datos, resulta fundamental 
+        distinguir entre dos conceptos básicos: <strong>dato</strong> e <strong>información</strong>. 
+        Aunque en el lenguaje cotidiano se utilizan como sinónimos, en el ámbito de la informática 
+        no significan lo mismo. Un <em>dato</em> es simplemente un valor aislado que por sí solo 
+        carece de un significado completo: puede ser un número, una fecha o una palabra. 
+        Por ejemplo, valores como <em>25</em>, <em>2024-06-10</em> o <em>“Juan”</em> son solo datos 
+        en bruto; no sabemos si se trata de una edad, una temperatura, una fecha de nacimiento 
+        o el nombre de un cliente. Por sí mismos, los datos no resuelven ninguna necesidad 
+        ni responden a ninguna pregunta.
+      </p>
+    
+      <p>
+        La <strong>información</strong>, en cambio, surge cuando esos datos se organizan 
+        y se interpretan dentro de un contexto. Es el resultado de darles un significado 
+        que aporte conocimiento. Así, si decimos: 
+      </p>
+    
+      <blockquote>
+        “El día 15 de junio de 2024 en Valencia se registraron <strong>25 grados centígrados</strong>.”
+      </blockquote>
+    
+      <p>
+        Ahora ya no hablamos de un simple número: hemos transformado el dato en una información útil, 
+        que nos dice qué ocurrió, dónde y cuándo. Este ejemplo muestra cómo la diferencia entre 
+        dato e información radica en el contexto y la interpretación que se les da.
+      </p>
+    
+      <p>
+        Para entender mejor esta distinción conviene recordar algunos puntos clave:
+      </p>
+      <ul>
+        <li>Los datos son la <strong>materia prima</strong>, la información es el <strong>producto procesado</strong>.</li>
+        <li>Un mismo dato puede generar informaciones muy distintas según el contexto en el que se utilice.</li>
+        <li>En informática, lo importante no es acumular datos sin más, sino convertirlos en información que sirva para tomar decisiones.</li>
+      </ul>
+    
+      <div class="callout tip">
+        💡 <strong>Consejo:</strong> Siempre que trabajes con un conjunto de datos, pregúntate: 
+        <em>¿qué información útil puedo extraer de aquí?</em> Esa reflexión te ayudará a 
+        diferenciar entre almacenar datos sin valor y gestionar conocimiento real.
+      </div>
+    
+      <p>
+        En resumen, los datos aislados carecen de valor práctico, mientras que la información 
+        organizada y contextualizada es la que verdaderamente aporta utilidad. Esta distinción 
+        es el punto de partida que justifica la necesidad de sistemas de almacenamiento y gestión 
+        eficientes, que veremos materializados en los <strong>Sistemas de Bases de Datos</strong>. 
+        A lo largo del curso, profundizaremos en cómo los SGBD permiten realizar esa transformación 
+        de manera estructurada, fiable y accesible.
+      </p>
+    </section>
+    
+   
+    
+
+<section id="ficheros">
+  <h2>2. Ficheros</h2>
+  <p>
+    Antes de la popularización de las bases de datos, las organizaciones utilizaban ficheros para almacenar la información. 
+    Esta estrategia resultaba relativamente sencilla y económica: bastaba con definir un conjunto de archivos de texto o binarios 
+    en los que registrar datos de clientes, empleados, ventas o cualquier otro aspecto del negocio. 
+    De hecho, en entornos reducidos todavía hoy se encuentran sistemas de gestión que dependen de hojas de cálculo o ficheros planos. 
+  </p>
+
+  <p>
+    Sin embargo, a medida que los sistemas crecieron en tamaño y en complejidad, las limitaciones de este enfoque se hicieron 
+    evidentes. La gestión basada únicamente en ficheros genera problemas de redundancia, falta de integridad y dificultades 
+    a la hora de acceder de manera eficiente a la información. Estos inconvenientes suponen un freno considerable 
+    para el desarrollo de aplicaciones seguras y escalables.
+  </p>
+
+  <h3>Principales problemas del almacenamiento en ficheros</h3>
+  <ul>
+    <li><strong>Redundancia de datos:</strong> la misma información se guarda en múltiples ficheros, lo que provoca duplicidad innecesaria.</li>
+    <li><strong>Inconsistencia:</strong> si se actualiza un dato en un fichero y no en los demás, aparecen contradicciones.</li>
+    <li><strong>Dificultad de acceso:</strong> recuperar información requiere recorrer el fichero completo, lo que supone operaciones lentas.</li>
+    <li><strong>Escasa seguridad:</strong> el control de accesos es limitado y no suele existir gestión de permisos granular.</li>
+    <li><strong>Problemas de integridad:</strong> no hay mecanismos que aseguren que los datos cumplen reglas básicas (ejemplo: no admitir edades negativas).</li>
+    <li><strong>Mantenimiento costoso:</strong> cualquier cambio en la estructura de un fichero puede obligar a reprogramar todas las aplicaciones asociadas.</li>
+  </ul>
+
+  <div class="callout warning">
+    <p>
+      Aunque los ficheros pueden ser útiles en proyectos pequeños, <strong>no son adecuados cuando el volumen de datos crece</strong> 
+      o cuando la información debe compartirse entre distintos usuarios y aplicaciones. 
+      En estas situaciones, las bases de datos resultan imprescindibles.
+    </p>
+  </div>
+</section>
+
+<section>
+  <h2>3. Bases de datos</h2>
+  <p>
+    Para superar las limitaciones de los sistemas basados en ficheros, surge el concepto de <strong>base de datos</strong>. 
+    Una base de datos no es simplemente un conjunto de ficheros: es un <em>almacén estructurado de información</em>, diseñado 
+    para garantizar la consistencia, integridad y disponibilidad de los datos. 
+    Además, las bases de datos están gestionadas por un software especializado que centraliza el control y ofrece 
+    un conjunto de herramientas para manipular la información de forma eficiente.
+  </p>
+
+  <h3>3.1 Características principales</h3>
+  <ul>
+    <li><strong>Centralización:</strong> los datos se almacenan en un sistema único, accesible para distintas aplicaciones y usuarios.</li>
+    <li><strong>Reducción de redundancia:</strong> la información se organiza de manera que se minimiza la duplicidad.</li>
+    <li><strong>Integridad:</strong> se pueden definir reglas que aseguren que los datos cumplen restricciones lógicas y de negocio.</li>
+    <li><strong>Seguridad:</strong> se gestionan permisos de acceso diferenciados para usuarios y grupos.</li>
+    <li><strong>Escalabilidad:</strong> permiten manejar grandes volúmenes de información sin degradar el rendimiento.</li>
+    <li><strong>Flexibilidad en las consultas:</strong> gracias a lenguajes especializados como SQL, es posible recuperar 
+        información compleja de forma rápida.</li>
+  </ul>
+
+  <p>
+    Gracias a estas características, las bases de datos se convierten en la solución natural para empresas, administraciones 
+    y organizaciones de todo tipo que necesiten almacenar y gestionar su información de manera fiable.
+  </p>
+
+  <div class="callout tip">
+    <p>
+      Piensa en una base de datos como en la infraestructura central de información de una organización. 
+      Igual que un sistema eléctrico distribuye la energía de forma segura y controlada a todos los dispositivos, 
+      la base de datos distribuye la información de manera estructurada, garantizando su integridad y accesibilidad. 
+    </p>
+  </div>
+</section>
+
+<section id="sgbd">
+  <h2>4. Sistemas Gestores de Bases de Datos (SGBD)</h2>
+  <p>
+    Una <strong>base de datos</strong> por sí sola no es suficiente para garantizar un uso eficiente y seguro de la información. 
+    Es necesario un sistema que proporcione mecanismos para crear, organizar, consultar, modificar y proteger los datos de forma estructurada. 
+    Aquí entran en juego los <strong>Sistemas Gestores de Bases de Datos (SGBD)</strong>, que son el conjunto de programas diseñados para 
+    facilitar todas estas operaciones. Gracias a ellos, los usuarios no necesitan preocuparse por la implementación técnica 
+    ni por los detalles del almacenamiento físico: basta con interactuar a través de lenguajes de consulta o de aplicaciones que se apoyan en el SGBD.
+  </p>
+
+  <p>
+    Las funciones principales de un SGBD incluyen la <strong>definición</strong> de estructuras de datos, la 
+    <strong>inserción y modificación</strong> de registros, la <strong>gestión de transacciones</strong> que aseguren 
+    propiedades como la consistencia, el control de <strong>seguridad y accesos</strong>, y la 
+    <strong>recuperación ante fallos</strong>. En la práctica, esto significa que un SGBD no solo organiza información, 
+    sino que también garantiza su integridad y la disponibilidad en todo momento.
+  </p>
+
+  <h3>4.1 Tipos de SGBD</h3>
+  <p>
+    A lo largo de la historia de la informática han surgido distintos tipos de SGBD, cada uno con características específicas 
+    y con ventajas en diferentes contextos. Conocerlos ayuda a entender por qué los sistemas actuales están diseñados de la manera en que lo están:
+  </p>
+  <ul>
+    <li>
+      <strong>SGBD jerárquicos:</strong> organizan los datos en estructuras de árbol, con relaciones de tipo padre–hijo. 
+      Fueron muy usados en los años 60 y 70, sobre todo en sistemas bancarios y gubernamentales.
+    </li>
+    <li>
+      <strong>SGBD en red:</strong> permiten relaciones más flexibles entre registros, representando los datos en forma de grafo. 
+      Fueron una evolución de los jerárquicos para soportar estructuras más complejas.
+    </li>
+    <li>
+      <strong>SGBD relacionales:</strong> organizan los datos en tablas y son el estándar dominante desde los años 80 hasta hoy. 
+      Se basan en el álgebra relacional y lenguajes como SQL. Ejemplos: Oracle, MySQL, PostgreSQL.
+    </li>
+    <li>
+      <strong>SGBD orientados a objetos:</strong> incorporan conceptos de la programación orientada a objetos para almacenar datos junto con su comportamiento. 
+      Aunque no llegaron a ser masivos, son útiles en aplicaciones muy específicas.
+    </li>
+    <li>
+      <strong>SGBD NoSQL:</strong> pensados para grandes volúmenes de datos y alta escalabilidad. Aquí encontramos sistemas de tipo clave–valor, 
+      orientados a documentos (como MongoDB), a grafos (como Neo4j) o a columnas (como Cassandra).
+    </li>
+  </ul>
+
+  <h3>4.2 Componentes de un SGBD</h3>
+  <p>
+    Un SGBD no es un único programa, sino un conjunto de módulos especializados que trabajan en conjunto para 
+    ofrecer todas las funcionalidades. Entre los principales componentes destacan:
+  </p>
+  <ul>
+    <li>
+      <strong>Motor de almacenamiento:</strong> se encarga de guardar y recuperar los datos en memoria secundaria (discos).
+    </li>
+    <li>
+      <strong>Procesador de consultas:</strong> traduce las sentencias SQL en instrucciones ejecutables, optimizando la forma en que se accede a los datos.
+    </li>
+    <li>
+      <strong>Gestor de transacciones:</strong> asegura las propiedades ACID (Atomicidad, Consistencia, Aislamiento y Durabilidad).
+    </li>
+    <li>
+      <strong>Gestor de seguridad:</strong> controla accesos, permisos y autenticación de usuarios.
+    </li>
+    <li>
+      <strong>Catálogo del sistema:</strong> también conocido como diccionario de datos, guarda metainformación sobre tablas, vistas, índices y permisos.
+    </li>
+  </ul>
+
+  <div class="callout tip">
+    <p>
+      No existe un único tipo de SGBD que sea perfecto para todo. 
+      La elección depende del tipo de datos, del volumen, de las consultas que se vayan a realizar 
+      y de la escalabilidad necesaria. En la práctica, muchas organizaciones combinan varias tecnologías.
+    </p>
+  </div>
+</section>
+
+<section id="relacionales">
+  <h2>5. Bases de Datos Relacionales</h2>
+  <p>
+    Los <strong>Sistemas de Bases de Datos Relacionales</strong> (RDBMS, por sus siglas en inglés) 
+    son el tipo de SGBD más utilizado en la actualidad. Su éxito se debe a que ofrecen un 
+    modelo sencillo y potente a la vez: los <strong>datos se organizan en tablas</strong> 
+    (también llamadas relaciones), compuestas por filas y columnas. Cada fila representa un 
+    registro único y cada columna un atributo o característica del mismo. 
+  </p>
+
+  <p>
+    El modelo relacional fue propuesto por <strong>Edgar F. Codd</strong> en 1970 y revolucionó 
+    la manera de entender las bases de datos. Gracias a él, la información puede gestionarse 
+    mediante operaciones matemáticas del <em>álgebra relacional</em>, lo que proporciona una 
+    base formal para la manipulación y consulta de datos.
+  </p>
+
+  <h3>5.1 Conceptos clave</h3>
+  <ul>
+    <li>
+      <strong>Relaciones (tablas):</strong> cada tabla contiene información sobre una entidad, 
+      como <code>Clientes</code> o <code>Pedidos</code>.
+    </li>
+    <li>
+      <strong>Filas (tuplas):</strong> representan instancias concretas, como un cliente en particular 
+      o un pedido específico.
+    </li>
+    <li>
+      <strong>Columnas (atributos):</strong> definen las características de la entidad, como 
+      <code>nombre</code>, <code>apellido</code> o <code>fecha_pedido</code>.
+    </li>
+    <li>
+      <strong>Claves primarias:</strong> identifican de forma única cada fila dentro de una tabla.
+    </li>
+    <li>
+      <strong>Claves foráneas:</strong> permiten establecer vínculos entre tablas, garantizando 
+      la integridad referencial de los datos.
+    </li>
+  </ul>
+
+  <h3>5.2 Ejemplo sencillo</h3>
+  <p>
+    Supongamos una base de datos para gestionar pedidos en una tienda. Podríamos definir 
+    las siguientes tablas:
+  </p>
+
+  <pre><code>
+  CREATE TABLE Clientes (
+      cliente_id INT PRIMARY KEY,
+      nombre VARCHAR(100),
+      apellido VARCHAR(100),
+      email VARCHAR(150)
+  );
+
+  CREATE TABLE Pedidos (
+      pedido_id INT PRIMARY KEY,
+      fecha DATE,
+      cliente_id INT,
+      FOREIGN KEY (cliente_id) REFERENCES Clientes(cliente_id)
+  );
+  </code></pre>
+
+  <p>
+    En este ejemplo, la tabla <code>Pedidos</code> contiene una clave foránea 
+    (<code>cliente_id</code>) que se refiere a la clave primaria de <code>Clientes</code>. 
+    Esto significa que cada pedido está siempre asociado a un cliente válido. 
+  </p>
+
+  <h3>5.3 Ventajas del modelo relacional</h3>
+  <ul>
+    <li>Facilidad de comprensión: las tablas son una forma intuitiva de organizar datos.</li>
+    <li>Potencia en las consultas: gracias a SQL se pueden realizar búsquedas muy complejas.</li>
+    <li>Integridad referencial: asegura que los datos mantengan coherencia entre sí.</li>
+    <li>Escalabilidad: se adapta tanto a aplicaciones pequeñas como a sistemas empresariales masivos.</li>
+  </ul>
+
+  <div class="callout tip">
+    <p>
+      Una buena práctica en bases de datos relacionales es 
+      <em>normalizar</em> las tablas. La normalización consiste en aplicar reglas que 
+      eliminan redundancias y aseguran una mejor organización de los datos. Sin embargo, 
+      en algunos sistemas de alto rendimiento se aplican técnicas contrarias 
+      (desnormalización) para acelerar las consultas.
+    </p>
+  </div>
+</section>
+
+<section id="ejercicios">
+  <h2>6. Ejercicios de refuerzo</h2>
+  <p>
+    Para consolidar los conceptos aprendidos sobre datos, información, sistemas de gestión de bases de datos y el modelo relacional, se proponen los siguientes ejercicios. 
+    Algunos de ellos son prácticos, otros requieren reflexión e investigación adicional.
+  </p>
+
+  <h3>Ejercicios de investigación</h3>
+  <ol>
+    <li>
+      Investiga un caso real en el que la gestión de la información en simples ficheros haya causado problemas de coherencia o pérdida de datos. Explica cómo una base de datos podría haber solucionado el problema.
+    </li>
+    <li>
+      ¿Qué diferencias encuentras entre un SGBD relacional (como Oracle o MySQL) y un SGBD NoSQL (como MongoDB)? Enumera ventajas e inconvenientes de cada enfoque.
+    </li>
+    <li>
+      Busca qué empresas tecnológicas utilizan bases de datos relacionales a gran escala y qué características de estos sistemas les resultan imprescindibles.
+    </li>
+  </ol>
+
+  <h3>Ejercicios de reflexión</h3>
+  <ol>
+    <li>
+      Explica, con tus propias palabras, la diferencia entre <strong>dato</strong> e <strong>información</strong>. Pon un ejemplo de tu vida cotidiana.
+    </li>
+    <li>
+      ¿Por qué es importante que un SGBD asegure las propiedades <strong>ACID</strong> en las transacciones? Imagina qué pasaría si una transferencia bancaria no cumpliera estas propiedades.
+    </li>
+    <li>
+      Diseña un pequeño escenario de base de datos para una biblioteca usando únicamente <em>ficheros de texto</em>. Luego, identifica los problemas que surgirían y describe cómo los resolverías usando un SGBD.
+    </li>
+  </ol>
+
+  <h3>Ejercicios prácticos</h3>
+  <ol>
+    <li>
+      Dibuja un pequeño diagrama relacional (tablas + relaciones) para un sistema de gestión de una tienda online que maneja <strong>Clientes</strong>, <strong>Pedidos</strong> y <strong>Productos</strong>.
+    </li>
+    <li>
+      Identifica las claves primarias y foráneas en tu diagrama del ejercicio anterior y explica qué restricciones aseguran la integridad referencial.
+    </li>
+    <li>
+      Plantea al menos 3 consultas SQL que podrían hacerse sobre tu diseño relacional. Escríbelas en pseudocódigo (no hace falta ejecutarlas todavía).
+    </li>
+  </ol>
+
+  <div class="callout tip">
+    <p>
+      <strong>Tip:</strong> Al resolver los ejercicios prácticos, intenta pensar en cómo organizarías la información en tablas y qué relaciones son necesarias. Esta habilidad es clave para el siguiente bloque del curso, donde se trabajará el <strong>diseño lógico</strong> y el <strong>modelo relacional</strong>.
+    </p>
+  </div>
+</section>
+
+
+  </main>
+</div>
+
+<a href="#top" class="backtotop" aria-label="Volver arriba">↑</a>
+
+<footer class="site-footer" role="contentinfo" class="wrap">
+  <div>
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer" title="CC BY-NC-SA 4.0">
+      <img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="Licencia Creative Commons BY-NC-SA 4.0">
+    </a>
+  </div>
+</footer>
+
+<!-- JS de navegación (ajustado a tus clases e IDs) -->
+<script>
+(function(){
+  // Topbar toggle
+  var btn = document.querySelector('.topnav-toggle');
+  var nav = document.getElementById('topnav');
+  if (btn && nav) {
+    btn.addEventListener('click', function(){
+      var open = nav.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    nav.addEventListener('click', function(e){
+      if (e.target.tagName === 'A' && nav.classList.contains('open')) {
+        nav.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  // Resalta enlace activo en el TOC según sección visible
+  var links = document.querySelectorAll('.toc a[href^="#"]');
+  var targets = Array.prototype.map.call(links, function(a){
+    try { return document.querySelector(a.getAttribute('href')); } catch(e){ return null; }
+  }).filter(Boolean);
+
+  if ('IntersectionObserver' in window) {
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          var id = '#' + entry.target.id;
+          links.forEach(function(a){
+            a.classList.toggle('active', a.getAttribute('href') === id);
+          });
+        }
+      });
+    }, { rootMargin: "-40% 0px -55% 0px", threshold: 0 });
+    targets.forEach(function(t){ obs.observe(t); });
+  }
+})();
+</script>
+</body>
+</html>
+

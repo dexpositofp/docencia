@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lenguaje de Marcas — HTML</title>
+  <link rel="stylesheet" href="./css/curso-lm2.css">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Playfair+Display:wght@700&family=Source+Code+Pro:wght@400&display=swap" rel="stylesheet">
+  <meta name="description" content="Unidad de HTML: estructura, semántica, formularios, tablas, multimedia y validación.">
+</head>
+<body>
+
+<header class="topbar" role="banner">
+  <div class="wrap">
+    <div class="site-brand">
+      <a href="./index.html">Lenguaje de Marcas</a>
+      <small>1º DAW</small>
+    </div>
+
+    <button class="topnav-toggle" aria-expanded="false" aria-controls="topnav">
+      <span class="sr-only">Abrir menú</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <nav id="topnav" class="topnav" aria-label="Navegación del sitio">
+      <ul>
+        <li><a href="./index.html">Inicio</a></li>
+        <li><a href="./lm.html">L. Marcas</a></li>
+        <li><a href="./html.html" aria-current="page">HTML</a></li>
+        <li><a href="./css.html">CSS</a></li>
+        <li><a href="./js.html">JavaScript</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="sidebar" id="sidebar" aria-label="Índice de la unidad">
+    <h2>Contenido</h2>
+    <nav>
+      <ul class="toc" id="toc">
+        <li><a href="#anatomia-documento">Anatomía del documento</a></li>
+        <li><a href="#introduccion-html">Introducción a HTML</a></li>
+        <li><a href="#sintaxis-etiquetas-basicas">Sintaxis y etiquetas básicas</a></li>
+        <li><a href="#nuevas-etiquetas-html5">Nuevas etiquetas de HTML5</a></li>
+        <li><a href="#principios-diseno">Principios de diseño</a></li>
+        <li><a href="#usabilidad-accesibilidad">Usabilidad y accesibilidad</a></li>
+
+        <!-- Bloque Formularios y subapartados -->
+        <li><a href="#formularios">Formularios</a></li>
+        <li><a href="#estructura-basica">— Estructura básica</a></li>
+        <li><a href="#atributos-form">— Atributos y estados</a></li>
+        <li><a href="#elementos-basicos">— Controles comunes</a></li>
+        <li><a href="#agrupacion-formularios">— Agrupación y ayudas</a></li>
+        <li><a href="#validacion">— Validación en navegador</a></li>
+        <li><a href="#ejercicios-form">— Ejercicios de formularios</a></li>
+
+        <li><a href="#tablas-multimedia">Tablas y multimedia</a></li>
+        <li><a href="#validacion-html">Validación de HTML</a></li>
+        <li><a href="#restricciones-xhtml">XHTML</a></li>
+        <li><a href="#ejercicios-basicos-html">Ejercicios básicos</a></li>
+        <li><a href="#que-es-markdown">Markdown (contexto)</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <div class="backdrop" id="backdrop" hidden></div>
+
+  <main class="content">
+    <header class="page">
+      <h1 id="intro">HTML</h1>
+      <p class="muted">Estructura y el significado del contenido de una página web</p>
+    </header>
+
+    
+    <!-- 1) Introducción -->
+    <section id="introduccion-html">
+      <h2>Introducción a HTML</h2>
+      <p><strong>HTML</strong> (HyperText Markup Language) es el estándar para estructurar documentos en la web. En combinación con <em>CSS</em> (presentación) y <em>JavaScript</em> (interactividad), conforma la base tecnológica del front-end.</p>
+
+      <h3>¿Qué es HTML?</h3>
+      <p>Es un <strong>lenguaje de marcado</strong>: no programa, sino que etiqueta contenido para describir su función (párrafos, listas, imágenes, tablas, formularios…). Los navegadores interpretan estas etiquetas para construir el árbol del documento (DOM) y renderizarlo.</p>
+
+      <h3>Significado de las siglas</h3>
+      <ul>
+        <li><strong>Hyper</strong>: hipervínculos que conectan recursos entre sí.</li>
+        <li><strong>Text</strong>: el contenido que se presenta (texto, imagen, multimedia).</li>
+        <li><strong>Markup</strong>: marcado semántico que da estructura y significado.</li>
+        <li><strong>Language</strong>: conjunto formal de elementos y atributos con sintaxis definida.</li>
+      </ul>
+
+      <h3>Historia (muy breve) y HTML5</h3>
+      <p>Desde 1991 HTML ha evolucionado hasta <strong>HTML5</strong>, que incorpora etiquetas semánticas (<code>header</code>, <code>nav</code>, <code>main</code>, <code>section</code>, <code>article</code>…), formularios enriquecidos y APIs modernas del navegador (multimedia, canvas, etc.).</p>
+
+      <h3>Ejemplo mínimo</h3>
+      <pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="es"&gt;
+&lt;head&gt;...&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;¡Hola, mundo!&lt;/h1&gt;
+  &lt;p&gt;Primer documento HTML.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+      <div class="callout info">
+        <p><strong>Separación de responsabilidades:</strong> HTML (estructura y significado), CSS (presentación), JS (comportamiento). Esta separación facilita accesibilidad, mantenimiento y pruebas.</p>
+      </div>
+    </section>
+
+    <!-- 2) Sintaxis y básicas -->
+    <section id="sintaxis-etiquetas-basicas">
+      <h2>Sintaxis y etiquetas básicas</h2>
+      <p>Un elemento HTML consta de etiqueta de apertura, contenido y (normalmente) etiqueta de cierre. Los atributos añaden metadatos o comportamientos. Usa etiquetas semánticas siempre que sea posible y deja <code>&lt;div&gt;</code>/<code>&lt;span&gt;</code> para cuando no exista una opción mejor.</p>
+
+      <h3>Texto, títulos y enlaces</h3>
+      <ul class="listacodigo">
+        <li><code>&lt;h1..h6&gt;</code>: jerarquía de encabezados. Normalmente un <code>&lt;h1&gt;</code> por página o por contenido principal.</li>
+        <li><code>&lt;p&gt;</code>: párrafos; <code>&lt;strong&gt;</code>/<code>&lt;em&gt;</code> para énfasis (semántico, no visual).</li>
+        <li><code>&lt;a href&gt;</code>: enlaces con texto significativo (evita “clic aquí”). Si abres en nueva pestaña, añade <code>rel="noopener noreferrer"</code>.</li>
+      </ul>
+
+      <pre><code class="language-html">&lt;h1&gt;Guía de Viaje&lt;/h1&gt;
+&lt;p&gt;Consulta los &lt;a href="#consejos"&gt;consejos previos&lt;/a&gt; antes de reservar.&lt;/p&gt;
+&lt;p&gt;Las ofertas están &lt;strong&gt;disponibles&lt;/strong&gt; hasta fin de mes.&lt;/p&gt;</code></pre>
+
+      <h3>Listas: no ordenadas, ordenadas y de definiciones</h3>
+      <p>Elige la lista según el significado, no por la apariencia:</p>
+      <ul>
+        <li><strong>No ordenada</strong> (<code>&lt;ul&gt;</code>): conjunto sin orden intrínseco.</li>
+        <li><strong>Ordenada</strong> (<code>&lt;ol&gt;</code>): pasos o jerarquía con orden.</li>
+        <li><strong>Definiciones</strong> (<code>&lt;dl&gt;</code>): términos y descripciones.</li>
+      </ul>
+
+      <pre><code class="language-html">&lt;h2&gt;Checklist de viaje&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;Pasaporte&lt;/li&gt;
+  &lt;li&gt;Tarjeta sanitaria&lt;/li&gt;
+  &lt;li&gt;Adaptador de enchufe&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2&gt;Pasos para reservar&lt;/h2&gt;
+&lt;ol&gt;
+  &lt;li&gt;Elegir destino&lt;/li&gt;
+  &lt;li&gt;Comparar vuelos&lt;/li&gt;
+  &lt;li&gt;Confirmar alojamiento&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2&gt;Términos clave&lt;/h2&gt;
+&lt;dl&gt;
+  &lt;dt&gt;Check-in&lt;/dt&gt;&lt;dd&gt;Registro de entrada al alojamiento.&lt;/dd&gt;
+  &lt;dt&gt;Escala&lt;/dt&gt;&lt;dd&gt;Parada intermedia entre vuelos.&lt;/dd&gt;
+&lt;/dl&gt;</code></pre>
+
+      <div class="callout tip">
+        <p><strong>Consejo:</strong> anidar listas está bien si la jerarquía lo pide, pero evita niveles profundos (pierden claridad).</p>
+      </div>
+
+      <h3>Imágenes (alt, dimensiones, responsive)</h3>
+      <ul class="listacodigo">
+        <li><code>&lt;img src alt&gt;</code>: <code>alt</code> describe la imagen; si es decorativa, usa <code>alt=""</code>.</li>
+        <li><code>width</code>/<code>height</code> ayudan a evitar saltos de contenido.</li>
+        <li><strong>Responsive</strong>: usa <code>srcset</code>/<code>sizes</code> o <code>&lt;picture&gt;</code> para formatos alternativos.</li>
+      </ul>
+
+      <pre><code class="language-html">&lt;figure&gt;
+  &lt;img
+    src="img/playa-800.jpg"
+    srcset="img/playa-400.jpg 400w, img/playa-800.jpg 800w, img/playa-1200.jpg 1200w"
+    sizes="(max-width: 600px) 90vw, 800px"
+    width="800" height="533"
+    alt="Playa con cielo despejado y sombrillas"&gt;
+  &lt;figcaption&gt;Vista de la playa al atardecer.&lt;/figcaption&gt;
+&lt;/figure&gt;</code></pre>
+
+      <div class="callout warn">
+        <p><strong>Alt correcto:</strong> qué es la imagen y por qué está ahí. Evita “imagen de…”. Describe la información relevante para el contexto.</p>
+      </div>
+
+      <h3>Rutas y URLs en <code>src</code>/<code>href</code></h3>
+      <ul>
+        <li><strong>Relativas</strong> (p. ej., <code>../img/logo.svg</code>).</li>
+        <li><strong>Absolutas</strong> (p. ej., <code>https://example.com</code>).</li>
+        <li><strong>Fragmentos</strong> (p. ej., <code>#contacto</code>).</li>
+      </ul>
+
+      <h3>Contenedores neutros (usar con criterio)</h3>
+      <ul class="listacodigo">
+        <li><code>&lt;div&gt;</code>: bloque sin semántica (para agrupar).</li>
+        <li><code>&lt;span&gt;</code>: en línea sin semántica (para fragmentos dentro de texto).</li>
+      </ul>
+
+      <div class="callout info">
+        <p><strong>Regla de oro:</strong> si existe una etiqueta semántica específica para tu caso (por ejemplo, <code>&lt;header&gt;</code> en lugar de un <code>&lt;div class="header"&gt;</code>), úsala.</p>
+      </div>
+    </section>
+
+    <!-- 3) Nuevas etiquetas HTML5 (Semántica de seccionado) -->
+    <section id="nuevas-etiquetas-html5">
+      <h2>Etiquetas semánticas de seccionado (HTML5)</h2>
+      <p>Estas etiquetas dan estructura y significado al documento. Mejoran accesibilidad, SEO y mantenimiento. No cambian la apariencia por sí mismas (eso lo hace CSS), pero crean una “columna vertebral” semántica clara.</p>
+
+      <h3>&lt;main&gt;</h3>
+      <p>Contenido principal único de la página. Debe aparecer una sola vez y no debe anidar otras regiones de landmark como <code>header</code> o <code>footer</code> del sitio.</p>
+
+      <h3>&lt;header&gt; y &lt;footer&gt;</h3>
+      <ul>
+        <li><strong>De página</strong>: cabecera y pie globales del sitio.</li>
+        <li><strong>De sección o artículo</strong>: puedes tener <em>headers/footers locales</em> dentro de <code>section</code>/<code>article</code> para títulos, metadatos, navegación local, etc.</li>
+      </ul>
+
+      <h3>&lt;nav&gt;</h3>
+      <p>Bloque de navegación con enlaces principales o secundarios. Puede existir más de uno (nav global, nav de migas, nav de sección).</p>
+
+      <h3>&lt;section&gt; vs &lt;article&gt;</h3>
+      <ul>
+        <li><code>&lt;article&gt;</code>: unidad de contenido independiente y reutilizable (post, tarjeta de producto, noticia). Tiene sentido fuera de contexto.</li>
+        <li><code>&lt;section&gt;</code>: agrupa contenido relacionado con un encabezado propio, pero que <em>necesita</em> el contexto de la página.</li>
+      </ul>
+
+      <h3>&lt;aside&gt;</h3>
+      <p>Contenido tangencial al principal (barras laterales, promos, glosarios). En lectores de pantalla se anuncia como complemento.</p>
+
+      <h3>&lt;figure&gt; y &lt;figcaption&gt;</h3>
+      <p>Para imágenes, gráficos, fragmentos de código o tablas que requieren título o explicación.</p>
+
+      <h3>&lt;time datetime&gt;</h3>
+      <p>Fecha/hora legible por máquina (útil para SEO, microformatos y ordenación).</p>
+
+      <h3>Patrón de página semántico</h3>
+      <pre><code class="language-html">&lt;header&gt;
+  &lt;h1&gt;Nombre del sitio&lt;/h1&gt;
+  &lt;nav&gt;
+    &lt;ul&gt;&lt;li&gt;&lt;a href="/"&gt;Inicio&lt;/a&gt;&lt;/li&gt;...&lt;/ul&gt;
+  &lt;/nav&gt;
+&lt;/header&gt;
+
+&lt;main&gt;
+  &lt;article&gt;
+    &lt;header&gt;
+      &lt;h2&gt;Título del artículo&lt;/h2&gt;
+      &lt;p&gt;&lt;time datetime="2025-10-18"&gt;18 oct 2025&lt;/time&gt; — Por Ana&lt;/p&gt;
+    &lt;/header&gt;
+
+    &lt;section&gt;
+      &lt;h3&gt;Introducción&lt;/h3&gt;
+      &lt;p&gt;...&lt;/p&gt;
+    &lt;/section&gt;
+
+    &lt;section&gt;
+      &lt;h3&gt;Desarrollo&lt;/h3&gt;
+      &lt;figure&gt;
+        &lt;img src="img/diagrama.svg" alt="Flujo de trabajo del sistema"&gt;
+        &lt;figcaption&gt;Diagrama del flujo de trabajo.&lt;/figcaption&gt;
+      &lt;/figure&gt;
+    &lt;/section&gt;
+
+    &lt;footer&gt;
+      &lt;p&gt;Etiquetas: &lt;a href="/tags/html"&gt;HTML&lt;/a&gt;, &lt;a href="/tags/accesibilidad"&gt;Accesibilidad&lt;/a&gt;&lt;/p&gt;
+    &lt;/footer&gt;
+  &lt;/article&gt;
+
+  &lt;aside&gt;
+    &lt;h2&gt;Relacionado&lt;/h2&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href="/articulo-1"&gt;Buenas prácticas de ALT&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/aside&gt;
+&lt;/main&gt;
+
+&lt;footer&gt;
+  &lt;small&gt;© 2025 — Nombre del centro&lt;/small&gt;
+&lt;/footer&gt;</code></pre>
+
+      <div class="callout info">
+        <p><strong>Encabezados y outline:</strong> usa niveles de <code>h1..h6</code> de forma jerárquica. Un patrón típico es: 1× <code>h1</code> para el título de la página y luego <code>h2</code> para secciones, <code>h3</code> para subsecciones, etc.</p>
+      </div>
+
+      <h3>Widgets nativos útiles</h3>
+      <ul>
+        <li><code>&lt;details&gt;</code> + <code>&lt;summary&gt;</code> para acordeones accesibles sin JS.</li>
+        <li><code>&lt;progress&gt;</code> / <code>&lt;meter&gt;</code> para representar estados/valores.</li>
+        <li><code>&lt;dialog&gt;</code> (con algo de JS) para modales accesibles.</li>
+      </ul>
+      <pre><code class="language-html">&lt;details&gt;
+  &lt;summary&gt;Ver requisitos mínimos&lt;/summary&gt;
+  &lt;ul&gt;&lt;li&gt;Navegador moderno&lt;/li&gt;&lt;li&gt;Conexión estable&lt;/li&gt;&lt;/ul&gt;
+&lt;/details&gt;</code></pre>
+
+      <div class="callout warn">
+        <p><strong>Evita</strong> usar <code>&lt;div&gt;</code> con clases tipo <code>header</code>/<code>footer</code>/<code>section</code> cuando existen etiquetas semánticas reales. Mejora la navegación por landmarks de lectores de pantalla y clarifica el DOM.</p>
+      </div>
+    </section>
+
+    <!-- 4) Principios de diseño -->
+    <section id="principios-diseno">
+      <h2>Principios de diseño web</h2>
+      <p>Guían la experiencia de usuario: <strong>usabilidad</strong> (flujo claro), <strong>consistencia</strong> (patrones), <strong>legibilidad</strong> (tipografía, contraste), <strong>accesibilidad</strong> (contenido para todos) y <strong>rendimiento</strong> (tiempos de carga razonables).</p>
+      <ul>
+        <li><strong>Navegación:</strong> ubicaciones predecibles, feedback visual del estado, menús accesibles.</li>
+        <li><strong>Tipografía:</strong> tamaños relativos, alturas de línea generosas, párrafos no excesivamente largos.</li>
+        <li><strong>Color:</strong> contraste suficiente (WCAG); no apoyarse solo en el color para transmitir estado.</li>
+      </ul>
+      <div class="callout tip">
+        <p><strong>Consejo:</strong> diseña primero el flujo de información; el estilo debe potenciarlo, no ocultarlo.</p>
+      </div>
+    </section>
+
+    <!-- 5) Usabilidad y accesibilidad -->
+    <section id="usabilidad-accesibilidad">
+      <h2>Usabilidad y accesibilidad</h2>
+      <p><strong>Usabilidad</strong> es eficacia + eficiencia + satisfacción. <strong>Accesibilidad</strong> significa que el contenido es usable por personas con diferentes capacidades (teclado, lectores de pantalla, visión reducida, etc.).</p>
+      <ul>
+        <li>Usa landmarks (<code>header/nav/main/footer</code>), encabezados jerárquicos y <code>alt</code> adecuados.</li>
+        <li>En formularios: <code>&lt;label for&gt;</code> + <code>id</code>, <code>required</code> y mensajes asociados (<code>aria-describedby</code>).</li>
+        <li>Gestión del foco: secuencia lógica, <em>focus visible</em> y roles ARIA solo cuando falte semántica nativa.</li>
+      </ul>
+      <pre><code class="language-html">&lt;a class="skip-link" href="#main"&gt;Saltar al contenido&lt;/a&gt;</code></pre>
+    </section>
+
+    <!-- 6) Formularios -->
+    <section id="formularios">
+      <article id="introduccion">
+        <h2>Formularios</h2>
+        <p>Recopilan datos del usuario. Un buen formulario combina semántica, accesibilidad, validación en el cliente (HTML5) y en el servidor.</p>
+      </article>
+
+      <article id="estructura-basica">
+        <h3>Estructura básica</h3>
+        <p>La etiqueta <code>&lt;form&gt;</code> encapsula los controles. Usa siempre <code>name</code> para enviar datos y <code>label</code> para accesibilidad.</p>
+        <pre><code class="language-html">&lt;form action="/submit" method="post" novalidate&gt;
+  &lt;div&gt;
+    &lt;label for="nombre"&gt;Nombre&lt;/label&gt;
+    &lt;input id="nombre" name="nombre" type="text" required autocomplete="name"&gt;
+  &lt;/div&gt;
+  &lt;div&gt;
+    &lt;label for="email"&gt;Email&lt;/label&gt;
+    &lt;input id="email" name="email" type="email" required autocomplete="email"&gt;
+  &lt;/div&gt;
+  &lt;button type="submit"&gt;Enviar&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+
+        <div class="callout info">
+          <p><strong>method:</strong> <code>get</code> para lecturas o filtros (parámetros en URL); <code>post</code> para envíos. <strong>action:</strong> ruta del procesamiento.</p>
+        </div>
+      </article>
+
+      <article id="atributos-form">
+        <h3>Atributos y estados útiles</h3>
+        <ul>
+          <li><code>required</code>, <code>min</code>, <code>max</code>, <code>minlength</code>, <code>maxlength</code>, <code>step</code>, <code>pattern</code></li>
+          <li>Pseudoclases CSS: <code>:required</code>, <code>:optional</code>, <code>:valid</code>, <code>:invalid</code>, <code>:in-range</code>, <code>:out-of-range</code></li>
+          <li>Texto de ayuda con <code>aria-describedby</code> y gestionado por <code>id</code>.</li>
+        </ul>
+        <pre><code class="language-html">&lt;label for="tel"&gt;Teléfono (9 dígitos)&lt;/label&gt;
+&lt;input id="tel" name="tel" type="tel" pattern="[0-9]{9}" required
+       aria-describedby="ayuda-tel"&gt;
+&lt;small id="ayuda-tel" class="muted"&gt;Solo números, sin espacios.&lt;/small&gt;</code></pre>
+      </article>
+
+      <article id="elementos-basicos">
+        <h3>Controles y elementos comunes</h3>
+        <table>
+          <thead><tr><th>Elemento</th><th>Descripción</th><th>Ejemplo</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><code>&lt;input type="text"&gt;</code></td>
+              <td>Texto corto</td>
+              <td><pre><code>&lt;input name="usuario" placeholder="Usuario"&gt;</code></pre></td>
+            </tr>
+            <tr>
+              <td><code>&lt;input type="password"&gt;</code></td>
+              <td>Contraseñas</td>
+              <td><pre><code>&lt;input name="clave" type="password" autocomplete="new-password"&gt;</code></pre></td>
+            </tr>
+            <tr>
+              <td><code>&lt;input type="email"&gt;</code></td>
+              <td>Formato email</td>
+              <td><pre><code>&lt;input name="correo" type="email" required&gt;</code></pre></td>
+            </tr>
+            <tr>
+              <td><code>&lt;input type="date"&gt;</code></td>
+              <td>Fecha</td>
+              <td><pre><code>&lt;input name="fecha" type="date"&gt;</code></pre></td>
+            </tr>
+            <tr>
+              <td><code>&lt;input type="file"&gt;</code></td>
+              <td>Subir archivos</td>
+              <td><pre><code>&lt;input name="archivo" type="file" accept=".jpg,.png"&gt;</code></pre></td>
+            </tr>
+            <tr>
+              <td><code>&lt;input type="radio"&gt;</code></td>
+              <td>Selección única</td>
+              <td><pre><code>&lt;input type="radio" name="genero" value="m"&gt; M
+&lt;input type="radio" name="genero" value="f"&gt; F</code></pre></td>
+            </tr>
+            <tr>
+              <td><code>&lt;input type="checkbox"&gt;</code></td>
+              <td>Múltiples opciones</td>
+              <td><pre><code>&lt;input type="checkbox" name="interes" value="deporte"&gt; Deporte</code></pre></td>
+            </tr>
+            <tr>
+              <td><code>&lt;select&gt;</code></td>
+              <td>Lista desplegable</td>
+              <td><pre><code>&lt;select name="pais"&gt;
+  &lt;option value="es"&gt;España&lt;/option&gt;
+&lt;/select&gt;</code></pre></td>
+            </tr>
+            <tr>
+              <td><code>&lt;textarea&gt;</code></td>
+              <td>Texto largo</td>
+              <td><pre><code>&lt;textarea name="comentarios" rows="4"&gt;&lt;/textarea&gt;</code></pre></td>
+            </tr>
+          </tbody>
+        </table>
+      </article>
+
+      <article id="agrupacion-formularios">
+        <h3>Agrupación y ayudas</h3>
+        <p>Para estructurar y mejorar accesibilidad:</p>
+        <ul>
+          <li><code>&lt;fieldset&gt;</code> agrupa controles relacionados + <code>&lt;legend&gt;</code> describe el grupo.</li>
+          <li><code>&lt;optgroup&gt;</code> organiza opciones dentro de <code>&lt;select&gt;</code>.</li>
+          <li><code>&lt;datalist&gt;</code> sugiere valores a un <code>&lt;input list&gt;</code>.</li>
+        </ul>
+        <pre><code class="language-html">&lt;fieldset&gt;
+  &lt;legend&gt;Datos personales&lt;/legend&gt;
+  &lt;label for="nombre"&gt;Nombre&lt;/label&gt;
+  &lt;input id="nombre" name="nombre" type="text"&gt;
+  &lt;label for="ciudad"&gt;Ciudad&lt;/label&gt;
+  &lt;input list="ciudades" id="ciudad" name="ciudad"&gt;
+  &lt;datalist id="ciudades"&gt;
+    &lt;option value="Madrid"&gt;
+    &lt;option value="Valencia"&gt;
+  &lt;/datalist&gt;
+&lt;/fieldset&gt;</code></pre>
+      </article>
+
+      <article id="validacion">
+        <h3>Validación en el navegador</h3>
+        <p>HTML5 implementa validación nativa: formatos (<code>email</code>, <code>url</code>), patrones (regex), requeridos, rangos, etc. Es <em>complementaria</em> a la validación en el servidor.</p>
+        <pre><code class="language-html">&lt;input type="email" name="correo" required&gt;
+&lt;input type="text" name="telefono" pattern="[0-9]{9}" required&gt;</code></pre>
+        <div class="callout warn">
+          <p><strong>Importante:</strong> nunca confíes solo en la validación del cliente; valida y sanea <em>siempre</em> en el servidor.</p>
+        </div>
+      </article>
+
+      <article id="ejercicios-form">
+        <h3>Ejercicios prácticos de formularios</h3>
+        <ul>
+          <li>Registro con nombre, apellidos, email, contraseña y confirmación (con <code>required</code> y ayuda de formato).</li>
+          <li>Reserva de cita: fecha, hora y lista de servicios (<code>select</code>/<code>radio</code>).</li>
+          <li>Subida de imagen: acepta solo <code>.jpg</code> y <code>.png</code> (atributo <code>accept</code>).</li>
+          <li>Encuesta con <code>checkbox</code> y <code>radio</code> y un campo de comentarios.</li>
+          <li>Contacto con validación de email y teléfono por patrón.</li>
+        </ul>
+      </article>
+    </section>
+
+    <!-- 7) Tablas y multimedia -->
+    <section id="tablas-multimedia">
+      <h2>Tablas y multimedia</h2>
+
+      <article id="tablas">
+        <h3>Tablas accesibles</h3>
+        <p>Úsalas para datos tabulares, no para maquetación. Incluye <code>&lt;caption&gt;</code>, cabeceras y <code>scope</code> adecuado.</p>
+        <pre><code class="language-html">&lt;table&gt;
+  &lt;caption&gt;Resultados trimestrales&lt;/caption&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;&lt;th scope="col"&gt;Mes&lt;/th&gt;&lt;th scope="col"&gt;Ventas&lt;/th&gt;&lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;&lt;th scope="row"&gt;Enero&lt;/th&gt;&lt;td&gt;120k&lt;/td&gt;&lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</code></pre>
+      </article>
+
+      <article id="etiquetas-multimedia">
+        <h3>Multimedia en HTML5</h3>
+        <ul class="listacodigo">
+          <li><code>&lt;audio&gt;</code> y <code>&lt;video&gt;</code> con <code>controls</code>, <code>preload</code> y pistas de subtítulos (<code>&lt;track kind="captions"&gt;</code>).</li>
+          <li><code>&lt;canvas&gt;</code> para gráficos via JS; <code>&lt;svg&gt;</code> para vectoriales semánticos.</li>
+        </ul>
+
+        <pre><code class="language-html">&lt;video width="480" controls preload="metadata"&gt;
+  &lt;source src="movie.mp4" type="video/mp4"&gt;
+  &lt;track src="sub.vtt" kind="captions" srclang="es" label="Español"&gt;
+  Tu navegador no soporta video.
+&lt;/video&gt;</code></pre>
+
+        <pre><code class="language-html">&lt;canvas id="graf" width="240" height="120"&gt;&lt;/canvas&gt;
+&lt;script&gt;
+  const ctx = document.getElementById('graf').getContext('2d');
+  ctx.fillRect(10, 10, 80, 40);
+&lt;/script&gt;</code></pre>
+      </article>
+    </section>
+
+    <!-- 8) Validación HTML -->
+    <section id="validacion-html">
+      <h2>Validación de documentos HTML</h2>
+      <p>La validación ayuda a detectar errores de marcado y a mejorar la compatibilidad. Incorpórala al flujo de trabajo (validadores, linters, pruebas en varios navegadores/lectores de pantalla).</p>
+      <div class="callout tip">
+        <p><strong>Checklist rápido:</strong> <em>lang</em> y <em>charset</em> correctos, semántica adecuada, contrastes suficientes, imágenes con <em>alt</em>, formularios etiquetados, y sin errores en el validador W3C.</p>
+      </div>
+    </section>
+
+    <!-- 9) XHTML -->
+    <section id="restricciones-xhtml">
+      <h2>Restricciones que impone XHTML</h2>
+      <p>XHTML es HTML reescrito como XML. Exige documentos <em>bien formados</em>: etiquetas en minúscula, cierre obligatorio, atributos entre comillas y un único elemento raíz. Su enfoque estricto favoreció interoperabilidad y herramientas XML; hoy HTML5 domina, pero las reglas de “bien formado” siguen siendo útiles como disciplina formal.</p>
+    </section>
+
+    <!-- 10) Ejercicios básicos -->
+    <section id="ejercicios-basicos-html">
+      <h2>Ejercicios básicos de HTML</h2>
+      <ol>
+        <li>
+          <h3>Presentación personal</h3>
+          <p>Incluye un <code>&lt;h1&gt;</code> con tu nombre, un párrafo con intereses, y una lista de favoritos.</p>
+        </li>
+        <li>
+          <h3>Estructura base</h3>
+          <p>Crea un documento mínimo con <code>&lt;!DOCTYPE&gt;</code>, <code>&lt;html&gt;</code>, <code>&lt;head&gt;</code> y <code>&lt;body&gt;</code>, usando <code>lang="es"</code>, <code>charset</code> y <code>viewport</code>.</p>
+        </li>
+        <li>
+          <h3>Enlace e imagen</h3>
+          <p>Añade un <code>&lt;a&gt;</code> con texto significativo y una <code>&lt;img&gt;</code> centrada con <code>alt</code> descriptivo.</p>
+        </li>
+        <li>
+          <h3>Formulario básico</h3>
+          <p>Nombre, email, comentarios y botón de envío, con <code>label</code> y <code>required</code>.</p>
+        </li>
+        <li>
+          <h3>Tabla simple</h3>
+          <p>3×3 con cabeceras en la primera fila y un <code>&lt;caption&gt;</code>.</p>
+        </li>
+      </ol>
+    </section>
+
+   
+
+  </main>
+</div>
+
+<a href="#top" class="backtotop" aria-label="Volver arriba">↑</a>
+
+<footer class="site-footer" role="contentinfo" class="wrap">
+  <div>
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer" title="CC BY-NC-SA 4.0">
+      <img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="Licencia Creative Commons BY-NC-SA 4.0">
+    </a>
+  </div>
+</footer>
+
+<!-- JS de navegación (ajustado a tus clases e IDs) -->
+<script>
+(function(){
+  // Topbar toggle
+  var btn = document.querySelector('.topnav-toggle');
+  var nav = document.getElementById('topnav');
+  if (btn && nav) {
+    btn.addEventListener('click', function(){
+      var open = nav.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    nav.addEventListener('click', function(e){
+      if (e.target.tagName === 'A' && nav.classList.contains('open')) {
+        nav.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  // Resalta enlace activo en el TOC según sección visible
+  var links = document.querySelectorAll('.toc a[href^="#"]');
+  var targets = Array.prototype.map.call(links, function(a){
+    try { return document.querySelector(a.getAttribute('href')); } catch(e){ return null; }
+  }).filter(Boolean);
+
+  if ('IntersectionObserver' in window) {
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          var id = '#' + entry.target.id;
+          links.forEach(function(a){
+            a.classList.toggle('active', a.getAttribute('href') === id);
+          });
+        }
+      });
+    }, { rootMargin: "-40% 0px -55% 0px", threshold: 0 });
+    targets.forEach(function(t){ obs.observe(t); });
+  }
+})();
+</script>
+</body>
+</html>
+

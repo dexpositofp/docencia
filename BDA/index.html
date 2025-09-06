@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aplicaciones Web — HTML</title>
+  <link rel="stylesheet" href="./bd.css">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Playfair+Display:wght@700&family=Source+Code+Pro:wght@400&display=swap" rel="stylesheet">
+  <meta name="description" content="Unidad de HTML: estructura, semántica, formularios, tablas, multimedia y validación.">
+</head>
+<body>
+
+<header class="topbar" role="banner">
+  <div class="wrap">
+    <div class="site-brand">
+      <a href="./index.html">Bases de Datos</a>
+      <small>1º DAW</small>
+    </div>
+
+    <button class="topnav-toggle" aria-expanded="false" aria-controls="topnav">
+      <span class="sr-only">Abrir menú</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <nav id="topnav" class="topnav" aria-label="Site navigation">
+      <ul>
+        <li><a href="index.html" class="active">Inicio</a></li>
+        <li><a href="almacenamiento.html">Almacenamiento</a></li>
+        <li><a href="logico.html">Diseño Lógico</a></li>
+        <li><a href="relacional.html">Modelo Relacional</a></li>
+        <li><a href="sql.html">SQL</a></li>
+        <li><a href="plsql.html">PL/SQL</a></li>
+        <li><a href="persistencia.html">Persistencia</a></li>
+        <li><a href="nosql.html">NoSQL</a></li>
+    </ul>
+    </nav>
+    
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="sidebar" id="sidebar" aria-label="Unit index">
+    <h2>Contents</h2>
+    <nav>
+      <ul class="toc" id="toc">
+        <li><a href="#objetivos">Objetivos</a></li>
+                <li><a href="#competencias">1. Competencias</a></li>
+                <li><a href="#contenidos">2. Contenidos</a></li>
+                <li><a href="#metodologia">3. Metodología</a></li>
+                <li><a href="#evaluacion">4. Evaluación</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <div class="backdrop" id="backdrop" hidden></div>
+
+  <main class="content">
+    <header class="page">
+      <h1 id="intro">Web Applications and the Cloud</h1>
+      <p class="muted">Understanding the evolution of the web and the power of cloud-based applications</p>
+    </header>
+
+    <section id="objetivos">
+      <h2>Objetivos de la asignatura</h2>
+      <p>
+          El objetivo de esta asignatura es dotar al alumnado de los conocimientos y habilidades
+          necesarios para diseñar, implementar y gestionar bases de datos, garantizando la 
+          integridad, seguridad y eficiencia en el almacenamiento y recuperación de la información.
+      </p>
+  </section>
+
+  <section id="competencias">
+      <h2>Competencias</h2>
+      <ul>
+          <li>Diseñar modelos de datos a partir de requisitos.</li>
+          <li>Aplicar principios del modelo relacional en el diseño lógico.</li>
+          <li>Usar SQL en sus distintas vertientes (DDL, DML, DCL, TCL).</li>
+          <li>Desarrollar procedimientos almacenados y triggers en PL/SQL.</li>
+          <li>Comprender mecanismos de persistencia y bases de datos NoSQL.</li>
+      </ul>
+  </section>
+
+  <section id="contenidos">
+      <h2>Contenidos</h2>
+      <p>La asignatura se estructura en los siguientes bloques:</p>
+      <ol>
+          <li>Introducción a los SGBD</li>
+          <li>Diseño lógico</li>
+          <li>Modelo relacional</li>
+          <li>SQL: DDL, DML, DCL, TCL</li>
+          <li>PL/SQL</li>
+          <li>Persistencia</li>
+          <li>Bases de datos NoSQL</li>
+      </ol>
+  </section>
+
+  <section id="metodologia">
+      <h2>Metodología</h2>
+      <p>
+          La metodología combina sesiones teóricas con prácticas de laboratorio. 
+          El alumnado trabajará tanto con enunciados guiados como con proyectos de aplicación,
+          que permitirán asimilar los contenidos de manera progresiva.
+      </p>
+  </section>
+
+  <section id="evaluacion">
+      <h2>Evaluación</h2>
+      <ul>
+          <li>Pruebas escritas: 40%</li>
+          <li>Prácticas de laboratorio: 40%</li>
+          <li>Proyecto final: 20%</li>
+      </ul>
+      <p>Será necesario superar por separado cada parte para aprobar la asignatura.</p>
+  </section>
+  
+  </main>
+</div>
+
+<a href="#top" class="backtotop" aria-label="Volver arriba">↑</a>
+
+<footer class="site-footer" role="contentinfo" class="wrap">
+  <div>
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer" title="CC BY-NC-SA 4.0">
+      <img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="Licencia Creative Commons BY-NC-SA 4.0">
+    </a>
+  </div>
+</footer>
+
+<!-- JS de navegación (ajustado a tus clases e IDs) -->
+<script>
+(function(){
+  // Topbar toggle
+  var btn = document.querySelector('.topnav-toggle');
+  var nav = document.getElementById('topnav');
+  if (btn && nav) {
+    btn.addEventListener('click', function(){
+      var open = nav.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    nav.addEventListener('click', function(e){
+      if (e.target.tagName === 'A' && nav.classList.contains('open')) {
+        nav.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  // Resalta enlace activo en el TOC según sección visible
+  var links = document.querySelectorAll('.toc a[href^="#"]');
+  var targets = Array.prototype.map.call(links, function(a){
+    try { return document.querySelector(a.getAttribute('href')); } catch(e){ return null; }
+  }).filter(Boolean);
+
+  if ('IntersectionObserver' in window) {
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          var id = '#' + entry.target.id;
+          links.forEach(function(a){
+            a.classList.toggle('active', a.getAttribute('href') === id);
+          });
+        }
+      });
+    }, { rootMargin: "-40% 0px -55% 0px", threshold: 0 });
+    targets.forEach(function(t){ obs.observe(t); });
+  }
+})();
+</script>
+</body>
+</html>
+

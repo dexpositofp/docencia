@@ -1,0 +1,1652 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Curso AW · CSS — Estructura y Layout</title>
+
+  <!-- Hoja de estilos del curso -->
+  <link rel="stylesheet" href="./aw.css" />
+
+  <!-- Fuente opcional -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  
+  <meta name="description" content="Unidad de CSS: fundamentos, cascada, selectores, box model, tipografía, Flexbox, Grid, responsive con media y container queries, variables, transiciones y animaciones, buenas prácticas, Bootstrap."/>
+</head>
+<body>
+
+  <!-- ======= Topbar horizontal (navegación entre páginas) ======= -->
+  <header class="topbar" role="banner">
+    <div class="wrap">
+      <div class="site-brand">
+        <a href="./index.html" aria-label="Ir al inicio">Aplicaciones Web</a>
+        <small>2º SMR </small>
+      </div>
+
+      <button class="topnav-toggle" id="topnavToggle" aria-expanded="false" aria-controls="topnav" aria-label="Abrir menú principal">
+        <!-- icono hamburguesa -->
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <rect x="3" y="6" width="18" height="2"></rect>
+          <rect x="3" y="11" width="18" height="2"></rect>
+          <rect x="3" y="16" width="18" height="2"></rect>
+        </svg>
+      </button>
+
+      <nav id="topnav" class="topnav" aria-label="Site navigation">
+        <ul>
+          <li><a href="./index.html">Home</a></li>
+          <li><a href="./webapp.html">WebApp</a></li>
+          <li><a href="./html.html" aria-current="page">HTML</a></li>
+          <li><a href="./css.html">CSS</a></li>
+          <li><a href="./cms.html">CMS</a></li>
+          <li><a href="./data.html">Data Storage</a></li>
+          <li><a href="./lms.html">LMS</a></li>
+          <li><a href="./python.html">Python</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+
+
+  <!-- ======= Layout con Sidebar + Contenido ======= -->
+  <div class="layout">
+    <!-- Sidebar (índice interno) -->
+    <aside class="sidebar" id="sidebar" aria-label="Unit index">
+      <h2>Contents</h2>
+      <nav>
+        <ul class="toc" id="toc">
+          <li><a href="#hero-css">Cover</a></li>
+          <li><a href="#intro-css">1. What is CSS</a></li>
+          <li><a href="#selectores">2. Selectors</a></li>
+          <li><a href="#propiedades-css">3. Common CSS Properties</a></li>
+          <li><a href="#unidades-colores">4. Units, Functions, and Color</a></li>
+          <li><a href="#cascada-herencia">5. Cascade, Inheritance, and Specificity</a></li>
+          <li><a href="#box-model">6. Box Model</a></li>
+          <li><a href="#display-posicion">7. Layout and Positioning</a></li>
+          <li><a href="#design-tips">8. Web Design Tips</a></li>
+        </ul>
+      </nav>
+    </aside>
+    
+
+    <div class="backdrop" id="backdrop" hidden></div>
+
+    <!-- Contenido principal -->
+    <main class="content" id="contenido">
+
+     <!-- ======= Hero / Cover ======= -->
+<section class="unit-hero" id="hero-css" aria-labelledby="tit-unidad-css">
+  <div class="wrap">
+    <h1 id="tit-unidad-css">CSS: From Basic Styling to Professional Layout</h1>
+    <p class="muted" style="color:rgba(255,255,255,.9)">
+      Fundamentals, architecture, modern layout, responsiveness, performance, and accessibility
+    </p>
+  </div>
+</section>
+
+<!-- ======= 1. What is CSS ======= -->
+<section id="intro-css">
+  <h2>1. What is CSS</h2>
+
+  <div class="callout info">
+    <p><strong>Learning objectives</strong>: by the end of this section, you’ll be able to  
+      (1) explain what problem CSS solves,  
+      (2) describe how the browser calculates the final styles (cascade/inheritance/specificity at a high level),  
+      (3) choose the proper way to include CSS in a project, and  
+      (4) create a consistent base for typography and color.
+    </p>
+  </div>
+
+  <h3>1.1. What is CSS (and what it’s NOT)</h3>
+  <p><strong>CSS (Cascading Style Sheets)</strong> defines the <em>presentation</em> of an HTML document: typography, colors, spacing, layout, interactive states, and animations.  
+  <br>CSS is <em>not</em> a general-purpose programming language: it doesn’t process data or handle business logic (JavaScript does that). Its focus is the visual aspect, in a declarative way.</p>
+
+  <h3>1.2. Browser's mental model</h3>
+  <p>To understand why styles sometimes “don’t apply” or get recalculated, it’s key to understand the browser’s <strong>render pipeline</strong>:</p>
+  <ol>
+    <li>
+      <strong>DOM (Document Object Model) construction</strong>:  
+      the browser reads the HTML and transforms it into a node tree.  
+      Each tag becomes a node, which can have attributes, children, and text.  
+      This tree is accessible from JavaScript and updates live.
+      <pre><code class="language-html">&lt;body&gt;
+  &lt;h1&gt;Title&lt;/h1&gt;
+  &lt;p&gt;A paragraph with &lt;em&gt;emphasis&lt;/em&gt;.&lt;/p&gt;
+&lt;/body&gt;</code></pre>
+      <pre><code class="language-text">DOM:
+body
+ ├── h1 ("Title")
+ └── p
+      ├── "A paragraph with "
+      └── em ("emphasis")</code></pre>
+    </li>
+    <li>
+      <strong>CSSOM (CSS Object Model) construction</strong>:  
+      all style sheets (external, internal, inline) are read and merged into a ruleset.
+    </li>
+    <li>
+      <strong>Style computation</strong>:  
+      for each DOM node, the browser resolves the <em>cascade</em>, <em>inheritance</em>, and <em>specificity</em> to calculate final values.
+    </li>
+    <li>
+      <strong>Layout and paint</strong>:  
+      with styles computed, the engine calculates box sizes and positions (layout), then paints colors, borders, backgrounds, and text. Finally, it composites the layers.
+    </li>
+  </ol>
+
+  <div class="callout tip">
+    <p><strong>Optimization:</strong> not all properties have the same cost.  
+    Changing <code>color</code> or <code>opacity</code> only triggers repaint.  
+    <code>transform</code> is cheap (GPU accelerated).  
+    But <code>width</code>, <code>height</code>, or <code>top</code> force layout recalculation (more expensive).</p>
+  </div>
+
+  <h3>1.3. Where to write CSS (and when)</h3>
+  <p>CSS can be added in several ways. Each has pros and cons. In real-world projects, <strong>external stylesheets</strong> are preferred, but it’s good to know all methods:</p>
+  <ul>
+    <li>
+      <strong>External stylesheet (recommended)</strong>:  
+      Linked in the <code>&lt;head&gt;</code> via <code>&lt;link&gt;</code>.  
+      Pros: browser caching, clear separation (HTML vs CSS), scalable in large projects.
+      <pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;title&gt;External Example&lt;/title&gt;
+  &lt;link rel="stylesheet" href="styles.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Hello, world&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+      <pre><code class="language-css">/* styles.css */
+h1 {
+  color: steelblue;
+  font-family: sans-serif;
+}</code></pre>
+    </li>
+
+    <li>
+      <strong>&lt;style&gt; in &lt;head&gt;</strong>:  
+      Handy for quick prototyping or small demos. Less maintainable.
+      <pre><code class="language-html">&lt;head&gt;
+  &lt;style&gt;
+    h1 { color: crimson; }
+  &lt;/style&gt;
+&lt;/head&gt;</code></pre>
+    </li>
+
+    <li>
+      <strong>Inline style (<code>style="..."</code>)</strong>:  
+      Applies directly to an element. Discouraged because it breaks separation of concerns, increases specificity, and makes maintenance harder.
+      <pre><code class="language-html">&lt;h1 style="color: green; font-size: 2rem"&gt;Styled inline&lt;/h1&gt;</code></pre>
+    </li>
+  </ul>
+
+  <div class="callout warn">
+    <p><strong>Bad practice:</strong> using too much inline or internal CSS.  
+    The best approach is to centralize rules in one or more external files and use reusable classes.</p>
+  </div>
+
+  <h3>1.4. Commented CSS rule example</h3>
+  <p>A CSS rule is made of:</p>
+  <ol>
+    <li>A selector → what elements it applies to</li>
+    <li>A declaration block → inside { }</li>
+    <li>Each declaration = property : value;</li>
+  </ol>
+
+<pre><code class="language-css">/* Example: all paragraphs */
+p {
+  color: blue;         /* property: color → value: blue */
+  margin-bottom: 1rem; /* property: margin-bottom → value: 1rem */
+}</code></pre>
+
+  <p class="lab-note">👉 The <code>selector</code> here is <code>p</code> (for paragraphs).  
+  Inside the braces are <em>declarations</em>, each with a <strong>property</strong> and a <strong>value</strong>.</p>
+
+<pre><code class="language-css">/* Class selector (.highlight) → applies to elements with class="highlight" */
+.highlight {
+  background-color: yellow;
+  font-weight: bold;
+}</code></pre>
+
+  <p class="lab-note">👉 If you write <code>&lt;p class="highlight"&gt;...&lt;/p&gt;</code>,  
+  that paragraph will have a yellow background and bold text.</p>
+
+  <h3>1.6. Common mistakes (and how to avoid them)</h3>
+  <ul>
+    <li><strong>Overusing inline <code>style=</code></strong> → raises specificity and scatters logic. <em>Fix:</em> centralize in reusable classes.</li>
+    <li><strong>Using fixed pixels everywhere</strong> → poor adaptability. <em>Fix:</em> use <code>rem</code>, <code>%</code>, <code>clamp()</code>.</li>
+    <li><strong>Mixing structure and style</strong> → “layout HTML” (tables, empty divs). <em>Fix:</em> semantic HTML + CSS for layout.</li>
+    <li><strong>Increasing specificity unnecessarily</strong> (<code>#id .class element</code>) → harder to maintain. <em>Fix:</em> simple selectors, BEM, or <code>@layer</code>.</li>
+    <li><strong>Ignoring states</strong> (focus/hover/disabled) → poor UX/AX. <em>Fix:</em> define states with <code>:hover</code>, <code>:focus-visible</code>, <code>[aria-*]</code>.</li>
+  </ul>
+</section>
+
+<section id="selectores">
+  <h2>2. CSS Selectors</h2>
+  <p>
+    In CSS, a <strong>selector</strong> is the mechanism we use to indicate <em>which HTML elements we want to style</em>.  
+    A CSS rule always has two parts: the <em>selector</em> (which elements will be affected)  
+    and the <em>declaration block</em> (what style will be applied).
+  </p>
+
+  <pre><code class="language-css">selector {
+  property: value;
+}</code></pre>
+
+  <p>
+    If the browser can't figure out which elements a rule applies to, that rule is ignored.  
+    That’s why mastering selectors is essential — they let us be precise and avoid over- or under-styling.
+  </p>
+
+  <h3>2.1 Basic Selectors</h3>
+  <ul>
+    <li>
+      <strong>Type selector</strong>: targets all elements of a given tag.
+      <pre><code class="language-css">p { color: blue; }</code></pre>
+      <p>This affects <em>all paragraphs</em> on the page.</p>
+    </li>
+    <li>
+      <strong>Class selector</strong>: targets elements with a specific <code>class</code> attribute.  
+      Classes are defined in HTML and can be reused across multiple elements.
+      <pre><code class="language-html">&lt;p class="highlight"&gt;Important text&lt;/p&gt;</code></pre>
+      <pre><code class="language-css">.highlight { font-weight: bold; color: red; }</code></pre>
+    </li>
+    <li>
+      <strong>ID selector</strong>: targets an element with a specific <code>id</code>.  
+      The <code>id</code> must be unique in the document.
+      <pre><code class="language-html">&lt;h1 id="main-title"&gt;Welcome&lt;/h1&gt;</code></pre>
+      <pre><code class="language-css">#main-title { text-align: center; }</code></pre>
+    </li>
+    <li>
+      <strong>Universal selector</strong>: targets all elements.
+      <pre><code class="language-css">* { font-family: Arial, sans-serif; }</code></pre>
+      <p>Useful for setting global styles, but use with caution since it applies to everything.</p>
+    </li>
+  </ul>
+
+  <div class="callout tip">
+    <p>
+      <strong>Class vs ID:</strong>  
+      - Use <code>class</code> when you want to apply the same style to multiple elements (e.g. <code>.button</code>).  
+      - Use <code>id</code> only when targeting a single, unique element (e.g. <code>#main-menu</code>).
+    </p>
+  </div>
+
+  <h3>2.2 Combinators (context-based selectors)</h3>
+  <p>
+    Sometimes type, class, or id selectors aren't enough — we need to target an element <em>based on its position in the HTML tree</em>.  
+    For that, we use <strong>combinators</strong>.
+  </p>
+  <ul>
+    <li>
+      <strong>Descendant</strong>: selects all elements inside another.
+      <pre><code class="language-css">article p { color: green; }</code></pre>
+      <p>Targets all <code>&lt;p&gt;</code> elements inside an <code>&lt;article&gt;</code>.</p>
+    </li>
+    <li>
+      <strong>Direct child</strong> (<code>&gt;</code>): only targets immediate children.
+      <pre><code class="language-css">div &gt; p { background: lightgray; }</code></pre>
+    </li>
+    <li>
+      <strong>Adjacent sibling</strong> (<code>+</code>): selects the first element immediately after another.
+      <pre><code class="language-css">h2 + p { font-style: italic; }</code></pre>
+    </li>
+    <li>
+      <strong>General siblings</strong> (<code>~</code>): selects all siblings that follow.
+      <pre><code class="language-css">h2 ~ p { color: orange; }</code></pre>
+    </li>
+  </ul>
+
+  <h3>2.3 Attribute Selectors</h3>
+  <p>
+    Attribute selectors allow us to apply styles based on an element’s HTML attributes.
+  </p>
+  <ul>
+    <li><code>a[href]</code> → all links with an <code>href</code> attribute.</li>
+    <li><code>a[href^="https"]</code> → links whose <code>href</code> starts with “https”.</li>
+    <li><code>a[href$=".pdf"]</code> → links ending in “.pdf”.</li>
+    <li><code>input[type="text"]</code> → form fields of type text.</li>
+  </ul>
+
+  <h3>2.4 Pseudo-classes (state and position)</h3>
+  <p>
+    <strong>Pseudo-classes</strong> apply styles based on an element’s state or position in the DOM.
+  </p>
+  <ul>
+    <li><code>a:hover</code> → when the mouse hovers over a link.</li>
+    <li><code>input:focus</code> → when a form field is active.</li>
+    <li><code>p:first-child</code> → selects the first child in a container.</li>
+    <li><code>li:nth-child(2)</code> → selects the second item in a list.</li>
+  </ul>
+
+  <h3>2.5 Pseudo-elements (parts of an element)</h3>
+  <p>
+    <strong>Pseudo-elements</strong> allow styling specific parts of an element without adding extra tags.
+  </p>
+  <ul>
+    <li><code>::before</code> and <code>::after</code> → insert generated content before/after the element.</li>
+    <li><code>::first-line</code> → styles the first line of a paragraph.</li>
+    <li><code>::first-letter</code> → styles the first letter.</li>
+    <li><code>::marker</code> → customizes list bullets (<code>ul</code>, <code>ol</code>).</li>
+  </ul>
+
+  <div class="callout info">
+    <p><strong>Full example:</strong></p>
+    <pre><code class="language-html">&lt;article&gt;
+  &lt;h2&gt;Title&lt;/h2&gt;
+  &lt;p class="highlight"&gt;First paragraph&lt;/p&gt;
+  &lt;p&gt;Second paragraph&lt;/p&gt;
+  &lt;ul&gt;
+    &lt;li&gt;Item 1&lt;/li&gt;
+    &lt;li&gt;Item 2&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/article&gt;</code></pre>
+    <pre><code class="language-css">article p.highlight { color: red; }
+article &gt; p + p { font-style: italic; }
+ul li:first-child { font-weight: bold; }
+ul li::marker { color: blue; }</code></pre>
+  </div>
+
+  <h3>2.6 Mini-challenge</h3>
+  <p>
+    Create a list of links (<code>&lt;a&gt;</code>) and apply the following styles:
+  </p>
+  <ul>
+    <li>Links are blue by default.</li>
+    <li>On hover, they get a red underline.</li>
+    <li>Links to PDF files (<code>[href$=".pdf"]</code>) appear in green.</li>
+  </ul>
+</section>
+
+<section id="propiedades-css">
+  <h2>3. Most Used CSS Properties</h2>
+  <p>
+    CSS includes <strong>hundreds of properties</strong>, but in practice, there’s a smaller set used daily that you should master.
+    To make them easier to learn, we group them by category depending on what they control: typography, color/background, box model (spacing and sizing), and borders/shadows.
+  </p>
+
+  <!-- ===================== Text and Typography ===================== -->
+  <h3>3.1. Text and Typography Properties</h3>
+  <p>
+    These control how text is displayed on the page. When working with typography in CSS,  
+    it's common to define the font family, size, weight (thickness), style (normal or italic),  
+    line height, and alignment. You can also transform text to uppercase/lowercase, decorate it (underline/strikethrough),  
+    and set its color using the <code>color</code> property.
+  </p>
+  <ul>
+    <li><code>font-family</code>: sets the font family. E.g. <code>font-family: Arial, sans-serif;</code></li>
+    <li><code>font-size</code>: sets the text size. E.g. <code>font-size: 16px;</code></li>
+    <li><code>font-weight</code>: sets the font weight (normal, bold or 100–900). E.g. <code>font-weight: 700;</code></li>
+    <li><code>font-style</code>: font style (normal, italic, oblique).</li>
+    <li><code>line-height</code>: vertical spacing between lines. E.g. <code>line-height: 1.6;</code></li>
+    <li><code>text-align</code>: horizontal text alignment (left, center, right, justify).</li>
+    <li><code>text-transform</code>: transforms case. E.g. <code>uppercase</code>, <code>capitalize</code>.</li>
+    <li><code>text-decoration</code>: adds or removes underlines, strikethroughs. E.g. <code>underline</code>.</li>
+    <li><code>color</code>: text color.</li>
+  </ul>
+  <pre><code class="language-css">h1 {
+  font-family: Georgia, serif;
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  color: darkblue;
+}</code></pre>
+
+  <!-- ===================== Backgrounds and Color ===================== -->
+  <h3>3.2. Background and Color Properties</h3>
+  <p>
+    These are used to set background colors or decorative images behind content.  
+    You can control whether an image repeats, its size, and its position inside the element’s box.
+  </p>
+  <ul>
+    <li><code>background-color</code>: background color. E.g. <code>background-color: lightblue;</code></li>
+    <li><code>background-image</code>: background image. E.g. <code>background-image: url('background.png');</code></li>
+    <li><code>background-repeat</code>: image repetition (repeat, no-repeat, repeat-x, repeat-y).</li>
+    <li><code>background-size</code>: image size (auto, cover, contain, px/percent values).</li>
+    <li><code>background-position</code>: image anchor point (center, top, 50% 50%).</li>
+  </ul>
+  <pre><code class="language-css">body {
+  background-color: #f0f0f0;
+  background-image: url("pattern.png");
+  background-repeat: repeat;
+  background-size: 200px 200px;
+}</code></pre>
+
+  <!-- ===================== Box and Spacing ===================== -->
+  <h3>3.3. Box and Spacing Properties</h3>
+  <p>
+    Every HTML element is rendered as a <strong>rectangular box</strong>.  
+    These properties control the box’s size, inner spacing (<em>padding</em>),  
+    outer spacing (<em>margin</em>), and how width and height are calculated relative to padding and borders (<code>box-sizing</code>).
+  </p>
+  <ul>
+    <li><code>width</code> / <code>height</code>: element width and height.</li>
+    <li><code>max-width</code> / <code>min-width</code>: limits for width.</li>
+    <li><code>margin</code>: outer spacing. E.g. <code>margin: 1rem auto;</code></li>
+    <li><code>padding</code>: inner spacing. E.g. <code>padding: 20px;</code></li>
+    <li><code>box-sizing</code>: how to calculate width/height (content-box, border-box).</li>
+  </ul>
+  <pre><code class="language-css">.card {
+  width: 300px;
+  padding: 1rem;
+  margin: 1.5rem auto;
+  box-sizing: border-box;
+}</code></pre>
+
+  <h3>Box Model Practical Example</h3>
+  <pre><code class="language-css">.box {
+  width: 200px;              /* content width */
+  height: 100px;             /* content height */
+  padding: 20px;             /* inner spacing */
+  border: 5px solid black;   /* border */
+  margin: 15px;              /* outer spacing */
+  background: lightyellow;   /* background */
+}</code></pre>
+  <pre><code class="language-html">&lt;div class="box"&gt;Content&lt;/div&gt;</code></pre>
+
+  <!-- ===================== Borders and Shadows ===================== -->
+  <h3>3.4. Borders and Shadows</h3>
+  <p>
+    These properties let you add outlines, round corners, or create a shadow effect for depth.
+  </p>
+  <ul>
+    <li><code>border</code>: thickness, style and color. E.g. <code>border: 2px solid black;</code></li>
+    <li><code>border-radius</code>: rounded corners. E.g. <code>border-radius: 10px;</code></li>
+    <li><code>box-shadow</code>: shadow effect. E.g. <code>box-shadow: 0 2px 6px rgba(0,0,0,0.2);</code></li>
+  </ul>
+  <pre><code class="language-css">img {
+  border: 3px solid #333;
+  border-radius: 50%;
+  box-shadow: 0 4px 10px rgba(0,0,0,.3);
+}</code></pre>
+
+  <!-- ===================== Other Properties ===================== -->
+  <h3>3.5. Other Properties</h3>
+  <p>
+    There are <strong>many more CSS properties</strong>: some affect table layout, others deal with scroll behavior,  
+    responsive design, animations, accessibility, and more. It’s impossible to cover all in one guide.  
+    What matters is to understand the core ones and know where to find the rest in official documentation.
+  </p>
+  <p>
+    You can check the <a href="https://www.w3.org/TR/CSS/#properties" target="_blank" rel="noopener noreferrer">
+    full and updated CSS property list from the W3C</a>.
+  </p>
+
+  <div class="callout tip">
+    <p><strong>Tip:</strong> Focus first on mastering typography, color/background, box model, and border/shadow properties.  
+    These cover most layout scenarios. You’ll pick up the others as needed.</p>
+  </div>
+</section>
+
+
+
+      <!-- ======= 4. Unidades, funciones y color ======= -->
+    <!-- ======= 4. Unidades, funciones y color ======= -->
+    <section id="unidades-colores">
+      <h2>4. Units, Functions, and Color</h2>
+      <p>
+        In CSS, <strong>units</strong> define how lengths, font sizes, margins, or widths are measured.  
+        Understanding which unit to use in each context is essential for building consistent, flexible, and accessible designs.  
+        A common beginner mistake is to use <code>px</code> for everything, which prevents proper scaling across zoom levels or different devices.  
+        Alternatives like <code>rem</code>, <code>%</code>, or <code>vw</code>/<code>vh</code> allow elements to adapt to user settings and screen environments.
+      </p>
+    
+      <h3>4.1 CSS Units</h3>
+      <table>
+        <thead>
+          <tr><th>Category</th><th>Units</th><th>Recommended Use</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Absolute</strong></td>
+            <td><code>px</code></td>
+            <td>Icons, thin borders, shadows. Avoid using <code>px</code> for fonts to preserve zoom accessibility.</td>
+          </tr>
+          <tr>
+            <td><strong>Relative to font</strong></td>
+            <td><code>em</code>, <code>rem</code></td>
+            <td>Use <code>rem</code> for global scaling (sizes and spacing); use <code>em</code> for component-local scaling.</td>
+          </tr>
+          <tr>
+            <td><strong>Relative to container</strong></td>
+            <td><code>%</code>, <code>ch</code>, <code>ex</code></td>
+            <td><code>%</code> for parent-based sizing; <code>ch</code> for text-related measures (e.g. line length ≈ <code>60ch</code>).</td>
+          </tr>
+          <tr>
+            <td><strong>Viewport</strong></td>
+            <td><code>vw</code>, <code>vh</code>, <code>vmin</code>, <code>vmax</code></td>
+            <td>Blocks that adapt to window size (hero sections, fluid type). Caution: mobile browser bars can affect height.</td>
+          </tr>
+          <tr>
+            <td><strong>Modern viewport units</strong></td>
+            <td><code>dvh</code>, <code>svh</code>, <code>lvh</code></td>
+            <td><code>dvh</code> (dynamic) adapts to visible height on mobile; <code>svh</code>/<code>lvh</code> for specific needs.</td>
+          </tr>
+          <tr>
+            <td><strong>Container queries</strong></td>
+            <td><code>cqw</code>, <code>cqh</code>, <code>cqi</code>, <code>cqb</code></td>
+            <td>These respond to <em>container</em> size, not the viewport. Use when working with container queries.</td>
+          </tr>
+        </tbody>
+      </table>
+    
+      <div class="callout tip">
+        <p><strong>Practical rule:</strong> use <code>rem</code> for global scaling; <code>em</code> inside components; <code>%</code> for parent-relative sizes; <code>clamp()</code> + <code>vw</code> for fluid typography.</p>
+      </div>
+    
+      <h3>4.2 Useful Functions</h3>
+      <p>
+        Beyond choosing the right unit, CSS provides <strong>math functions</strong> to calculate dynamic values,  
+        set flexible limits, and build fluid scales.  
+        These functions reduce the need for media queries and help create more maintainable and elegant designs.
+      </p>
+    
+      <ul>
+        <li><code>calc()</code> &rarr; performs math with compatible units (great for compensating paddings or layouts).</li>
+        <li><code>min()</code>/<code>max()</code> &rarr; "hard" limits: picks the smallest or largest of values.</li>
+        <li><code>clamp(min, preferred, max)</code> &rarr; "fluid" limit: grows within bounds, guided by preferred (often uses <code>vw</code>).</li>
+      </ul>
+    
+      <div class="grid code-grid" style="display:grid;gap:1rem">
+        <pre><code class="language-css">/* Fluid typography (no smaller than 1.5rem, no larger than 2.25rem) */
+    h1{
+      font-size: clamp(1.5rem, 2.2vw + .5rem, 2.25rem);
+    }</code></pre>
+    
+        <pre><code class="language-css">/* Card with max width and breathing space */
+    .card{
+      width: min(100% - 2rem, 72ch);
+      margin-inline: auto;
+    }</code></pre>
+    
+        <pre><code class="language-css">/* Three flexible columns with fixed gutter */
+    .grid-3{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: clamp(.75rem, 1.5vw, 1.25rem);
+    }</code></pre>
+    
+        <pre><code class="language-css">/* Actual visible height on mobile (prevents jump from URL bar) */
+    .hero{
+      min-height: 90dvh;
+    }</code></pre>
+      </div>
+    
+      <div class="callout warn">
+        <p><strong>Beware of</strong> the <code>em</code> “snowball effect” (it compounds). If you nest too deep, sizes may grow unexpectedly. Use <code>rem</code> to reset the chain when needed.</p>
+      </div>
+    
+      <h3>4.3 Colors and Contrast</h3>
+      <p>
+        In web design, it’s not enough to choose "nice" colors — they must be <strong>consistent, accessible, and maintainable</strong>.  
+        CSS offers several color models (HEX, RGB, HSL, OKLCH), each with its own advantages.  
+        Understanding them helps you build scalable palettes and ensure enough contrast for readability — even for users with low vision or poorly calibrated screens.  
+        Nowadays, <code>HSL</code> and <code>OKLCH</code> are recommended since they make it easier to generate states (hover, active, disabled) and manage light/dark modes.
+      </p>
+    
+      <ul>
+        <li><strong>HEX</strong> &rarr; <code>#1f1769</code> (compact, traditional).</li>
+        <li><strong>RGB(a)</strong> &rarr; <code>rgb(31 23 105 / .85)</code> (alpha channel, modern space-separated syntax).</li>
+        <li><strong>HSL(a)</strong> &rarr; <code>hsl(250 63% 25% / .9)</code> (intuitive for ranges and states).</li>
+        <li><strong>OKLCH</strong> (modern support) &rarr; <code>oklch(60% 0.12 260)</code> (perceptually uniform, ideal for scaling brightness).</li>
+      </ul>
+    
+      <h4>Native CSS Tools</h4>
+      <ul>
+        <li><code>currentColor</code> &rarr; inherits current text color (ideal for SVG icons, borders, <em>focus</em> rings).</li>
+        <li><code>color-mix()</code> &rarr; blend colors without extra variables.</li>
+        <li><code>transparent</code> and alpha channels (<code>/ .xx</code>) &rarr; layering and overlays without new tokens.</li>
+      </ul>
+    
+      <div class="grid code-grid" style="display:grid;gap:1rem">
+        <pre><code class="language-css">/* Base palette with HSL */
+    :root{
+      --brand-h: 250;
+      --brand-s: 60%;
+      --brand-l: 45%;
+      --brand: hsl(var(--brand-h) var(--brand-s) var(--brand-l));
+      --brand-weak: hsl(var(--brand-h) 40% 96%);
+    }
+    
+    .button{
+      background: var(--brand);
+      color: white;
+    }
+    .button--ghost{
+      background: var(--brand-weak);
+      color: hsl(var(--brand-h) 45% 25%);
+    }</code></pre>
+    
+        <pre><code class="language-css">/* State blending using color-mix() */
+    .btn:hover{
+      background: color-mix(in hsl, var(--brand) 85%, white);
+    }
+    .btn:active{
+      background: color-mix(in hsl, var(--brand) 80%, black);
+    }</code></pre>
+    
+        <pre><code class="language-css">/* Use currentColor for consistent icon/border color */
+    .icon{
+      color: var(--brand);
+      border: 2px solid currentColor;
+    }</code></pre>
+      </div>
+    
+      <div class="callout info">
+        <p><strong>Accessibility:</strong> aim for a contrast ratio of at least 4.5:1 for regular text (WCAG AA).  
+        Adjust lightness (L in HSL/OKLCH) or use <code>color-mix()</code> to boost contrast gracefully.</p>
+      </div>
+    
+      <h3>4.4 Practical Patterns</h3>
+      <ul>
+        <li><strong>Readable width:</strong> <code>max-width: 60–75ch</code> for text blocks.</li>
+        <li><strong>Fluid scales:</strong> use <code>clamp()</code> for sizes and spacing that grow smoothly between mobile and desktop.</li>
+        <li><strong>Design tokens:</strong> define colors, spacing, and radii as variables (<code>--space-1</code>, <code>--radius-2</code>) for reuse.</li>
+      </ul>
+    
+      <pre><code class="language-css">:root{
+      --space-1: clamp(.5rem, .6vw, .75rem);
+      --space-2: clamp(.75rem, 1vw, 1rem);
+      --space-3: clamp(1rem, 1.4vw, 1.5rem);
+      --radius-1: .5rem;
+    }
+    .card{
+      padding: var(--space-3);
+      border-radius: var(--radius-1);
+      box-shadow: 0 2px 8px rgb(0 0 0 / .08);
+    }</code></pre>
+    
+      <div class="callout tip">
+        <p><strong>Quick start summary:</strong> begin with <code>html{font-size:100%}</code>, use <code>rem</code> for base sizes/spacing,  
+        <code>em</code> inside components, <code>clamp()</code> for fluidity, and HSL/OKLCH + <code>color-mix()</code> for states.</p>
+      </div>
+    </section>
+    
+
+<!-- =========================================================
+     Cascada, Herencia y Especificidad (sección unificada)
+     ========================================================= -->
+     <section id="cascada-herencia">
+      <h2>5. Cascade, Inheritance, and Specificity</h2>
+    
+      <p>
+        When multiple styles try to apply to the same element, the browser must <strong>decide which rule wins</strong>.  
+        It uses three key mechanisms to do so: <em>cascade</em>, <em>inheritance</em>, and <em>specificity</em>.  
+        Understanding them is essential for writing clean, predictable, and maintainable CSS.
+      </p>
+    
+      <!-- ===================== CASCADE ===================== -->
+      <h3>5.1. The Cascade</h3>
+      <p>
+        The term “cascade” refers to the <strong>order in which the browser processes and prioritizes rules</strong>.  
+        If there’s a conflict between declarations, the one with higher importance wins, according to these rules:
+      </p>
+      <ol>
+        <li><strong>Rule origin</strong>:  
+          Browser defaults (user agent) &lt; author CSS &lt; user-defined CSS (if present).
+        </li>
+        <li><strong>Importance</strong>:  
+          A rule marked with <code>!important</code> overrides others (but should be used sparingly).
+        </li>
+        <li><strong>Specificity</strong>:  
+          More specific selectors win (explained below).
+        </li>
+        <li><strong>Order of appearance</strong>:  
+          If all else is equal, the last defined rule in the stylesheet wins.
+        </li>
+      </ol>
+    
+      <pre><code class="language-css">p { color: blue; }
+    p { color: red; }   /* This wins because it comes later */</code></pre>
+    
+      <div class="callout warn">
+        <p><strong>Warning:</strong> <code>!important</code> breaks normal cascading flow. Useful for testing,  
+        but overusing it leads to unmaintainable CSS.</p>
+      </div>
+    
+      <!-- ===================== INHERITANCE ===================== -->
+      <h3>5.2. Inheritance</h3>
+      <p>
+        <strong>Inheritance</strong> is the mechanism by which some styles applied to a parent element  
+        are automatically passed down to its children in the DOM.  
+        This avoids having to repeat the same rules everywhere.
+      </p>
+    
+      <h4>Properties that do inherit</h4>
+      <ul>
+        <li>Typography: <code>font-family</code>, <code>font-size</code>, <code>font-style</code>, <code>font-weight</code></li>
+        <li>Text: <code>color</code>, <code>line-height</code>, <code>text-align</code></li>
+        <li>Others: <code>visibility</code>, <code>cursor</code></li>
+      </ul>
+    
+      <h4>Properties that don’t inherit</h4>
+      <p>
+        Box model and layout-related properties <strong>do not inherit</strong>:  
+        <code>margin</code>, <code>padding</code>, <code>border</code>, <code>background</code>, <code>width</code>, <code>height</code>, etc.,  
+        because each element needs to control its own size.
+      </p>
+    
+      <pre><code class="language-css">body {
+      font-family: Arial, sans-serif;
+      color: #333;
+    }
+    /* Children inherit font and color automatically */</code></pre>
+    
+      <h4>Explicitly controlling inheritance</h4>
+      <ul>
+        <li><code>inherit</code> → forces the property to inherit from its parent.</li>
+        <li><code>initial</code> → resets to the default value per the spec.</li>
+        <li><code>unset</code> → inherits if the property is normally inherited; otherwise, resets to initial.</li>
+        <li><code>revert</code> → reverts to the browser or previous layer’s style.</li>
+      </ul>
+    
+      <pre><code class="language-css">p span {
+      color: inherit;    /* force span to inherit color from paragraph */
+    }
+    code {
+      font-size: initial; /* ignore inheritance and use the default size */
+    }</code></pre>
+    
+      <!-- ===================== SPECIFICITY ===================== -->
+      <h3>5.3. Specificity</h3>
+      <p>
+        <strong>Specificity</strong> measures how “precise” a selector is.  
+        The more specific it is, the more weight it has over others.
+      </p>
+      <ul>
+        <li><strong>Type selectors</strong> (e.g., <code>div</code>, <code>p</code>): low specificity</li>
+        <li><strong>Classes</strong>, pseudo-classes, attributes (e.g., <code>.button</code>, <code>:hover</code>, <code>[type="text"]</code>): medium</li>
+        <li><strong>IDs</strong> (e.g., <code>#menu</code>): high</li>
+        <li><strong>Inline styles</strong> (<code>style="..."</code>): even higher</li>
+        <li><code>!important</code>: overrides all the above (except user override priorities)</li>
+      </ul>
+    
+      <pre><code class="language-css">p { color: blue; }           /* type */
+    .article p { color: green; } /* class + type → wins over p */
+    #main p { color: red; }      /* id → even more specific */</code></pre>
+    
+      <div class="callout info">
+        <p><strong>Golden rule:</strong> avoid relying on IDs or long selector chains.  
+        Prefer simple, predictable class-based rules to keep specificity low and CSS easy to manage.</p>
+      </div>
+    
+      <!-- ===================== MINI CHALLENGES ===================== -->
+      <h3>5.4. Mini-Challenges</h3>
+      <ol>
+        <li>Create two rules that apply different <code>color</code> values to paragraphs. See which one wins based on order.</li>
+        <li>Define <code>body { font-family: Verdana }</code> and check how headings and paragraphs inherit the font.</li>
+        <li>Apply a style to a paragraph using <code>#id</code> and another with <code>.class</code>. Which one wins and why?</li>
+      </ol>
+      <details class="demo">
+        <summary><strong>Possible solution explained</strong></summary>
+        <pre><code class="language-css">/* 1. Later wins */
+    p { color: blue; }
+    p { color: red; } /* → red */
+    
+    /* 2. Inheritance */
+    body { font-family: Verdana; }
+    /* All text inherits it unless overridden */
+    
+    /* 3. Specificity */
+    #highlight { color: orange; }   /* id → more specific */
+    .featured { color: green; }     /* class → less specific */
+    &lt;p id="highlight" class="featured"&gt;Text&lt;/p&gt; /* → orange */</code></pre>
+      </details>
+    </section>
+    
+<!-- ======= 6. Modelo de caja (Box Model) ======= -->
+<section id="box-model">
+  <h2>6. Box Model</h2>
+
+  <p>
+    In CSS, <strong>every element is represented as a box</strong>. That box isn’t just a rectangle with width and height: 
+    it’s composed of layers (content, <em>padding</em>, <em>border</em>, and <em>margin</em>) and is affected by its display type 
+    (<code>display</code>), sizing method (<code>box-sizing</code>), and special rules like <em>margin collapsing</em>. 
+    Mastering the box model is essential for precise layouts.
+  </p>
+
+  <div class="callout info">
+    <p><strong>Layers from inside out:</strong> content → <em>padding</em> → <em>border</em> → <em>margin</em>. 
+    Padding and border add to the “real” box size; margin separates this box from others.</p>
+  </div>
+
+  <!-- 6.1 Box parts and sizing -->
+  <h3>6.1. Box parts and sizing</h3>
+  <p>
+    By default (<code>box-sizing: content-box</code>), <code>width</code> and <code>height</code> define only the <em>content</em> area. 
+    The full box size is calculated like this:
+  </p>
+
+  <pre><code class="language-text">TOTAL WIDTH = margin-left + border-left + padding-left + content-width + padding-right + border-right + margin-right
+TOTAL HEIGHT = margin-top + border-top + padding-top + content-height + padding-bottom + border-bottom + margin-bottom</code></pre>
+
+  <p>
+    With <strong><code>box-sizing: border-box</code></strong>, <code>width</code>/<code>height</code> include content + padding + border 
+    (making total size more predictable, useful for components and grids).
+  </p>
+
+  <div class="callout tip">
+    <p>Best global practice: <code>*{ box-sizing: border-box; }</code> or better, 
+    <code>*, *::before, *::after{ box-sizing: border-box; }</code>.</p>
+  </div>
+
+  <h4>Example A · content-box vs border-box</h4>
+  <pre><code class="language-css">.c1{
+  box-sizing: content-box;
+  width: 200px; padding: 20px; border: 5px solid #333; margin: 8px;
+}
+.c2{
+  box-sizing: border-box;
+  width: 200px; padding: 20px; border: 5px solid #333; margin: 8px;
+}</code></pre>
+  <pre><code class="language-html">&lt;div class="c1"&gt;content-box: total &gt; 200px&lt;/div&gt;
+&lt;div class="c2"&gt;border-box: total = 200px + margins&lt;/div&gt;</code></pre>
+
+  <!-- Other subsections would follow here, translated similarly -->
+</section>
+
+
+ <!-- ======= 7. Display / Flujo / Posicionamiento ======= -->
+<!-- ======= 7. Layout y Posicionamiento (Display, Flujo, Position, Flex y Grid) ======= -->
+<section id="display-posicion">
+  <h2>7. Layout and Positioning in CSS (Complete and Practical Guide)</h2>
+
+  <p>
+    Designing a page is not about “moving boxes by eye”; the browser follows clear rules to <strong>create and place boxes</strong>.
+    First, it places everything in the <em>normal flow</em> (according to each element’s <code>display</code>). Then, if requested, it can take elements out of the flow (e.g., <code>position: absolute</code> or <code>fixed</code>) or rearrange children using modern layout systems (<strong>Flexbox</strong> and <strong>Grid</strong>). This section is your field guide: what order to think in, which property to use, and why.
+  </p>
+
+  <!-- 7.1 DISPLAY AND FLOW -->
+  <h3>7.1. <code>display</code> and <em>normal flow</em></h3>
+  <p>
+    In CSS, <strong>every HTML element is represented as a box</strong>. That box is inserted into the document following the <em>normal flow</em>, which is the browser’s default way of placing boxes without advanced positioning rules.
+  </p>
+
+  <p>
+    Normal flow distinguishes between two fundamental box types:
+  </p>
+  <ul>
+    <li>
+      <strong>Block boxes (<code>block</code>)</strong>:  
+      They take up the full width of the container and push the next element onto a new line.
+      Ideal for structuring large sections of a page, as they respect properties like
+      <code>width</code>, <code>height</code>, <code>margin</code>, <code>padding</code>, and <code>border</code>.  
+      <em>Examples:</em> <code>&lt;div&gt;</code>, <code>&lt;p&gt;</code>, <code>&lt;section&gt;</code>, <code>&lt;article&gt;</code>.
+    </li>
+
+    <li>
+      <strong>Inline boxes (<code>inline</code>)</strong>:  
+      They appear one after another on the same line, like part of the text.
+      <code>width</code> and <code>height</code> do not affect them directly; their size depends on the content.
+      They do respect <code>padding</code> and <code>margin</code>, but only horizontally, not vertically.  
+      <em>Examples:</em> <code>&lt;span&gt;</code>, <code>&lt;a&gt;</code>, <code>&lt;strong&gt;</code>.
+    </li>
+  </ul>
+
+  <p>
+    Beyond these two basic types, CSS offers other <code>display</code> values that mix or extend behaviors:
+  </p>
+  <ul>
+    <li>
+      <strong><code>inline-block</code></strong>:  
+      A “middle ground.” Behaves like inline in the flow (no line break), but does respect
+      <code>width</code> and <code>height</code>. Very useful for buttons, icons, or elements that need to flow inline but retain fixed dimensions.
+    </li>
+
+    <li>
+      <strong><code>flow-root</code></strong>:  
+      Creates a new <em>Block Formatting Context</em> (BFC).  
+      This means the box becomes a “standalone container” that
+      avoids <em>margin collapse</em> issues and properly wraps floated elements.
+      A clean, modern solution for wrapping sections without hacks.
+    </li>
+
+    <li>
+      <strong><code>flex</code></strong>:  
+      Activates the <em>Flexbox</em> model, ideal for distributing children on a single axis (row or column),
+      aligning them vertically and horizontally, and managing space without manual calculations.
+    </li>
+
+    <li>
+      <strong><code>grid</code></strong>:  
+      Activates the <em>Grid Layout</em> model, designed for composing on two axes simultaneously.
+      Allows explicit row/column grids, named areas, and responsive rearrangements with full control.
+    </li>
+  </ul>
+
+  <div class="callout tip">
+    <p><strong>Tip:</strong> 
+    Most structural elements (<code>&lt;div&gt;</code>, <code>&lt;section&gt;</code>, <code>&lt;p&gt;</code>) are <code>block</code> by default.
+    Textual elements (<code>&lt;span&gt;</code>, <code>&lt;a&gt;</code>, <code>&lt;em&gt;</code>) are <code>inline</code>.
+    Learn to recognize them: changing <code>display</code> is the first step to building any layout.</p>
+  </div>
+
+  <h4>Practical Example</h4>
+  <pre><code class="language-html">&lt;div&gt;Block 1 (takes full line)&lt;/div&gt;
+&lt;div&gt;Block 2 (appears below)&lt;/div&gt;
+&lt;p&gt;Text with &lt;span&gt;inline element&lt;/span&gt; inside.&lt;/p&gt;</code></pre>
+
+  <pre><code class="language-css">div{ display:block; background:#fee2e2; margin-bottom:.5rem; }
+span{ display:inline; background:#bfdbfe; }</code></pre>
+
+  <div class="callout tip">
+    <p><strong>Mental rule:</strong> start with normal flow. If you need to align or space elements along a <em>single axis</em> → Flex.
+      If you need control over <em>rows and columns</em> → Grid. Use classic positioning only when truly necessary.</p>
+  </div>
+
+  <!-- 7.2 POSITION -->
+<!-- 7.2 POSITION -->
+<h3>7.2. Classic positioning: <code>position</code> and the “containing block”</h3>
+
+<p>
+  The <code>position</code> property determines <strong>how the position of a box is calculated in the document</strong>.
+  By default, all boxes are placed in the <em>normal flow</em>.  
+  When we change <code>position</code>, we can adjust its placement using
+  <code>top</code>, <code>right</code>, <code>bottom</code>, and <code>left</code> coordinates.
+</p>
+
+<p>
+  The key is understanding the <strong>containing block</strong>: the “reference container” against which those coordinates are calculated.
+  For an <code>absolute</code> element, this will be the first ancestor with <code>position</code> other than <code>static</code>.
+  If none is found, the reference will be the <em>viewport</em> (the browser window).
+</p>
+
+<h4>Main <code>position</code> values</h4>
+<ul>
+  <li>
+    <strong>static</strong> (default value):  
+    The element is in normal flow and <code>top/right/bottom/left</code> have no effect.
+    Example: most elements without explicit styles.
+  </li>
+  <li>
+    <strong>relative</strong>:  
+    The element remains in flow (its space is preserved), but we can move it with coordinates.
+    Also turns the element into a <em>reference container</em> for <code>absolute</code> children.
+  </li>
+  <li>
+    <strong>absolute</strong>:  
+    The element is removed from flow: siblings ignore it as if it didn’t exist.
+    It is positioned using coordinates relative to its closest positioned ancestor, or the viewport if none exists.
+  </li>
+  <li>
+    <strong>fixed</strong>:  
+    Similar to <code>absolute</code>, but always relative to the viewport.
+    It stays fixed on screen even when scrolling.
+    Ideal for floating menus, “back to top” buttons, or persistent banners.
+  </li>
+  <li>
+    <strong>sticky</strong>:  
+    A hybrid between <code>relative</code> and <code>fixed</code>.  
+    The element keeps its flow space, but when scrolling, it “sticks” to the defined edge (<code>top</code>, <code>bottom</code>, etc.)
+    until its container ends. Very useful for headers or partially sticky menus.
+  </li>
+</ul>
+
+<div class="callout tip">
+  <p><strong>Tip:</strong> whenever you use <code>absolute</code>, add <code>position: relative;</code> to the parent container if you want
+  the child to be positioned inside it. This avoids it “flying” to the viewport.</p>
+</div>
+
+<h4>Example 1 · Badge inside a card (absolute + relative)</h4>
+<pre><code class="language-css">.card{
+  position: relative; /* creates reference container */
+  padding:1rem; border:1px solid #ddd; border-radius:8px;
+}
+.card__badge{
+  position:absolute; top:.5rem; right:.5rem;
+  padding:.25rem .5rem; background:#1f2937; color:#fff;
+  border-radius:999px; font-size:.875rem;
+}</code></pre>
+<pre><code class="language-html">&lt;article class="card"&gt;
+  &lt;span class="card__badge"&gt;New&lt;/span&gt;
+  &lt;h3&gt;Title&lt;/h3&gt;&lt;p&gt;Content...&lt;/p&gt;
+&lt;/article&gt;</code></pre>
+
+<h4>Example 2 · Sticky header (<code>sticky</code>)</h4>
+<pre><code class="language-css">.sticky-bar{
+  position: sticky;
+  top: 0;                 /* threshold: sticks to the top */
+  z-index: 10;            /* ensure it stays on top */
+  background:#fff; border-bottom:1px solid #eee;
+}</code></pre>
+
+<h4>Example 3 · Fixed “back to top” button</h4>
+<pre><code class="language-css">.back-to-top{
+  position: fixed;
+  right: 1rem; bottom: 1rem;
+  background:#2563eb; color:#fff;
+  padding:.6rem .9rem; border-radius:6px;
+}</code></pre>
+
+<div class="callout warn">
+  <p>
+    <strong>z-index and stacking:</strong>  
+    <code>z-index</code> controls which element appears on top when they overlap.
+    But it only works on positioned elements (<code>relative</code>, <code>absolute</code>, <code>fixed</code>, <code>sticky</code>)
+    or those that create a <em>stacking context</em> (e.g., with <code>transform</code> or <code>opacity &lt; 1</code>).  
+    If an element won’t “rise” even with <code>z-index:9999</code>, an ancestor likely created its own context:
+    check for <code>transform</code> or <code>opacity</code>.
+  </p>
+</div>
+
+<!-- 7.3 FLEXBOX -->
+<h3>7.3. Flexbox: Distribution and alignment along one axis</h3>
+
+<p>
+  Flexbox is a <strong>one-dimensional</strong> layout model: it’s used to place elements along a
+  single axis — either horizontal (<em>row</em>) or vertical (<em>column</em>). It automatically adjusts size,
+  alignment, and order of items based on available space. It’s ideal for:
+</p>
+<ul>
+  <li>Navigation menus or toolbars.</li>
+  <li>Card galleries, responsive lists.</li>
+  <li>Simple centering of text or forms.</li>
+</ul>
+<p>
+  Learn to use it well for smooth layout: key concepts are the <em>main axis</em> and the
+  <em>cross axis</em>; knowing which property affects which axis makes all the difference.
+</p>
+
+<div class="callout tip">
+  <p>
+    Flexbox uses a powerful algorithm. Once you master <code>flex-direction</code>, <code>justify-content</code>, and
+    <code>align-items</code>, you’ll solve most one-dimensional layout problems. The rest is fine-tuning with
+    <code>flex-wrap</code>, <code>flex</code>, and visual order.
+  </p>
+</div>
+
+<h4>7.3.1. Flex container – Key properties</h4>
+<pre><code class="language-css">.container {
+  display: flex;                /* activates Flexbox */
+  flex-direction: row;          /* main axis: row, row-reverse, column, column-reverse */
+  flex-wrap: wrap;              /* allows items to wrap */
+  gap: 1rem;                    /* space between items */
+  justify-content: space-between; /* alignment on main axis */
+  align-items: center;          /* alignment on cross axis */
+  align-content: start;         /* alignment when there are multiple lines */
+}</code></pre>
+
+<h4>7.3.2. Flex items – Space and order control</h4>
+<pre><code class="language-css">.item {
+  flex: 1 1 200px;              /* grow | shrink | basis */
+  /* equivalent to:
+     flex-grow: 1;
+     flex-shrink: 1;
+     flex-basis: 200px;
+  */
+  flex-basis: 200px;            /* preferred size before space distribution */
+  order: 0;                     /* visually reorders, be mindful of accessibility */
+  align-self: auto;             /* overrides align-items for this item */
+  min-width: 0;                 /* prevents content from breaking layout */
+}</code></pre>
+
+<h4>7.3.3. Key property explanations</h4>
+<ul>
+  <li><strong><code>flex-direction</code>:</strong> defines if items are laid out in row or column (and in what order).</li>
+  <li><strong><code>justify-content</code>:</strong> controls spacing and alignment of group along the main axis (start, center, end, space-between, space-around, space-evenly).</li>
+  <li><strong><code>align-items</code>:</strong> aligns individual items along the cross axis (stretch, center, flex-start, flex-end, baseline).</li>
+  <li><strong><code>gap</code>:</strong> creates spacing between items without margins—cleaner and more predictable.</li>
+  <li><strong><code>flex-wrap</code>:</strong> controls whether items should stay in one line or wrap (wrap, nowrap, wrap-reverse).</li>
+  <li><strong><code>flex</code> shorthand:</strong> combines grow, shrink, and basis in one value.</li>
+  <li><strong><code>order</code>:</strong> allows visual reordering without changing HTML—but use with care!</li>
+</ul>
+
+<h4>7.3.4. Common examples with explanations</h4>
+
+<h5>Navbar with CTA button on the right</h5>
+<pre><code class="language-html">&lt;nav class="nav"&gt;
+  &lt;a href="#"&gt;Home&lt;/a&gt;
+  &lt;a href="#"&gt;About&lt;/a&gt;
+  &lt;span class="spacer"&gt;&lt;/span&gt;
+  &lt;a class="btn" href="#"&gt;Login&lt;/a&gt;
+&lt;/nav&gt;</code></pre>
+<pre><code class="language-css">.nav {
+  display: flex;
+  align-items: center;
+}
+.spacer {
+  flex: 1; /* pushes CTA to the right */
+}</code></pre>
+
+<h5>Full centering inside a container</h5>
+<pre><code class="language-css">.centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+}</code></pre>
+
+<h5>Fluid gallery with flexible cards</h5>
+<pre><code class="language-css">.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+.gallery .card {
+  flex: 1 1 220px;
+}</code></pre>
+
+<h4>7.3.5. Common mistakes and how to avoid them</h4>
+<ul>
+  <li>Not using <code>min-width: 0</code> on items with long content → layout may break.</li>
+  <li>Using <code>order</code> to layout without considering accessibility → visual vs DOM mismatch.</li>
+  <li>Ignoring that <code>flex-basis</code> can behave differently than <code>width</code> in images and replaced elements.</li>
+  <li>Skipping <code>gap</code> and overusing manual margins → less control and more errors.</li>
+</ul>
+
+<h4>7.3.6. Mini practical challenge</h4>
+<ol>
+  <li>Convert a horizontal menu into a mobile version with items wrapping using <code>flex-wrap</code>.</li>
+  <li>Make a group of three cards fill the full width equally (using <code>flex-grow</code>).</li>
+  <li>Visually reorder three items without changing HTML using <code>order</code>.</li>
+</ol>
+
+<div class="callout tip">
+  <p><strong>When to use Flex:</strong> bars, menus, forms, simple rows/columns, components where alignment along a single axis is key.</p>
+</div>
+
+  <!-- 7.4 GRID -->
+ <!-- 7.4 GRID -->
+<h3>7.4. Grid: Two-axis layout (rows and columns)</h3>
+
+<p>
+  <strong>CSS Grid</strong> is a <em>two-dimensional</em> layout system: it allows you to place and align elements
+  in both columns and rows, with fine control over widths, heights, gaps, and areas. It’s ideal for
+  card grids, pages with header / content / sidebar / footer, and complex layouts.
+</p>
+
+<div class="callout tip">
+  <p>
+    Think of Grid as an invisible mesh. You define columns and rows on the <em>container</em>; then “place”
+    each item in the cell (or area) you want. For one-dimensional lists, Flexbox is often simpler; for
+    layouts and full pages, Grid shines.
+  </p>
+</div>
+
+<h4>7.4.1. Grid container — key properties</h4>
+<pre><code class="language-css">.grid {
+  display: grid;                               /* activates Grid */
+  grid-template-columns: 200px 1fr 1fr;        /* 3 columns: fixed + 2 flexible */
+  grid-template-rows: auto 1fr auto;           /* 3 rows: height depends on content */
+  gap: 1rem;                                   /* gaps between cells (row + column) */
+  /* justify-content / align-content: distribute the entire grid inside the container
+     justify-items / align-items: align the content inside each cell by default */
+}</code></pre>
+
+<ul>
+  <li><strong>grid-template-columns / rows</strong>: defines the explicit grid (columns/rows).</li>
+  <li><strong>gap</strong>: space between cells (better than individual margins).</li>
+  <li><strong>repeat()</strong>, <strong>fr</strong>, <strong>minmax()</strong>: very powerful functions and units (explained below).</li>
+  <li><strong>grid-auto-flow</strong>: controls placement of items without explicit positioning (<code>row</code> | <code>column</code> | <code>dense</code>).</li>
+  <li><strong>justify-items</strong> / <strong>align-items</strong>: default alignment inside each cell (start, center, end, stretch).</li>
+  <li><strong>justify-content</strong> / <strong>align-content</strong>: move the entire grid when there's extra space.</li>
+</ul>
+
+<h4>7.4.2. Grid items — placement and alignment</h4>
+<pre><code class="language-css">.item-a {
+  grid-column: 1 / 3;        /* spans from column 1 to 2 (excluding 3) */
+  grid-row: 1 / 2;           /* occupies the first row */
+  /* shortcuts:
+     grid-column: span 2;    spans two columns from its current position
+     grid-area: row-start / col-start / row-end / col-end */
+  justify-self: center;       /* aligns THIS item horizontally inside its cell */
+  align-self: end;            /* aligns THIS item vertically inside its cell */
+}</code></pre>
+
+<ul>
+  <li><strong>grid-column</strong> and <strong>grid-row</strong>: define in which columns/rows an item is placed (you can use <code>span</code> to cover multiple).</li>
+  <li><strong>grid-area</strong> (numeric form): <code>grid-area: rowStart / colStart / rowEnd / colEnd</code>.</li>
+  <li><strong>justify-self</strong> / <strong>align-self</strong>: item-specific alignment (overrides container’s <code>justify-items</code>/<code>align-items</code>).</li>
+</ul>
+
+<h4>7.4.3. Essential units and functions</h4>
+<ul>
+  <li><strong>fr</strong>: “fractions” of available space. E.g.: <code>grid-template-columns: 1fr 2fr;</code> → second column is twice as wide as the first.</li>
+  <li><strong>repeat(n, …)</strong>: repeats patterns. E.g.: <code>repeat(3, 1fr)</code> → three equal columns.</li>
+  <li><strong>minmax(min, max)</strong>: fluid limits. E.g.: <code>minmax(220px, 1fr)</code> → never less than 220px, but can grow.</li>
+  <li><strong>auto-fill</strong> / <strong>auto-fit</strong>: responsive grids that fill the width with as many columns as fit.
+    <ul>
+      <li><code>auto-fill</code>: reserves empty slots even if there are no items (useful for some patterns).</li>
+      <li><code>auto-fit</code>: collapses empty slots → columns stretch to fill space.</li>
+    </ul>
+  </li>
+</ul>
+
+<pre><code class="language-css">/* Fluid card grid */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}</code></pre>
+
+<h4>7.4.4. Named areas: “board-style” layouts</h4>
+<p>Naming areas makes your CSS very readable and easy to rearrange.</p>
+<pre><code class="language-css">.layout {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas:
+    "header header"
+    "aside  main"
+    "footer footer";
+  gap: 1rem;
+}
+.header { grid-area: header; }
+.aside  { grid-area: aside; }
+.main   { grid-area: main; }
+.footer { grid-area: footer; }</code></pre>
+
+<pre><code class="language-html">&lt;div class="layout"&gt;
+  &lt;header class="header"&gt;Header&lt;/header&gt;
+  &lt;aside  class="aside"&gt;Aside&lt;/aside&gt;
+  &lt;main   class="main"&gt;Main content&lt;/main&gt;
+  &lt;footer class="footer"&gt;Footer&lt;/footer&gt;
+&lt;/div&gt;</code></pre>
+
+<div class="callout info">
+  <p>
+    Changing the visual order is as simple as modifying the <code>grid-template-areas</code> map (without touching the HTML).
+    On mobile, you can switch to a single column using media queries.
+  </p>
+</div>
+
+<h4>7.4.5. Implicit vs explicit grid</h4>
+<ul>
+  <li><strong>Explicit</strong>: what you declare with <code>grid-template-*</code>.</li>
+  <li><strong>Implicit</strong>: rows/columns that “appear” when placing items outside the explicit grid.</li>
+</ul>
+<pre><code class="language-css">.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* explicit */
+  grid-auto-rows: 180px;                 /* implicit rows will be 180px */
+  grid-auto-flow: row;                   /* how to fill “overflow” items */
+}</code></pre>
+
+<h4>7.4.6. Grid alignment (quick summary)</h4>
+<ul>
+  <li><strong>justify-items</strong> / <strong>align-items</strong> (container): default alignment of <em>each item</em> within its cell.</li>
+  <li><strong>justify-self</strong> / <strong>align-self</strong> (item): item-specific alignment.</li>
+  <li><strong>justify-content</strong> / <strong>align-content</strong> (container): move the entire grid block when there’s extra space.</li>
+</ul>
+
+<h4>7.4.7. Common patterns (with explanation)</h4>
+
+<h5>a) Responsive card gallery</h5>
+<p>Columns adjust based on available width, without breaking.</p>
+<pre><code class="language-css">.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}</code></pre>
+
+<h5>b) “Holy Grail Layout” (header, sidebar nav, main, footer)</h5>
+<pre><code class="language-css">.holy {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas:
+    "header header"
+    "nav    main"
+    "footer footer";
+  min-height: 100dvh;
+}
+.h-header { grid-area: header; }
+.h-nav    { grid-area: nav; }
+.h-main   { grid-area: main; }
+.h-footer { grid-area: footer; }
+
+/* On mobile: single column */
+@media (max-width: 768px){
+  .holy {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "header"
+      "nav"
+      "main"
+      "footer";
+  }
+}</code></pre>
+
+<h5>c) Overlapping hero with text over image</h5>
+<p>Multiple layers in the same “cell” using same area or line numbers.</p>
+<pre><code class="language-css">.hero {
+  display: grid;
+}
+.hero img {
+  grid-area: 1 / 1;            /* same cell */
+  width: 100%; height: auto;
+}
+.hero .copy {
+  grid-area: 1 / 1;
+  align-self: end;              /* text aligned to bottom */
+  padding: 2rem;
+  color: white;
+  text-shadow: 0 2px 8px rgba(0,0,0,.5);
+}</code></pre>
+
+<h5>d) Simple “masonry” layout (variable height) with auto-rows + span</h5>
+<p>Not a true masonry, but mimics the effect by assigning base row height and making items span rows based on content.</p>
+<pre><code class="language-css">.masonry {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  grid-auto-rows: 8px;     /* base unit (row-height) */
+  gap: 12px;
+}
+.masonry > article {
+  /* calculate how many “units” the content needs */
+  /* common trick: measure content and adjust with JS if needed;
+     without JS, define approximate spans by class */
+}
+.masonry .h2x { grid-row: span 24; }  /* 24 * 8px = ~192px */
+.masonry .h3x { grid-row: span 36; }  /* ~288px */</code></pre>
+
+<h4>7.4.8. Lines and names (for precise placement)</h4>
+<p>You can name lines to place items expressively.</p>
+<pre><code class="language-css">.lines {
+  display: grid;
+  grid-template-columns:
+    [left] 1fr [center] 2fr [right] 1fr;
+}
+.feature {
+  grid-column: center;  /* occupies the central column (between named lines) */
+}</code></pre>
+
+<h4>7.4.9. Common mistakes and how to avoid them</h4>
+<ul>
+  <li>Confusing <strong>justify-*</strong> with <strong>align-*</strong>: the first is horizontal in LTR, the second is vertical (unless <code>writing-mode</code> is changed).</li>
+  <li>Forgetting <strong>min-width: 0</strong> on items with long content → columns may break.</li>
+  <li>Mixing fixed <strong>width</strong> with <strong>fr</strong> values without thought → poorly adapting columns.</li>
+  <li>Using visual <strong>order</strong> (with areas) without considering semantic reading → accessibility still matters, like in Flex.</li>
+</ul>
+
+<h4>7.4.10. Mini practical challenge</h4>
+<ol>
+  <li>Build a card grid with <code>auto-fit</code> and <code>minmax(240px, 1fr)</code> that works from mobile to desktop without media queries.</li>
+  <li>Build a page layout with <code>grid-template-areas</code> and switch the order of <em>aside</em> and <em>main</em> using only CSS on narrow screens.</li>
+  <li>Create an overlapping hero and align the text to center on desktop and bottom on mobile using only Grid alignment properties.</li>
+</ol>
+
+<div class="callout tip">
+  <p><strong>When to use Grid:</strong> page templates, marketing layouts, galleries, dashboards with defined areas in two axes. 
+    For inner components (buttons, forms), Flex is usually simpler.</p>
+</div>
+
+<div class="callout info">
+  <p><strong>Quick decision checklist</strong>:
+    <ol>
+      <li> Is normal flow enough? → <code>display: block/inline</code>. </li>
+      <li> Need one-axis alignment? → Flex. </li>
+      <li> Need rows and columns? → Grid. </li>
+      <li> Decorative overlay/badge/fixed menu? → Position. </li>
+    </ol>
+  </p>
+</div>
+
+  <!-- 7.7 MINI-RETOS -->
+  <h3>7.7. Guided Mini-Challenges</h3>
+<ol>
+  <li><strong>Badge on a card:</strong> add an “Offer” label in the top-right corner using <code>position: absolute</code> inside a container with <code>position: relative</code>.</li>
+  <li><strong>Responsive navbar:</strong> using Flex, place a logo on the left, a menu in the center, and a CTA on the right; make the menu stack into a column under <code>&lt;640px</code>.</li>
+  <li><strong>Simple landing page with grid-areas:</strong> header, aside, main, and footer. On mobile, a single column layout; on desktop, aside on the left.</li>
+</ol>
+
+</section>
+
+
+<!-- ======= 14. Recomendaciones de diseño ======= --><section id="design-tips">
+  <h2>8. Web Design Recommendations</h2>
+
+  <p>
+    Learning CSS is not just about memorizing properties, but about applying them with purpose to create clear,
+    accessible, and attractive interfaces. Below is a set of design guidelines worth keeping in mind when building web pages.
+  </p>
+
+  <h3>8.1. Typography</h3>
+  <ul>
+    <li>Use relative units (<code>rem</code>, <code>em</code>) and <code>clamp()</code> for fluid typography.</li>
+    <li>Maintain a clear hierarchy: <code>h1</code>–<code>h6</code> should be used in logical order, not just for visual style.</li>
+    <li>Optimal line length for paragraphs: 60–75 characters.</li>
+    <li>Recommended line height: between 1.4 and 1.6 to improve readability.</li>
+  </ul>
+
+  <h3>8.2. Color</h3>
+  <ul>
+    <li>Ensure at least AA contrast ratio (4.5:1 between text and background).</li>
+    <li>Use a limited palette of primary + neutral colors.</li>
+    <li>Use tools like <em>Adobe Color</em> or <em>Coolors</em> to generate harmonious palettes.</li>
+    <li>If conveying status (success, error, warning), don’t rely on color alone: add icons or text.</li>
+  </ul>
+
+  <h3>8.3. Spacing and Layout</h3>
+  <ul>
+    <li>Use a consistent spacing system (e.g., multiples of 4px or 8px).</li>
+    <li>Avoid overusing <code>&lt;br&gt;</code> or “guesswork” margins: plan vertical rhythm.</li>
+    <li>Use <strong>Grid</strong> for large-scale structures and <strong>Flexbox</strong> for internal alignment.</li>
+  </ul>
+
+  <h3>8.4. Visual Consistency</h3>
+  <ul>
+    <li>Apply consistent border-radius, shadows, and corner styles across components.</li>
+    <li>Define global button and link styles—don’t redefine them on every page.</li>
+    <li>Maintain a consistent typographic and spacing scale throughout the site.</li>
+  </ul>
+
+  <h3>8.5. Accessibility and Usability</h3>
+  <ul>
+    <li>Use HTML5 landmarks (<code>header</code>, <code>main</code>, <code>footer</code>, <code>nav</code>, <code>aside</code>).</li>
+    <li>Provide visible focus states (<code>:focus-visible</code>) for links and buttons.</li>
+    <li>Test using only the keyboard: the entire site should be navigable without a mouse.</li>
+    <li>Respect <code>prefers-reduced-motion</code> and provide alternatives when animations are disabled.</li>
+  </ul>
+
+  <h3>8.6. Performance</h3>
+  <ul>
+    <li>Optimize images (modern formats like WebP or AVIF, use <code>loading="lazy"</code>).</li>
+    <li>Minify CSS and remove unused styles (use tools like purgeCSS).</li>
+    <li>Avoid overusing shadows, complex gradients, or continuous animations—they consume CPU/GPU.</li>
+  </ul>
+
+  <div class="callout warn">
+    <p><strong>In summary:</strong> good design doesn’t depend on CSS “tricks” but on applying principles of readability, 
+    accessibility, consistency, and performance. The ultimate goal is for the user to understand the interface and 
+    achieve their goal with the least effort possible.</p>
+  </div>
+</section>
+
+<!-- Botón volver arriba (si no lo tienes ya en la plantilla) -->
+<a href="#top" class="backtotop" aria-label="Volver arriba">↑</a>
+
+  </main>
+</div>
+  <footer class="site-footer" role="contentinfo" class="wrap">
+  <div >
+      <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer" title="CC BY-NC-SA 4.0">
+        <img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="Licencia Creative Commons BY-NC-SA 4.0">
+      </a>
+
+  </div>
+</footer>
+
+
+  <!-- ======= Estilos locales para los labs (cuadrados + ajustes) ======= -->
+  <style>
+    .lab-grid{ display:grid; gap:1rem; }
+    .lab-row{ display:flex; flex-wrap:wrap; gap:.75rem; align-items:center; }
+    .lab-code pre{ margin:0 }
+    .lab-box, .ejemplo-caja, .ejemplo5, .ejemplo6, .ejemplo7, .ejemplo8{
+      display:flex; align-items:center; justify-content:center;
+      width: 84px; height: 84px;                 /* cuadrados pequeños */
+      border:1px solid var(--border);
+      border-radius: 12px;
+      background: var(--panel);
+      box-shadow: var(--shadow-1);
+      transition: background .3s ease, transform .3s ease, border-radius .3s ease;
+      user-select: none;
+      font-size: .85rem; text-align: center;
+    }
+    .lab-box.small{ width:64px; height:64px; padding:.4rem .6rem }
+    .lab-controls{ display:flex; flex-wrap:wrap; gap:.5rem; align-items:center }
+    .lab-controls label{ font-size:.95em; color:var(--muted) }
+    .lab-controls input[type="range"]{ width:180px }
+    .lab-sep{ height:1px; background: var(--border); margin: .75rem 0 }
+    .lab-note{ font-size:.95em; color:var(--muted) }
+
+    /* Flex/Grid playgrounds */
+    .lab-flex{ display:flex; gap:.5rem; border:1px dashed var(--border); padding:.75rem; border-radius: var(--radius-1); }
+    .lab-flex .item{ background:var(--brand-weak); border:1px solid var(--border); padding:.4rem .6rem; border-radius:6px; }
+    .lab-grid-areas{
+      display:grid; grid-template-areas:
+        "header header"
+        "aside main"
+        "footer footer";
+      grid-template-columns: 220px 1fr; gap:.5rem;
+    }
+    .lab-grid-areas > div{ background:var(--panel); border:1px solid var(--border); padding:.6rem; border-radius:6px; }
+    .lab-grid-areas .header{ grid-area: header; }
+    .lab-grid-areas .aside{ grid-area: aside; }
+    .lab-grid-areas .main { grid-area: main; }
+    .lab-grid-areas .footer{ grid-area: footer; }
+
+    /* Demos de transiciones (cuadrados) */
+    .ejemplo1{ background-color:#ffcccb; }
+    .ejemplo1:hover{ background-color:#ff5733; }
+    .ejemplo2{ background-color:#ccffcc; transform: scale(1); }
+    .ejemplo2:hover{ background-color:#28a745; transform: scale(1.15); }
+    .ejemplo3{ background-color:#cce7ff; }
+    .ejemplo3:hover{ background-color:#007bff; transform: rotate(12deg); }
+    .ejemplo4{ background-color:#f9c74f; }
+    .ejemplo4:hover{ background-color:#f8961e; transform: scale(1.3) rotate(8deg); border-radius:50%; }
+
+    /* Animaciones (nombres conservados) */
+    @keyframes mover {
+      0% { transform: translateX(0); }
+      50% { transform: translateX(100px); }
+      100% { transform: translateX(0); }
+    }
+    .ejemplo5{ background:#ffe8e4; animation: mover 2s infinite; }
+
+    @keyframes cambioColor {
+      0% { background-color: #ffcccb; }
+      50% { background-color: #ff5733; color:#fff; }
+      100% { background-color: #ffcccb; }
+    }
+    .ejemplo6{ animation: cambioColor 3s infinite; }
+
+    @keyframes rotar {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .ejemplo7{ animation: rotar 2s linear infinite; }
+
+    @keyframes combinado {
+      0% { transform: translateY(0) scale(1); background-color: #f9c74f; }
+      50%{ transform: translateY(-16px) scale(1.15); background-color: #f8961e; }
+      100%{ transform: translateY(0) scale(1); background-color: #f9c74f; }
+    }
+    .ejemplo8{ animation: combinado 1.5s ease-in-out infinite; }
+
+    /* Reduce motion */
+    @media (prefers-reduced-motion: reduce){
+      .ejemplo5, .ejemplo6, .ejemplo7, .ejemplo8{ animation: none !important; }
+      .ejemplo1, .ejemplo2, .ejemplo3, .ejemplo4{ transition: none !important; }
+    }
+  </style>
+
+  <!-- ======= JS: Topbar móvil, Sidebar móvil, TOC activo, Labs ======= -->
+  <script>
+    // Topbar hamburger
+    (function(){
+      var toggle = document.getElementById('topnavToggle');
+      var nav = document.getElementById('topnav');
+      if (toggle && nav){
+        toggle.addEventListener('click', function(){
+          var open = nav.classList.toggle('open');
+          toggle.setAttribute('aria-expanded', String(open));
+        });
+      }
+    })();
+
+    // Sidebar drawer (móvil) y backdrop
+    (function(){
+      var btn = document.getElementById('btnSidebar');
+      var sidebar = document.getElementById('sidebar');
+      var backdrop = document.getElementById('backdrop');
+      function openSB(){ sidebar.classList.add('open'); backdrop.classList.add('visible'); backdrop.hidden=false; btn.setAttribute('aria-expanded','true'); }
+      function closeSB(){ sidebar.classList.remove('open'); backdrop.classList.remove('visible'); backdrop.hidden=true; btn.setAttribute('aria-expanded','false'); }
+      if (btn && sidebar && backdrop){
+        btn.addEventListener('click', function(){ sidebar.classList.contains('open') ? closeSB() : openSB(); });
+        backdrop.addEventListener('click', closeSB);
+        document.addEventListener('keydown', function(e){ if (e.key==='Escape' && sidebar.classList.contains('open')) closeSB(); });
+        sidebar.addEventListener('click', function(e){ if (e.target.tagName === 'A') closeSB(); });
+      }
+    })();
+
+    // Resaltado de sección activa en la ToC
+    (function(){
+      var links = document.querySelectorAll('.toc a[href^="#"]');
+      var targets = Array.prototype.map.call(links, function(a){
+        try { return document.querySelector(a.getAttribute('href')); } catch(e){ return null; }
+      }).filter(Boolean);
+      if ('IntersectionObserver' in window){
+        var obs = new IntersectionObserver(function(entries){
+          entries.forEach(function(entry){
+            if (entry.isIntersecting){
+              var id = '#' + entry.target.id;
+              links.forEach(function(a){ a.classList.toggle('active', a.getAttribute('href') === id); });
+            }
+          });
+        }, { rootMargin: "-40% 0px -55% 0px", threshold: 0 });
+        targets.forEach(function(t){ obs.observe(t); });
+      }
+    })();
+
+    // Labs: Transform Playground y Flex Playground
+    (function(){
+      // Transform Playground
+      const box = document.getElementById('transformBox');
+      const rotR = document.getElementById('rotRange');
+      const scR  = document.getElementById('scaleRange');
+      const txR  = document.getElementById('txRange');
+      const rotV = document.getElementById('rotVal');
+      const scV  = document.getElementById('scaleVal');
+      const txV  = document.getElementById('txVal');
+
+      function updateTransform(){
+        if (!box) return;
+        const rot = Number(rotR.value);
+        const sc  = Number(scR.value)/100;
+        const tx  = Number(txR.value);
+        box.style.transform = `translateX(${tx}px) scale(${sc}) rotate(${rot}deg)`;
+        rotV.textContent = rot;
+        scV.textContent  = sc.toFixed(2);
+        txV.textContent  = tx;
+      }
+      [rotR, scR, txR].forEach(i => i && i.addEventListener('input', updateTransform));
+      if (box) updateTransform();
+
+      // Flex Playground
+      const flex = document.getElementById('flexPlayground');
+      const selJ = document.getElementById('flexJustify');
+      const selA = document.getElementById('flexAlign');
+      const selD = document.getElementById('flexDir');
+      const cbW  = document.getElementById('flexWrap');
+
+      function updateFlex(){
+        if (!flex) return;
+        flex.style.justifyContent = selJ.value;
+        flex.style.alignItems     = selA.value;
+        flex.style.flexDirection  = selD.value;
+        flex.style.flexWrap       = cbW.checked ? 'wrap' : 'nowrap';
+      }
+      ;[selJ, selA, selD].forEach(s => s && s.addEventListener('change', updateFlex));
+      cbW && cbW.addEventListener('change', updateFlex);
+      updateFlex();
+    })();
+  </script>
+</body>
+</html>
+
