@@ -58,233 +58,347 @@
 
   <main class="content">
     <header class="page">
-      <h1 id="intro">Web Applications and the Cloud</h1>
-      <p class="muted">Understanding the evolution of the web and the power of cloud-based applications</p>
+      <h1 id="intro">Diseño lógico de bases de datos</h1>
+      <p class="muted">Del modelo conceptual (E/R) al relacional normalizado listo para implementar.</p>
     </header>
 
-    <section>
-      <h2>1. Diseño lógico</h2>
-      <h3>1.1 ¿Qué es el diseño lógico?</h3>
-      <p>
-        El diseño lógico es una fase fundamental en el proceso de construcción de una base de datos. Su objetivo principal es
-        traducir los requerimientos recogidos durante el análisis en una estructura de datos clara, coherente y
-        normalizada, independientemente del sistema de gestión de bases de datos (SGBD) que se vaya a utilizar
-        posteriormente.
-      </p>
-    
-      <p>
-        A diferencia del diseño físico, que se centra en la implementación y optimización del almacenamiento en disco,
-        el diseño lógico trabaja a un nivel de abstracción superior. Aquí se definen entidades, atributos, relaciones y
-        restricciones que organizan la información de forma estructurada, comprensible y útil para los usuarios y los
-        desarrolladores.
-      </p>
-    
-      <p>
-        Una vez completado este diseño, se podrá transformar en un esquema relacional y posteriormente implementar
-        en un SGBD concreto como MySQL, Oracle o PostgreSQL.
-      </p>
-    
-      <div class="callout tip">
-        <p><strong>Consejo:</strong> Antes de comenzar con el diseño lógico, asegúrate de haber comprendido bien las necesidades de la aplicación y haber recogido todos los requisitos. Un error en esta fase puede repercutir en todo el desarrollo posterior.</p>
-      </div>
-    
-      <h4>Características clave del diseño lógico:</h4>
-      <ul>
-        <li>Independencia del sistema gestor (SGBD).</li>
-        <li>Representación detallada de la información: entidades, atributos y relaciones.</li>
-        <li>Aplicación de restricciones de integridad (por ejemplo, claves primarias y foráneas).</li>
-        <li>Preparación para su conversión al modelo relacional.</li>
-        <li>Base para realizar la normalización de datos.</li>
-      </ul>
-    
-      <p>
-        En definitiva, el diseño lógico es la etapa en la que se toma lo conceptual y se transforma en algo técnico,
-        pero todavía independiente de la tecnología concreta. Es un puente entre la abstracción del modelo Entidad-Relación
-        y la implementación real de una base de datos.
-      </p>
+   <!-- ===================== 1. INTRO ===================== -->
+   <section id="intro">
+    <h2>1) Qué es el diseño lógico</h2>
+    <p>
+      El <strong>diseño lógico</strong> toma lo aprendido en el análisis y el diseño conceptual y lo convierte en una
+      especificación formal, coherente y normalizada de los datos, aún <em>independiente del SGBD</em>. Aquí definimos
+      entidades, atributos, relaciones y restricciones con el objetivo de poder transformarlo después al
+      <a href="relacional.html">modelo relacional</a> y, finalmente, a SQL.
+    </p>
+    <div class="callout tip">
+      <strong>Enfoque didáctico.</strong> Primero modelamos <em>conceptos</em> (E/R), luego los “ponemos en tablas”
+      (relacional), y por último los codificamos (SQL). Un error arriba se amplifica abajo; por eso aquí afinamos.
+    </div>
+  </section>
 
-      <h3>1.2 El modelo Entidad-Relación (E/R)</h3>
+  <!-- ===================== 2. MODELO E/R ===================== -->
+  <section id="er">
+    <h2>2) Modelo Entidad-Relación (E/R)</h2>
+    <p>
+      El E/R es la <em>fotografía conceptual</em> de nuestro dominio: qué cosas existen (entidades), cómo son
+      (atributos) y cómo se relacionan (relaciones) con sus <strong>cardinalidades</strong> y <strong>participaciones</strong>.
+      A partir de él, aplicaremos reglas sistemáticas para obtener el esquema relacional.
+    </p>
 
-      <p>
-        Antes de implementar una base de datos, es esencial realizar un buen diseño conceptual que nos permita comprender la
-        estructura de la información. El modelo Entidad-Relación (E/R), propuesto por Peter Chen en 1976, se utiliza como herramienta
-        visual para representar de forma lógica y coherente los datos que serán almacenados. Gracias a él, es posible identificar
-        claramente qué información se va a almacenar, cómo se relacionan los distintos elementos y cuáles son las restricciones 
-        que debemos tener en cuenta.
-      </p>
-    
-      <p>
-        Este modelo es uno de los pasos fundamentales del diseño de una base de datos, ya que actúa como puente entre el mundo real
-        (la realidad que queremos representar) y el modelo lógico que más adelante se convertirá en código SQL. 
-      </p>
-    
-      <div class="callout tip">
-        <p><strong>Consejo:</strong> No subestimes el diseño conceptual. Un buen diagrama E/R reduce errores, mejora la calidad del software y facilita la colaboración entre técnicos y usuarios.</p>
-      </div>
-    
-      <h4>4.1 ¿Qué elementos componen un modelo E/R?</h4>
+    <h3 id="entidades">2.1 Entidades</h3>
+    <p>
+      Una <strong>entidad</strong> representa un conjunto de objetos distinguibles del mundo real (p. ej., <em>Alumno</em>,
+      <em>Asignatura</em>, <em>Pedido</em>). Debe existir un <strong>identificador</strong> (clave) que distinga cada instancia.
+    </p>
+    <ul>
+      <li><strong>Fuertes</strong>: tienen identificador propio (p. ej., <code>DNI</code>, <code>ISBN</code>).</li>
+      <li><strong>Débiles</strong>: se identifican por dependencia de otra entidad + una <em>clave parcial</em>.</li>
+    </ul>
+    <div class="media-box">
+      <!-- TODO: insertar imagen entidad fuerte vs débil -->
+      <div class="media-caption">[Imagen] Entidad fuerte vs. entidad débil.</div>
+    </div>
 
-      <p>El modelo Entidad-Relación (E/R) es una representación gráfica que permite visualizar de forma estructurada cómo se relacionan los datos en un sistema. Este modelo está compuesto por distintos elementos fundamentales: entidades, atributos, relaciones y cardinalidades.</p>
-      
-      <h5>Entidades</h5>
-      
-      <p>Las <strong>entidades</strong> representan objetos del mundo real que tienen existencia propia dentro del sistema. Pueden tener diferentes tipos:</p>
-      
-      <ul>
-        <li><strong>Entidad fuerte:</strong> Aquella que tiene existencia independiente, es decir, no depende de ninguna otra entidad para existir. Suele tener su propia clave primaria.</li>
-      </ul>
-      
-      <div class="media-box">
-        <img src="img/entidad_fuerte.png" alt="Entidad fuerte en un modelo E/R">
-        <div class="media-caption">Figura 1: Representación de una entidad fuerte</div>
-      </div>
-      
-      <ul>
-        <li><strong>Entidad débil:</strong> Es una entidad que depende de otra para existir. No tiene clave primaria propia, sino que se identifica a través de una entidad fuerte asociada y una clave parcial.</li>
-      </ul>
-      
-      <div class="media-box">
-        <img src="img/entidad_debil.png" alt="Entidad débil en un modelo E/R">
-        <div class="media-caption">Figura 2: Representación de una entidad débil</div>
-      </div>
-      
-      <h5>Atributos</h5>
-      
-      <p>Los <strong>atributos</strong> son las propiedades o características que describen a una entidad o a una relación. Según su naturaleza, se clasifican en:</p>
-      
-      <ul>
-        <li>
-          <strong>Simples:</strong> No se pueden subdividir. Ejemplo: <em>edad</em>.
-          <div class="media-box">
-            <img src="img/atributo_simple.png" alt="Atributo simple en un modelo E/R">
-            <div class="media-caption">Figura 3: Representación de un atributo simple</div>
-          </div>
-        </li>
-        <li>
-          <strong>Compuestos:</strong> Pueden descomponerse en otros atributos más simples. Ejemplo: <em>nombre completo</em> → nombre + apellidos.
-          <div class="media-box">
-            <img src="img/atributo_compuesto.png" alt="Atributo compuesto en un modelo E/R">
-            <div class="media-caption">Figura 4: Representación de un atributo compuesto</div>
-          </div>
-        </li>
-        <li>
-          <strong>Multivaluados:</strong> Pueden contener más de un valor para una sola entidad. Ejemplo: <em>teléfonos</em>.
-          <div class="media-box">
-            <img src="img/atributo_multivaluado.png" alt="Atributos multivaluados en E/R">
-            <div class="media-caption">Figura 5: Representación de un atributo multivaluado</div>
-          </div>
-          
-        </li>
-        <li>
-          <strong>Derivados:</strong> No se almacenan directamente, sino que se calculan a partir de otros. Ejemplo: <em>edad</em> a partir de la <em>fecha de nacimiento</em>.
-          <div class="media-box">
-            <img src="img/atributo_derivado.png" alt="Atributos derivados en E/R">
-            <div class="media-caption">Figura 6: Representación de un atributo derivado</div>
-          </div>
-        </li>
-      </ul>
-      
-     
-      <h5>Relaciones</h5>
-      
-      <p>Las <strong>relaciones</strong> representan asociaciones entre dos o más entidades. Por ejemplo, un <em>Profesor</em> <strong>imparte</strong> una <em>Asignatura</em>. Dependiendo del número de entidades involucradas, las relaciones se clasifican en:</p>
-      
-      <ul>
-        <li>
-          <strong>Binarias:</strong> Entre dos entidades.
-          <div class="media-box">
-            <img src="img/binaria2.png" alt="Relación binaria en E/R">
-            <div class="media-caption">Figura 7: Representación de una relación binaria</div>
-          </div>
-        </li>
-        <li>
-          <strong>Reflexivas:</strong> Una entidad se relaciona consigo misma. Ejemplo: <em>Empleado supervisa a Empleado</em>.
-          <div class="media-box">
-            <img src="img/reflexiva.png" alt="Relación reflexiva en E/R">
-            <div class="media-caption">Figura 8: Representación de una relación reflexiva</div>
-          </div>
-        </li>
-        <li>
-          <strong>Ternarias (o n-arias):</strong> Involucran tres o más entidades.
-          <div class="media-box">
-            <img src="img/ternaria.png" alt="Relación ternaria en E/R">
-            <div class="media-caption">Figura 9: Representación de una relación ternaria</div>
-          </div>
-        </li>
-        <li>
-          <strong>Agregación:</strong> Permite tratar una relación como una entidad para asociarla con otra.
-        </li>
-      </ul>
-  
-      
-      <h5>Cardinalidad</h5>
-      
-      <p>La <strong>cardinalidad</strong> indica el número de ocurrencias de una entidad que pueden estar asociadas con otra entidad dentro de una relación. Los tipos más comunes son:</p>
-      
-      <ul>
-        <li><strong>1:1 (uno a uno):</strong> Un registro de una entidad se asocia con solo uno de otra entidad. Ejemplo: Persona – DNI.</li>
-        <li><strong>1:N (uno a muchos):</strong> Un registro de una entidad se asocia con varios de otra. Ejemplo: Cliente – Facturas.</li>
-        <li><strong>N:M (muchos a muchos):</strong> Varios registros de una entidad pueden relacionarse con varios de otra. Ejemplo: Alumnos – Asignaturas.</li>
-      </ul>
-          
-    
-      <h4>Otros elementos importantes</h4>
-    
-      <ul>
-        <li>
-          <strong>Claves primarias (Identificadores):</strong> Atributo(s) que permiten identificar de forma única cada instancia
-          de una entidad. Son fundamentales para garantizar la integridad de los datos.
-        </li>
-        <li>
-          <strong>Entidades débiles:</strong> No tienen una clave primaria por sí mismas y dependen de una entidad fuerte.
-          Deben estar relacionadas mediante una <strong>relación identificadora</strong>.
-        </li>
-        <li>
-          <strong>Jerarquías (Especialización/Generalización):</strong> Se utilizan para modelar subtipos. Por ejemplo,
-          una entidad <em>Empleado</em> puede especializarse en <em>Médico</em> y <em>Enfermero</em>. Se deben indicar las condiciones:
-          <ul>
-            <li>¿Es disjunta o solapada?</li>
-            <li>¿Es total o parcial?</li>
-          </ul>
-        </li>
-        <li>
-          <strong>Relaciones reflexivas:</strong> Una entidad se relaciona consigo misma. Ejemplo: un <em>Empleado</em> puede ser supervisor de otro <em>Empleado</em>.
-        </li>
-      </ul>
-    
-      <h4>Errores comunes al diseñar un E/R</h4>
-    
-      <ul>
-        <li>Confundir atributos con entidades o relaciones.</li>
-        <li>No definir correctamente la cardinalidad.</li>
-        <li>Omitir atributos clave o necesarios.</li>
-        <li>Diseñar relaciones redundantes o innecesarias.</li>
-      </ul>
-    
-      <h4>¿Cómo se representa visualmente?</h4>
-      <p>
-        En los diagramas E/R:
-      </p>
-      <ul>
-        <li>Las <strong>entidades</strong> se dibujan como rectángulos.</li>
-        <li>Los <strong>atributos</strong> como elipses conectadas a su entidad.</li>
-        <li>Las <strong>relaciones</strong> como rombos entre las entidades participantes.</li>
-        <li>Las <strong>especializaciones</strong> como líneas con triángulos apuntando al subtipo.</li>
-      </ul>
-    
-      <div class="callout tip">
-        <p><strong>Recomendación:</strong> Siempre empieza tu modelo conceptual con una buena lluvia de ideas sobre los objetos clave del sistema y sus relaciones. El diagrama crecerá de forma orgánica si las relaciones están bien pensadas.</p>
-      </div>
-    
-      <h4>Ejemplo de diagrama E/R</h4>
-      <p>En este ejemplo se representan las entidades principales de un sistema hospitalario y sus relaciones clave:</p>
-      <img src="img/ejemplo-er.png" alt="Ejemplo de diagrama Entidad-Relación" style="max-width: 100%; border: 1px solid #ccc; padding: 10px;" />
-    
-    </section>
- 
+    <h3 id="atributos">2.2 Atributos</h3>
+    <p>
+      Propiedades de entidades o relaciones. Clasificación útil:
+    </p>
+    <ul>
+      <li><strong>Simples</strong> vs. <strong>compuestos</strong> (p. ej., <em>dirección</em> → calle, número, CP).</li>
+      <li><strong>Monovalorados</strong> vs. <strong>multivalorados</strong> (p. ej., varios <em>teléfonos</em>).</li>
+      <li><strong>Derivados</strong> (p. ej., <em>edad</em> desde <em>fecha_nacimiento</em>).</li>
+      <li><strong>Clave</strong> (identificadores candidatos / primario) y <strong>alternativas</strong>.</li>
+    </ul>
+    <div class="media-box">
+      <!-- TODO: insertar imagen atributos simples/compuestos/multivaluados/derivados -->
+      <div class="media-caption">[Imagen] Tipos de atributos y su notación E/R.</div>
+    </div>
 
-  </main>
+    <h3 id="relaciones">2.3 Relaciones y grado</h3>
+    <p>
+      Una <strong>relación</strong> asocia entidades. El <em>grado</em> indica cuántas entidades participan:
+      <em>binaria</em> (lo más habitual), <em>ternaria</em> o <em>n-aria</em>. Cuidado: una ternaria <em>no</em> equivale a tres binarias.
+    </p>
+    <ul>
+      <li><strong>Identificadoras</strong>: su FK pasa a formar parte de la PK de la entidad débil.</li>
+      <li><strong>No identificadoras</strong>: relacionan sin intervenir en la PK.</li>
+      <li><strong>Reflexivas</strong>: la entidad se relaciona consigo misma (<em>Empleado supervisa Empleado</em>).</li>
+    </ul>
+    <div class="media-box">
+      <!-- TODO: binaria/ternaria/reflexiva -->
+      <div class="media-caption">[Imagen] Relación binaria, ternaria y reflexiva.</div>
+    </div>
+
+    <h3 id="cardinalidad">2.4 Cardinalidad (min,max) y participación</h3>
+    <p>
+      Expresamos las restricciones de asociación con pares <code>(min, max)</code>. Ejemplos:
+    </p>
+    <ul>
+      <li><strong>1:1</strong> → (0,1)-(0,1) o (1,1)-(1,1).</li>
+      <li><strong>1:N</strong> → (1,1) en el lado 1 y (0,N) o (1,N) en el lado N.</li>
+      <li><strong>N:M</strong> → (0,N)-(0,N) (o variantes con mínimos 1).</li>
+    </ul>
+    <p>
+      La <strong>participación</strong> puede ser <em>total</em> (mínimo 1) o <em>parcial</em> (mínimo 0). Esta decisión
+      influye en la ubicación de FKs y en las reglas de transformación.
+    </p>
+    <div class="media-box">
+      <!-- TODO: notación (min,max) y notación crow's foot -->
+      <div class="media-caption">[Imagen] Notación (min,max) y equivalencias en “crow’s foot”.</div>
+    </div>
+
+    <h3 id="debil">2.5 Entidades débiles e identificadoras</h3>
+    <p>
+      Las <strong>entidades débiles</strong> dependen de una fuerte a través de una <em>relación identificadora</em>. Su PK
+      incluye la PK de la fuerte + clave parcial. Su participación en la relación identificadora suele ser total.
+    </p>
+    <div class="media-box">
+      <!-- TODO: entidad débil + relación identificadora -->
+      <div class="media-caption">[Imagen] Transformación de entidad débil.</div>
+    </div>
+
+    <h3 id="isa">2.6 Jerarquías ISA (especialización/generalización)</h3>
+    <p>
+      Modelan subtipos de una superentidad (p. ej., <em>Empleado</em> → <em>Médico</em>, <em>Enfermero</em>). Declaramos:
+    </p>
+    <ul>
+      <li><strong>Disyunta</strong> (excluyente) vs. <strong>solapada</strong> (un objeto puede pertenecer a varios subtipos).</li>
+      <li><strong>Total</strong> (todo objeto es algún subtipo) vs. <strong>parcial</strong>.</li>
+    </ul>
+    <div class="callout info">
+      <strong>Decisiones de modelado.</strong> Elegir disyunta/solapada y total/parcial condiciona la transformación al relacional.
+    </div>
+    <div class="media-box">
+      <!-- TODO: diagrama ISA con disyunta/solapada y total/parcial -->
+      <div class="media-caption">[Imagen] Ejemplos de ISA disyunta/solapada; total/parcial.</div>
+    </div>
+
+    <h3 id="agregacion">2.7 Agregación / Composición</h3>
+    <p>
+      <strong>Agregación</strong>: tratamos una relación como entidad para relacionarla con otras (p. ej., <em>Asignación</em> entre
+      <em>Proyecto</em> y <em>Empleado</em> que a su vez se relaciona con <em>Recurso</em>). Útil cuando una relación necesita
+      <em>relacionarse</em> o tener semántica propia.
+    </p>
+
+    <h3 id="restricciones">2.8 Restricciones e integridad</h3>
+    <ul>
+      <li><strong>Dominio</strong>: tipos y rangos válidos.</li>
+      <li><strong>Entidad</strong>: unicidad de identificadores.</li>
+      <li><strong>Referencia</strong>: existencia de las FKs.</li>
+      <li><strong>Semánticas</strong>: reglas del negocio (p. ej., “un pedido cancelado no puede tener líneas”).</li>
+    </ul>
+    <div class="callout warn">
+      <strong>Error típico.</strong> Omitir el mínimo (participación) y quedarse solo con 1:1/1:N/N:M. El mínimo importa tanto como el máximo.
+    </div>
+  </section>
+
+  <!-- ===================== 3. NOTACIÓN DE MARCO ===================== -->
+  <section id="marco">
+    <h2>3) Notación de marco (tabular)</h2>
+    <p>
+      Representación previa al SQL para “ver” tablas, PK y FKs. Convención: <u>subrayado</u> = PK, <i>cursiva</i> = FK.
+    </p>
+<pre><code>CLIENTE(
+<u>id_cliente</u>, nombre, email
+)
+
+PEDIDO(
+<u>id_pedido</u>, fecha, <i>id_cliente</i>
+)
+</code></pre>
+    <div class="callout tip">
+      <strong>Consejo.</strong> Ordena atributos: primero PK, luego básicos, al final FKs. Mantén nombres en singular y consistentes.
+    </div>
+  </section>
+
+  <!-- ===================== 4. TRANSFORMACIÓN E/R→RELACIONAL ===================== -->
+  <section id="transformacion">
+    <h2>4) Transformación del E/R al modelo relacional</h2>
+
+    <h3>4.1 Entidades fuertes</h3>
+    <p>Tabla por entidad. La PK elegida se convierte en PK de la tabla. Atributos compuestos → sus componentes.</p>
+
+    <h3>4.2 Entidades débiles</h3>
+    <p>Tabla con PK = PK de la fuerte + clave parcial. La PK de la fuerte además es FK (relación identificadora).</p>
+
+    <h3>4.3 Relaciones 1:1</h3>
+    <p>
+      Traslada la PK de una a la otra como FK (y única). Coloca la FK en el lado con <em>participación total</em> o menor cardinalidad.
+      Si la relación tiene atributos, añádelos en la tabla donde coloques la FK.
+    </p>
+
+    <h3>4.4 Relaciones 1:N</h3>
+    <p>La PK del lado 1 pasa como FK al lado N. Atributos de la relación se añaden en la tabla del lado N.</p>
+
+    <h3>4.5 Relaciones N:M</h3>
+    <p>Crear tabla intermedia con FKs a ambas tablas. PK compuesta por las dos FKs. Atributos de la relación van aquí.</p>
+
+    <h3>4.6 Atributos multivalorados</h3>
+    <p>Crea una tabla aparte: PK = PK de la entidad + el atributo (o posición). Evita listas en una sola columna.</p>
+
+    <h3>4.7 Atributos derivados</h3>
+    <p>No se almacenan salvo motivos de rendimiento. Si se persisten, documenta su mantenimiento.</p>
+
+    <h3>4.8 Jerarquías ISA → estrategias</h3>
+    <div class="demo">
+      <table>
+        <thead><tr><th>Estrategia</th><th>Tablas</th><th>Pros</th><th>Contras</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Una tabla por jerarquía (STI)</td>
+            <td>Una tabla con columnas de todos los subtipos + columna <code>tipo</code></td>
+            <td>Consultas simples; sin joins</td>
+            <td>Muchos nulos; validaciones complejas</td>
+          </tr>
+          <tr>
+            <td>Una tabla por subtipo (CTI)</td>
+            <td>Super + una por subtipo (PK=FK a la super)</td>
+            <td>Integridad clara; sin nulos “de otros subtipos”</td>
+            <td>Requiere joins para leer un objeto completo</td>
+          </tr>
+          <tr>
+            <td>Una tabla por clase concreta</td>
+            <td>Solo subtipos (repiten columnas comunes)</td>
+            <td>Lectura directa por subtipo</td>
+            <td>Duplicación de columnas comunes</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout info">
+      <strong>Disyunta vs solapada.</strong> En solapada con CTI, la misma PK puede aparecer en varios subtipos; asegúrate de reflejar la restricción en la lógica/DDL.
+    </div>
+  </section>
+
+  <!-- ===================== 5. NORMALIZACIÓN ===================== -->
+  <section id="normalizacion">
+    <h2>5) Normalización (1FN, 2FN, 3FN, BCNF)</h2>
+    <p>
+      La normalización evita redundancias y anomalías (inserción, actualización, borrado) a través de dependencias funcionales.
+    </p>
+    <h3>5.1 Primera forma normal (1FN)</h3>
+    <ul>
+      <li>Celdas atómicas (sin listas ni tablas en una celda).</li>
+      <li>Sin orden significativo de filas/columnas.</li>
+    </ul>
+<pre><code>-- Anti-ejemplo (no 1FN): clientes(telefonos) = "600..., 911..."
+-- Solución: CLIENTE(id, ...)  TELEFONO(id_cliente, telefono)
+</code></pre>
+
+    <h3>5.2 Segunda forma normal (2FN)</h3>
+    <p>En tablas con PK compuesta, ningún atributo no clave depende de <em>parte</em> de la PK.</p>
+
+    <h3>5.3 Tercera forma normal (3FN)</h3>
+    <p>No debe haber dependencias transitivas (atributo no clave → otro no clave).</p>
+
+    <h3>5.4 Forma normal de Boyce-Codd (BCNF)</h3>
+    <p>Toda determinante es una clave candidata. Más estricta que 3FN: útil para casos con dependencias complejas.</p>
+
+    <div class="callout tip">
+      <strong>Equilibrio.</strong> Normaliza hasta 3FN/BCNF por defecto; desnormaliza <em>sólo</em> por rendimiento y documenta el motivo.
+    </div>
+  </section>
+
+  <!-- ===================== 6. BUENAS PRÁCTICAS ===================== -->
+  <section id="buenas">
+    <h2>6) Buenas prácticas de diseño</h2>
+    <ul>
+      <li>Nomenclatura consistente: <code>SINGULAR</code> para tablas, <code>snake_case</code> para columnas (<code>fecha_alta</code>).</li>
+      <li>Prefiere <strong>claves naturales</strong> cuando son estables; usa <strong>surrogates</strong> (<code>id</code>) si no lo son.</li>
+      <li>Define <strong>participación</strong> (mínimos) explícitamente; impacta en FKs obligatorias/opcionales.</li>
+      <li>Evita atributos multivalorados/compuestos en una sola columna: crea tablas auxiliares.</li>
+      <li>Documenta <strong>restricciones semánticas</strong> que no se expresen en el modelo.</li>
+    </ul>
+    <div class="callout warn">
+      <strong>Antipatrones.</strong> “Tabla cajón” con demasiados significados, FKs opcionales sin criterio, repetir datos “por comodidad”, usar ENUMs para listas cambiantes.
+    </div>
+  </section>
+
+  <!-- ===================== 7. EJEMPLOS GUIADOS ===================== -->
+  <section id="ejemplos">
+    <h2>7) Ejemplos guiados (sin imágenes, listos para completar)</h2>
+
+    <h3>7.1 Biblioteca (E/R resumido)</h3>
+    <ul>
+      <li><strong>Entidades:</strong> <em>Autor</em>(dni), <em>Libro</em>(isbn), <em>Ejemplar</em>(id_ejemplar), <em>Socio</em>(id_socio).</li>
+      <li><strong>Relaciones:</strong> <em>Escribe</em> (Autor–Libro, N:M, atributo <em>rol</em>), <em>Préstamo</em> (Socio–Ejemplar, 1:N con atributos <em>fecha_inicio</em>, <em>fecha_fin</em>).</li>
+      <li><strong>ISA:</strong> <em>Socio</em> → <em>Adulto</em> | <em>Infantil</em> (disyunta parcial).</li>
+    </ul>
+<pre><code>-- Notación de marco (esqueleto)
+AUTOR( <u>dni</u>, nombre )
+LIBRO( <u>isbn</u>, titulo )
+ESCRIBE( <u><i>dni</i></u>, <u><i>isbn</i></u>, rol )
+EJEMPLAR( <u>id_ejemplar</u>, <i>isbn</i>, estado )
+SOCIO( <u>id_socio</u>, nombre, tipo )   -- o ISA CTI
+PRESTAMO( <u>id_prestamo</u>, <i>id_socio</i>, <i>id_ejemplar</i>, fecha_inicio, fecha_fin )
+</code></pre>
+    <div class="media-box">
+      <!-- TODO: croquis E/R biblioteca -->
+      <div class="media-caption">[Imagen] Croquis E/R de biblioteca (a completar).</div>
+    </div>
+
+    <h3>7.2 E-commerce (participación y N:M)</h3>
+    <ul>
+      <li><strong>Participación total</strong> de Línea en Pedido; <strong>opcional</strong> de Pedido en Envío.</li>
+      <li><strong>N:M</strong> Producto–Pedido resuelta con <em>Línea</em> (atributos cantidad, precio_unitario).</li>
+    </ul>
+<pre><code>CLIENTE( <u>id_cliente</u>, nombre, email )
+PEDIDO( <u>id_pedido</u>, fecha, <i>id_cliente</i>, estado )
+PRODUCTO( <u>id_producto</u>, nombre, precio )
+LINEA( <u><i>id_pedido</i></u>, <u><i>id_producto</i></u>, cantidad, precio_unitario )
+ENVIO( <u>id_envio</u>, <i>id_pedido</i> NULL, fecha_envio )
+</code></pre>
+  </section>
+
+  <!-- ===================== 8. EJERCICIOS ===================== -->
+  <section id="ejercicios">
+    <h2>8) Ejercicios propuestos</h2>
+    <ol>
+      <li>
+        <strong>Cardinalidades y participación.</strong>
+        Dado un dominio “Academia”, plantea al menos 5 relaciones con sus pares (min,max) y justifica cada mínimo.
+      </li>
+      <li>
+        <strong>ISA disyunta vs solapada.</strong>
+        Modela <em>Persona</em> → <em>Alumno</em>, <em>Profesor</em>, <em>Personal</em> en versión disyunta total y en solapada parcial.
+        Escribe la transformación relacional en ambas estrategias (CTI vs STI) y comenta pros/contras.
+      </li>
+      <li>
+        <strong>N:M con atributos.</strong>
+        En “Cine”, la relación <em>Interviene</em>(Actor–Película) tiene <em>personaje</em> y <em>salario</em>.
+        Haz el E/R y su marco relacional con PK adecuada.
+      </li>
+      <li>
+        <strong>Normalización.</strong>
+        Dado <code>VENTA(id, fecha, cliente, cliente_dir, cliente_cp, total, iva, base)</code>, detecta dependencias,
+        descompón a 3FN y justifica.
+      </li>
+    </ol>
+  </section>
+
+  <!-- ===================== 9. CHECKLIST ===================== -->
+  <section id="checklist">
+    <h2>9) Checklist de revisión rápida</h2>
+    <ul>
+      <li>¿Todas las entidades tienen identificador claro (natural o surrogate)?</li>
+      <li>¿Están expresados los <strong>mínimos</strong> (participación) en cada relación?</li>
+      <li>¿Atributos multivalorados/compuestos tratados como tablas auxiliares?</li>
+      <li>¿Resueltas todas las N:M con tabla intermedia y PK compuesta?</li>
+      <li>¿Jerarquías ISA documentadas (disyunta/solapada, total/parcial) y estrategia de transformación elegida?</li>
+      <li>¿Esquema resultante normalizado (al menos 3FN) y justificado?</li>
+      <li>¿Nomenclatura y convenciones coherentes? ¿Restricciones semánticas anotadas?</li>
+    </ul>
+    <div class="callout tip">
+      <strong>Truco docente.</strong> Pide al alumnado que “explique” su modelo a alguien de negocio sin tecnicismos:
+      si es comprensible, el E/R va por buen camino.
+    </div>
+  </section>
+
+  <a href="#" class="backtotop" aria-label="Volver arriba">↑</a>
+</main>
 </div>
+
 
 <a href="#top" class="backtotop" aria-label="Volver arriba">↑</a>
 
