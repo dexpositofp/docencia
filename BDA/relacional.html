@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aplicaciones Web — HTML</title>
+  <link rel="stylesheet" href="./bd.css">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Playfair+Display:wght@700&family=Source+Code+Pro:wght@400&display=swap" rel="stylesheet">
+  <meta name="description" content="Unidad de HTML: estructura, semántica, formularios, tablas, multimedia y validación.">
+</head>
+<body>
+
+<header class="topbar" role="banner">
+  <div class="wrap">
+    <div class="site-brand">
+      <a href="./index.html">Bases de Datos</a>
+      <small>1º DAW</small>
+    </div>
+
+    <button class="topnav-toggle" aria-expanded="false" aria-controls="topnav">
+      <span class="sr-only">Abrir menú</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <nav id="topnav" class="topnav" aria-label="Site navigation">
+      <ul>
+        <li><a href="index.html" class="active">Inicio</a></li>
+        <li><a href="almacenamiento.html">Almacenamiento</a></li>
+        <li><a href="logico.html">Diseño Lógico</a></li>
+        <li><a href="relacional.html">Modelo Relacional</a></li>
+        <li><a href="sql.html">SQL</a></li>
+        <li><a href="plsql.html">PL/SQL</a></li>
+        <li><a href="persistencia.html">Persistencia</a></li>
+        <li><a href="nosql.html">NoSQL</a></li>
+    </ul>
+    </nav>
+    
+  </div>
+</header>
+
+ <div class="layout">
+  <aside class="sidebar" id="sidebar" aria-label="Unit index">
+    <h2>Contents</h2>
+    <nav>
+      <ul class="toc" id="toc">
+          <li><a href="#intro">1. Introducción</a></li>
+          <li><a href="#conceptos">2. Conceptos básicos</a>
+            <ul>
+              <li><a href="#relacion">2.1 Relación, tupla, dominio</a></li>
+              <li><a href="#claves">2.2 Claves (super, candidatas, primaria, alternativas)</a></li>
+              <li><a href="#integridad">2.3 Integridad (entidad, referencia, dominio)</a></li>
+            </ul>
+          </li>
+          <li><a href="#algebra">3. Álgebra relacional</a>
+            <ul>
+              <li><a href="#unarias">3.1 Operadores unarios (σ, π, ρ)</a></li>
+              <li><a href="#binarias">3.2 Operadores binarios (∪, ∩, −, ×)</a></li>
+              <li><a href="#join">3.3 Joins (θ-join, natural, semijoin, división)</a></li>
+              <li><a href="#equivalencias">3.4 Equivalencias Álgebra ↔ SQL</a></li>
+            </ul>
+          </li>
+          <li><a href="#mapa">4. Del E/R al relacional (reglas resumen)</a></li>
+          <li><a href="#depfn">5. Dependencias funcionales (puente a normalización)</a></li>
+          <li><a href="#diseno">6. Decisiones de diseño (claves, nombres, valores nulos)</a></li>
+          <li><a href="#ejemplos">7. Ejemplos guiados</a></li>
+          <li><a href="#ejercicios">8. Ejercicios propuestos</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Contenido principal -->
+    <main class="content" id="content" role="main">
+      <header class="page">
+        <h1>Modelo relacional</h1>
+        <p class="muted">La base formal sobre la que se asienta SQL: conjuntos, relaciones y operadores que combinan tablas.</p>
+      </header>
+
+      <!-- ============== 1. INTRO ============== -->
+      <section id="intro">
+        <h2>1) Introducción</h2>
+        <p>
+          El <strong>modelo relacional</strong> representa la información como <em>relaciones</em> (tablas) formadas por <em>tuplas</em> (filas)
+          con valores de <em>dominios</em> (tipos). Nació con E. F. Codd y prioriza la independencia lógica y la manipulación
+          declarativa mediante operadores (álgebra relacional). SQL implementa estos conceptos —con diferencias prácticas
+          como la <em>posible presencia de duplicados</em> y <em>tuplas con orden aparente</em> en resultados si no se especifica lo contrario.
+        </p>
+        <div class="callout info">
+          <strong>Relacional vs SQL.</strong> En el modelo relacional “puro” no hay filas duplicadas ni orden por defecto; en SQL debes
+          pedir <code>DISTINCT</code> y <code>ORDER BY</code> cuando corresponda.
+        </div>
+      </section>
+
+      <!-- ============== 2. CONCEPTOS BÁSICOS ============== -->
+      <section id="conceptos">
+        <h2>2) Conceptos básicos</h2>
+
+        <h3 id="relacion">2.1 Relación, tupla, dominio</h3>
+        <p>
+          Una <strong>relación</strong> es un conjunto de tuplas sobre un conjunto de atributos, cada una con valores en su <em>dominio</em>.
+          El <strong>esquema</strong> de relación enumera sus atributos y dominios; el <strong>estado</strong> (o instancia) es el conjunto de tuplas en un momento dado.
+        </p>
+<pre><code>CLIENTE(id: INT, nombre: TEXT, email: TEXT)
+PEDIDO(id: INT, fecha: DATE, id_cliente: INT, total: DECIMAL)
+</code></pre>
+        <ul>
+          <li><strong>Grado</strong> = nº de atributos; <strong>cardinalidad</strong> = nº de tuplas.</li>
+          <li>Los valores <code>NULL</code> representan “desconocido/no aplicable”, lo cual afecta a comparaciones y agregaciones.</li>
+        </ul>
+
+        <h3 id="claves">2.2 Claves</h3>
+        <ul>
+          <li><strong>Superclave</strong>: conjunto de atributos que identifica de forma única una tupla.</li>
+          <li><strong>Clave candidata</strong>: superclave mínima (sin atributos redundantes).</li>
+          <li><strong>Clave primaria (PK)</strong>: candidata elegida para identificar; el resto son <strong>alternativas</strong>.</li>
+          <li><strong>Clave externa (FK)</strong>: referencia a la PK de otra relación (o a una candidata única).</li>
+        </ul>
+        <div class="callout tip">
+          <strong>Elección práctica.</strong> Prefiere claves naturales si son <em>estables</em>; si no, usa un <em>surrogate</em> (p. ej., <code>id</code>).
+        </div>
+
+        <h3 id="integridad">2.3 Integridad</h3>
+        <ul>
+          <li><strong>Entidad</strong>: la PK no puede ser <code>NULL</code> y es única.</li>
+          <li><strong>Referencia</strong>: toda FK debe apuntar a una tupla existente o ser <code>NULL</code> si es opcional (política de borrado/actualización definida).</li>
+          <li><strong>Dominio</strong>: valores en el rango y formato correctos.</li>
+        </ul>
+      </section>
+
+      <!-- ============== 3. ÁLGEBRA RELACIONAL ============== -->
+      <section id="algebra">
+        <h2>3) Álgebra relacional</h2>
+        <p>
+          Operadores formales que toman relaciones como entrada y devuelven relaciones como salida. Sirven para
+          <strong>razonar</strong> y para establecer equivalencias con SQL.
+        </p>
+
+        <h3 id="unarias">3.1 Operadores unarios</h3>
+        <ul>
+          <li><strong>Selección</strong> (&sigma;<sub>condición</sub>): filtra filas.</li>
+          <li><strong>Proyección</strong> (&pi;<sub>atributos</sub>): selecciona columnas (elimina duplicados en el modelo formal).</li>
+          <li><strong>Renombramiento</strong> (&rho;): cambia nombre de relación/atributos.</li>
+        </ul>
+<pre><code>-- Álgebra (ejemplos conceptuales)
+σ_{total &gt; 50}(PEDIDO)
+π_{nombre,email}(CLIENTE)
+ρ_{C}(CLIENTE)
+
+-- SQL equivalentes
+SELECT * FROM PEDIDO WHERE total &gt; 50;
+SELECT nombre, email FROM CLIENTE;
+-- renombrar en SQL con AS (alias)
+</code></pre>
+
+        <h3 id="binarias">3.2 Operadores binarios</h3>
+        <ul>
+          <li><strong>Unión</strong> (R ∪ S): tuplas que están en R o S (esquema compatible).</li>
+          <li><strong>Intersección</strong> (R ∩ S): tuplas que están en ambos.</li>
+          <li><strong>Diferencia</strong> (R − S): tuplas de R que no están en S.</li>
+          <li><strong>Producto</strong> (R × S): todas las combinaciones (punto de partida de los joins).</li>
+        </ul>
+<pre><code>-- SQL
+SELECT * FROM A
+UNION
+SELECT * FROM B;
+
+SELECT * FROM A
+INTERSECT
+SELECT * FROM B;      -- (en MySQL no existe INTERSECT; se emula)
+
+SELECT * FROM A
+WHERE NOT EXISTS (
+  SELECT 1 FROM B WHERE B.pk = A.pk
+);
+</code></pre>
+        <div class="callout warn">
+          <strong>Compatibilidad de esquemas.</strong> Unión, intersección y diferencia requieren mismo nº y tipo de columnas.
+        </div>
+
+        <h3 id="join">3.3 Joins</h3>
+        <ul>
+          <li><strong>θ-join</strong> (condición arbitraria); <strong>equijoin</strong> (igualdad); <strong>join natural</strong> (por atributos con mismo nombre).</li>
+          <li><strong>Semijoin</strong> (⋉): devuelve solo columnas de una relación si hay coincidencia en la otra.</li>
+          <li><strong>División</strong> (÷): “los que se relacionan con <em>todos</em> los elementos de un conjunto”.</li>
+        </ul>
+<pre><code>-- INNER JOIN (equijoin típico)
+SELECT p.id, c.nombre, p.total
+FROM PEDIDO p
+JOIN CLIENTE c ON c.id = p.id_cliente;
+
+-- LEFT JOIN (mantiene las tuplas de la izquierda)
+SELECT c.id, c.nombre, p.id AS pedido
+FROM CLIENTE c
+LEFT JOIN PEDIDO p ON p.id_cliente = c.id;
+
+-- Semijoin (emulado)
+SELECT * FROM CLIENTE c
+WHERE EXISTS (SELECT 1 FROM PEDIDO p WHERE p.id_cliente = c.id);
+
+-- División (clientes que han comprado TODOS los productos del conjunto S)
+-- Álgebra: COMPRA ÷ S
+-- SQL (esqueleto con NOT EXISTS doble)
+SELECT c.id, c.nombre
+FROM CLIENTE c
+WHERE NOT EXISTS (
+  SELECT s.id_producto
+  FROM S
+  WHERE NOT EXISTS (
+    SELECT 1 FROM COMPRA co
+    WHERE co.id_cliente = c.id AND co.id_producto = s.id_producto
+  )
+);
+</code></pre>
+
+        <h3 id="equivalencias">3.4 Equivalencias Álgebra ↔ SQL</h3>
+        <div class="demo">
+          <table>
+            <thead><tr><th>Álgebra</th><th>SQL (patrón)</th><th>Notas</th></tr></thead>
+            <tbody>
+              <tr><td>&sigma;<sub>c</sub>(R)</td><td><code>SELECT * FROM R WHERE c</code></td><td>Filtrado</td></tr>
+              <tr><td>&pi;<sub>a,b</sub>(R)</td><td><code>SELECT a,b FROM R</code></td><td>Columnas</td></tr>
+              <tr><td>R ∪ S</td><td><code>SELECT ... UNION SELECT ...</code></td><td><code>UNION ALL</code> conserva duplicados</td></tr>
+              <tr><td>R − S</td><td><code>WHERE NOT EXISTS(...)</code></td><td>O <code>LEFT JOIN ... WHERE S.pk IS NULL</code></td></tr>
+              <tr><td>R ⨝ S</td><td><code>FROM R JOIN S ON ...</code></td><td>Natural: coincide en nombres comunes</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ============== 4. REGLAS E/R → RELACIONAL ============== -->
+      <section id="mapa">
+        <h2>4) Del E/R al relacional (resumen rápido)</h2>
+        <ul>
+          <li><strong>Entidad fuerte</strong> → tabla; PK = identificador elegido.</li>
+          <li><strong>Entidad débil</strong> → tabla; PK = PK fuerte + clave parcial; FK a la fuerte.</li>
+          <li><strong>Relación 1:1</strong> → FK única en el lado de participación total (añade atributos de la relación ahí).</li>
+          <li><strong>Relación 1:N</strong> → FK en el lado N (añade atributos de la relación ahí).</li>
+          <li><strong>Relación N:M</strong> → tabla intermedia; PK compuesta por ambas FKs; atributos de la relación aquí.</li>
+          <li><strong>Atributo multivalorado</strong> → tabla aparte (PK entidad + valor/posición).</li>
+          <li><strong>Jerarquías ISA</strong> → STI / CTI / tablas concretas (elige estrategia y documenta restricciones).</li>
+        </ul>
+        <p class="muted">Desarrollo detallado y ejemplos en <a href="logico.html#transformacion">Diseño lógico · Transformación</a>.</p>
+      </section>
+
+      <!-- ============== 5. DEPENDENCIAS FUNCIONALES ============== -->
+      <section id="depfn">
+        <h2>5) Dependencias funcionales (puente a normalización)</h2>
+        <p>
+          Una <strong>dependencia funcional</strong> A → B indica que el valor de A determina el de B. La PK determina todos los
+          atributos; buscamos eliminar dependencias parciales (2FN) y transitivas (3FN). BCNF exige que toda determinante sea
+          clave candidata. Este tema se continúa en <a href="logico.html#normalizacion">Normalización</a>.
+        </p>
+<pre><code>VENTA(id, fecha, id_cliente, nombre_cliente, total)
+-- Si id_cliente → nombre_cliente, hay dependencia transitiva vía id_cliente.
+</code></pre>
+      </section>
+
+      <!-- ============== 6. DECISIONES DE DISEÑO ============== -->
+      <section id="diseno">
+        <h2>6) Decisiones de diseño</h2>
+        <ul>
+          <li><strong>Claves</strong>: natural vs surrogate; estabilidad y significado.</li>
+          <li><strong>Nulos</strong>: ¿qué atributos admiten <code>NULL</code>? define opcionalidad según participación mínima.</li>
+          <li><strong>Nombres</strong>: consistentes, en singular; evita abreviaturas opacas.</li>
+          <li><strong>FK y acciones</strong>: RESTRICT, CASCADE, SET NULL según reglas de negocio.</li>
+          <li><strong>Documentación</strong>: justifica la estrategia ISA y las desnormalizaciones (si las hay).</li>
+        </ul>
+      </section>
+
+      <!-- ============== 7. EJEMPLOS GUIADOS ============== -->
+      <section id="ejemplos">
+        <h2>7) Ejemplos guiados</h2>
+
+        <h3>7.1 Catálogo y pedidos (mini-modelo)</h3>
+<pre><code>CLIENTE(<u>id</u>, nombre, email)
+PEDIDO(<u>id</u>, fecha, <i>id_cliente</i>, total)
+LINEA(<u><i>id_pedido</i></u>, <u><i>pos</i></u>, producto, cantidad, precio)
+</code></pre>
+<pre><code>-- Consultas típicas (SQL vs Álgebra)
+-- a) Clientes con pedidos
+σ_{EXISTS(PEDIDO where id_cliente = c.id)}(CLIENTE)
+SELECT * FROM CLIENTE c WHERE EXISTS (
+  SELECT 1 FROM PEDIDO p WHERE p.id_cliente = c.id
+);
+
+-- b) Total por cliente
+π_{id, nombre, SUM(total)} (CLIENTE ⨝ PEDIDO) GROUP BY id
+SELECT c.id, c.nombre, SUM(p.total) AS total
+FROM CLIENTE c JOIN PEDIDO p ON p.id_cliente = c.id
+GROUP BY c.id, c.nombre;
+</code></pre>
+
+        <h3>7.2 División (todos los requisitos)</h3>
+        <p>“Clientes que han comprado todos los productos de la categoría ‘básicos’”.</p>
+<pre><code>-- S = subconjunto de productos básicos
+-- Resultado = COMPRA ÷ S
+-- SQL (patrón NOT EXISTS / doble anti-join)
+SELECT c.id, c.nombre
+FROM CLIENTE c
+WHERE NOT EXISTS (
+  SELECT s.id_producto
+  FROM S
+  WHERE NOT EXISTS (
+    SELECT 1 FROM COMPRA co
+    WHERE co.id_cliente = c.id AND co.id_producto = s.id_producto
+  )
+);
+</code></pre>
+      </section>
+
+      <!-- ============== 8. EJERCICIOS ============== -->
+      <section id="ejercicios">
+        <h2>8) Ejercicios propuestos</h2>
+        <ol>
+          <li>
+            <strong>Álgebra vs SQL.</strong> Expresa en álgebra y en SQL: “clientes sin pedidos” y “productos nunca vendidos”.
+          </li>
+          <li>
+            <strong>Claves y FKs.</strong> Dado un esquema con N:M y atributos en la relación, define PK/FKs adecuadas y explica por qué.
+          </li>
+          <li>
+            <strong>División.</strong> Formula con el patrón de <code>NOT EXISTS</code> el conjunto “alumnos que han cursado todas las optativas de 2º”.
+          </li>
+          <li>
+            <strong>Dependencias funcionales.</strong> Identifica DF y propone una descomposición a 3FN para <code>PEDIDO(id, fecha, cliente, dir_cliente, cp_cliente, total)</code>.
+          </li>
+        </ol>
+      </section>
+</div>
+
+     <a href="#top" class="backtotop" aria-label="Volver arriba">↑</a>
+
+<footer class="site-footer" role="contentinfo" class="wrap">
+  <div>
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer" title="CC BY-NC-SA 4.0">
+      <img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="Licencia Creative Commons BY-NC-SA 4.0">
+    </a>
+  </div>
+</footer>
+
+<!-- JS de navegación (ajustado a tus clases e IDs) -->
+<script>
+(function(){
+  // Topbar toggle
+  var btn = document.querySelector('.topnav-toggle');
+  var nav = document.getElementById('topnav');
+  if (btn && nav) {
+    btn.addEventListener('click', function(){
+      var open = nav.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    nav.addEventListener('click', function(e){
+      if (e.target.tagName === 'A' && nav.classList.contains('open')) {
+        nav.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  // Resalta enlace activo en el TOC según sección visible
+  var links = document.querySelectorAll('.toc a[href^="#"]');
+  var targets = Array.prototype.map.call(links, function(a){
+    try { return document.querySelector(a.getAttribute('href')); } catch(e){ return null; }
+  }).filter(Boolean);
+
+  if ('IntersectionObserver' in window) {
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          var id = '#' + entry.target.id;
+          links.forEach(function(a){
+            a.classList.toggle('active', a.getAttribute('href') === id);
+          });
+        }
+      });
+    }, { rootMargin: "-40% 0px -55% 0px", threshold: 0 });
+    targets.forEach(function(t){ obs.observe(t); });
+  }
+})();
+</script>
+</body>
+</html>
+
+
