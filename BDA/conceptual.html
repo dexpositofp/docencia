@@ -1,0 +1,1472 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Modelo conceptual (E/R) — Bases de Datos (1º DAW)</title>
+  <link rel="stylesheet" href="bd.css" />
+  <meta name="description" content="Modelo conceptual Entidad–Relación (E/R): entidades, atributos, identificadores, relaciones, cardinalidades (min,max), participación, entidades débiles, jerarquías ISA, agregación y restricciones. Proceso de modelado, ejemplos y ejercicios." />
+</head>
+<body>
+  <!-- ===== Topbar / navegación ===== -->
+  <header class="topbar" role="banner">
+    <div class="wrap">
+      <div class="site-brand">
+        <a href="index.html" aria-label="Inicio">BD · 1º DAW</a>
+        <small>Modelo conceptual</small>
+      </div>
+      <nav class="topnav" id="topnav" aria-label="Secciones del curso">
+        <nav id="topnav" class="topnav" aria-label="Site navigation">
+          
+            <ul>
+              <li><a href="index.html" class="active">Inicio</a></li>
+              <li><a href="almacenamiento.html">Almacenamiento</a></li>
+              <li><a href="conceptual.html">Diseño Conceptual</a></li>
+              <li><a href="logico.html">Diseño Lógico</a></li>
+              <li><a href="sql.html">SQL</a></li>
+              <li><a href="plsql.html">PL/SQL</a></li>
+              <li><a href="persistencia.html">Persistencia</a></li>
+              <li><a href="nosql.html">NoSQL</a></li>
+          </ul>
+          
+    </nav>
+      </nav>
+      <button class="topnav-toggle" aria-expanded="false" aria-controls="topnav" id="btnTopnav" title="Abrir/cerrar menú">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+        <span class="sr-only">Menú</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="layout">
+    
+    <div class="backdrop" id="backdrop" hidden></div>
+
+    <!-- ===== Sidebar índice ===== -->
+    <aside class="sidebar" id="sidebar" role="complementary" aria-label="Índice de la página">
+      <h2>Contenidos</h2>
+      <nav>
+        <ul class="toc" id="toc">
+          <li><a href="#intro">1) Introducción</a></li>
+          <li><a href="#por-que">2) ¿Por qué modelar? Objetivos y alcance</a></li>
+      
+          <li>
+            <a href="#notacion">3) Notación y convenciones</a>
+            <ul>
+              <li><a href="#estilos">3.1 Estilos (Chen, crow’s foot, min–max)</a></li>
+              <li><a href="#nombres">3.2 Nombres y roles</a></li>
+            </ul>
+          </li>
+      
+          <li>
+            <a href="#componentes">4) Componentes del E/R</a>
+            <ul>
+              <li><a href="#entidades">4.1 Entidades</a></li>
+              <li><a href="#atributos">4.2 Atributos</a></li>
+              <li><a href="#identificadores">4.3 Identificadores (claves)</a></li>
+              <li><a href="#relaciones">4.4 Relaciones y grado</a></li>
+              <li><a href="#cardinalidad">4.5 Cardinalidad (min,max) y participación</a></li>
+              <li><a href="#debil">4.6 Entidades débiles e identificadoras</a></li>
+              <li><a href="#isa">4.7 Jerarquías ISA</a></li>
+              <li><a href="#agregacion">4.8 Agregación / Composición</a></li>
+              <li><a href="#restricciones">4.9 Restricciones de integridad</a></li>
+            </ul>
+          </li>
+      
+          <li><a href="#errores-checklist">5) Errores comunes</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- ===== Contenido ===== -->
+    <main class="content" id="content" role="main">
+      <header class="page">
+        <h1>Modelo conceptual (Entidad–Relación)</h1>
+        <p class="muted">
+          En esta unidad aprendemos a describir el <em>dominio de información</em> con el modelo Entidad–Relación (E/R):
+          qué objetos existen, qué propiedades tienen y cómo se relacionan, incluyendo <strong>cardinalidades (min,max)</strong>,
+          <strong>participación</strong>, <strong>ISA</strong> y otras restricciones. Este modelo conceptual será la base
+          del <a href="logico.html">diseño lógico</a> y, más adelante, de la implementación en <a href="sql.html">SQL</a>.
+        </p>
+        <div class="callout info">
+          <strong>Marco del curso.</strong> Conceptual (E/R) ⟶ <a href="logico.html">Lógico</a> (relacional y normalización) ⟶ <a href="sql.html">SQL</a> (DDL/DML/DCL/TCL).
+        </div>
+      </header>
+
+      <!-- ========== 1. INTRO ========== -->
+      <section id="intro">
+  <h2>1) Introducción</h2>
+  <p>
+    El <strong>modelo Entidad–Relación (E/R)</strong> nos permite representar de forma clara y precisa la información
+    de un sistema antes de pensar en tablas o sentencias SQL. El objetivo es <em>entender y acordar</em> el significado
+    de los datos con quien conoce el negocio: nombres, propiedades y reglas. Un buen E/R reduce ambigüedades y evita
+    errores costosos en fases posteriores.
+  </p>
+
+  <div class="callout tip">
+    <strong>Idea clave.</strong> En E/R hablamos de <em>cosas del mundo real</em> (Cliente, Pedido, Producto…), no de tablas.
+    Las tablas llegarán después: aquí decidimos el <em>qué</em> y el <em>por qué</em>; más tarde, el <em>cómo</em>.
+  </div>
+
+  <h3>1.1 Ruta completa del diseño de una BD</h3>
+  <p class="muted">
+    El diseño es <em>iterativo</em>: podemos volver atrás si descubrimos nuevos requisitos. Este es el camino recomendado,
+    con entregables y relación con el resto de páginas del curso.
+  </p>
+
+  <div class="demo">
+    <table>
+      <thead>
+        <tr>
+          <th>Fase</th>
+          <th>Objetivo</th>
+          <th>Entregables</th>
+          <th>Referencia</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>0) Idea y contexto</strong></td>
+          <td>Definir el problema, alcance y objetivos (qué se pretende resolver).</td>
+          <td>“Elevator pitch”, lista de actores, supuestos y restricciones.</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><strong>1) Requisitos y vocabulario</strong></td>
+          <td>Recopilar términos del negocio y reglas clave.</td>
+          <td>Glosario, casos de uso, ejemplos de datos (pequeño set).</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><strong>2) Modelo conceptual (E/R)</strong></td>
+          <td>Identificar <em>entidades</em>, <em>atributos</em> y <em>relaciones</em> con <strong>(min,max)</strong> y participación.</td>
+          <td>Diagrama E/R, diccionario de datos, reglas de negocio.</td>
+          <td><a href="#componentes">Sección 4</a></td>
+        </tr>
+        <tr>
+          <td><strong>3) Revisión del E/R</strong></td>
+          <td>Validar con ejemplos/contraejemplos y detectar casos especiales.</td>
+          <td>Ajustes de cardinalidades, <em>entidades débiles</em>, <em>ISA</em>, <em>agregación</em>.</td>
+          <td><a href="#errores">Sección 7</a></td>
+        </tr>
+        <tr>
+          <td><strong>4) Diseño lógico (relacional)</strong></td>
+          <td>Transformar el E/R a tablas: PK, UK, FK y tablas intermedias.</td>
+          <td>Notación de marco, esquema preliminar.</td>
+          <td><a href="logico.html#transformacion">Diseño lógico</a></td>
+        </tr>
+        <tr>
+          <td><strong>5) Normalización</strong></td>
+          <td>Eliminar redundancias y anomalías (1FN, 2FN, 3FN/BCNF).</td>
+          <td>Esquema normalizado y justificación de (des)normalizaciones.</td>
+          <td><a href="logico.html#normalizacion">Diseño lógico</a></td>
+        </tr>
+        <tr>
+          <td><strong>6) Implementación (DDL)</strong></td>
+          <td>Crear BD/tablas, tipos y restricciones en el SGBD.</td>
+          <td>Scripts <code>CREATE DATABASE/TABLE</code>, índices y comentarios.</td>
+          <td><a href="sql.html#ddl-mysql">SQL · DDL</a></td>
+        </tr>
+        <tr>
+          <td><strong>7) Carga y manipulación (DML)</strong></td>
+          <td>Insertar datos, consultar, actualizar y borrar de forma segura.</td>
+          <td>Scripts <code>INSERT</code>/<code>SELECT</code>/<code>UPDATE</code>/<code>DELETE</code>, casos de prueba.</td>
+          <td><a href="sql.html#dml-mysql">SQL · DML</a></td>
+        </tr>
+        <tr>
+          <td><strong>8) Seguridad (DCL)</strong></td>
+          <td>Definir usuarios, roles y privilegios mínimos necesarios.</td>
+          <td><code>GRANT/REVOKE</code>, vistas de seguridad, <code>SHOW GRANTS</code>.</td>
+          <td><a href="sql.html#dcl-mysql">SQL · DCL</a></td>
+        </tr>
+        <tr>
+          <td><strong>9) Transacciones (TCL)</strong></td>
+          <td>Garantizar atomicidad y consistencia bajo concurrencia.</td>
+          <td><code>START TRANSACTION</code>, <code>COMMIT</code>, <code>ROLLBACK</code>, <code>SAVEPOINT</code>.</td>
+          <td><a href="sql.html#tcl-mysql">SQL · TCL</a></td>
+        </tr>
+        <tr>
+          <td><strong>10) Pruebas y rendimiento</strong></td>
+          <td>Verificar integridad y ajustar tiempos de respuesta.</td>
+          <td>Datos de prueba, <code>EXPLAIN</code>, plan de índices, checklist final.</td>
+          <td><a href="#checklist">Sección 9</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>1.2 Qué esperamos al terminar esta unidad</h3>
+  <ul>
+    <li>Un <strong>diagrama E/R final</strong> con <em>(min,max)</em> y participación (total/parcial) en cada relación.</li>
+    <li>Un <strong>diccionario</strong> de entidades y atributos (nombre, significado, dominio y ejemplos).</li>
+    <li>Una <strong>lista de restricciones</strong> (dominio, entidad, referencia y semánticas) validada con el “cliente”.</li>
+  </ul>
+
+ 
+</section>
+
+
+      <!-- ========== 2. POR QUÉ MODELAR ========== -->
+      <section id="por-que">
+  <h2>2) ¿Por qué modelar? Objetivos y alcance</h2>
+  <p>
+    Modelar con <strong>E/R</strong> no es “dibujar por dibujar”: es <em>entender</em> el dominio, acordar el significado de los datos
+    y fijar reglas antes de pasar a tablas y SQL. Un buen modelo reduce la ambigüedad, evita decisiones improvisadas
+    y sirve de contrato entre quienes conocen el negocio y quienes lo implementan.
+  </p>
+
+  <h3>2.1 Objetivos del modelado conceptual</h3>
+  <ul>
+    <li><strong>Comunicación</strong>: crear un lenguaje común (glosario + diagrama) entendible por perfiles técnicos y no técnicos.</li>
+    <li><strong>Precisión</strong>: explicitar <em>cardinalidades (min,max)</em>, <em>participación</em>, identificadores y reglas de negocio.</li>
+    <li><strong>Calidad de datos</strong>: detectar redundancias y dependencias antes de que existan tablas o datos productivos.</li>
+    <li><strong>Trazabilidad</strong>: justificar por qué luego habrá ciertas PK/FK, tablas intermedias o jerarquías en el diseño lógico.</li>
+    <li><strong>Independencia</strong>: separar el <em>qué</em> y el <em>por qué</em> (conceptual) del <em>cómo</em> (relacional/SQL/SGBD).</li>
+  </ul>
+
+  <div class="callout info">
+    <strong>Lo que <em>no</em> es el E/R:</strong> no define pantallas, ni consultas concretas, ni el almacenamiento físico. 
+    Tampoco es un diagrama de procesos. Es un <em>modelo de información</em>.
+  </div>
+
+  
+
+  <h3>2.2 ¿Qué pasa si no modelamos?</h3>
+  <div class="demo">
+    <table>
+      <thead><tr><th>Fallo típico</th><th>Consecuencia</th><th>Cómo lo evita el E/R</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Omitir mínimos (participación)</td>
+          <td>FKs opcionales donde deberían ser obligatorias (datos huérfanos)</td>
+          <td>(min,max) obliga a decidir si es <em>total</em> u <em>opcional</em></td>
+        </tr>
+        <tr>
+          <td>Confundir N:M con dos 1:N</td>
+          <td>Pérdida de atributos de la relación, duplicidades</td>
+          <td>Relación N:M con tabla intermedia planificada desde el modelo</td>
+        </tr>
+        <tr>
+          <td>Meter listas en un atributo</td>
+          <td>Imposible consultar/validar por elemento</td>
+          <td>Detecta multivalorados → entidad/relación específica</td>
+        </tr>
+        <tr>
+          <td>Elegir mal el identificador</td>
+          <td>Duplicados, dificultades para referenciar</td>
+          <td>Lista de identificadores candidatos y criterio de estabilidad</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>2.3 Criterios de “hecho” (Definition of Done) para el E/R</h3>
+  <ul>
+    <li>Todas las <strong>entidades</strong> tienen un <strong>identificador</strong> claro (natural o surrogate justificado).</li>
+    <li>Cada <strong>relación</strong> tiene pares <strong>(min,max)</strong> y <strong>participación</strong> documentados en ambos extremos.</li>
+    <li>Los <strong>atributos multivalorados/compuestos</strong> se han tratado adecuadamente (no como listas en una sola celda).</li>
+    <li>Se han identificado <strong>entidades débiles</strong>, posibles <strong>ISA</strong> y casos de <strong>agregación</strong>.</li>
+    <li>Existe un <strong>glosario</strong> con nombres definidos y ejemplos de valores.</li>
+    <li>El modelo ha sido <strong>validado</strong> con 3–5 escenarios de negocio (incluye contraejemplos).</li>
+  </ul>
+
+
+      <!-- ========== 3. NOTACIÓN ========== -->
+      <section id="notacion">
+  <h2>3) Notación y convenciones</h2>
+  <p>
+    Usaremos notación textual y diagramas con pares <code>(min,max)</code> en cada extremo de las relaciones. Añadimos
+    <em>roles</em> cuando la relación no sea obvia o sea reflexiva. En clase trabajaremos principalmente con
+    <strong>(min,max)</strong> porque nos obliga a decidir los <em>mínimos</em> (participación) además de los máximos.
+  </p>
+
+  <h3 id="estilos">3.1 Estilos (Chen, crow’s foot, min–max)</h3>
+  <p>
+    A continuación ves el mismo caso —<em>Cliente realiza Pedido</em>— expresado con tres notaciones. La semántica es:
+    cada <strong>Pedido</strong> pertenece a <strong>un</strong> Cliente (participación <em>total</em> en Pedido),
+    y un <strong>Cliente</strong> puede tener <strong>cero o muchos</strong> Pedidos (<code>(0,N)</code>).
+  </p>
+
+  <div class="media-box">
+    <figure>
+      <!-- ===== CHEN ===== -->
+      <svg viewBox="0 0 560 180" role="img" aria-labelledby="t-chen d-chen" style="max-width:100%;height:auto">
+        <title id="t-chen">Notación Chen: Cliente — realiza — Pedido</title>
+        <desc id="d-chen">Relación 1:N con participación total en Pedido (doble línea). Cliente a la izquierda, Pedido a la derecha, rombo "realiza" en el centro.</desc>
+        <!-- Cliente (rectángulo) -->
+        <rect x="30" y="50" width="140" height="60" rx="6" ry="6" fill="none" stroke="currentColor" stroke-width="2"/>
+        <text x="100" y="88" text-anchor="middle" font-family="sans-serif" font-size="14">Cliente</text>
+
+        <!-- Pedido (rectángulo con doble borde para participación total en la relación) -->
+        <rect x="390" y="50" width="140" height="60" rx="6" ry="6" fill="none" stroke="currentColor" stroke-width="2"/>
+        <rect x="394" y="54" width="132" height="52" rx="6" ry="6" fill="none" stroke="currentColor" stroke-width="2" opacity="0.6"/>
+        <text x="460" y="88" text-anchor="middle" font-family="sans-serif" font-size="14">Pedido</text>
+
+        <!-- Rombo relación -->
+        <polygon points="260,40 300,70 260,100 220,70" fill="none" stroke="currentColor" stroke-width="2"/>
+        <text x="260" y="74" text-anchor="middle" font-family="sans-serif" font-size="13">realiza</text>
+
+        <!-- Conexiones -->
+        <line x1="170" y1="80" x2="220" y2="70" stroke="currentColor" stroke-width="2"/>
+        <line x1="300" y1="70" x2="390" y2="80" stroke="currentColor" stroke-width="2"/>
+
+        <!-- Cardinalidades -->
+        <text x="195" y="65" text-anchor="middle" font-family="sans-serif" font-size="12">(0,N)</text>
+        <text x="355" y="65" text-anchor="middle" font-family="sans-serif" font-size="12">(1,1)</text>
+      </svg>
+      <figcaption class="media-caption">Chen — participación total en <em>Pedido</em> y (0,N) en <em>Cliente</em>.</figcaption>
+    </figure>
+
+    <figure>
+      <!-- ===== CROW'S FOOT ===== -->
+      <svg viewBox="0 0 560 180" role="img" aria-labelledby="t-crow d-crow" style="max-width:100%;height:auto">
+        <title id="t-crow">Notación crow’s foot: Cliente — Pedido</title>
+        <desc id="d-crow">A la izquierda Cliente (0..N): círculo + pata de cuervo. A la derecha Pedido (1): barra. Línea central “realiza”.</desc>
+        <!-- Cajas entidad -->
+        <rect x="30" y="50" width="140" height="60" rx="6" ry="6" fill="none" stroke="currentColor" stroke-width="2"/>
+        <text x="100" y="88" text-anchor="middle" font-family="sans-serif" font-size="14">Cliente</text>
+        <rect x="390" y="50" width="140" height="60" rx="6" ry="6" fill="none" stroke="currentColor" stroke-width="2"/>
+        <text x="460" y="88" text-anchor="middle" font-family="sans-serif" font-size="14">Pedido</text>
+
+        <!-- Línea -->
+        <line x1="170" y1="80" x2="390" y2="80" stroke="currentColor" stroke-width="2"/>
+        <text x="280" y="72" text-anchor="middle" font-family="sans-serif" font-size="12">realiza</text>
+
+        <!-- Símbolos cardinalidad -->
+        <!-- Lado Cliente: 0..N (círculo + pata) -->
+        <circle cx="180" cy="80" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
+        <line x1="185" y1="80" x2="200" y2="70" stroke="currentColor" stroke-width="2"/>
+        <line x1="185" y1="80" x2="200" y2="90" stroke="currentColor" stroke-width="2"/>
+
+        <!-- Lado Pedido: 1 (barra) -->
+        <line x1="370" y1="65" x2="370" y2="95" stroke="currentColor" stroke-width="3"/>
+      </svg>
+      <figcaption class="media-caption">Crow’s foot — <code>0..N</code> en Cliente, <code>1</code> (obligatorio) en Pedido.</figcaption>
+    </figure>
+
+    <figure>
+      <!-- ===== MIN–MAX ===== -->
+      <svg viewBox="0 0 560 180" role="img" aria-labelledby="t-minmax d-minmax" style="max-width:100%;height:auto">
+        <title id="t-minmax">Notación min–max: Cliente — Pedido</title>
+        <desc id="d-minmax">Segmento con etiquetas (0,N) junto a Cliente y (1,1) junto a Pedido.</desc>
+        <!-- Cajas entidad -->
+        <rect x="30" y="50" width="140" height="60" rx="6" ry="6" fill="none" stroke="currentColor" stroke-width="2"/>
+        <text x="100" y="88" text-anchor="middle" font-family="sans-serif" font-size="14">Cliente</text>
+        <rect x="390" y="50" width="140" height="60" rx="6" ry="6" fill="none" stroke="currentColor" stroke-width="2"/>
+        <text x="460" y="88" text-anchor="middle" font-family="sans-serif" font-size="14">Pedido</text>
+
+        <!-- Línea -->
+        <line x1="170" y1="80" x2="390" y2="80" stroke="currentColor" stroke-width="2"/>
+
+        <!-- Etiquetas (min,max) -->
+        <text x="200" y="70" font-family="sans-serif" font-size="12">(0,N)</text>
+        <text x="360" y="70" font-family="sans-serif" font-size="12">(1,1)</text>
+
+        <!-- Nombre relación -->
+        <text x="280" y="100" text-anchor="middle" font-family="sans-serif" font-size="12">realiza</text>
+      </svg>
+      <figcaption class="media-caption">Min–max — etiquetas explícitas en cada extremo.</figcaption>
+    </figure>
+  </div>
+
+  
+
+ 
+</section>
+
+
+      <!-- ========== 4. COMPONENTES ========== -->
+     <section id="componentes">
+  <h2>4) Componentes del E/R</h2>
+
+  <!-- ========== 4.1 ENTIDADES ========== -->
+ <section id="entidades">
+  <h3>4.1 Entidades</h3>
+  <p>
+    Una <strong>entidad</strong> es un conjunto de objetos distinguibles del mundo real (Alumno, Asignatura, Pedido…).
+    Modelar bien una entidad implica <em>delimitar su significado</em>, elegir un <strong>identificador</strong> estable
+    y decidir qué propiedades (atributos) le pertenecen realmente (y cuáles deben convertirse en entidades/relaciones aparte).
+  </p>
+
+  <h4>4.1.1 ¿Cuándo algo es una entidad?</h4>
+  <ul>
+    <li><strong>Nombre propio y estable:</strong> podemos hablar de “un X” individual (p. ej., “un Pedido”).</li>
+    <li><strong>Identificable:</strong> existe al menos un <em>candidato a identificador</em> (natural o surrogate).</li>
+    <li><strong>Propiedades propias:</strong> tiene atributos que no dependen de otra entidad “dueña”.</li>
+    <li><strong>Relaciones naturales:</strong> se asocia con otras entidades con reglas claras (cardinalidades, participación).</li>
+  </ul>
+
+  <h4>4.1.2 Identificadores (claves) y candidatos</h4>
+  <p>
+    Un <strong>identificador</strong> distingue de forma única cada instancia (p. ej., <code>ISBN</code> en Libro).
+    Puede ser <em>natural</em> (significativo en el negocio) o <em>surrogate</em> (artificial, p. ej. <code>id</code>).
+    Si hay varios, hablamos de <em>claves candidatas</em>; elegimos una como <em>principal</em> y el resto quedan como <em>alternativas</em>.
+  </p>
+  <div class="callout tip">
+    <strong>Criterio práctico:</strong> usa clave natural si es <em>estable</em> y sin ambigüedad; en caso contrario, crea un surrogate
+    y mantén la natural como <code>UNIQUE</code> (para detectar duplicados).
+  </div>
+
+  <h4>4.1.3 Entidad fuerte vs. entidad débil</h4>
+  <ul>
+    <li><strong>Fuerte:</strong> se identifica por sí misma (p. ej., <em>Libro</em> por <code>ISBN</code>).</li>
+    <li><strong>Débil:</strong> no tiene identificador propio y se identifica por una <em>relación identificadora</em> con una entidad fuerte
+      + una <em>clave parcial</em> (p. ej., <em>Línea</em> de pedido por <code>id_pedido</code> + <code>pos</code>). La participación de la débil en esa relación es
+      <strong>total</strong> (mínimo=1).</li>
+  </ul>
+
+  <figure class="media-box">
+    <img src="img/entidad_fuerte.png" alt="Entidad fuerte Libro con identificador natural ISBN y atributos título y año_publicación; los conectores tocan los bordes de las figuras" />
+    <figcaption class="media-caption">
+      <strong>Entidad fuerte:</strong> <em>Libro</em> se identifica por <code>ISBN</code> (clave subrayada).
+    </figcaption>
+  </figure>
+
+  <figure class="media-box">
+    <img src="img/entidad_debil.png" alt="Entidad débil Línea identificada por Pedido (id_pedido) más clave parcial pos; relación identificadora contiene con participación total; los conectores tocan los bordes de las figuras" />
+    <figcaption class="media-caption">
+      <strong>Entidad débil:</strong> <em>Línea</em> se identifica con <code>id_pedido</code> (desde <em>Pedido</em>) + clave parcial <code>pos</code>.
+      Relación <em>contiene</em> es <em>identificadora</em> (doble rombo) y la participación de <em>Línea</em> es <strong>total</strong>.
+    </figcaption>
+  </figure>
+
+ 
+</section>
+
+
+<section id="atributos">
+  <h3>4.2 Atributos</h3>
+  <p>
+    Los <strong>atributos</strong> describen propiedades de las entidades. En notación Chen se representan como <em>óvalos</em> 
+    conectados a la entidad. Es crucial elegir bien qué es atributo y qué debe modelarse como <em>entidad/relación</em> 
+    (por ejemplo, una “lista de teléfonos” no es un texto con comas, sino un conjunto de ocurrencias → atributo multivalorado).
+  </p>
+
+  <h4>4.2.1 Tipos principales</h4>
+  <ul>
+    <li><strong>Simples</strong>: no se descomponen (p. ej., <em>nombre</em>).</li>
+    <li><strong>Compuestos</strong>: se descomponen en subatributos (p. ej., <em>dirección</em> → calle, número, CP).</li>
+    <li><strong>Monovalorados</strong>: una sola ocurrencia por entidad (p. ej., <em>email</em>).</li>
+    <li><strong>Multivalorados</strong>: varias ocurrencias (p. ej., <em>teléfono</em>); en Chen se dibujan con <em>doble óvalo</em>.</li>
+    <li><strong>Derivados</strong>: calculados a partir de otros (p. ej., <em>edad</em> desde <em>fecha_nacimiento</em>); se dibujan con <em>óvalo discontinuo</em>.</li>
+  </ul>
+
+  <div class="callout tip">
+    <strong>Convenciones visuales:</strong> clave <em>subrayada</em> (subrayado justo bajo la línea base del texto); 
+    <em>clave parcial</em> con subrayado <em>discontinuo</em>; multivalorado con <em>doble óvalo</em>; derivado con <em>contorno discontinuo</em>.
+  </div>
+
+  <!-- A) Simples y compuestos -->
+  <h4>4.2.2 Simples y compuestos</h4>
+  <p>
+    Un atributo es <strong>compuesto</strong> si sus partes tienen significado propio y pueden usarse de forma independiente en reglas o consultas 
+    (buscar por <em>CP</em>, ordenar por <em>calle</em>…). En el ejemplo, <em>dirección</em> se descompone en <em>calle</em>, <em>número</em> y <em>CP</em>.
+    La clave del ejemplo es <em>dni</em> (subrayada).
+  </p>
+  <figure class="media-box">
+    <img src="img/atributos_simple_compuesto.png" alt="Entidad Cliente con dni (clave, subrayada), nombre (simple) y dirección (compuesto con subatributos calle, número, CP); conectores encajan con los bordes" />
+    <figcaption class="media-caption">
+      Simples vs. compuestos: el subrayado de <em>dni</em> marca la <strong>clave</strong>; <em>dirección</em> se descompone en subatributos.
+    </figcaption>
+  </figure>
+
+  <!-- B) Monovalorados y multivalorados -->
+  <h4>4.2.3 Monovalorados y multivalorados</h4>
+  <p>
+    Usa <strong>multivalorado</strong> cuando exista un conjunto de valores (varios <em>teléfonos</em> por cliente). 
+    En notación Chen lo representamos con <em>doble óvalo</em>. Si <em>email</em> es único por cliente, será <strong>monovalorado</strong> (óvalo simple).
+  </p>
+  <figure class="media-box">
+    <img src="img/atributos_multivalorado.png" alt="Entidad Cliente con teléfono (atributo multivalorado representado con doble óvalo) y email (monovalorado); conectores exactos" />
+    <figcaption class="media-caption">
+      Multivalorado: <em>teléfono</em> (doble óvalo) frente a monovalorado: <em>email</em> (óvalo simple).
+    </figcaption>
+  </figure>
+
+  <!-- C) Derivados -->
+  <h4>4.2.4 Derivados</h4>
+  <p>
+    Un atributo es <strong>derivado</strong> si puede calcularse a partir de otros (p. ej., <em>edad</em> desde <em>fecha_nacimiento</em> y la fecha actual).
+    Ventajas: evita inconsistencias; Inconveniente: cálculos en consulta. Recomendación: <em>no almacenar</em> el derivado salvo justificación de rendimiento.
+  </p>
+  <figure class="media-box">
+    <img src="img/atributos_derivado.png" alt="Entidad Cliente con fecha_nacimiento (base) y edad (derivado con óvalo discontinuo); línea discontinua de referencia entre ambos" />
+    <figcaption class="media-caption">
+      Derivado: <em>edad</em> con contorno discontinuo. Se sugiere su relación con <em>fecha_nacimiento</em>.
+    </figcaption>
+  </figure>
+
+  <h4>4.2.5 Decidir: ¿atributo o entidad?</h4>
+  <ul>
+    <li><strong>Es atributo</strong> si no necesitas identificarlo por separado ni referenciarlo desde otros conceptos (p. ej., <em>nombre</em> de cliente).</li>
+    <li><strong>Es entidad</strong> si tiene vida propia, múltiples propiedades o relaciones (p. ej., un <em>Teléfono</em> con tipo, extensión, validaciones, histórico).</li>
+    <li><strong>Regla de la lista:</strong> si esperas “varios valores” (lista), piensa en <em>multivalorado</em> o en una entidad/relación específica.</li>
+  </ul>
+</section>
+
+
+  <!-- ========== 4.3 IDENTIFICADORES ========== -->
+ <section id="identificadores">
+  <h3>4.3 Identificadores (claves)</h3>
+  <p>
+    Un <strong>identificador</strong> distingue de forma <em>única</em> a cada instancia de una entidad. Puede ser:
+    <em>natural</em> (tiene significado de negocio, p. ej., <code>ISBN</code>), <em>surrogate</em> (artificial, p. ej., <code>id</code>),
+    <em>compuesto</em> (varios atributos juntos) o <em>parcial</em> (en entidades débiles, combinado con la clave de la fuerte).
+    Si existen varios candidatos posibles, hablamos de <strong>claves candidatas</strong>; se elige una como <strong>principal</strong> y el resto
+    quedan como <em>alternativas</em> (normalmente con restricción <code>UNIQUE</code> al implementar).
+  </p>
+
+  <div class="callout tip">
+    <strong>Convenciones visuales (Chen):</strong> clave <em>subrayada</em> (subrayado justo bajo el texto); 
+    <em>clave parcial</em> con subrayado <em>discontinuo</em>. 
+  </div>
+
+  <!-- 4.3.1 Natural vs Surrogate -->
+  <h4>4.3.1 Clave natural vs. clave surrogate (ampliación)</h4>
+
+  <p>
+    Una <strong>clave natural</strong> es un identificador con <em>significado de negocio</em> que ya distingue a una instancia fuera del sistema
+    (p. ej., <code>ISBN</code> de un libro, <code>DNI</code> de una persona). Una <strong>clave surrogate</strong> (también llamada <em>artificial</em> o <em>sustituta</em>)
+    la <em>crea el sistema</em> solo para identificar filas (p. ej., <code>id_libro</code> <code>INT AUTO_INCREMENT</code> o un <code>UUID</code>);
+    no tiene significado en el dominio.
+  </p>
+
+  <div class="callout tip">
+    <strong>Idea clave.</strong> La surrogate <em>no sustituye</em> a las reglas de negocio: si existe un identificador natural relevante, 
+    <strong>protégelo con <code>UNIQUE</code></strong> aunque la PK sea surrogate.
+  </div>
+
+  <h5>¿Cuándo elegir cada una?</h5>
+  <div class="demo">
+    <table>
+      <thead>
+        <tr>
+          <th>Situación</th>
+          <th>Mejor opción</th>
+          <th>Motivo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>El identificador natural es <em>estable, corto y único</em> (p. ej., ISBN real)</td>
+          <td>Natural como PK</td>
+          <td>Evita columnas extra y mantiene trazabilidad semántica directa</td>
+        </tr>
+        <tr>
+          <td>La “natural” puede <em>cambiar</em> (email, username) o es <em>larga/compuesta</em></td>
+          <td>Surrogate como PK + <code>UNIQUE</code> en la natural</td>
+          <td>FKs más cortas y estables; evita cascadas por cambios de negocio</td>
+        </tr>
+        <tr>
+          <td>Muchas FKs hacia la entidad; índices secundarios grandes</td>
+          <td>Surrogate como PK</td>
+          <td>En InnoDB la PK va en todos los índices secundarios; una PK corta reduce tamaño</td>
+        </tr>
+        <tr>
+          <td>Auditoría/legibilidad humana prioritarias</td>
+          <td>Natural como PK <em>o</em> Surrogate + natural con <code>UNIQUE</code></td>
+          <td>Depende del compromiso entre semántica y rendimiento</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h5>Ventajas y cautelas</h5>
+  <ul>
+    <li><strong>Surrogate (PK artificial)</strong>: PK/FK <em>cortas y estables</em>, joins más ligeros, evita exponer datos sensibles como PK. 
+      <em>Cuidado:</em> sin un <code>UNIQUE</code> en la natural, puedes introducir <strong>duplicados de negocio</strong>.</li>
+    <li><strong>Natural</strong>: la PK <em>explica</em> el negocio y facilita trazabilidad. 
+      <em>Cuidado:</em> si cambia o es compuesta/larga, las FKs e índices se vuelven más pesados y frágiles.</li>
+  </ul>
+
+  <div class="callout warn">
+    <strong>Error frecuente.</strong> Usar surrogate y olvidar la restricción <code>UNIQUE</code> sobre la clave de negocio:
+    terminarás con “el mismo libro” repetido con distintos <code>id</code>.
+  </div>
+
+  
+  <h5>Checklist de decisión (rápida)</h5>
+  <ul>
+    <li>¿La natural es <strong>inmutable</strong> y <strong>corta</strong> (≤ 16 bytes aprox.)? → Puedes usarla como PK.</li>
+    <li>¿Podría <strong>cambiar</strong>, es <strong>larga</strong> o <strong>compuesta</strong>? → Surrogate como PK + <code>UNIQUE</code> en la natural.</li>
+    <li>¿Habrá muchas FKs/índices hacia esta tabla? → Surrogate (reduce tamaño y coste de joins).</li>
+    <li>¿Necesitas trazabilidad humana directa? → Natural como PK, o surrogate + columna natural visible y <code>UNIQUE</code>.</li>
+  </ul>
+
+  
+  <!-- 4.3.2 Candidatas y principal -->
+  <h4>4.3.2 Claves candidatas y clave principal</h4>
+  <p>
+    Si hay varias formas de identificar una entidad, tenemos <strong>candidatos</strong>. Seleccionamos una <strong>principal</strong>
+    (subrayada) y dejamos las otras como <em>alternativas</em> (no subrayadas en E/R, pero con <code>UNIQUE</code> al implementar).
+  </p>
+  <figure class="media-box">
+    <img src="img/identificadores_candidatos.png" alt="Persona con candidatos DNI y num_pasaporte; se subraya DNI como clave principal" />
+    <figcaption class="media-caption">
+      Candidatas: <code>DNI</code> y <code>num_pasaporte</code>. Elegimos <strong>DNI</strong> como principal (subrayada).
+    </figcaption>
+  </figure>
+
+ 
+
+  <!-- 4.3.3 Clave parcial (entidad débil) -->
+  <h4>4.3.3 Clave parcial (entidad débil)</h4>
+  <p>
+    Una <strong>entidad débil</strong> se identifica con la <em>clave de la fuerte</em> + una <strong>clave parcial</strong> propia.
+    En E/R la <em>clave parcial</em> se indica con <strong>subrayado discontinuo</strong>; la relación identificadora se dibuja con <em>doble rombo</em>
+    y la participación de la débil suele ser <strong>total</strong> (doble línea).
+  </p>
+  <figure class="media-box">
+    <img src="img/identificadores_parcial.png" alt="Pedido (fuerte) con id_pedido subrayado, Línea (débil) con pos subrayado discontinuo y relación identificadora contiene con participación total" />
+    <figcaption class="media-caption">
+      <em>PK(Línea)</em> = <code>id_pedido</code> + <code>pos</code>; <code>pos</code> es <strong>clave parcial</strong> (subrayado discontinuo).
+    </figcaption>
+  </figure>
+
+  <h4>4.3.4 Criterios de elección (prácticos)</h4>
+  <ul>
+    <li><strong>Estabilidad:</strong> evita como PK lo que cambie (email, teléfono…).</li>
+    <li><strong>Longitud:</strong> PK cortas mejoran índices y FKs; si la natural es larga, valora surrogate.</li>
+    <li><strong>Semántica:</strong> la natural facilita auditoría y reporting; conserva como <code>UNIQUE</code> si usas surrogate.</li>
+    <li><strong>Rendimiento:</strong> FKs compuestas complican joins; en esos casos, surrogate en la entidad de referencia ayuda.</li>
+  </ul>
+</section>
+
+  <!-- ========== 4.4 RELACIONES Y GRADO ========== -->
+  <section id="relaciones">
+  <h3>4.4 Relaciones y grado</h3>
+  <p>
+    Una <strong>relación</strong> asocia entidades y puede tener <em>grado</em> binario (dos entidades), ternario o n-ario. 
+    En este curso utilizamos notación <strong>(min,max)</strong> en cada extremo para expresar tanto la <em>participación</em> 
+    (mínimo = 0 parcial, 1 total) como la <em>cardinalidad máxima</em> (1, N). Una relación puede además tener <strong>atributos</strong> 
+    propios (p. ej., “precio” en “suministra”) y <strong>roles</strong> cuando una entidad se relaciona consigo misma.
+  </p>
+
+  <div class="callout tip">
+    <strong>Lectura correcta.</strong> El par <code>(min,max)</code> se lee desde la entidad de ese extremo hacia la relación. 
+    Por ejemplo, <code>(0,N)</code> en <em>Cliente</em> indica que un cliente puede estar en 0 a N pedidos.
+  </div>
+
+  <h4>4.4.1 Relación binaria</h4>
+  <p>
+    Es la más común. En el ejemplo, un <em>Cliente</em> <strong>realiza</strong> <em>Pedido</em>: 
+    el cliente participa en 0..N pedidos y cada pedido pertenece <em>exactamente</em> a 1 cliente.
+  </p>
+  <figure class="media-box">
+    <img src="img/relacion_binaria.png" alt="Cliente —realiza— Pedido con cardinalidades (0,N) en Cliente y (1,1) en Pedido" />
+    <figcaption class="media-caption">
+      Binaria con <code>(min,max)</code>: <em>Cliente</em> (0,N) — <em>realiza</em> — <em>Pedido</em> (1,1).
+    </figcaption>
+  </figure>
+
+  <h4>4.4.2 Relación ternaria (y por qué no son tres binarias)</h4>
+  <p>
+    Una relación <strong>ternaria</strong> captura reglas que dependen <em>conjuntamente</em> de tres entidades. 
+    No es equivalente a “tres binarias”, porque se perdería la restricción conjunta. En “<em>Proveedor suministra Producto a Almacén</em>”, 
+    el <em>precio</em> puede depender de la triple combinación (proveedor, producto, almacén).
+  </p>
+  <figure class="media-box">
+    <img src="img/relacion_ternaria.png" alt="Proveedor —suministra— Producto — Almacén con atributo de relación precio" />
+    <figcaption class="media-caption">
+      Ternaria con atributo de relación <em>precio</em>. Las cardinalidades se expresan en cada extremo con <code>(min,max)</code>.
+    </figcaption>
+  </figure>
+
+  <h4>4.4.3 Relación reflexiva (roles)</h4>
+  <p>
+    Una relación <strong>reflexiva</strong> conecta una entidad consigo misma y requiere <strong>roles</strong> 
+    para evitar ambigüedad. En el ejemplo, <em>Empleado</em> <strong>supervisa</strong> a <em>Empleado</em>: 
+    un empleado puede tener <code>(0,1)</code> <em>supervisor</em> y <code>(0,N)</code> <em>subordinados</em>.
+  </p>
+  <figure class="media-box">
+    <img src="img/relacion_reflexiva.png" alt="Relación reflexiva Empleado —supervisa— Empleado con roles supervisor (0,1) y subordinado (0,N), cardinalidades sobre las líneas" />
+    <figcaption class="media-caption">
+      Reflexiva con <strong>roles</strong>: cada <em>Empleado</em> puede tener de 0 a 1 <em>supervisor</em> y de 0 a N <em>subordinados</em>.
+    </figcaption>
+  </figure>
+
+  
+  <h4>4.4.4 Consejos de modelado</h4>
+  <ul>
+    <li><strong>Primero los mínimos:</strong> Decide si la participación es obligatoria (<code>min=1</code>) u opcional (<code>min=0</code>) y luego la máxima.</li>
+    <li><strong>¿Atributo o entidad?</strong> Si el atributo “vive” en la relación (precio depende de las tres patas), déjalo en la relación.</li>
+    <li><strong>Ternaria de verdad:</strong> Si al descomponer en binarias se pierden reglas (unicidad/conjuntos), debes mantenerla ternaria.</li>
+    <li><strong>Roles claros:</strong> En reflexivas, nombra los roles (mentor/mentorizado, supervisor/subordinado…); evita ambigüedad.</li>
+  </ul>
+</section>
+
+  <!-- ========== 4.5 CARDINALIDAD ========== -->
+  <section id="cardinalidad">
+    <h3>4.5 Cardinalidad (min,max) y participación</h3>
+    <p>
+      La <strong>cardinalidad</strong> expresa, en cada extremo de una relación, cuántas veces puede (o debe) aparecer una
+      instancia de esa entidad en la relación: <code>(min,max)</code>. En binaria se interpreta como: “cada instancia de A
+      se relaciona con entre <em>min</em> y <em>max</em> instancias de B”, y viceversa. El valor <code>min</code> marca la
+      <em>participación</em>: 0 ⇒ <strong>parcial</strong> (opcional); 1 ⇒ <strong>total</strong> (obligatoria).
+    </p>
+  
+    <div class="callout tip">
+      <strong>Lectura precisa.</strong> El par <code>(min,max)</code> se sitúa <em>encima de la línea y junto al extremo</em>
+      al que pertenece. Así evitamos ambigüedades.
+    </div>
+  
+    <h4>4.5.1 Relación 1:1</h4>
+    <p>
+      Ambas entidades se emparejan a lo sumo con una instancia de la otra. Suele aparecer cuando hay una descomposición de
+      una misma cosa en dos perspectivas (p. ej., <em>Persona</em> y su <em>DNI</em>).
+    </p>
+    <figure class="media-box">
+      <img src="img/card_1_1_persona_dni.png" alt="Persona —(1,1)— tiene —(1,1)— DNI">
+      <figcaption class="media-caption">
+        <strong>1:1</strong>: <em>Persona</em> (1,1) —tiene— <em>DNI</em> (1,1). Participación total en ambos lados.
+      </figcaption>
+    </figure>
+  
+    <h4>4.5.2 Relación 1:N (participación opcional)</h4>
+    <p>
+      Un <em>Cliente</em> puede realizar <strong>0…N</strong> <em>Pedidos</em> (participación <em>parcial</em> en Cliente);
+      cada <em>Pedido</em> pertenece a <strong>exactamente 1</strong> <em>Cliente</em> (participación <em>total</em>).
+    </p>
+    <figure class="media-box">
+      <img src="img/card_1N_opcional_cliente_pedido.png" alt="Cliente —(0,N)— realiza —(1,1)— Pedido">
+      <figcaption class="media-caption">
+        <strong>1:N (opcional)</strong>: <em>Cliente</em> (0,N) —realiza— <em>Pedido</em> (1,1).
+      </figcaption>
+    </figure>
+  
+    <h4>4.5.3 Relación 1:N (participación total)</h4>
+    <p>
+      Cada <em>Empleado</em> pertenece a <strong>exactamente 1</strong> <em>Departamento</em>; un <em>Departamento</em> tiene
+      <strong>1…N</strong> empleados. Es 1:N pero con participación <em>total</em> en ambos extremos.
+    </p>
+    <figure class="media-box">
+      <img src="img/card_1N_total_departamento_empleado.png" alt="Departamento —(1,N)— tiene —(1,1)— Empleado">
+      <figcaption class="media-caption">
+        <strong>1:N (total)</strong>: <em>Departamento</em> (1,N) —tiene— <em>Empleado</em> (1,1).
+      </figcaption>
+    </figure>
+  
+    <h4>4.5.4 Relación N:M (muchos a muchos)</h4>
+    <p>
+      Muchas instancias de una entidad se asocian con muchas de la otra. Suele requerir <strong>atributos en la relación</strong>
+      (p. ej., <em>cantidad</em> en “<em>Pedido incluye Producto</em>”). En el paso lógico-relacional, se transforma en una
+      <em>tabla intermedia</em>.
+    </p>
+    <figure class="media-box">
+      <img src="img/card_NM_pedido_producto.png" alt="Pedido —(0,N)— incluye —(0,N)— Producto con atributo cantidad">
+      <figcaption class="media-caption">
+        <strong>N:M</strong>: <em>Pedido</em> (0,N) —incluye— <em>Producto</em> (0,N). La relación incorpora el atributo <em>cantidad</em>.
+      </figcaption>
+    </figure>
+  
+  <h4>4.5.5 Consejos de modelado</h4>
+  <ul>
+    <li><strong>Primero los mínimos:</strong> decide si la participación es obligatoria (1) u opcional (0); luego fija el máximo (1 o N).</li>
+    <li><strong>Cuidado con “ocultar” los mínimos:</strong> escribir solo “1:N / N:M” oculta si hay obligatoriedad. Eso cambia la implementación.</li>
+    <li><strong>Si hay dudas, prototipa reglas con ejemplos:</strong> “¿Puede existir un pedido sin cliente?”, “¿Puede un cliente existir sin pedidos?”.</li>
+  </ul>
+  <div class="callout warn">
+    <strong>Ojo con las etiquetas.</strong> Coloca <code>(min,max)</code> <em>encima de la línea y junto al extremo correcto</em>.
+    No mezcles los extremos: cambiar el lado puede alterar la interpretación del modelo.
+  </div>
+</section>
+
+
+	
+<section id="isa">
+  <h3>4.6 Jerarquías ISA (generalización / especialización)</h3>
+
+  <p>
+    Una jerarquía <strong>ISA</strong> describe cómo una <em>superentidad</em> (también llamada tipo padre) se especializa en
+    uno o varios <em>subtipos</em> que heredan su significado, su identificador y sus restricciones, y además pueden añadir
+    atributos y reglas propias. Antes de pensar en tablas, aquí acordamos con el “negocio” cómo se clasifica el mundo:
+    qué es común a todas las instancias (superentidad) y qué varía entre categorías (subtipos). Ese acuerdo es clave,
+    porque condicionará el diseño lógico-relacional posterior: una decisión equivocada aquí se transforma en tablas
+    redundantes o restricciones imposibles de imponer abajo.
+  </p>
+
+  <div class="callout tip">
+    <strong>Idea didáctica.</strong> Piensa ISA como “<em>es un</em>”: si “Alumno <em>es una</em> Persona”,
+    entonces <em>Alumno</em> hereda la clave y atributos de <em>Persona</em> y añade los suyos (p. ej., <code>nº_matrícula</code>).
+  </div>
+
+  <p>
+    Al definir una ISA debemos fijar dos decisiones independientes. La primera es si la especialización es
+    <strong>disyunta</strong> (excluyente) o <strong>solapada</strong> (superpuesta). La segunda es si la participación de la
+    superentidad en la especialización es <strong>total</strong> u <strong>parcial</strong>. Disyunta/solapada responde a
+    la pregunta: “¿Puede una misma instancia pertenecer a varios subtipos a la vez?”; total/parcial responde a:
+    “¿Toda instancia del supertipo debe pertenecer a algún subtipo?”. En las figuras usaremos un pequeño triángulo “ISA”
+    como nodo de especialización; marcaremos <strong>[D]</strong> si es disyunta o <strong>[O]</strong> si es solapada y
+    representaremos la participación <em>total</em> con <strong>doble línea</strong> desde la superentidad al triángulo
+    (y <em>parcial</em> con línea simple).
+  </p>
+
+  <!-- 4.6.1 -->
+  <h4>4.6.1 Disyunta &amp; Total</h4>
+  <p>
+    La combinación <strong>disyunta y total</strong> obliga a que <em>toda</em> instancia de la superentidad se clasifique
+    en <em>exactamente un</em> subtipo: no hay superinstancias “sin subtipo” ni superinstancias “en dos subtipos”.
+    Es una decisión fuerte y muy útil cuando el dominio define categorías mutuamente excluyentes y completas. Por ejemplo,
+    si en la empresa toda persona contratada es un <em>Técnico</em> o un <em>Administrativo</em> y no existe ningún otro
+    perfil, el modelo debe reflejar esa cobertura total y exclusión. En la figura, la doble línea desde <em>Empleado</em>
+    al triángulo “ISA” obliga a la pertenencia a algún subtipo, y la marca <strong>[D]</strong> recuerda la disyunción.
+  </p>
+
+  <figure class="media-box">
+    <img src="img/isa_disyunta_total.png" alt="ISA disyunta y total: Empleado → Técnico | Administrativo. Doble línea al ISA, [D] disyunta.">
+    <figcaption class="media-caption">
+      <strong>Disyunta &amp; total</strong>: toda <em>Empleado</em> es <em>Técnico</em> <strong>o</strong> <em>Administrativo</em>, nunca ambos.
+      La doble línea exige pertenencia a algún subtipo; <strong>[D]</strong> indica exclusión entre subtipos.
+    </figcaption>
+  </figure>
+
+  <!-- 4.6.2 -->
+  <h4>4.6.2 Disyunta &amp; Parcial</h4>
+  <p>
+    En la combinación <strong>disyunta y parcial</strong>, una instancia de la superentidad puede pertenecer como mucho a
+    <em>un</em> subtipo, pero <em>también puede no pertenecer a ninguno</em>. Es apropiada cuando tenemos algunas subcategorías
+    excluyentes (p. ej., <em>Coche</em> y <em>Moto</em>) pero existen instancias del supertipo que quedan fuera de esa
+    clasificación (p. ej., <em>Camión</em>, <em>Autobús</em>). Es mejor declarar la parcialidad que forzar a meter “con calzador”
+    objetos en subtipos en los que no encajan: ese error se paga luego con valores nulos sin sentido o reglas difíciles de
+    mantener. En la figura, la línea simple desde <em>Vehículo</em> al ISA permite que haya vehículos sin subtipo; <strong>[D]</strong>
+    mantiene la exclusión entre <em>Coche</em> y <em>Moto</em>.
+  </p>
+
+  <figure class="media-box">
+    <img src="img/isa_disyunta_parcial.png" alt="ISA disyunta y parcial: Vehículo → Coche | Moto. Línea simple al ISA, [D] disyunta.">
+    <figcaption class="media-caption">
+      <strong>Disyunta &amp; parcial</strong>: un <em>Vehículo</em> puede ser <em>Coche</em> <strong>o</strong> <em>Moto</em>, o ninguno.
+      Línea simple = hay superinstancias sin subtipo; <strong>[D]</strong> = subtipos excluyentes.
+    </figcaption>
+  </figure>
+
+  <!-- 4.6.3 -->
+  <h4>4.6.3 Solapada &amp; Total</h4>
+  <p>
+    La combinación <strong>solapada y total</strong> obliga a que <em>toda</em> instancia del supertipo pertenezca a
+    <em>al menos un</em> subtipo, pero permite la pertenencia simultánea a varios. Es la situación típica cuando las
+    categorías representan <em>roles</em> que pueden coexistir. Por ejemplo, toda <em>Persona</em> en una universidad puede
+    ser <em>Alumno</em> o <em>Empleado</em> y, en ocasiones, ambos (un estudiante con una beca laboral). La doble línea
+    impide personas “sin rol” y la marca <strong>[O]</strong> (overlap) recuerda que no hay exclusión: la implementación
+    posterior deberá permitir múltiples pertenencias, normalmente con tablas que registren esos roles.
+  </p>
+
+  <figure class="media-box">
+    <img src="img/isa_solapada_total.png" alt="ISA solapada y total: Persona → Alumno | Empleado. Doble línea al ISA, [O] solapada.">
+    <figcaption class="media-caption">
+      <strong>Solapada &amp; total</strong>: toda <em>Persona</em> tiene al menos un rol (<em>Alumno</em>, <em>Empleado</em>)
+      y puede tener ambos. Doble línea = nadie queda fuera; <strong>[O]</strong> = se permite solape.
+    </figcaption>
+  </figure>
+
+  <!-- 4.6.4 -->
+  <h4>4.6.4 Solapada &amp; Parcial</h4>
+  <p>
+    Por último, <strong>solapada y parcial</strong> permite instancias del supertipo sin subtipo y, si lo tienen, pueden
+    pertenecer a varios a la vez. Es útil cuando los subtipos representan <em>propiedades opcionales</em> que pueden
+    coexistir. Imagina <em>Producto</em> con subtipos <em>Perecedero</em> y <em>Refrigerado</em>: hay productos que no
+    son ni perecederos ni requieren frío; otros son solo perecederos; otros solo refrigerados; y algunos son ambas cosas.
+    La línea simple permite productos “sin categoría” y <strong>[O]</strong> permite el solapamiento natural entre
+    condiciones.
+  </p>
+
+  <figure class="media-box">
+    <img src="img/isa_solapada_parcial.png" alt="ISA solapada y parcial: Producto → Perecedero | Refrigerado. Línea simple al ISA, [O] solapada.">
+    <figcaption class="media-caption">
+      <strong>Solapada &amp; parcial</strong>: un <em>Producto</em> puede no estar en ningún subtipo, o estar en uno o en ambos.
+      Línea simple = parcial; <strong>[O]</strong> = subtipos no excluyentes.
+    </figcaption>
+  </figure>
+
+  <div class="callout warn">
+    <strong>Errores típicos.</strong> (1) Forzar disyunción cuando en realidad los roles se solapan, lo que acaba en duplicidades
+    o datos inconsistentes; (2) Declarar total cuando existen casos fuera de los subtipos, lo que luego “obliga” a inventar
+    categorías artificiales; (3) Crear subtipos que no aportan atributos ni reglas: si el subtipo no añade nada, quizá no
+    es un subtipo, sino un valor de un atributo del supertipo (p. ej., un <code>tipo</code>).
+  </div>
+
+  <h4>Cómo decidir correctamente (y pensar en la implementación)</h4>
+  <p>
+    Te propongo un guion de entrevista con el “cliente” que funciona muy bien: primero, pregunta si <em>pueden coexistir
+    roles</em> (“¿puede una persona ser alumno y empleado a la vez?”). Si la respuesta es sí, la especialización debe ser
+    <strong>solapada</strong>; si no, <strong>disyunta</strong>. Después, pregunta si <em>todas</em> las instancias deben
+    caer en algún subtipo (“¿toda persona en el sistema debe ser, al menos, alumno o empleado?”). Si la respuesta es sí,
+    marca la especialización como <strong>total</strong> (doble línea); si no, <strong>parcial</strong>. Al pasar al modelo
+    relacional, las disyuntas se pueden materializar con una única referencia o un atributo <code>tipo</code> (si son pocas
+    y estables); las solapadas suelen necesitar <em>tablas puente</em> que permitan múltiples pertenencias. Las totales se
+    traducen en <em>restricciones</em> que impiden superinstancias “huérfanas”; las parciales permiten que existan.
+  </p>
+
+  <p>
+    Como regla de oro, modela solo subtipos que aporten <em>información o reglas diferenciadas</em> (atributos adicionales,
+    validaciones distintas, comportamientos específicos). Si un subtipo no añade nada, evita la complejidad: usa un atributo
+    enumerado en la superentidad o, directamente, no especialices. Este criterio mantiene el modelo claro y la base de datos
+    más sencilla de implementar y mantener.
+  </p>
+</section>
+
+<section id="agregacion">
+  <h3>4.7 Agregación / Composición</h3>
+
+  <p>
+    En algunos dominios hay relaciones que no son “un detalle más”, sino auténticos <em>hechos complejos</em> que conviene
+    tratar como una unidad. La <strong>agregación</strong> nos permite “elevar” una <em>relación</em> (con sus entidades
+    participantes) a un <em>concepto compuesto</em>, de forma que podamos relacionarlo a su vez con otras entidades.
+    Es como si agrupáramos “el hecho” completo y lo conectáramos con otras partes del modelo. En términos didácticos:
+    primero definimos una relación normal (con sus cardinalidades y, si procede, atributos); después <em>la encerramos</em>
+    en una caja con nombre (la agregación) y conectamos esa caja con lo que tenga sentido. Este recurso evita multiplicar
+    relaciones binarias con reglas redundantes y hace explícito “qué estamos relacionando exactamente”: no <em>Proveedor</em>
+    o <em>Producto</em> por separado, sino el <strong>Suministro</strong> (Proveedor–Producto) como hecho único.
+  </p>
+
+  <p>
+    La <strong>composición</strong> (en E/R clásico se modela mediante <em>entidad débil</em> e <em>identificación</em>)
+    captura el patrón “<em>todo–parte</em> con <em>dependencia de existencia</em>”: la parte <em>no puede existir sin</em>
+    el todo, y su identificador incluye la clave del todo. Pedagógicamente, es el mismo mensaje que en diseño orientado a
+    objetos: si desaparece el “todo”, sus “partes” dejan de tener sentido. En E/R reconocerás la composición cuando veas
+    una <strong>entidad débil</strong> (rectángulo doble), una <strong>relación identificadora</strong> (rombo doble) y
+    participación <strong>total</strong> de la débil en esa relación (doble línea): ahí queda claro que la parte depende
+    del todo y que su identidad “se apoya” en la del todo.
+  </p>
+
+  <h4>Agregación: convertir un hecho en un concepto compuesto</h4>
+  <p>
+    Imagina que ya tenemos <em>Proveedor</em> —<strong>suministra</strong>— <em>Producto</em>, con cardinalidades habituales
+    <code>(0,N)</code> en ambos extremos (un proveedor puede suministrar 0..N productos y un producto puede tener 0..N proveedores).
+    Si ahora queremos expresar “este <em>suministro concreto</em> sirve a un <em>Almacén</em>”, no es correcto unir
+    <em>Proveedor</em> con <em>Almacén</em> y <em>Producto</em> por separado: perderíamos el hecho compuesto “proveedor+producto”.
+    La agregación nos deja envolver el triángulo <em>Proveedor–suministra–Producto</em> dentro de una caja llamada
+    <strong>Suministro</strong> y relacionar esa <em>unidad</em> con <em>Almacén</em>. Así dejamos claro que estamos
+    hablando de “ese proveedor suministrando ese producto” y no de las entidades de forma aislada.
+  </p>
+
+  <figure class="media-box">
+    <img src="img/agregacion_suministro_almacen.png"
+         alt="Agregación: Proveedor—suministra—Producto (encerrado como Suministro) —sirve_a— Almacén, cardinalidades sobre las líneas" />
+    <figcaption class="media-caption">
+      <strong>Agregación</strong>: el hecho <em>Suministro</em> (agregación de <em>Proveedor—suministra—Producto</em>) se relaciona con
+      <em>Almacén</em> mediante <em>sirve_a</em>. Las cardinalidades se leen sobre cada línea: en el ejemplo, un <em>Suministro</em>
+      puede <em>servir a</em> 1..N <em>Almacenes</em> y un <em>Almacén</em> puede recibir 1..N <em>Suministros</em>.
+      Este patrón evita mezclar entidades por separado y deja explícito qué combinación concreta estamos conectando.
+    </figcaption>
+  </figure>
+
+  <div class="callout tip">
+    <strong>Cuándo usar agregación.</strong> Cuando una relación con sus participantes es el “objeto” de otra regla:
+    calendario de entregas de un pedido, programación de turnos de una asignación (Profesor–imparte–Grupo), o
+    restricciones que afectan al conjunto (p. ej., cupos o tarifas específicas del emparejamiento).
+  </div>
+
+  <h4>Composición (todo–parte con dependencia)</h4>
+  <p>
+    En comercio electrónico, un <em>Pedido</em> se forma por varias <em>Líneas</em>. Una <em>Línea</em> no tiene sentido
+    fuera del <em>Pedido</em> al que pertenece, y su identidad se define por la clave del pedido más una clave parcial
+    (por ejemplo, <code>nº_línea</code>). En E/R esto se plasma como <strong>entidad débil</strong> <em>Línea</em> (doble
+    rectángulo) unida a <em>Pedido</em> por una <strong>relación identificadora</strong> <em>contiene</em> (rombo doble),
+    con participación <strong>total</strong> de la débil (doble línea). Las cardinalidades típicas son <code>(1,N)</code>
+    en <em>Pedido</em> (un pedido tiene 1..N líneas) y <code>(1,1)</code> en <em>Línea</em> (cada línea pertenece a
+    exactamente un pedido). Este patrón comunica —sin ambigüedad— existencia dependiente y clave compuesta.
+  </p>
+
+  <figure class="media-box">
+    <img src="img/composicion_pedido_linea.png"
+         alt="Composición: Pedido —(1,N)— contiene (relación identificadora con rombo doble) —(1,1)— Línea (entidad débil), con participación total" />
+    <figcaption class="media-caption">
+      <strong>Composición (existencia dependiente)</strong>: <em>Pedido</em> —(1,N)— <em>contiene</em> —(1,1)— <em>Línea</em>. 
+      La <em>Línea</em> es <strong>débil</strong> (doble rectángulo), la relación es <strong>identificadora</strong> (doble rombo),
+      y la participación de la débil es <strong>total</strong> (doble línea). Al pasar al modelo relacional, la clave de
+      <em>Línea</em> incluirá la clave de <em>Pedido</em> más una clave parcial.
+    </figcaption>
+  </figure>
+
+  <h4>Elección correcta en el diseño</h4>
+  <p>
+    Una regla de oro útil es preguntarse: “¿Estoy tratando de relacionar <em>la combinación</em> de varias entidades con
+    otra cosa?” Si la respuesta es sí, probablemente necesitas <strong>agregación</strong>. En cambio, si la relación
+    representa un vínculo estructural “todo–parte” y la parte no tiene sentido por sí misma, opta por la
+    <strong>composición</strong> (entidad débil + relación identificadora + participación total). Esta distinción no es
+    cosmética: marca cómo se transformará el modelo a relaciones (tablas intermedias o claves compuestas) y qué
+    restricciones de integridad podrás imponer sin acrobacias en SQL.
+  </p>
+
+  <div class="callout warn">
+    <strong>Errores frecuentes.</strong> (1) Conectar por separado entidades que deberían viajar juntas (olvidando la agregación),
+    lo que produce reglas incongruentes; (2) Modelar como entidad fuerte algo que en realidad es una parte dependiente,
+    perdiendo la garantía de integridad que aporta la composición; (3) Esconder cardinalidades mínimas (0/1) y luego
+    descubrir que el diseño lógico no puede hacer cumplir la obligatoriedad que el negocio sí exige.
+  </div>
+</section>
+
+<section id="restricciones">
+  <h3>4.8 Restricciones de integridad</h3>
+
+  <p>
+    Las <strong>restricciones de integridad</strong> son las reglas que mantienen “coherente” el significado de los datos a lo
+    largo del tiempo. En el <em>modelo conceptual (E/R)</em> las expresamos con nombres, cardinalidades <code>(min,max)</code>,
+    identificadores, tipos de atributos y notas semánticas; más adelante, en el <em>modelo lógico</em> y en SQL, se
+    traducirán a <code>PRIMARY KEY</code>, <code>FOREIGN KEY</code>, <code>NOT NULL</code>, <code>UNIQUE</code>, <code>CHECK</code>,
+    disparadores, etc. El enfoque correcto es siempre “de arriba a abajo”: primero acordamos la regla con el cliente
+    (en el E/R), después la <em>implementamos</em> en el SGBD. Si una regla no está clara arriba, será frágil abajo.
+  </p>
+
+  <div class="callout tip">
+    <strong>Esquema mental.</strong> Piensa en cuatro familias: <em>dominio</em> (de qué tipo es cada dato),
+    <em>entidad</em> (identidad y unicidad), <em>referencia</em> (existencias relacionadas) y <em>semánticas</em>
+    (reglas del negocio que van más allá de las tres anteriores).
+  </div>
+
+  <h4>4.8.1 Restricciones de dominio</h4>
+  <p>
+    Un <strong>dominio</strong> especifica el <em>tipo</em> y el <em>rango</em> de valores que admite un atributo, así como
+    su <em>formato</em> y si admite <em>null</em>. Modelar bien los dominios en el E/R (con nombres y descripciones claras)
+    evita datos imposibles: fechas futuras para nacimientos, códigos mal formados, números negativos en cantidades, etc.
+    Ejemplos típicos: <em>precio</em> &rarr; “número real &ge; 0 con dos decimales”; <em>DNI</em> &rarr; “cadena de 9
+    caracteres con patrón”; <em>email</em> &rarr; “cadena &lt;= 254 chars con ‘@’ y dominio válido”; <em>edad</em> derivada
+    de <em>fecha_nacimiento</em> (no se almacena).
+  </p>
+  <div class="demo">
+    <table>
+      <thead>
+        <tr><th>Atributo</th><th>Dominio</th><th>¿NULL?</th><th>Observaciones</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>precio</td><td>real &ge; 0 (2 decimales)</td><td>no</td><td>Si es 0, indica artículo gratuito o promoción</td></tr>
+        <tr><td>dni</td><td>patrón <code>^[0-9]{8}[A-Z]$</code></td><td>no</td><td>Único por Persona (ver 4.8.2)</td></tr>
+        <tr><td>email</td><td>cadena válida</td><td>sí</td><td>Opcional; si existe, formato obligado</td></tr>
+        <tr><td>edad</td><td>derivado</td><td>—</td><td>Se calcula desde <em>fecha_nacimiento</em>, no se guarda</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h4>4.8.2 Restricciones de entidad (identidad y unicidad)</h4>
+  <p>
+    Garantizan que cada instancia de una entidad esté <strong>bien identificada</strong> y no existan duplicados. En E/R
+    esto se refleja al elegir el <em>identificador</em> (clave) de la entidad; puede ser natural (<code>DNI</code>,
+    <code>ISBN</code>) o artificial (<code>id</code> autogenerado). Si hay varias posibilidades hablamos de <em>claves
+    candidatas</em>; elegimos una como <em>principal</em> y el resto suelen imponerse como <em>únicas</em>.
+    Ejemplos: en <em>Libro</em>, <code>ISBN</code> identifica de forma natural; en <em>Cliente</em>, si el <code>DNI</code>
+    no es fiable (clientes extranjeros sin DNI, etc.), se recurre a un <code>id</code> y se fuerza <code>DNI UNIQUE</code> cuando exista.
+  </p>
+  <div class="callout warn">
+    <strong>Decisión práctica.</strong> Usa clave natural si es estable y universal. Si no, usa clave surrogate
+    (<code>id</code>) y protege la natural con <em>unicidad</em> y <em>formato</em> (dominio).
+  </div>
+
+  <h4>4.8.3 Restricciones de referencia (existencia y correspondencia)</h4>
+  <p>
+    Aseguran que una relación solo existe si existen las instancias relacionadas, y que se respeta la <em>participación</em>
+    acordada. En E/R lo expresamos con los pares <code>(min,max)</code> en cada extremo: el <em>mínimo</em> determina si la
+    participación es <strong>total</strong> (1) u <strong>parcial</strong> (0). Ejemplo: <em>Cliente</em> —realiza—
+    <em>Pedido</em> con <code>Cliente (0,N)</code> y <code>Pedido (1,1)</code>: un pedido <em>siempre</em> pertenece a un
+    cliente (participación total en Pedido), pero un cliente puede no tener pedidos (parcial en Cliente). En el modelo
+    lógico esto se traduce en una <em>clave ajena</em> en <em>Pedido</em> y en reglas que impiden eliminar un <em>Cliente</em>
+    con pedidos si así se establece (política de borrado).
+  </p>
+
+  <h4>4.8.4 Restricciones semánticas (reglas del negocio)</h4>
+  <p>
+    Son reglas específicas del dominio que no se deducen automáticamente de dominios, claves o <code>(min,max)</code>,
+    pero que deben cumplirse para que el dato “tenga sentido”. Ejemplos: “un pedido <strong>cancelado</strong> no puede
+    tener líneas”, “el <em>importe_total</em> debe ser la suma de sus líneas”, “un <em>Profesor</em> no puede superar 20 h
+    lectivas por semana”, “no se puede asignar un <em>Alumno</em> a dos exámenes que se solapan en horario”. En el E/R las
+    recogemos como <em>notas</em> o <em>anotaciones</em> junto a la relación o entidad afectada; más tarde, en SQL, pueden
+    materializarse con <code>CHECK</code>, vistas materializadas de validación, o disparadores.
+  </p>
+
+  <h4>4.8.5 Nulos, derivados y estados del ciclo de vida</h4>
+  <p>
+    Decidir si un atributo <strong>admite NULL</strong> es una decisión de integridad: un NULL permisivo se convierte en
+    “agujero” que la aplicación debe interpretar (¿desconocido?, ¿no aplicable?). Como regla, los atributos que
+    intervienen en la <em>identidad</em> o en la <em>lógica de negocio</em> suelen ser <strong>NOT NULL</strong>. Los
+    <em>atributos derivados</em> (p. ej., <em>edad</em> desde <em>fecha_nacimiento</em>) no se almacenan: se recalculan.
+    Además, muchas reglas dependen del <strong>estado</strong> de una entidad (borrador, confirmado, cancelado). En el E/R
+    conviene anotar las reglas por estado: “si <em>estado=confirmado</em>, entonces (1) debe haber método de pago; (2) no
+    se pueden modificar líneas”.
+  </p>
+
+  <h4>4.8.6 Patrones típicos (del E/R a SQL)</h4>
+  <p>
+    Aunque ahora estamos en conceptual, es útil prever cómo “bajan” las reglas: <em>identificadores</em> &rarr;
+    <code>PRIMARY KEY</code> (y <code>UNIQUE</code> para candidatas); <em>dominios</em> &rarr; tipos, <code>CHECK</code>,
+    <code>NOT NULL</code>; <em>referencia</em> &rarr; <code>FOREIGN KEY</code> con acciones (<code>ON DELETE</code>/<code>UPDATE</code>);
+    <em>participación total</em> suele exigir <code>NOT NULL</code> en la FK y, a veces, control transaccional para altas y
+    bajas coherentes; <em>reglas semánticas</em> complejas &rarr; restricciones declarativas si es posible, o bien procesos
+    de validación/disparadores si afectan a múltiples tablas.
+  </p>
+
+  <div class="demo">
+    <table>
+      <thead>
+        <tr><th>Regla conceptual (E/R)</th><th>Lectura</th><th>Pista para implementación</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Pedido (1,1) —pertenece a— Cliente</td>
+          <td>Todo pedido tiene exactamente un cliente</td>
+          <td>FK NOT NULL en Pedido. Política de borrado: RESTRICT o SET NULL según negocio</td>
+        </tr>
+        <tr>
+          <td>Cliente (0,N) —realiza— Pedido</td>
+          <td>Un cliente puede no tener pedidos</td>
+          <td>No obliga a FK en Cliente; cardinalidad ya cubierta por la FK en Pedido</td>
+        </tr>
+        <tr>
+          <td>email: dominio válido</td>
+          <td>Formato correcto si existe</td>
+          <td><code>CHECK</code> (si procede) y validación en aplicación</td>
+        </tr>
+        <tr>
+          <td>importe_total = suma(líneas)</td>
+          <td>Regla semántica</td>
+          <td>Vista/trigger de consolidación o cálculo a demanda (no almacenar si es derivado)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  
+
+  <div class="callout tip">
+    <strong>Checklist rápido antes de pasar a lógico:</strong>
+    1) ¿Todas las entidades tienen identificador claro? 2) ¿Están fijados los dominios y NULL/NOT NULL de los atributos
+    críticos? 3) ¿Cada relación tiene sus <code>(min,max)</code> y la lectura es inequívoca sobre la línea correcta?
+    4) ¿Hemos anotado las reglas semánticas por estado/negocio que no encajan en dominios o cardinalidades?
+  </div>
+
+  <p>
+    Con estas reglas bien descritas en el <em>conceptual</em>, el salto al <em>modelo lógico</em> será mecánico y
+    justificable. Lo importante no es “poner una FK” sino <em>saber por qué</em>: la FK es la traducción técnica de una
+    decisión conceptual (<code>(min,max)</code> y participación) que ya acordaste aquí.
+  </p>
+</section>
+
+      <!-- ========== 5. ERRORES COMUNES ========== -->
+      <section id="errores-checklist">
+        <h2>5) Errores comunes </h2>
+      
+        <p>
+          El diseño conceptual con <strong>E/R</strong> es una herramienta potentísima, pero también muy sensible a pequeños
+          deslices que luego se “amplifican” al pasar al modelo lógico y a SQL. En esta sección reunimos los <em>errores
+          típicos</em> que más se repiten en 1º DAW y una <strong>lista de verificación final</strong> para revisar tu modelo
+          antes de darlo por cerrado. Léelos como si fueran “antipatrones”: si te reconoces en alguno, vuelve un paso atrás,
+          corrige y vuelve a evaluar con datos de ejemplo. El objetivo no es dibujar “algo bonito”, sino un modelo que haga
+          <em>cumplir</em> las reglas del negocio sin ambigüedades.
+        </p>
+      
+        <h3>5.1 Errores comunes (y cómo evitarlos)</h3>
+      
+        <h4>5.1.1 Cardinalidades mal ubicadas o ambiguas</h4>
+        <p>
+          Uno de los fallos más frecuentes es colocar el par <code>(min,max)</code> en el lado equivocado o lejos de la línea,
+          provocando lecturas contradictorias. <strong>Regla de oro:</strong> sitúa cada <code>(min,max)</code> <em>encima
+          de la línea y junto al extremo</em> al que pertenece, y verbaliza su lectura: “cada A se relaciona con entre
+          <em>min</em> y <em>max</em> B”. Si al leer en voz alta no tiene sentido, está mal colocada o mal elegida.
+        </p>
+      
+        <h4>5.1.2 Confundir disyunta/solapada y total/parcial en ISA</h4>
+        <p>
+          Otro clásico es declarar una especialización <em>disyunta</em> cuando en realidad los subtipos pueden coexistir
+          (roles), o marcarla como <em>total</em> cuando hay instancias del supertipo fuera de los subtipos. Pregunta siempre:
+          “¿puede una instancia estar en varios subtipos a la vez?” (si sí, es <strong>solapada</strong>) y “¿todas las
+          instancias deben caer en algún subtipo?” (si sí, <strong>total</strong>). Representa <em>total</em> con
+          <strong>doble línea</strong> supertipo→ISA.
+        </p>
+      
+        <h4>5.1.3 Mezclar hechos diferentes en una relación binaria</h4>
+        <p>
+          Intentar expresar con una sola relación binaria un hecho que depende de una <em>combinación</em> de entidades lleva
+          a inconsistencias (por ejemplo, conectar <em>Proveedor</em> con <em>Almacén</em> y <em>Producto</em> por separado).
+          Cuando el negocio habla de “la pareja (X,Y)”, probablemente necesitas una <strong>agregación</strong> o una relación
+          <strong>ternaria</strong> con sus propias reglas y atributos.
+        </p>
+      
+        <h4>5.1.4 Elegir mal la clave (identificador)</h4>
+        <p>
+          Usar una clave natural inestable (como <em>email</em>) provoca cascadas de cambios; usar una artificial sin proteger
+          la natural permite duplicados semánticos. <strong>Práctica recomendada:</strong> si la natural es universal y estable
+          (DNI, ISBN), úsala; si no, usa <em>surrogate</em> (<code>id</code>) y declara la natural como <em>única</em> y con
+          <em>dominio</em> (formato) apropiado.
+        </p>
+      
+        <h4>5.1.5 Atributos derivados almacenados (y desincronizados)</h4>
+        <p>
+          Guardar <em>edad</em> además de <em>fecha_nacimiento</em> o <em>importe_total</em> además de las <em>líneas</em> crea
+          inconsistencias. Marca estos datos como <strong>derivados</strong> y calcula cuando haga falta, o controla su
+          actualización con reglas estrictas.
+        </p>
+      
+        <h4>5.1.6 Nulos permisivos en atributos críticos</h4>
+        <p>
+          Permitir <code>NULL</code> en atributos que son necesarios para la lógica del negocio lleva a registros “a medias”
+          difíciles de validar. Decide explícitamente <strong>NOT NULL</strong> en claves y datos esenciales, y documenta el
+          significado de cada <code>NULL</code> (desconocido / no aplicable).
+        </p>
+      
+        <h4>5.1.7 Olvidar la participación mínima</h4>
+        <p>
+          Poner solo 1:1, 1:N, N:M sin el <em>mínimo</em> oculta si la relación es opcional u obligatoria. Recuerda: el
+          <strong>mínimo</strong> (0 o 1) se traduce luego en <code>NULL/NOT NULL</code> y en cómo se controlan altas y bajas.
+        </p>
+      
+        <h4>5.1.8 Modelar como binaria algo N:M o ternario</h4>
+        <p>
+          Si una relación “pide” atributo propio (<em>precio</em> en un suministro, <em>cantidad</em> en líneas de pedido),
+          sospecha de un <strong>N:M</strong> (o ternaria) en lugar de dos binarias sueltas. A nivel lógico necesitarás una
+          tabla intermedia con su clave compuesta.
+        </p>
+      
+        <h4>5.1.9 No documentar reglas semánticas</h4>
+        <p>
+          Muchas restricciones no se deducen de dominios o cardinalidades (p. ej., “pedido cancelado no tiene líneas”). Si no
+          las anotas en el conceptual, luego “desaparecen” al implementar. Añade <em>notas</em> claras en el diagrama.
+        </p>
+      
+       
+      
+        <h3>5.2 Checklist final antes de pasar a lógico</h3>
+        <p>
+          Usa esta lista como “semáforo” antes de traducir a tablas. Marca cada ítem con ✔ cuando esté resuelto y justificado.
+        </p>
+      
+        <div class="demo">
+          <table>
+            <thead>
+              <tr>
+                <th>Ítem</th>
+                <th>Qué comprobar</th>
+                <th>✔</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Alcance claro</strong></td>
+                <td>El diagrama incluye solo lo necesario para el caso; no faltan entidades clave ni sobran “adorno”.</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><strong>Identificadores</strong></td>
+                <td>Cada entidad tiene clave definida (natural o surrogate) y candidatas razonadas; unicidades anotadas.</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><strong>Dominios y NULL</strong></td>
+                <td>Tipo/rango de cada atributo, formato si aplica y decisión explícita de NULL/NOT NULL.</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><strong>Atributos derivados</strong></td>
+                <td>Marcados como derivados (no almacenados) o, si se almacenan, con regla de sincronización clara.</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><strong>Relaciones binarias</strong></td>
+                <td>Cardinalidades <code>(min,max)</code> colocadas <em>encima y en su extremo</em>; lectura inequívoca.</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><strong>N:M / Ternarias</strong></td>
+                <td>Las relaciones que requieren atributos propios están modeladas como N:M o ternarias (no “apaños”).</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><strong>ISA</strong></td>
+                <td>Para cada jerarquía: disyunta/solapada y total/parcial decididas y representadas (doble línea si total).</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><strong>Agregación / Composición</strong></td>
+                <td>Hechos compuestos modelados con agregación; dependencias todo–parte como entidad débil + relación identificadora.</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><strong>Reglas semánticas</strong></td>
+                <td>Notas claras para las reglas “de negocio” (por estado, límites, incompatibilidades, etc.).</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><strong>Prueba de contraejemplos</strong></td>
+                <td>Intentaste “romper” el modelo con datos imposibles y el diagrama los impide (o ajustaste el diseño).</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><strong>Camino a SQL</strong></td>
+                <td>Sabes cómo cada decisión conceptual bajará a PK, FK, UNIQUE, CHECK y acciones de borrado/actualización.</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      <!--
+        <section id="cierre">
+          <h3>5.3 Del modelo conceptual a lo ejecutable</h3>
+        
+          <p>
+            Para que el salto de <strong>E/R</strong> a <strong>tablas SQL</strong> sea comprensible y repetible por el alumnado, conviene
+            pensar en una <em>línea de montaje</em> con pasos fijos. No se trata de “intuir” tablas, sino de aplicar un
+            <strong>procedimiento</strong> que traduzca cada decisión conceptual (identificadores, <code>(min,max)</code>, ISA, etc.)
+            a estructuras concretas del modelo relacional y a <em>restricciones</em> del SGBD. Abajo tienes una guía operativa
+            dividida en: (1) un mapa de traducción “pieza→pieza”, (2) decisiones obligatorias en claves ajenas y borrados, y
+            (3) micro–ejemplos para practicar.
+          </p>
+        
+          <h4>5.3.1 Mapa de traducción (de E/R a Relacional/SQL)</h4>
+          <div class="demo">
+            <table>
+              <thead>
+                <tr>
+                  <th>Pieza en E/R</th>
+                  <th>Cómo se traduce</th>
+                  <th>Restricciones SQL típicas</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Entidad fuerte</strong> + <em>identificador</em></td>
+                  <td>Tabla con columnas por atributo; PK = identificador elegido</td>
+                  <td><code>PRIMARY KEY</code>, <code>UNIQUE</code> en candidatas, <code>NOT NULL</code> en obligatorios</td>
+                </tr>
+                <tr>
+                  <td><strong>Entidad débil</strong> + relación <em>identificadora</em></td>
+                  <td>Tabla cuya PK incluye la PK del “todo” + clave parcial</td>
+                  <td><code>PRIMARY KEY (pk_todo, clave_parcial)</code>, <code>FOREIGN KEY</code> a “todo” <em>NOT NULL</em></td>
+                </tr>
+                <tr>
+                  <td><strong>Relación 1:N</strong> con <em>min</em> del lado N = 1</td>
+                  <td>FK en el lado N <em>obligatoria</em></td>
+                  <td><code>fk NOT NULL</code> + <code>FOREIGN KEY</code> (acción de borrado definida)</td>
+                </tr>
+                <tr>
+                  <td><strong>Relación 1:N</strong> con <em>min</em> del lado N = 0</td>
+                  <td>FK en el lado N <em>opcional</em></td>
+                  <td><code>fk NULL</code> permitido + <code>FOREIGN KEY</code></td>
+                </tr>
+                <tr>
+                  <td><strong>Relación N:M</strong> (con o sin atributos)</td>
+                  <td>Tabla intermedia con PK compuesta por las dos FK (+ atributos de la relación)</td>
+                  <td><code>PRIMARY KEY (fk_A, fk_B)</code>, dos <code>FOREIGN KEY</code>, <code>UNIQUE</code> si procede</td>
+                </tr>
+                <tr>
+                  <td><strong>Relación ternaria</strong> (A–R–B–C)</td>
+                  <td>Tabla intermedia con PK = (fk_A, fk_B, fk_C) (+ atributos de la relación)</td>
+                  <td>Tres <code>FOREIGN KEY</code>, considera <code>CHECK</code> para reglas adicionales</td>
+                </tr>
+                <tr>
+                  <td><strong>ISA disyunta</strong> y <strong>total</strong></td>
+                  <td>Opción A: una tabla por subtipo (PK = PK del supertipo); Opción B: una sola tabla con atributo <code>tipo</code></td>
+                  <td>A: <code>FOREIGN KEY</code> del subtipo al supertipo (<em>NOT NULL</em>). B: <code>CHECK tipo</code> y <code>NOT NULL</code> en columnas obligatorias según tipo</td>
+                </tr>
+                <tr>
+                  <td><strong>ISA disyunta</strong> y <strong>parcial</strong></td>
+                  <td>Mejor “una tabla por subtipo”; el supertipo puede tener filas sin subtipo</td>
+                  <td>FK del subtipo al supertipo; reglas que impidan solapamiento (disyunción)</td>
+                </tr>
+                <tr>
+                  <td><strong>ISA solapada</strong> (total o parcial)</td>
+                  <td>Una tabla por subtipo (cada una referencia al supertipo). Si varias a la vez, coexistirán filas en varios subtipos</td>
+                  <td>FK de cada subtipo al supertipo; posibles <code>CHECK</code> para requisitos “total”</td>
+                </tr>
+                <tr>
+                  <td><strong>Agregación</strong> (elevar un hecho compuesto)</td>
+                  <td>Normalmente ya se resolvió como N:M/ternaria; relaciona la tabla “hecho” con otras mediante FKs</td>
+                  <td>FK desde la “tabla-hecho” al nuevo destino; conserva atributos del hecho</td>
+                </tr>
+                <tr>
+                  <td><strong>Atributo derivado</strong></td>
+                  <td>No se almacena; se calcula en consultas o vistas</td>
+                  <td>Vista calculada, o trigger si necesitas persistir y sincronizar</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        
+          <h4>5.3.2 Claves ajenas y políticas de borrado (decisión explícita)</h4>
+          <p>
+            Cada <em>(min,max)</em> que fijaste arriba implica <strong>decisiones abajo</strong>. Si el mínimo en el lado
+            dependiente es 1, la FK debe ser <em>NOT NULL</em>. Además, define qué pasa al borrar: <em>RESTRICT/NO ACTION</em>
+            (prohíbe borrar si hay dependientes), <em>ON DELETE SET NULL</em> (solo si el mínimo permite 0), u <em>ON DELETE CASCADE</em>
+            (borra en cascada si el negocio lo permite). La regla práctica: si conceptualmente la participación era <strong>total</strong>,
+            dudar de <em>SET NULL</em>; si era <strong>parcial</strong>, no fuerces <em>NOT NULL</em>. Documenta estas políticas
+            en una frase junto a cada FK para que el paso a DDL sea transparente.
+          </p>
+        
+          <h4>5.3.3 Tres micro–recetas con lectura E/R → SQL</h4>
+        
+          <p><strong>(a) 1:N opcional</strong> — <em>Cliente (0,N) —realiza— Pedido (1,1)</em>.<br>
+            <em>Traducción</em>: FK <code>pedido.cliente_id</code> <em>NOT NULL</em> (porque en Pedido el mínimo es 1); en Cliente no hay FK inversa.
+            <em>Borrado</em>: normalmente <code>RESTRICT</code> o <code>CASCADE</code> según negocio. <em>Lectura</em>: un pedido siempre tiene cliente; un cliente puede no tener pedidos.
+          </p>
+        
+          <p><strong>(b) N:M con atributos</strong> — <em>Pedido (0,N) —incluye— Producto (0,N)</em> con <em>cantidad</em>.<br>
+            <em>Traducción</em>: tabla <code>linea_pedido(pedido_id, producto_id, cantidad, ...)</code> con
+            <code>PRIMARY KEY(pedido_id, producto_id)</code> y dos FKs <em>NOT NULL</em>. <em>Lectura</em>: cada par (pedido, producto) aparece a lo sumo una vez; la cantidad vive en la relación.
+          </p>
+        
+          <p><strong>(c) ISA disyunta total</strong> — <em>Empleado</em> → <em>Técnico</em> | <em>Administrativo</em>.<br>
+            <em>Traducción (opción A)</em>: tablas <code>empleado</code>, <code>tecnico</code> y <code>administrativo</code>, con
+            PK = <code>empleado.id</code> en cada subtipo y FK obligatoria al supertipo. <em>Garantía</em>: “total” ⇒ toda fila de
+            <code>empleado</code> debe aparecer en exactamente un subtipo (puede requerir <em>CHECKs</em>/disparador o control en aplicación).
+          </p>
+        
+          <div class="callout tip">
+            <strong>Consejo docente.</strong> Pide al alumnado que “lea” cada FK como si fuera una cardinalidad: <em>NOT NULL</em
+        
+            </section>
+            -->
+
+
+
+      <a href="#" class="backtotop" aria-label="Volver arriba">↑</a>
+    </main>
+  </div>
+
+  <!-- ===== JS mínimo para navegación/índice ===== -->
+  <script>
+    // Topnav toggle (móvil)
+    const btnTopnav = document.getElementById('btnTopnav');
+    const topnav = document.getElementById('topnav');
+    btnTopnav?.addEventListener('click', () => {
+      const open = topnav.classList.toggle('open');
+      btnTopnav.setAttribute('aria-expanded', String(open));
+    });
+
+    // Sidebar drawer (móvil)
+    const btnSidebar = document.getElementById('btnSidebar');
+    const sidebar = document.getElementById('sidebar');
+    const backdrop = document.getElementById('backdrop');
+    function toggleSidebar() {
+      const open = sidebar.classList.toggle('open');
+      btnSidebar.setAttribute('aria-expanded', String(open));
+      backdrop.classList.toggle('visible', open);
+      backdrop.hidden = !open;
+    }
+    btnSidebar?.addEventListener('click', toggleSidebar);
+    backdrop?.addEventListener('click', toggleSidebar);
+
+    // TOC activo al hacer scroll
+    const tocLinks = document.querySelectorAll('.toc a');
+    const sections = Array.from(tocLinks).map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const id = '#' + entry.target.id;
+        const link = document.querySelector(`.toc a[href="${id}"]`);
+        if (!link) return;
+        if (entry.isIntersecting) {
+          tocLinks.forEach(a => a.classList.remove('active'));
+          link.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-40% 0px -55% 0px', threshold: 0.01 });
+    sections.forEach(sec => obs.observe(sec));
+  </script>
+
+<footer class="site-footer" role="contentinfo" class="wrap">
+  <div>
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer" title="CC BY-NC-SA 4.0">
+      <img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="Licencia Creative Commons BY-NC-SA 4.0">
+    </a>
+  </div>
+</footer>
+
+</body>
+</html>
+

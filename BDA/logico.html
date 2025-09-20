@@ -28,8 +28,8 @@
       <ul>
         <li><a href="index.html" class="active">Inicio</a></li>
         <li><a href="almacenamiento.html">Almacenamiento</a></li>
+        <li><a href="conceptual.html">Diseño Conceptual</a></li>
         <li><a href="logico.html">Diseño Lógico</a></li>
-        <li><a href="relacional.html">Modelo Relacional</a></li>
         <li><a href="sql.html">SQL</a></li>
         <li><a href="plsql.html">PL/SQL</a></li>
         <li><a href="persistencia.html">Persistencia</a></li>
@@ -63,337 +63,1241 @@
     </header>
 
    <!-- ===================== 1. INTRO ===================== -->
-   <section id="intro">
-    <h2>1) Qué es el diseño lógico</h2>
-    <p>
-      El <strong>diseño lógico</strong> toma lo aprendido en el análisis y el diseño conceptual y lo convierte en una
-      especificación formal, coherente y normalizada de los datos, aún <em>independiente del SGBD</em>. Aquí definimos
-      entidades, atributos, relaciones y restricciones con el objetivo de poder transformarlo después al
-      <a href="relacional.html">modelo relacional</a> y, finalmente, a SQL.
-    </p>
-    <div class="callout tip">
-      <strong>Enfoque didáctico.</strong> Primero modelamos <em>conceptos</em> (E/R), luego los “ponemos en tablas”
-      (relacional), y por último los codificamos (SQL). Un error arriba se amplifica abajo; por eso aquí afinamos.
-    </div>
-  </section>
+   <section id="prologo-logico">
+      <h2>1) ¿Para qué sirve el modelo lógico?</h2>
+      <p>
+        El <strong>modelo conceptual (E/R)</strong> capta el <em>significado</em> del dominio: entidades, relaciones,
+        cardinalidades y reglas. Es el acuerdo con negocio sobre “qué existe” y “cómo se vincula”, sin hablar de tablas.
+        El <strong>modelo lógico (relacional)</strong> transforma ese significado en un <em>esquema de tablas</em>
+        con <strong>claves</strong> y <strong>restricciones</strong> aún independiente de un SGBD concreto. </p>
+        <p>Aquí decidimos qué tablas habrá, qué columnas contienen, qué columnas forman la PK, qué FKs conectan las tablas y qué
+        <em>obligatoriedades</em> (NOT NULL) y <em>unicidades</em> (UNIQUE) necesitamos para <em>hacer cumplir</em> el
+        conceptual. Después, la <strong>normalización</strong> revisa el esquema para eliminar redundancias y anomalías
+        (inserción, borrado, actualización) preservando el significado y las dependencias funcionales. En resumen:
+        <em>Conceptual</em> (qué significa) → <em>Lógico</em> (cómo se estructura en tablas) → <em>Físico/SQL</em>
+        (cómo se implementa con tipos, índices, DDL).
+      </p>
+      
+    </section>
 
-  <!-- ===================== 2. MODELO E/R ===================== -->
-  <section id="er">
-    <h2>2) Modelo Entidad-Relación (E/R)</h2>
-    <p>
-      El E/R es la <em>fotografía conceptual</em> de nuestro dominio: qué cosas existen (entidades), cómo son
-      (atributos) y cómo se relacionan (relaciones) con sus <strong>cardinalidades</strong> y <strong>participaciones</strong>.
-      A partir de él, aplicaremos reglas sistemáticas para obtener el esquema relacional.
-    </p>
+   <section id="notacion">
+  <h2>2) Notación intermedia (Demarco / “marco”)</h2>
+  <p>
+    La notación de <strong>marco</strong> es una forma compacta de describir el <em>esquema relacional lógico</em> antes de escribir SQL.
+    Sirve para: (1) <em>comunicar</em> decisiones (PK, AK, FKs, nulabilidad) sin ruido técnico, (2) <em>validar</em> que las
+    participaciones del E/R (mínimos y máximos) están bien trasladadas, y (3) <em>generar</em> los <code>CREATE TABLE</code> casi mecánicamente.
+  </p>
 
-    <h3 id="entidades">2.1 Entidades</h3>
-    <p>
-      Una <strong>entidad</strong> representa un conjunto de objetos distinguibles del mundo real (p. ej., <em>Alumno</em>,
-      <em>Asignatura</em>, <em>Pedido</em>). Debe existir un <strong>identificador</strong> (clave) que distinga cada instancia.
-    </p>
+  <div class="demo">
+    <table>
+      <thead><tr><th>Marcador</th><th>Significado</th><th>Ejemplo</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><code>T = c1 + … + cn</code></td>
+          <td>Tabla <em>T</em> con columnas <em>c1..cn</em> (orden sugerido: PK → FKs → resto)</td>
+          <td><code>CLIENTE = id + dni + nombre</code></td>
+        </tr>
+        <tr>
+          <td><code>CP(...)</code></td>
+          <td>Clave primaria (única, mínima y no nula)</td>
+          <td><code>CP(id)</code></td>
+        </tr>
+        <tr>
+          <td><code>C.Alt(...)</code></td>
+          <td>Clave alternativa (candidata) — debe ser única y mínima</td>
+          <td><code>C.Alt(dni)</code></td>
+        </tr>
+        <tr>
+          <td><code>C.Aj(...)</code> → <code>T(col_ref)</code></td>
+          <td>Clave ajena (FK) que referencia PK o AK de <em>T</em></td>
+          <td><code>C.Aj(cliente_id) → CLIENTE(id)</code></td>
+        </tr>
+        <tr>
+          <td><code>VNN(col)</code></td>
+          <td>Valor no nulo (NOT NULL)</td>
+          <td><code>VNN(cliente_id)</code></td>
+        </tr>
+        <tr>
+          <td><code>ASERCIÓN n: …</code></td>
+          <td>Restricción global (involucra más de una tabla)</td>
+          <td><code>ASERCIÓN 1: B[b] ⊆ R[b]</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>2.1 Cómo se lee un marco (paso a paso)</h3>
+  <div class="frame"><pre>
+CLIENTE = id + dni + nombre + fecha_nac
+CP(id)
+C.Alt(dni)
+VNN(nombre)
+  </pre></div>
+  <ol>
+    <li><strong>Cabecera</strong>: la tabla y sus columnas.</li>
+    <li><strong>CP</strong>: qué columnas forman la PK (a veces compuesta).</li>
+    <li><strong>C.Alt</strong>: candidatas adicionales (se materializan con <code>UNIQUE</code>).</li>
+    <li><strong>VNN</strong>: columnas obligatorias (NOT NULL).</li>
+    <li><strong>C.Aj</strong>: referencias a otras tablas y a qué columna exacta (PK o AK) apuntan.</li>
+  </ol>
+
+  
+  <h3>2.2 Equivalencias con SQL (cómo se traduce)</h3>
+  <ul>
+    <li><code>CP(a,b)</code> → <code>PRIMARY KEY (a,b)</code></li>
+    <li><code>C.Alt(x,y)</code> → <code>UNIQUE (x,y)</code></li>
+    <li><code>C.Aj(f) → T(k)</code> → <code>FOREIGN KEY (f) REFERENCES T(k)</code> (+ política de borrado/actualización)</li>
+    <li><code>VNN(c)</code> → <code>c ... NOT NULL</code></li>
+    <li><code>ASERCIÓN</code> → CHECKs complejos, vistas con <code>WITH CHECK OPTION</code> o disparadores (según motor)</li>
+  </ul>
+  <div class="callout warn">
+    <strong>Matiz (MySQL / SQL estándar).</strong> <code>UNIQUE</code> permite <em>varios NULL</em> por defecto.
+    Si necesitas que una <em>AK</em> sea “única y no nula”, combina <code>VNN</code> + <code>UNIQUE</code>.
+  </div>
+
+  <h3>2.3 Estilo y convenciones de nombres</h3>
+  <ul>
+    <li><strong>Tablas</strong> en mayúsculas y en <em>singular</em>: <code>CLIENTE</code>, <code>PEDIDO</code>.</li>
+    <li><strong>Columnas</strong> en <code>snake_case</code>: <code>cliente_id</code>, <code>fecha_alta</code>.</li>
+    <li><strong>FKs</strong> con sufijo <code>_id</code> y prefijo de la tabla referenciada: <code>cliente_id</code>.</li>
+    <li>En PK compuestas, <strong>orden estable</strong>: primero la PK del “lado 1”, después la clave parcial/atributo local.</li>
+  </ul>
+
+  <h3>2.4 Patrones exprés de mapeo (del E/R al marco)</h3>
+
+  <h4>2.4.1 1:N</h4>
+  <div class="frame"><pre>
+CLIENTE = id + nombre
+CP(id)
+
+PEDIDO = id + cliente_id + fecha
+CP(id)
+C.Aj(cliente_id) → CLIENTE(id)
+VNN(fecha)                <!-- si min(PEDIDO→CLIENTE)=1 entonces VNN(cliente_id); si min=0, puede ser NULL -->
+  </pre></div>
+
+  <h4>2.4.2 N:M (tabla de relación con atributos)</h4>
+  <div class="frame"><pre>
+PEDIDO     = id + fecha
+CP(id)
+
+PRODUCTO   = id + nombre + pvp
+CP(id)
+
+LINEA      = pedido_id + producto_id + unidades + precio_ud
+CP(pedido_id, producto_id)                 <!-- o PK surrogate + AKs si conviene -->
+C.Aj(pedido_id)  → PEDIDO(id)
+C.Aj(producto_id)→ PRODUCTO(id)
+VNN(unidades)     VNN(precio_ud)
+  </pre></div>
+
+  <h4>2.4.3 1:1 (evitar tabla intermedia)</h4>
+  <div class="frame"><pre>
+PERSONA    = id + nombre
+CP(id)
+
+PASAPORTE  = id + numero + persona_id
+CP(id)
+C.Alt(numero)
+C.Aj(persona_id) → PERSONA(id)
+VNN(persona_id)             <!-- si es 1:1 total; si es opcional, quitar VNN -->
+C.Alt(persona_id)           <!-- fuerza la unicidad del emparejamiento -->
+  </pre></div>
+
+  <h4>2.4.4 Atributo multivalorado (n teléfonos / cliente)</h4>
+  <div class="frame"><pre>
+CLIENTE  = id + nombre
+CP(id)
+
+TEL_CLI  = cliente_id + telefono
+CP(cliente_id, telefono)
+C.Aj(cliente_id) → CLIENTE(id)
+  </pre></div>
+
+  <h4>2.4.5 Entidad débil (PK fuerte + clave parcial)</h4>
+  <div class="frame"><pre>
+PEDIDO = id + fecha
+CP(id)
+
+LINEA  = pedido_id + pos + producto_id
+CP(pedido_id, pos)          <!-- pos = clave parcial -->
+C.Aj(pedido_id) → PEDIDO(id)
+C.Aj(producto_id) → PRODUCTO(id)
+  </pre></div>
+
+  <h4>2.4.6 Unaria (reflexiva, con roles)</h4>
+  <div class="frame"><pre>
+EMPLEADO = id + nombre + jefe_id
+CP(id)
+C.Aj(jefe_id) → EMPLEADO(id)    <!-- si min=1: VNN(jefe_id); si min=0: puede ser NULL -->
+  </pre></div>
+
+  <h4>2.4.7 ISA (generalización / especialización)</h4>
+  <div class="frame"><pre>
+PERSONA   = id + nombre
+CP(id)
+
+ALUMNO    = id + curso
+CP(id)
+C.Aj(id) → PERSONA(id)
+
+PROFESOR  = id + departamento
+CP(id)
+C.Aj(id) → PERSONA(id)
+
+/* Si la especialización es disyunta y total: */
+ASERCIÓN 1: PERSONA[id] ⊆ ALUMNO[id] ∪ PROFESOR[id]
+ASERCIÓN 2: ALUMNO[id] ∩ PROFESOR[id] = ∅
+  </pre></div>
+
+  <h4>2.4.8 Ternaria (reglas conjuntas)</h4>
+  <div class="frame"><pre>
+PROVEEDOR = id + nombre
+CP(id)
+PRODUCTO  = id + nombre
+CP(id)
+ALMACEN   = id + ciudad
+CP(id)
+
+SUMINISTRO = proveedor_id + producto_id + almacen_id + precio
+CP(proveedor_id, producto_id, almacen_id)
+C.Aj(proveedor_id) → PROVEEDOR(id)
+C.Aj(producto_id)  → PRODUCTO(id)
+C.Aj(almacen_id)   → ALMACEN(id)
+VNN(precio)
+  </pre></div>
+
+  <h3>2.5 Aserciones típicas (plantillas)</h3>
+  <ul>
+    <li><strong>Cobertura</strong> (participación total de B en R): <code>ASERCIÓN: B[b] ⊆ R[b]</code></li>
+    <li><strong>Disyunción</strong> (ISA excluyente): <code>ASERCIÓN: S1[k] ∩ S2[k] = ∅</code></li>
+    <li><strong>Totalidad</strong> (ISA total): <code>ASERCIÓN: S1[k] ∪ S2[k] ⊇ SUP[k]</code></li>
+  </ul>
+
+  <h3>2.6 Errores frecuentes</h3>
+  <ul>
+    <li>Poner <code>VNN</code> en una FK cuando el E/R indica <em>min=0</em> (debería admitir NULL).</li>
+    <li>Olvidar <code>C.Alt</code> para una clave natural relevante (luego aparecen duplicados de negocio).</li>
+    <li>Crear tabla de relación para un <strong>1:N</strong> (innecesaria salvo casos especiales).</li>
+    <li>No documentar la <strong>política</strong> de las FKs (RESTRICT/NO ACTION, CASCADE, SET NULL, SET DEFAULT).</li>
+  </ul>
+
+  <h3>2.7 Mini-ejercicios</h3>
+  <ol>
+    <li>Transforma el E/R <em>Cliente (1,N)–realiza–(1,1) Pedido</em> + <em>Pedido (1,N)–incluye–(1,N) Producto</em> al marco completo.</li>
+    <li>Haz que la participación de <em>Pedido</em> en <em>incluye</em> sea <em>total</em> y de <em>Producto</em> sea <em>opcional</em>. ¿Qué cambias (VNN/NULL)?</li>
+    <li>Introduce la AK natural de <em>Producto</em> (p. ej., <code>ean13</code>) y refleja la restricción en el marco.</li>
+  </ol>
+</section>
+
+  <section id="restricciones-sgbd">
+  <h2>3) Restricciones usadas por el SGBD</h2>
+  <p>
+    En el paso lógico nos apoyamos en las restricciones que ofrecen los SGBD para <em>hacer cumplir</em> lo decidido en el E/R:
+    <strong>entidad</strong> (claves), <strong>referencia</strong> (foráneas), <strong>dominio</strong> (tipos, rangos) y
+    <strong>reglas semánticas</strong> (aserciones/trigger). Aquí fijamos qué es <em>obligatorio</em>, qué es <em>único</em> y cómo
+    se comportan las referencias ante borrados y actualizaciones.
+  </p>
+
+  <h3>3.1 Clave primaria (CP)</h3>
+  <ul>
+    <li><strong>Definición:</strong> <em>única, mínima y no nula</em>. En SQL, la PK implica <code>UNIQUE</code> + <code>NOT NULL</code> sobre sus columnas.</li>
+    <li><strong>Compuestas:</strong> todas las columnas de la PK son no nulas; su <em>minimalidad</em> es de diseño (no la comprueba el motor).</li>
+    <li><strong>Elección:</strong> usa clave natural si es estable y sin ambigüedad; si no, una surrogate (y conserva la natural como <code>C.Alt</code>).</li>
+  </ul>
+
+  <div class="frame"><pre>
+CLIENTE = id + dni + nombre
+CP(id)
+C.Alt(dni)        <!-- preserva la clave natural como alternativa -->
+VNN(nombre)
+  </pre></div>
+
+  <h3>3.2 Claves alternativas (C.Alt)</h3>
+  <p>
+    Una <strong>clave alternativa</strong> (candidata no elegida como PK) se materializa con <code>UNIQUE</code>.
+    Hay dos prácticas habituales:
+  </p>
+  <ol>
+    <li><em>Única + mínima + no nula</em> (exigir dato siempre).</li>
+    <li><em>Única + mínima</em> permitiendo <code>NULL</code> (comportamiento por defecto en muchos SGBD: <code>UNIQUE</code> admite varios <code>NULL</code>).</li>
+  </ol>
+  <p>
+    En estos apuntes seguiremos la opción (2) por defecto: si quieres “<em>única y además obligatoria</em>”,
+    añade explícitamente <code>VNN(col)</code> junto con <code>C.Alt(col)</code>.
+  </p>
+
+  <div class="frame"><pre>
+PERSONA = id + nif + nombre
+CP(id)
+C.Alt(nif)        <!-- única -->
+VNN(nif)          <!-- ...y obligatoria -->
+  </pre></div>
+
+  <h3>3.3 Claves ajenas (C.Aj) e integridad referencial</h3>
+  <ul>
+    <li><strong>Referencia:</strong> <code>C.Aj(x) → T(k)</code> debe apuntar a una <em>PK</em> o a una <em>AK</em> (<code>UNIQUE</code>) de <code>T</code>.</li>
+    <li><strong>Tipos compatibles:</strong> mismo tipo/longitud/unsigned/charset/collation en ambas columnas (o compatible según el motor).</li>
+    <li><strong>Nulabilidad:</strong> mapea la participación mínima del E/R:
+      <ul>
+        <li><code>min=1</code> ⇒ <code>VNN(FK)</code> (obligatoria).</li>
+        <li><code>min=0</code> ⇒ FK <em>nullable</em> (opcional).</li>
+      </ul>
+    </li>
+    <li><strong>Política de borrado/actualización:</strong> define el comportamiento:
+      <code>RESTRICT/NO ACTION</code> (impide si hay dependientes),
+      <code>CASCADE</code> (propaga),
+      <code>SET NULL</code> (solo si la FK admite <code>NULL</code>).
+    </li>
+  </ul>
+
+  <div class="frame"><pre>
+PEDIDO = id + cliente_id + fecha
+CP(id)
+C.Aj(cliente_id) → CLIENTE(id)
+VNN(fecha)
+<!-- Si la relación Cliente–Pedido es 1:N con min(Pedido→Cliente)=1:
+     VNN(cliente_id) + ON DELETE RESTRICT / ON UPDATE CASCADE -->
+  </pre></div>
+
+  <h3>3.4 VNN (NOT NULL), DEFAULT y dominios</h3>
+  <ul>
+    <li><strong>VNN(col)</strong> marca atributo <em>obligatorio</em> (min=1). Sin VNN, el silencio implica “opcional”.</li>
+    <li><strong>DEFAULT:</strong> útil para valores por defecto; evita “abusar” de valores mágicos (0, “desconocido”) para simular <code>NULL</code>.</li>
+    <li><strong>Dominios:</strong> tipos adecuados y restricciones de rango/formato (edad ≥ 0, email válido, etc.).</li>
+  </ul>
+
+  <h3>3.5 CHECK y aserciones</h3>
+  <ul>
+    <li><strong>CHECK</strong> valida reglas de <em>columna/tabla</em> (ej.: <code>saldo >= 0</code>, <code>fecha_ini &lt;= fecha_fin</code>).</li>
+    <li><strong>ASERCIÓN</strong> documenta reglas <em>inter–tabla</em> (“cobertura”, disyunción/totalidad en ISA, etc.). Si el motor no las soporta, 
+        se implementan con <em>triggers</em> o lógica de aplicación.</li>
+  </ul>
+
+  <div class="frame"><pre>
+ASERCIÓN 1: B[b] ⊆ R[b]       <!-- toda instancia de B participa en R -->
+/* Implementable con trigger que impida INSERT/DELETE que rompan la cobertura */
+  </pre></div>
+
+  <h3>3.6 Decidir políticas de FK según el E/R</h3>
+  <div class="demo">
+    <table>
+      <thead>
+        <tr><th>Situación</th><th>Participación</th><th>FK</th><th>Acción recomendada</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1:N clásico (Pedido→Cliente)</td>
+          <td>min(N)=1</td>
+          <td>FK en N con <code>VNN</code></td>
+          <td><code>ON DELETE RESTRICT</code> (o SET NULL si min=0)</td>
+        </tr>
+        <tr>
+          <td>N:M (Línea→Pedido,Producto)</td>
+          <td>min=0 en ambos</td>
+          <td>FKs nullable o no según reglas</td>
+          <td><code>ON DELETE CASCADE</code> desde maestros a relación</td>
+        </tr>
+        <tr>
+          <td>1:1 total-total</td>
+          <td>min=1 en ambos</td>
+          <td>FK con <code>VNN</code> + <code>UNIQUE</code></td>
+          <td><code>RESTRICT</code> o <code>CASCADE</code> según semántica</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout warn">
+    <strong>Específicos MySQL (8.0+):</strong>
     <ul>
-      <li><strong>Fuertes</strong>: tienen identificador propio (p. ej., <code>DNI</code>, <code>ISBN</code>).</li>
-      <li><strong>Débiles</strong>: se identifican por dependencia de otra entidad + una <em>clave parcial</em>.</li>
+      <li><strong>FK</strong> solo con <em>InnoDB</em>; la tabla referenciada debe tener <em>PK o UNIQUE</em> sobre las columnas destino.</li>
+      <li><strong>UNIQUE</strong> permite varios <code>NULL</code> (en índices compuestos, cualquier fila con algún <code>NULL</code> no choca).</li>
+      <li><strong>CHECK</strong> se <em>aplica</em> a partir de 8.0.16 (antes se ignoraba). Úsalo para dominios.</li>
+      <li><strong>SET DEFAULT</strong> en FKs no está implementado (usa <code>SET NULL</code> o <em>triggers</em>).</li>
+      <li><strong>DEFERRABLE</strong> (posponer chequeos) no existe: las restricciones se validan de inmediato.</li>
+      <li><strong>Tipos/charset/collation</strong> deben ser compatibles en FK y referenciada (especialmente en <code>VARCHAR</code> y <code>CHAR</code>).</li>
     </ul>
-    <div class="media-box">
-      <!-- TODO: insertar imagen entidad fuerte vs débil -->
-      <div class="media-caption">[Imagen] Entidad fuerte vs. entidad débil.</div>
-    </div>
+  </div>
 
-    <h3 id="atributos">2.2 Atributos</h3>
-    <p>
-      Propiedades de entidades o relaciones. Clasificación útil:
-    </p>
+  <h3>3.7 Mini–guía de mapeo (E/R → restricciones)</h3>
+  <ul>
+    <li><em>min=1</em> ⇒ <code>VNN(FK)</code>. <em>min=0</em> ⇒ FK nullable.</li>
+    <li><em>máx=1</em> en el lado referenciado ⇒ <code>UNIQUE</code> (si no es PK) para imponer 1:1.</li>
+    <li>1:N ⇒ FK en el lado N; N:M ⇒ tabla de relación con PK compuesta (y atributos si los hay).</li>
+    <li>Débil ⇒ PK = PK(fuerte) + clave parcial; FK hacia la fuerte con <code>VNN</code>.</li>
+    <li>ISA disyunta/total ⇒ documenta como <em>ASERCIÓN</em> (y aplica con checks/triggers si el motor lo permite).</li>
+  </ul>
+</section>
+
+
+ <section id="mapeo-entidades">
+  <h2>4) Mapeo de entidades y atributos</h2>
+  <p>
+    Partimos del <strong>E/R</strong> y, para cada caso, mostramos: (a) el diagrama conceptual de partida y (b) el <em>marco</em> (notación lógica)
+    resultante. Primero tratamos casos <strong>sin restricción de existencialidad</strong> (participación mínima 0 donde aplique) y después
+    los mismos patrones <strong>con restricción</strong> (min=1), indicando qué cambia (nulabilidad <code>VNN</code>, <code>UNIQUE</code>, aserciones).
+  </p>
+
+  <!-- ===================================================== -->
+  <!-- 4.1 Sin restricción de existencialidad                 -->
+  <!-- ===================================================== -->
+  <h3 id="sin-existencialidad">4.1 Sin restricción de existencialidad</h3>
+
+  <h4 id="binaria-1n-sin">4.1.1 Relación binaria 1:N (opcional en N)</h4>
+  <figure class="media-box">
+    <img src="img/er_binaria_cliente_pedido_opcional.png" alt="Cliente — (1,1) — realiza — (0,N) — Pedido" />
+    <figcaption class="media-caption">
+      <strong>Lectura (convención de clase):</strong> <em>Cliente — (1,1) — realiza — (0,N) — Pedido</em>.
+      Mapeo 1:N colocando la PK del lado 1 como FK en el lado N; como la participación en N es opcional (min=0),
+      la FK <em>puede</em> ser NULL.
+    </figcaption>
+  </figure>
+
+ <p class="explain">
+  Como ves en el E/R, <em>Cliente — (1,1) — realiza — (0,N) — Pedido</em> indica que cada pedido pertenece a
+  exactamente un cliente y que un cliente puede tener ninguno o muchos pedidos. Para llevarlo a lógico sigo
+  siempre el mismo ritual: (1) la entidad del lado <strong>1</strong> (<em>Cliente</em>) conserva su PK tal cual; (2) la entidad del lado
+  <strong>N</strong> (<em>Pedido</em>) recibe la PK del lado 1 como <strong>FK</strong> (<code>cliente_id</code>); (3) decido la <strong>nulabilidad</strong> de la FK en función
+  del mínimo: aquí es <code>min=0</code> en <em>Pedido</em>, así que la FK <em>puede</em> ser <code>NULL</code>; (4) todos los atributos que no sean claves van como
+  columnas normales y, si son obligatorios, marco <code>VNN</code>. Resultado: una FK en <em>PEDIDO</em> que permite <code>NULL</code> y preserva la lectura del E/R.
+</p>
+
+  <div class="frame"><pre>
+CLIENTE = id + dni + nombre
+CP(id)
+C.Alt(dni)
+
+PEDIDO  = id + cliente_id + fecha
+CP(id)
+C.Aj(cliente_id) → CLIENTE(id)   <!-- min=0 ⇒ FK puede ser NULL -->
+VNN(fecha)
+  </pre></div>
+
+  <h4 id="reflexiva-sin">4.1.2 Relación unaria (reflexiva) 1:N (opcional)</h4>
+  <figure class="media-box">
+    <img src="img/er_reflexiva_supervisa_opcional.png" alt="Empleado —supervisa→ Empleado con roles y (0,1)/(0,N)" />
+    <figcaption class="media-caption">
+      <strong>Roles:</strong> supervisor (0,1), subordinado (0,N).
+      Sin existencialidad: un empleado puede no tener jefe y un jefe puede no tener subordinados.
+    </figcaption>
+  </figure>
+<p class="explain">
+  En una reflexiva trato a la entidad como si fuese dos roles de la misma tabla. La relación <em>Empleado —supervisa→ Empleado</em>
+  con <em>supervisor (0,1)</em> y <em>subordinado (0,N)</em> se mapea añadiendo una <strong>FK auto-referenciada</strong> en <em>EMPLEADO</em> (<code>jefe_dni</code> → <code>dni</code>).
+  La clave está en la <strong>participación mínima</strong>: si un empleado puede no tener jefe (<code>min=0</code>), esa FK se deja <em>nullable</em>. No creo tabla de
+  relación intermedia porque el patrón es 1:N; solo documentaría una tabla aparte si surgieran atributos propios de la relación y
+  esta se comportara como N:M.
+</p>
+
+  <div class="frame"><pre>
+EMPLEADO = dni + nombre + jefe_dni
+CP(dni)
+C.Aj(jefe_dni) → EMPLEADO(dni)   <!-- min=0 ⇒ jefe_dni puede ser NULL -->
+  </pre></div>
+
+  <h4 id="ternaria-sin">4.1.3 Relación ternaria (opcional en los tres extremos)</h4>
+  <figure class="media-box">
+    <img src="img/er_ternaria_suministra_opcional.png" alt="Proveedor —suministra— Producto — Almacén con (0,N) en cada extremo" />
+    <figcaption class="media-caption">
+      <strong>Proveedor — (0,N) — suministra — (0,N) — Producto — (0,N) — Almacén.</strong>
+      La relación tiene atributo <em>precio</em>. Se traduce a una tabla con tres FKs; sin existencialidad, ninguna es VNN por obligación.
+    </figcaption>
+  </figure>
+<p class="explain">
+  Las ternarias se traducen casi siempre a una <strong>tabla de relación</strong> cuya PK compuesta incluye las tres FKs (o, según la semántica,
+  dos de ellas más una <code>AK</code>). Procedo así: (1) creo la tabla <em>SUMINISTRO</em>; (2) defino las tres FKs hacia <em>PROVEEDOR</em>, <em>PRODUCTO</em> y
+  <em>ALMACEN</em>; (3) añado la PK compuesta en el orden que mejor exprese la unicidad del hecho de negocio; (4) coloco los
+  <strong>atributos de la relación</strong> (p. ej., <code>precio</code>) aquí. Si en el E/R ningún extremo tiene <code>min=1</code>, ninguna FK es <code>VNN</code> por obligación.
+</p>
+
+  <div class="frame"><pre>
+PROVEEDOR = id + nombre
+CP(id)
+
+PRODUCTO  = id + nombre
+CP(id)
+
+ALMACEN   = id + ciudad
+CP(id)
+
+SUMINISTRO = proveedor_id + producto_id + almacen_id + precio
+CP(proveedor_id, producto_id, almacen_id)
+C.Aj(proveedor_id) → PROVEEDOR(id)
+C.Aj(producto_id)  → PRODUCTO(id)
+C.Aj(almacen_id)   → ALMACEN(id)
+VNN(precio)
+  </pre></div>
+
+  <h4 id="isa-sin">4.1.4 Generalización/Especialización (ISA) — parcial y disyunta</h4>
+  <figure class="media-box">
+    <img src="img/er_isa_parcial_disyunta.png" alt="ISA parcial disyunta: PERSONA → ALUMNO | PROFESOR" />
+    <figcaption class="media-caption">
+      <strong>ISA parcial disyunta:</strong> no todas las personas son alumno o profesor; nadie puede ser ambos a la vez.
+      En el mapeo básico: tabla para <em>PERSONA</em> y tablas para subtipos con FK a la super (sin exigir cobertura).
+    </figcaption>
+  </figure>
+
+<p class="explain">
+  En una ISA parcial disyunta (<em>PERSONA</em> → <em>ALUMNO</em> | <em>PROFESOR</em>), no todas las personas pertenecen a un subtipo y, además,
+  nadie puede estar en ambos. El mapeo más claro para el alumnado es: una tabla para el supertipo con su PK
+  y una tabla por subtipo con una <strong>FK a la PK del supertipo</strong> (que a su vez es su PK). Como la especialización es <em>parcial</em>,
+  no fuerzo cobertura con aserciones; la <em>disyunción</em> puedo documentarla como restricción conceptual o, si se desea implementar,
+  con aserciones/triggers más adelante.
+</p>
+
+  <div class="frame"><pre>
+PERSONA  = id + nombre
+CP(id)
+
+ALUMNO   = id + curso
+CP(id)
+C.Aj(id) → PERSONA(id)
+
+PROFESOR = id + departamento
+CP(id)
+C.Aj(id) → PERSONA(id)
+
+/* Disyunción (opcional documentarla como aserción informativa):
+   ASERCIÓN: ALUMNO[id] ∩ PROFESOR[id] = ∅  */
+  </pre></div>
+
+  <!-- ===================================================== -->
+  <!-- 4.2 Con restricción de existencialidad                 -->
+  <!-- ===================================================== -->
+  <h3 id="con-existencialidad">4.2 Con restricción de existencialidad</h3>
+
+  <h4 id="binaria-1n-con">4.2.1 Binaria 1:N con participación total en N</h4>
+  <figure class="media-box">
+    <img src="img/er_binaria_cliente_pedido_totalN.png" alt="Cliente — (1,1) — realiza — (1,N) — Pedido" />
+    <figcaption class="media-caption">
+      <strong>Cliente — (1,1) — realiza — (1,N) — Pedido.</strong>
+      Cada <em>Pedido</em> debe pertenecer a exactamente un <em>Cliente</em> (min=1 en N), por tanto la FK será <code>VNN</code>.
+    </figcaption>
+  </figure>
+
+<p class="explain">
+  Aquí la lectura cambia el mínimo del lado N: <em>Cliente — (1,1) — realiza — (1,N) — Pedido</em>. El procedimiento es el mismo que en 4.1.1,
+  salvo un detalle decisivo: la FK <strong>debe ser NOT NULL</strong> porque el mínimo es 1; por tanto marco <code>VNN(cliente_id)</code>. Además, si el modelo
+  exige que no se puedan borrar clientes con pedidos, elijo <code>ON DELETE RESTRICT</code>; si se permite, podría ser <code>CASCADE</code> (con cautela).
+</p>
+
+  <div class="frame"><pre>
+CLIENTE = id + dni + nombre
+CP(id)
+
+PEDIDO  = id + cliente_id + fecha
+CP(id)
+C.Aj(cliente_id) → CLIENTE(id)
+VNN(cliente_id)                       <!-- min=1 en N -->
+VNN(fecha)
+-- Política recomendada:
+-- ON DELETE RESTRICT (o SET NULL si cambias la participación a min=0)
+  </pre></div>
+
+  <h4 id="reflexiva-con">4.2.2 Reflexiva con participación total del subordinado</h4>
+  <figure class="media-box">
+    <img src="img/er_reflexiva_supervisa_total_supervisor.png" alt="Empleado —supervisa— Empleado con supervisor (1,1) y subordinado (1,N)" />
+    <figcaption class="media-caption">
+      <strong>supervisor (1,1) / subordinado (1,N):</strong> toda persona empleada debe tener un supervisor (min=1).
+      Traducción: <code>VNN(jefe_dni)</code>. El lado de “tiene subordinados” puede seguir siendo opcional (0..N).
+    </figcaption>
+  </figure>
+
+<p class="explain">
+  Si toda persona empleada <em>debe</em> tener un supervisor (<code>min=1</code> en el rol subordinado), la FK auto-referenciada <code>jefe_dni</code>
+  pasa a ser <strong>obligatoria</strong> (<code>VNN</code>). La lectura práctica para la clase es: “no existe empleado sin jefe registrado”. El lado
+  de supervisor conserva su máximo N y puede tener cero subordinados; no necesito tabla aparte, basta con la FK obligatoria.
+</p>
+
+  <div class="frame"><pre>
+EMPLEADO = dni + nombre + jefe_dni
+CP(dni)
+C.Aj(jefe_dni) → EMPLEADO(dni)
+VNN(jefe_dni)                         <!-- participación total -->
+  </pre></div>
+
+  <h4 id="ternaria-con">4.2.3 Ternaria con participación total en un extremo</h4>
+  <figure class="media-box">
+    <img src="img/er_ternaria_suministra_total_producto.png" alt="Suministro con (1,N) en Producto y (0,N) en los otros extremos" />
+    <figcaption class="media-caption">
+      <strong>Total en Producto:</strong> cada <em>Producto</em> debe aparecer en algún <em>Suministro</em> (min=1).
+      Esto suele requerir, además de <code>VNN</code> en las FKs, una <strong>ASERCIÓN de cobertura</strong> si se exige
+      que <em>todos</em> los productos estén relacionados.
+    </figcaption>
+  </figure>
+<p class="explain">
+  Cuando un extremo de la ternaria es total, por ejemplo “todo <em>Producto</em> participa en algún <em>Suministro</em>”, reflejo dos cosas:
+  (1) en la tabla de relación todas las FKs que deban ser obligatorias llevan <code>VNN</code>, y (2) si necesito garantizar la <strong>cobertura</strong>
+  del conjunto (que no quede ningún producto sin relacionar), añado una <strong>ASERCIÓN</strong> del tipo <code>PRODUCTO[id] ⊆ SUMINISTRO[producto_id]</code>.
+  La PK y los posibles <code>UNIQUE</code> se eligen en función de la unicidad del hecho (¿puede haber varios suministros del mismo producto y proveedor
+  en almacenes distintos? ¿con distinta fecha?).
+</p>
+
+  <div class="frame"><pre>
+SUMINISTRO = proveedor_id + producto_id + almacen_id + precio
+CP(proveedor_id, producto_id, almacen_id)
+C.Aj(proveedor_id) → PROVEEDOR(id)
+C.Aj(producto_id)  → PRODUCTO(id)
+C.Aj(almacen_id)   → ALMACEN(id)
+VNN(proveedor_id)  VNN(producto_id)  VNN(almacen_id)  VNN(precio)
+
+ASERCIÓN 1: PRODUCTO[id] ⊆ SUMINISTRO[producto_id]
+  </pre></div>
+
+  <h4 id="isa-con">4.2.4 ISA total disyunta</h4>
+  <figure class="media-box">
+    <img src="img/er_isa_total_disyunta.png" alt="ISA total disyunta PERSONA = ALUMNO ∪ PROFESOR" />
+    <figcaption class="media-caption">
+      <strong>Total y disyunta:</strong> toda <em>PERSONA</em> es <em>ALUMNO</em> o <em>PROFESOR</em> (cobertura) y no ambas (disyunción).
+      Se documenta con aserciones (o lógica de aplicación).
+    </figcaption>
+  </figure>
+
+<p class="explain">
+  En la ISA total disyunta imponemos dos ideas: <strong>cobertura</strong> (toda <em>PERSONA</em> está en algún subtipo) y <strong>exclusión</strong>
+  (no puede estar en varios). En lógico lo documento con aserciones: <code>PERSONA[id] ⊆ ALUMNO[id] ∪ PROFESOR[id]</code> y
+  <code>ALUMNO[id] ∩ PROFESOR[id] = ∅</code>. Si el SGBD no soporta aserciones, explico al alumnado que esto se implementará con
+  <em>checks</em>, vistas con <code>WITH CHECK OPTION</code> o disparadores, pero a nivel lógico basta con dejarlo claramente especificado.
+</p>
+
+  <div class="frame"><pre>
+ASERCIÓN 1: PERSONA[id] ⊆ ALUMNO[id] ∪ PROFESOR[id]
+ASERCIÓN 2: ALUMNO[id] ∩ PROFESOR[id] = ∅
+  </pre></div>
+
+  <div class="callout tip">
+    <strong>Regla puente.</strong> Del E/R al marco: <em>min=1 → VNN(FK)</em>, <em>min=0 → FK nullable</em>.
+    Para imponer 1:1, añade <code>UNIQUE</code> sobre la FK (si no es PK). Para “cobertura” global usa <strong>ASERCIÓN</strong>.
+  </div>
+</section>
+
+<section id="paso-a-paso">
+  <h2>4.3) Repaso: del E/R al modelo lógico</h2>
+
+  <div class="callout tip">
+    <strong>Idea fuerza:</strong> lee <em>(min,max)</em>, decide <strong>dónde va la FK</strong>, fija <strong>nulabilidad (VNN/NULL)</strong>,
+    define <strong>PK/AK</strong>, añade <strong>políticas de FK</strong> y, si hace falta, <strong>aserciones</strong>. Luego revisa normalización.
+  </div>
+
+  <h3>Guía rápida (en 8 pasos)</h3>
+  <ol>
+    <li><strong>Leer el E/R completo</strong>: aridad (binaria/unaria/ternaria), roles, <em>(min,max)</em> en cada extremo, atributos de la relación y si hay entidad débil o multivalorados.</li>
+    <li><strong>Elegir dónde va la FK</strong>:
+      <ul>
+        <li><strong>1:N</strong>: la FK va en el lado <strong>N</strong>.</li>
+        <li><strong>1:1</strong>: coloca una FK en uno de los lados; si el lado no-PK debe ser único, añade <code>UNIQUE</code>.</li>
+        <li><strong>N:M</strong>: crea <strong>tabla de relación</strong> con FKs a ambos lados (y atributos de la relación, si existen).</li>
+        <li><strong>Unaria (reflexiva)</strong>: FK auto-referenciada en la propia tabla (p. ej., <code>jefe_id → EMPLEADO(id)</code>).</li>
+        <li><strong>Ternaria</strong>: crea <strong>tabla de relación</strong> con tres FKs (ajusta PK/AK según la semántica).</li>
+        <li><strong>Débil</strong>: la PK de la débil = PK de la fuerte + <em>clave parcial</em>; relación identificadora no genera tabla aparte.</li>
+        <li><strong>Multivalorado</strong>: crea tabla propia (<code>BASE + atributo</code>) con FK a la entidad base; PK compuesta.</li>
+        <li><strong>ISA</strong>: supertipo con su PK; cada subtipo = tabla con FK (y PK) al supertipo; documenta disyunción/totalidad.</li>
+      </ul>
+    </li>
+    <li><strong>Fijar nulabilidad</strong> desde los mínimos del E/R:
+      <ul>
+        <li><code>min = 1</code> ⇒ la FK es <strong>obligatoria</strong> → <code>VNN(FK)</code>.</li>
+        <li><code>min = 0</code> ⇒ la FK <strong>admite NULL</strong>.</li>
+        <li>Para <strong>1:1</strong>, si un lado tiene <code>max = 1</code> y no es PK, añade <code>UNIQUE</code> a su FK.</li>
+      </ul>
+    </li>
+    <li><strong>Definir claves</strong>:
+      <ul>
+        <li><strong>PK</strong> en cada tabla (compuesta si procede: relación N:M, débil, multivalorado).</li>
+        <li><strong>AK (Candidatas)</strong> con <code>C.Alt(...)</code> (en SQL: <code>UNIQUE</code>); si deben ser obligatorias, añade <code>VNN</code>.</li>
+        <li>Preserva la clave natural estable como <code>C.Alt</code> si usas surrogate (<code>id</code>).</li>
+      </ul>
+    </li>
+    <li><strong>Política de integridad referencial</strong> para cada FK:
+      <ul>
+        <li><code>ON DELETE RESTRICT/NO ACTION</code> si no quieres huérfanos.</li>
+        <li><code>ON DELETE CASCADE</code> si borrar el padre debe borrar dependientes (típico en tablas de relación).</li>
+        <li><code>ON DELETE SET NULL</code> solo si la FK es nullable (mínimo 0).</li>
+        <li><code>ON UPDATE CASCADE</code> suele ser razonable si cambian claves naturales.</li>
+      </ul>
+    </li>
+    <li><strong>Trasladar atributos</strong>:
+      <ul>
+        <li>Atributos simples → columnas; compuestos → varias columnas; <em>derivados</em> no se almacenan.</li>
+        <li>Atributos de la <strong>relación</strong> (p. ej., <em>precio</em> en N:M o ternaria) van en la <strong>tabla de relación</strong>.</li>
+      </ul>
+    </li>
+    <li><strong>Normalización express</strong>:
+      <ul>
+        <li><strong>1NF</strong>: sin multivalorados ni grupos repetitivos en la misma tabla.</li>
+        <li><strong>2NF</strong>: en PK compuesta, evita dependencias parciales.</li>
+        <li><strong>3NF/BCNF</strong>: elimina dependencias transitivas de no-clave sobre la clave.</li>
+      </ul>
+    </li>
+    <li><strong>Verificaciones finales</strong>:
+      <ul>
+        <li>Tipos y longitudes compatibles en FKs (incluye charset/collation si aplica).</li>
+        <li>Indexa PK, AK y FKs (<em>rendimiento</em>).</li>
+        <li>Nombres consistentes (<code>snake_case</code>, sufijo <code>_id</code> para FKs).</li>
+        <li>Documenta <strong>ASERCIÓN</strong> si necesitas cobertura/disyunción/totalidad.</li>
+      </ul>
+    </li>
+  </ol>
+
+  <h3>Tabla de decisión (resumen)</h3>
+  <div class="demo">
+    <table>
+      <thead>
+        <tr>
+          <th>Patrón E/R</th>
+          <th>FK / Tabla</th>
+          <th>PK</th>
+          <th>Nulabilidad</th>
+          <th>Extras</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1:N</td>
+          <td>FK en lado N</td>
+          <td>PK propias; N hereda FK</td>
+          <td>min(N)=1 ⇒ VNN(FK); min=0 ⇒ NULL</td>
+          <td>RESTRICT/SET NULL según reglas</td>
+        </tr>
+        <tr>
+          <td>1:1</td>
+          <td>FK en uno de los lados</td>
+          <td>PK propias</td>
+          <td>min=1 ⇒ VNN(FK)</td>
+          <td>Si no es PK, <strong>UNIQUE</strong> en la FK</td>
+        </tr>
+        <tr>
+          <td>N:M</td>
+          <td><strong>Tabla de relación</strong></td>
+          <td>PK = (FKs) o surrogate + AKs</td>
+          <td>Normalmente VNN en FKs</td>
+          <td>Atributos de relación aquí; suele ir CASCADE</td>
+        </tr>
+        <tr>
+          <td>Unaria 1:N</td>
+          <td>FK auto-referenciada</td>
+          <td>PK propia</td>
+          <td>min=1 ⇒ VNN(FK); min=0 ⇒ NULL</td>
+          <td>Roles claros (supervisor/subordinado)</td>
+        </tr>
+        <tr>
+          <td>Ternaria</td>
+          <td><strong>Tabla de relación</strong></td>
+          <td>PK compuesta (2 o 3 FKs)</td>
+          <td>Según mínimos de cada extremo</td>
+          <td>Posibles <strong>ASERCIÓN</strong> de cobertura</td>
+        </tr>
+        <tr>
+          <td>Débil</td>
+          <td>Sin tabla para la relación identificadora</td>
+          <td>PK = PK(fuerte)+parcial</td>
+          <td>FK a fuerte <strong>VNN</strong></td>
+          <td>Relación identificadora implícita</td>
+        </tr>
+        <tr>
+          <td>Multivalorado</td>
+          <td><strong>Nueva tabla</strong> (BASE+atrib)</td>
+          <td>PK = PK(base)+atributo</td>
+          <td>FK a base VNN</td>
+          <td>Evita listas en una sola columna</td>
+        </tr>
+        <tr>
+          <td>ISA</td>
+          <td>Subtipo con FK→super</td>
+          <td>PK subtipo = PK super</td>
+          <td>Según totalidad</td>
+          <td>Disyunción/Totalidad como <strong>ASERCIÓN</strong></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Plantilla de traducción (marco → SQL)</h3>
+  <div class="frame"><pre>
+T = c1 + c2 + ... + fk_x + ...
+CP(c1, ...)
+C.Alt(ak1, ...)
+C.Aj(fk_x) → OTRA_TABLA(k)
+VNN(c_obligatoria)
+
+-- SQL (esqueleto)
+CREATE TABLE T (
+  c1           ...,
+  c2           ...,
+  fk_x         ... [NOT NULL],    -- si min=1
+  ...,
+  CONSTRAINT pk_T PRIMARY KEY (c1, ...),
+  CONSTRAINT ak_T UNIQUE (ak1, ...),
+  CONSTRAINT fk_T_x FOREIGN KEY (fk_x) REFERENCES OTRA_TABLA(k)
+    ON DELETE RESTRICT | SET NULL | CASCADE
+    ON UPDATE CASCADE
+);
+  </pre></div>
+
+  <h3>Checklist relámpago</h3>
+  <ul>
+    <li>¿Cada tabla tiene <strong>PK</strong> correcta (y mínima)?</li>
+    <li>¿Las <strong>FK</strong> están en el lado adecuado y su <strong>VNN/NULL</strong> coincide con <em>min</em>?</li>
+    <li>¿Hay <strong>UNIQUE</strong> cuando <em>max=1</em> lo exige (1:1)?</li>
+    <li>¿Atributos de la relación se han puesto en la <strong>tabla de relación</strong>?</li>
+    <li>¿Necesitas <strong>ASERCIÓN</strong> de cobertura/disyunción/totalidad?</li>
+    <li>¿3NF/BCNF y sin pérdida? ¿Índices en PK/AK/FK?</li>
+  </ul>
+</section>
+
+
+   <section id="integridad-logica">
+  <h2>5) Integridad lógica y políticas</h2>
+  <p>
+    Además de <strong>CP/PK</strong>, <strong>C.Alt/AK</strong>, <strong>C.Aj/FK</strong> y <strong>VNN</strong>, debemos documentar las
+    <strong>políticas de integridad referencial</strong> que gobiernan el comportamiento ante <em>borrados</em> y
+    <em>actualizaciones</em> de claves en las tablas referenciadas. Estas políticas deben ser coherentes con las
+    <strong>participaciones</strong> del E/R: los <em>mínimos</em> (<code>min=0</code> / <code>min=1</code>) y, cuando aplique, las
+    restricciones globales (cobertura, disyunción/totalidad).
+  </p>
+
+  <div class="callout tip">
+    <strong>Resumen rápido.</strong>
     <ul>
-      <li><strong>Simples</strong> vs. <strong>compuestos</strong> (p. ej., <em>dirección</em> → calle, número, CP).</li>
-      <li><strong>Monovalorados</strong> vs. <strong>multivalorados</strong> (p. ej., varios <em>teléfonos</em>).</li>
-      <li><strong>Derivados</strong> (p. ej., <em>edad</em> desde <em>fecha_nacimiento</em>).</li>
-      <li><strong>Clave</strong> (identificadores candidatos / primario) y <strong>alternativas</strong>.</li>
+      <li><strong>RESTRICT / NO ACTION</strong>: impide borrar si hay dependientes.</li>
+      <li><strong>CASCADE</strong>: propaga el borrado/actualización a dependientes.</li>
+      <li><strong>SET NULL</strong>: pone la FK a <code>NULL</code> (solo si la FK es <em>nullable</em>, es decir, <code>min=0</code>).</li>
+      <li><strong>SET DEFAULT</strong>: asigna un valor por defecto (depende del motor; en MySQL no está soportado).</li>
     </ul>
-    <div class="media-box">
-      <!-- TODO: insertar imagen atributos simples/compuestos/multivaluados/derivados -->
-      <div class="media-caption">[Imagen] Tipos de atributos y su notación E/R.</div>
-    </div>
+  </div>
 
-    <h3 id="relaciones">2.3 Relaciones y grado</h3>
-    <p>
-      Una <strong>relación</strong> asocia entidades. El <em>grado</em> indica cuántas entidades participan:
-      <em>binaria</em> (lo más habitual), <em>ternaria</em> o <em>n-aria</em>. Cuidado: una ternaria <em>no</em> equivale a tres binarias.
-    </p>
-    <ul>
-      <li><strong>Identificadoras</strong>: su FK pasa a formar parte de la PK de la entidad débil.</li>
-      <li><strong>No identificadoras</strong>: relacionan sin intervenir en la PK.</li>
-      <li><strong>Reflexivas</strong>: la entidad se relaciona consigo misma (<em>Empleado supervisa Empleado</em>).</li>
-    </ul>
-    <div class="media-box">
-      <!-- TODO: binaria/ternaria/reflexiva -->
-      <div class="media-caption">[Imagen] Relación binaria, ternaria y reflexiva.</div>
-    </div>
+  <h3 id="politicas-eleccion">5.1 ¿Cómo elijo la política según el E/R?</h3>
+  <div class="demo">
+    <table>
+      <thead>
+        <tr>
+          <th>Patrón E/R</th>
+          <th>Min/Máx relevantes</th>
+          <th>FK (nulabilidad)</th>
+          <th>Política sugerida (DELETE)</th>
+          <th>Notas</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1:N (Pedido→Cliente)</td>
+          <td>min(N)=1</td>
+          <td><strong>VNN</strong> (obligatoria)</td>
+          <td><strong>RESTRICT</strong></td>
+          <td>Un Pedido no puede quedar huérfano; primero reasigna o borra el pedido.</td>
+        </tr>
+        <tr>
+          <td>1:N (Pedido→Cliente)</td>
+          <td>min(N)=0</td>
+          <td>nullable</td>
+          <td><strong>SET NULL</strong> o RESTRICT</td>
+          <td>Si permites “pedido sin cliente”, usa SET NULL; si no, RESTRICT.</td>
+        </tr>
+        <tr>
+          <td>N:M (Línea entre Pedido y Producto)</td>
+          <td>min=0 en ambos</td>
+          <td>FKs <strong>VNN</strong> en la relación</td>
+          <td><strong>CASCADE</strong> desde maestros a la relación</td>
+          <td>Al borrar un Pedido, borra sus Líneas; nunca al revés.</td>
+        </tr>
+        <tr>
+          <td>1:1 (Persona—Pasaporte)</td>
+          <td>máx=1 en ambos</td>
+          <td>FK + <strong>UNIQUE</strong></td>
+          <td>RESTRICT o CASCADE</td>
+          <td>Evita SET NULL si la relación es total en ambos lados.</td>
+        </tr>
+        <tr>
+          <td>Débil (Línea depende de Pedido)</td>
+          <td>participación total</td>
+          <td>FK <strong>VNN</strong></td>
+          <td><strong>CASCADE</strong> (fuerte→débil)</td>
+          <td>Una débil no vive sin su fuerte; borrar el fuerte elimina las débiles.</td>
+        </tr>
+        <tr>
+          <td>Unaria (Empleado—jefe)</td>
+          <td>min(subordinado)=0</td>
+          <td>FK nullable</td>
+          <td><strong>SET NULL</strong> en baja del jefe</td>
+          <td>Si borras al jefe, subordinados quedan sin jefe (si el modelo lo permite).</td>
+        </tr>
+        <tr>
+          <td>Unaria (Empleado—jefe)</td>
+          <td>min(subordinado)=1</td>
+          <td>FK <strong>VNN</strong></td>
+          <td><strong>RESTRICT</strong></td>
+          <td>Antes de borrar al jefe, reasigna subordinados (o usa lógica de aplicación).</td>
+        </tr>
+        <tr>
+          <td>Ternaria (Suministro)</td>
+          <td>según extremos</td>
+          <td>FKs VNN/nullable según min</td>
+          <td><strong>CASCADE</strong> a la tabla de relación</td>
+          <td>La cobertura (<em>todos los productos aparecen</em>) se expresa con ASERCIÓN.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-    <h3 id="cardinalidad">2.4 Cardinalidad (min,max) y participación</h3>
-    <p>
-      Expresamos las restricciones de asociación con pares <code>(min, max)</code>. Ejemplos:
-    </p>
-    <ul>
-      <li><strong>1:1</strong> → (0,1)-(0,1) o (1,1)-(1,1).</li>
-      <li><strong>1:N</strong> → (1,1) en el lado 1 y (0,N) o (1,N) en el lado N.</li>
-      <li><strong>N:M</strong> → (0,N)-(0,N) (o variantes con mínimos 1).</li>
-    </ul>
-    <p>
-      La <strong>participación</strong> puede ser <em>total</em> (mínimo 1) o <em>parcial</em> (mínimo 0). Esta decisión
-      influye en la ubicación de FKs y en las reglas de transformación.
-    </p>
-    <div class="media-box">
-      <!-- TODO: notación (min,max) y notación crow's foot -->
-      <div class="media-caption">[Imagen] Notación (min,max) y equivalencias en “crow’s foot”.</div>
-    </div>
+  <h3 id="on-update">5.2 ¿Y con <code>ON UPDATE</code>?</h3>
+  <p>
+    <strong>ON UPDATE CASCADE</strong> tiene sentido si tus claves naturales pueden cambiar (p. ej., <code>dni</code>, <code>isbn</code>).
+    Si usas surrogate (<code>id</code> autoincremental) como PK y las FKs apuntan a ella, lo normal es <strong>RESTRICT</strong> (porque esa PK no se actualiza).
+  </p>
 
-    <h3 id="debil">2.5 Entidades débiles e identificadoras</h3>
-    <p>
-      Las <strong>entidades débiles</strong> dependen de una fuerte a través de una <em>relación identificadora</em>. Su PK
-      incluye la PK de la fuerte + clave parcial. Su participación en la relación identificadora suele ser total.
-    </p>
-    <div class="media-box">
-      <!-- TODO: entidad débil + relación identificadora -->
-      <div class="media-caption">[Imagen] Transformación de entidad débil.</div>
-    </div>
+  <h3 id="plantillas">5.3 Plantillas (marco → SQL)</h3>
+  <h4>5.3.1 1:N con min(N)=1 (FK obligatoria)</h4>
+  <div class="frame"><pre>
+CLIENTE = id + nombre
+CP(id)
 
-    <h3 id="isa">2.6 Jerarquías ISA (especialización/generalización)</h3>
-    <p>
-      Modelan subtipos de una superentidad (p. ej., <em>Empleado</em> → <em>Médico</em>, <em>Enfermero</em>). Declaramos:
-    </p>
-    <ul>
-      <li><strong>Disyunta</strong> (excluyente) vs. <strong>solapada</strong> (un objeto puede pertenecer a varios subtipos).</li>
-      <li><strong>Total</strong> (todo objeto es algún subtipo) vs. <strong>parcial</strong>.</li>
-    </ul>
-    <div class="callout info">
-      <strong>Decisiones de modelado.</strong> Elegir disyunta/solapada y total/parcial condiciona la transformación al relacional.
-    </div>
-    <div class="media-box">
-      <!-- TODO: diagrama ISA con disyunta/solapada y total/parcial -->
-      <div class="media-caption">[Imagen] Ejemplos de ISA disyunta/solapada; total/parcial.</div>
-    </div>
+PEDIDO  = id + cliente_id + fecha
+CP(id)
+C.Aj(cliente_id) → CLIENTE(id)
+VNN(cliente_id)  VNN(fecha)
+  </pre></div>
+  <div class="frame"><pre>
+-- SQL (ejemplo)
+CREATE TABLE cliente (
+  id     INT PRIMARY KEY,
+  nombre VARCHAR(60) NOT NULL
+);
 
-    <h3 id="agregacion">2.7 Agregación / Composición</h3>
-    <p>
-      <strong>Agregación</strong>: tratamos una relación como entidad para relacionarla con otras (p. ej., <em>Asignación</em> entre
-      <em>Proyecto</em> y <em>Empleado</em> que a su vez se relaciona con <em>Recurso</em>). Útil cuando una relación necesita
-      <em>relacionarse</em> o tener semántica propia.
-    </p>
+CREATE TABLE pedido (
+  id          INT PRIMARY KEY,
+  cliente_id  INT NOT NULL,
+  fecha       DATE NOT NULL,
+  CONSTRAINT fk_pedido_cliente
+    FOREIGN KEY (cliente_id) REFERENCES cliente(id)
+      ON DELETE RESTRICT
+      ON UPDATE RESTRICT
+);
+  </pre></div>
 
-    <h3 id="restricciones">2.8 Restricciones e integridad</h3>
-    <ul>
-      <li><strong>Dominio</strong>: tipos y rangos válidos.</li>
-      <li><strong>Entidad</strong>: unicidad de identificadores.</li>
-      <li><strong>Referencia</strong>: existencia de las FKs.</li>
-      <li><strong>Semánticas</strong>: reglas del negocio (p. ej., “un pedido cancelado no puede tener líneas”).</li>
-    </ul>
-    <div class="callout warn">
-      <strong>Error típico.</strong> Omitir el mínimo (participación) y quedarse solo con 1:1/1:N/N:M. El mínimo importa tanto como el máximo.
-    </div>
-  </section>
+  <h4>5.3.2 1:N con min(N)=0 (FK nullable)</h4>
+  <div class="frame"><pre>
+PEDIDO = id + cliente_id + fecha
+CP(id)
+C.Aj(cliente_id) → CLIENTE(id)   <!-- opcional -->
+  </pre></div>
+  <div class="frame"><pre>
+-- SQL (ejemplo)
+CREATE TABLE pedido (
+  id          INT PRIMARY KEY,
+  cliente_id  INT NULL,
+  fecha       DATE NOT NULL,
+  CONSTRAINT fk_pedido_cliente
+    FOREIGN KEY (cliente_id) REFERENCES cliente(id)
+      ON DELETE SET NULL     -- permitido porque la FK admite NULL
+      ON UPDATE RESTRICT
+);
+  </pre></div>
 
-  <!-- ===================== 3. NOTACIÓN DE MARCO ===================== -->
-  <section id="marco">
-    <h2>3) Notación de marco (tabular)</h2>
-    <p>
-      Representación previa al SQL para “ver” tablas, PK y FKs. Convención: <u>subrayado</u> = PK, <i>cursiva</i> = FK.
-    </p>
-<pre><code>CLIENTE(
-<u>id_cliente</u>, nombre, email
-)
+  <h4>5.3.3 N:M (tabla de relación con CASCADE desde maestros)</h4>
+  <div class="frame"><pre>
+PEDIDO    = id + fecha
+CP(id)
 
-PEDIDO(
-<u>id_pedido</u>, fecha, <i>id_cliente</i>
-)
-</code></pre>
-    <div class="callout tip">
-      <strong>Consejo.</strong> Ordena atributos: primero PK, luego básicos, al final FKs. Mantén nombres en singular y consistentes.
-    </div>
-  </section>
+PRODUCTO  = id + nombre + pvp
+CP(id)
 
-  <!-- ===================== 4. TRANSFORMACIÓN E/R→RELACIONAL ===================== -->
-  <section id="transformacion">
-    <h2>4) Transformación del E/R al modelo relacional</h2>
+LINEA     = pedido_id + producto_id + unidades
+CP(pedido_id, producto_id)
+C.Aj(pedido_id)   → PEDIDO(id)
+C.Aj(producto_id) → PRODUCTO(id)
+VNN(unidades)
+  </pre></div>
+  <div class="frame"><pre>
+CREATE TABLE linea (
+  pedido_id   INT NOT NULL,
+  producto_id INT NOT NULL,
+  unidades    INT NOT NULL CHECK (unidades > 0),
+  PRIMARY KEY (pedido_id, producto_id),
+  CONSTRAINT fk_linea_pedido
+    FOREIGN KEY (pedido_id) REFERENCES pedido(id)
+      ON DELETE CASCADE
+      ON UPDATE RESTRICT,
+  CONSTRAINT fk_linea_producto
+    FOREIGN KEY (producto_id) REFERENCES producto(id)
+      ON DELETE CASCADE
+      ON UPDATE RESTRICT
+);
+  </pre></div>
 
-    <h3>4.1 Entidades fuertes</h3>
-    <p>Tabla por entidad. La PK elegida se convierte en PK de la tabla. Atributos compuestos → sus componentes.</p>
+  <h4>5.3.4 Débil (CASCADE desde fuerte)</h4>
+  <div class="frame"><pre>
+PEDIDO = id + fecha
+CP(id)
 
-    <h3>4.2 Entidades débiles</h3>
-    <p>Tabla con PK = PK de la fuerte + clave parcial. La PK de la fuerte además es FK (relación identificadora).</p>
+LINEA  = pedido_id + n_linea + producto_id + precio_ud
+CP(pedido_id, n_linea)
+C.Aj(pedido_id) → PEDIDO(id)
+VNN(precio_ud)
+  </pre></div>
+  <div class="frame"><pre>
+-- SQL (ejemplo)
+CREATE TABLE linea (
+  pedido_id INT NOT NULL,
+  n_linea   INT NOT NULL,
+  producto_id INT NOT NULL,
+  precio_ud DECIMAL(10,2) NOT NULL,
+  PRIMARY KEY (pedido_id, n_linea),
+  CONSTRAINT fk_linea_pedido
+    FOREIGN KEY (pedido_id) REFERENCES pedido(id)
+      ON DELETE CASCADE   -- la débil desaparece con su fuerte
+      ON UPDATE RESTRICT
+);
+  </pre></div>
 
-    <h3>4.3 Relaciones 1:1</h3>
-    <p>
-      Traslada la PK de una a la otra como FK (y única). Coloca la FK en el lado con <em>participación total</em> o menor cardinalidad.
-      Si la relación tiene atributos, añádelos en la tabla donde coloques la FK.
-    </p>
 
-    <h3>4.4 Relaciones 1:N</h3>
-    <p>La PK del lado 1 pasa como FK al lado N. Atributos de la relación se añaden en la tabla del lado N.</p>
+</section>
 
-    <h3>4.5 Relaciones N:M</h3>
-    <p>Crear tabla intermedia con FKs a ambas tablas. PK compuesta por las dos FKs. Atributos de la relación van aquí.</p>
 
-    <h3>4.6 Atributos multivalorados</h3>
-    <p>Crea una tabla aparte: PK = PK de la entidad + el atributo (o posición). Evita listas en una sola columna.</p>
+ <section id="normalizacion">
+  <h2>6) Normalización (1NF, 2NF, 3NF, BCNF)</h2>
+  <p>
+    La <strong>normalización</strong> es el proceso de <em>mejorar el esquema lógico</em> para eliminar
+    redundancias y evitar <em>anomalías</em> (inserción, actualización y borrado), manteniendo el
+    significado del modelo. Trabajaremos con <strong>dependencias funcionales (DF)</strong> y claves
+    para justificar cada paso. La meta docente: que el alumnado sea capaz de explicar
+    <em>por qué</em> una descomposición es correcta (sin pérdida y —cuando se pueda— preservando DF).
+  </p>
 
-    <h3>4.7 Atributos derivados</h3>
-    <p>No se almacenan salvo motivos de rendimiento. Si se persisten, documenta su mantenimiento.</p>
+  <div class="callout tip">
+    <strong>Esquema mental:</strong> Identifica DF → detecta redundancias → decide una
+    descomposición <em>sin pérdida</em> (y preferiblemente con DF preservadas). 
+    Lo habitual en grado es llegar a <strong>3FN</strong>; <strong>BCNF</strong> se reserva para casos con DF complejas.
+  </div>
 
-    <h3>4.8 Jerarquías ISA → estrategias</h3>
-    <div class="demo">
-      <table>
-        <thead><tr><th>Estrategia</th><th>Tablas</th><th>Pros</th><th>Contras</th></tr></thead>
-        <tbody>
-          <tr>
-            <td>Una tabla por jerarquía (STI)</td>
-            <td>Una tabla con columnas de todos los subtipos + columna <code>tipo</code></td>
-            <td>Consultas simples; sin joins</td>
-            <td>Muchos nulos; validaciones complejas</td>
-          </tr>
-          <tr>
-            <td>Una tabla por subtipo (CTI)</td>
-            <td>Super + una por subtipo (PK=FK a la super)</td>
-            <td>Integridad clara; sin nulos “de otros subtipos”</td>
-            <td>Requiere joins para leer un objeto completo</td>
-          </tr>
-          <tr>
-            <td>Una tabla por clase concreta</td>
-            <td>Solo subtipos (repiten columnas comunes)</td>
-            <td>Lectura directa por subtipo</td>
-            <td>Duplicación de columnas comunes</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="callout info">
-      <strong>Disyunta vs solapada.</strong> En solapada con CTI, la misma PK puede aparecer en varios subtipos; asegúrate de reflejar la restricción en la lógica/DDL.
-    </div>
-  </section>
+  <!-- 6.1 Conceptos básicos -->
+  <h3 id="normalizacion-conceptos">6.1 Conceptos básicos</h3>
+  <ul>
+    <li><strong>Dependencia funcional (DF):</strong> <code>X → Y</code> significa que dos filas iguales en <em>X</em>
+      deben ser iguales en <em>Y</em>. Las DF describen <em>reglas de negocio</em> sobre atributos.</li>
+    <li><strong>Superclave:</strong> conjunto de atributos que identifica unívocamente cada fila.</li>
+    <li><strong>Clave candidata:</strong> superclave <em>mínima</em>. Elegimos una como <em>clave primaria</em>.</li>
+    <li><strong>Atributo primo:</strong> atributo que forma parte de alguna clave candidata.</li>
+    <li><strong>Cierre de atributos:</strong> <code>X⁺</code> = todos los atributos implicados por DF partiendo de <em>X</em> (sirve para comprobar claves, cobertura y preservación).</li>
+  </ul>
 
-  <!-- ===================== 5. NORMALIZACIÓN ===================== -->
-  <section id="normalizacion">
-    <h2>5) Normalización (1FN, 2FN, 3FN, BCNF)</h2>
-    <p>
-      La normalización evita redundancias y anomalías (inserción, actualización, borrado) a través de dependencias funcionales.
-    </p>
-    <h3>5.1 Primera forma normal (1FN)</h3>
-    <ul>
-      <li>Celdas atómicas (sin listas ni tablas en una celda).</li>
-      <li>Sin orden significativo de filas/columnas.</li>
-    </ul>
-<pre><code>-- Anti-ejemplo (no 1FN): clientes(telefonos) = "600..., 911..."
--- Solución: CLIENTE(id, ...)  TELEFONO(id_cliente, telefono)
-</code></pre>
+  <div class="frame"><pre>
+Algoritmo (cierre de X respecto de F):
+1) X⁺ ← X
+2) Mientras exista A→B en F con A ⊆ X⁺ y B ⊄ X⁺, hacer X⁺ ← X⁺ ∪ B
+3) Termina cuando no se puedan añadir atributos
+  </pre></div>
 
-    <h3>5.2 Segunda forma normal (2FN)</h3>
-    <p>En tablas con PK compuesta, ningún atributo no clave depende de <em>parte</em> de la PK.</p>
+  <!-- 6.2 Anomalías -->
+  <h3 id="normalizacion-anomalias">6.2 Anomalías (por qué normalizar)</h3>
+  <p>
+    Las redundancias producen:
+  </p>
+  <ul>
+    <li><strong>Inserción:</strong> no puedes insertar un producto nuevo sin “inventarte” un pedido.</li>
+    <li><strong>Actualización:</strong> cambiar el nombre del cliente en una fila pero olvidarlo en otra → inconsistencia.</li>
+    <li><strong>Borrado:</strong> borrar el único pedido de un cliente elimina también sus datos de cliente.</li>
+  </ul>
 
-    <h3>5.3 Tercera forma normal (3FN)</h3>
-    <p>No debe haber dependencias transitivas (atributo no clave → otro no clave).</p>
+  <div class="demo">
+    <table>
+      <caption class="media-caption">Ejemplo de tabla mala (todo junto)</caption>
+      <thead><tr><th>pedido_id</th><th>fecha</th><th>cliente_id</th><th>cliente_nombre</th><th>producto_id</th><th>producto_nombre</th><th>unidades</th></tr></thead>
+      <tbody>
+        <tr><td>1001</td><td>2025-09-01</td><td>C37</td><td>Ana Ruiz</td><td>P10</td><td>Teclado</td><td>2</td></tr>
+        <tr><td>1001</td><td>2025-09-01</td><td>C37</td><td>Ana Ruiz</td><td>P20</td><td>Ratón</td><td>1</td></tr>
+        <tr><td>1002</td><td>2025-09-05</td><td>C44</td><td>Juan Gil</td><td>P10</td><td>Teclado</td><td>1</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="muted">
+    Aquí se repiten datos de cliente y de producto en cada línea → redundancia clara.
+  </p>
 
-    <h3>5.4 Forma normal de Boyce-Codd (BCNF)</h3>
-    <p>Toda determinante es una clave candidata. Más estricta que 3FN: útil para casos con dependencias complejas.</p>
+  <!-- 6.3 1NF -->
+  <h3 id="normalizacion-1nf">6.3 Primera Forma Normal (1NF)</h3>
+  <p>
+    Una relación está en <strong>1NF</strong> si no contiene <em>atributos multivalorados</em> ni
+    <em>grupos repetitivos</em>. Es decir, cada celda es atómica. 
+    Si hay listas (teléfonos), se separan en otra tabla (ya lo vimos en el mapeo).
+  </p>
+  <div class="frame"><pre>
+TEL_CLI = cliente_id + telefono
+CP(cliente_id, telefono)
+C.Aj(cliente_id) → CLIENTE(id)
+  </pre></div>
 
-    <div class="callout tip">
-      <strong>Equilibrio.</strong> Normaliza hasta 3FN/BCNF por defecto; desnormaliza <em>sólo</em> por rendimiento y documenta el motivo.
-    </div>
-  </section>
+  <!-- 6.4 2NF -->
+  <h3 id="normalizacion-2nf">6.4 Segunda Forma Normal (2NF)</h3>
+  <p>
+    En una tabla con <strong>PK compuesta</strong>, 2NF exige que <em>no existan dependencias parciales</em>:
+    ningún atributo no primo debe depender solo de una parte de la PK. Si ocurre, separa.
+  </p>
+  <div class="frame"><pre>
+Ejemplo: LINEA(pedido_id, producto_id, unidades, fecha_pedido, cliente_id, cliente_nombre)
+PK = (pedido_id, producto_id)
+DF: pedido_id → fecha_pedido, cliente_id, cliente_nombre
+    (pedido_id, producto_id) → unidades
 
-  <!-- ===================== 6. BUENAS PRÁCTICAS ===================== -->
-  <section id="buenas">
-    <h2>6) Buenas prácticas de diseño</h2>
-    <ul>
-      <li>Nomenclatura consistente: <code>SINGULAR</code> para tablas, <code>snake_case</code> para columnas (<code>fecha_alta</code>).</li>
-      <li>Prefiere <strong>claves naturales</strong> cuando son estables; usa <strong>surrogates</strong> (<code>id</code>) si no lo son.</li>
-      <li>Define <strong>participación</strong> (mínimos) explícitamente; impacta en FKs obligatorias/opcionales.</li>
-      <li>Evita atributos multivalorados/compuestos en una sola columna: crea tablas auxiliares.</li>
-      <li>Documenta <strong>restricciones semánticas</strong> que no se expresen en el modelo.</li>
-    </ul>
-    <div class="callout warn">
-      <strong>Antipatrones.</strong> “Tabla cajón” con demasiados significados, FKs opcionales sin criterio, repetir datos “por comodidad”, usar ENUMs para listas cambiantes.
-    </div>
-  </section>
+Violación: fecha_pedido y datos de cliente dependen solo de pedido_id (parte de la PK).
+Solución: separar PEDIDO(pedido_id, fecha_pedido, cliente_id, ...) y LINEA(pedido_id, producto_id, unidades).
+  </pre></div>
 
-  <!-- ===================== 7. EJEMPLOS GUIADOS ===================== -->
-  <section id="ejemplos">
-    <h2>7) Ejemplos guiados (sin imágenes, listos para completar)</h2>
+  <!-- 6.5 3NF -->
+  <h3 id="normalizacion-3nf">6.5 Tercera Forma Normal (3NF)</h3>
+  <p>
+    Una tabla está en <strong>3NF</strong> si está en 2NF y no tiene <em>dependencias transitivas</em> de
+    atributos no primos respecto de una clave. Si <code>cliente_id → cliente_nombre, cliente_ciudad</code>,
+    y <code>pedido_id → cliente_id</code>, entonces <code>pedido_id → cliente_nombre</code> es transitiva:
+    <em>mueve</em> los datos de cliente a su propia tabla.
+  </p>
+  <div class="frame"><pre>
+CLIENTE = id + nombre + ciudad
+CP(id)
 
-    <h3>7.1 Biblioteca (E/R resumido)</h3>
-    <ul>
-      <li><strong>Entidades:</strong> <em>Autor</em>(dni), <em>Libro</em>(isbn), <em>Ejemplar</em>(id_ejemplar), <em>Socio</em>(id_socio).</li>
-      <li><strong>Relaciones:</strong> <em>Escribe</em> (Autor–Libro, N:M, atributo <em>rol</em>), <em>Préstamo</em> (Socio–Ejemplar, 1:N con atributos <em>fecha_inicio</em>, <em>fecha_fin</em>).</li>
-      <li><strong>ISA:</strong> <em>Socio</em> → <em>Adulto</em> | <em>Infantil</em> (disyunta parcial).</li>
-    </ul>
-<pre><code>-- Notación de marco (esqueleto)
-AUTOR( <u>dni</u>, nombre )
-LIBRO( <u>isbn</u>, titulo )
-ESCRIBE( <u><i>dni</i></u>, <u><i>isbn</i></u>, rol )
-EJEMPLAR( <u>id_ejemplar</u>, <i>isbn</i>, estado )
-SOCIO( <u>id_socio</u>, nombre, tipo )   -- o ISA CTI
-PRESTAMO( <u>id_prestamo</u>, <i>id_socio</i>, <i>id_ejemplar</i>, fecha_inicio, fecha_fin )
-</code></pre>
-    <div class="media-box">
-      <!-- TODO: croquis E/R biblioteca -->
-      <div class="media-caption">[Imagen] Croquis E/R de biblioteca (a completar).</div>
-    </div>
+PEDIDO = id + fecha + cliente_id
+CP(id)
+C.Aj(cliente_id) → CLIENTE(id)
 
-    <h3>7.2 E-commerce (participación y N:M)</h3>
-    <ul>
-      <li><strong>Participación total</strong> de Línea en Pedido; <strong>opcional</strong> de Pedido en Envío.</li>
-      <li><strong>N:M</strong> Producto–Pedido resuelta con <em>Línea</em> (atributos cantidad, precio_unitario).</li>
-    </ul>
-<pre><code>CLIENTE( <u>id_cliente</u>, nombre, email )
-PEDIDO( <u>id_pedido</u>, fecha, <i>id_cliente</i>, estado )
-PRODUCTO( <u>id_producto</u>, nombre, precio )
-LINEA( <u><i>id_pedido</i></u>, <u><i>id_producto</i></u>, cantidad, precio_unitario )
-ENVIO( <u>id_envio</u>, <i>id_pedido</i> NULL, fecha_envio )
-</code></pre>
-  </section>
+LINEA  = pedido_id + producto_id + unidades + precio_ud
+CP(pedido_id, producto_id)
+C.Aj(pedido_id)   → PEDIDO(id)
+C.Aj(producto_id) → PRODUCTO(id)
 
-  <!-- ===================== 8. EJERCICIOS ===================== -->
-  <section id="ejercicios">
-    <h2>8) Ejercicios propuestos</h2>
-    <ol>
-      <li>
-        <strong>Cardinalidades y participación.</strong>
-        Dado un dominio “Academia”, plantea al menos 5 relaciones con sus pares (min,max) y justifica cada mínimo.
-      </li>
-      <li>
-        <strong>ISA disyunta vs solapada.</strong>
-        Modela <em>Persona</em> → <em>Alumno</em>, <em>Profesor</em>, <em>Personal</em> en versión disyunta total y en solapada parcial.
-        Escribe la transformación relacional en ambas estrategias (CTI vs STI) y comenta pros/contras.
-      </li>
-      <li>
-        <strong>N:M con atributos.</strong>
-        En “Cine”, la relación <em>Interviene</em>(Actor–Película) tiene <em>personaje</em> y <em>salario</em>.
-        Haz el E/R y su marco relacional con PK adecuada.
-      </li>
-      <li>
-        <strong>Normalización.</strong>
-        Dado <code>VENTA(id, fecha, cliente, cliente_dir, cliente_cp, total, iva, base)</code>, detecta dependencias,
-        descompón a 3FN y justifica.
-      </li>
-    </ol>
-  </section>
+PRODUCTO = id + nombre + pvp
+CP(id)
+  </pre></div>
 
-  <!-- ===================== 9. CHECKLIST ===================== -->
-  <section id="checklist">
-    <h2>9) Checklist de revisión rápida</h2>
-    <ul>
-      <li>¿Todas las entidades tienen identificador claro (natural o surrogate)?</li>
-      <li>¿Están expresados los <strong>mínimos</strong> (participación) en cada relación?</li>
-      <li>¿Atributos multivalorados/compuestos tratados como tablas auxiliares?</li>
-      <li>¿Resueltas todas las N:M con tabla intermedia y PK compuesta?</li>
-      <li>¿Jerarquías ISA documentadas (disyunta/solapada, total/parcial) y estrategia de transformación elegida?</li>
-      <li>¿Esquema resultante normalizado (al menos 3FN) y justificado?</li>
-      <li>¿Nomenclatura y convenciones coherentes? ¿Restricciones semánticas anotadas?</li>
-    </ul>
-    <div class="callout tip">
-      <strong>Truco docente.</strong> Pide al alumnado que “explique” su modelo a alguien de negocio sin tecnicismos:
-      si es comprensible, el E/R va por buen camino.
-    </div>
-  </section>
+  <!-- 6.6 BCNF -->
+  <h3 id="normalizacion-bcnf">6.6 Forma Normal de Boyce–Codd (BCNF)</h3>
+  <p>
+    BCNF refuerza 3NF: para toda DF no trivial <code>X → Y</code>, <strong>X debe ser superclave</strong>.
+    A veces 3NF deja alguna DF cuyo lado izquierdo no es superclave (pero 3NF la permite
+    si cada atributo de la derecha es primo). Cuando te interesa máxima robustez (y aceptas
+    posibles pérdidas de preservación de DF), apunta a BCNF.
+  </p>
+
+  <div class="callout warn">
+    <strong>Observación:</strong> Pasar de 3NF a BCNF puede <em>romper la preservación</em> de alguna DF.
+    En FP solemos preferir 3NF por ser un compromiso excelente entre robustez y simplicidad.
+  </div>
+
+  <!-- 6.7 Cobertura mínima -->
+  <h3 id="normalizacion-cobertura">6.7 Cobertura mínima (para síntesis a 3NF)</h3>
+  <p>
+    La <strong>cobertura mínima</strong> de un conjunto de DF <em>F</em> (también llamado <em>forma canónica</em>) se obtiene:
+  </p>
+  <ol>
+    <li>Descomponer derechas: cada DF con un solo atributo en la derecha (<code>X → A</code>).</li>
+    <li>Minimizar izquierdas: intenta eliminar atributos redundantes del lado izquierdo.</li>
+    <li>Eliminar DF redundantes: si <code>F - {d}</code> ya implica <code>d</code>, elimina <code>d</code>.</li>
+  </ol>
+  <div class="frame"><pre>
+Pseudocódigo (muy resumido):
+- Para cada X→Y en F, sustituye por { X→A | A ∈ Y }
+- Para cada DF X→A, para cada atributo z en X:
+    si ( (X - {z}) → A ) está implicada por F, entonces quita z de X
+- Para cada DF d en F:
+    si (F - {d}) implica d, elimina d
+  </pre></div>
+
+  <!-- 6.8 Descomposición correcta -->
+  <h3 id="normalizacion-descomposicion">6.8 Descomposición correcta: sin pérdida y preservación</h3>
+  <ul>
+    <li><strong>Sin pérdida (lossless join):</strong> en una descomposición binaria <code>R = R1 ∪ R2</code>, es sin pérdida si
+      <code>R1 ∩ R2</code> es <strong>superclave</strong> de <em>R1</em> <em>o</em> de <em>R2</em>. (Para más de dos, aplica iterativamente o usa el “chase”).</li>
+    <li><strong>Preservación de DF:</strong> el conjunto de DF de <em>R</em> debe estar implicado por la unión de las DF proyectadas
+      sobre cada esquema <em>Ri</em>. En práctica docente: intenta que cada DF de la cobertura mínima aparezca en alguna tabla.
+    </li>
+  </ul>
+
+  <div class="frame"><pre>
+Criterio rápido (binario):
+R descompuesta en R1 y R2 es sin pérdida si (R1 ∩ R2) → R1 o (R1 ∩ R2) → R2
+  </pre></div>
+
+  <!-- 6.9 Algoritmo de síntesis a 3NF -->
+  <h3 id="normalizacion-sintesis-3fn">6.9 Algoritmo de síntesis a 3FN (recomendado en aula)</h3>
+  <ol>
+    <li>Obtén la <strong>cobertura mínima</strong> de F.</li>
+    <li>Para cada DF <code>X → A</code> en la cobertura mínima, crea una tabla con atributos <code>X ∪ {A}</code> (agrupar por mismos <em>X</em>).</li>
+    <li>Si ninguna de las tablas contiene una <strong>clave candidata</strong> de R, añade una tabla con una clave de R.</li>
+    <li>Elimina tablas redundantes (si una está contenida completamente en otra).</li>
+  </ol>
+
+  <div class="callout tip">
+    <strong>Ventaja:</strong> garantiza <em>preservación de DF</em> y <em>sin pérdida</em> (con el paso 3).
+    Es el método más “mecánico” para enseñar y aplicar en ejercicios.
+  </div>
+
+  <!-- 6.10 Ejemplo integral “Pedidos” -->
+  <h3 id="normalizacion-ejemplo">6.10 Ejemplo integral: del “todo junto” a 3FN</h3>
+  <p>
+    Partimos de una relación única (mala) con estos atributos:
+  </p>
+  <div class="frame"><pre>
+R = (pedido_id, fecha, cliente_id, cliente_nombre, cliente_ciudad,
+     producto_id, producto_nombre, pvp, unidades, precio_ud)
+  </pre></div>
+
+  <p><strong>DF de negocio (resumen):</strong></p>
+  <ul>
+    <li><code>pedido_id → fecha, cliente_id</code></li>
+    <li><code>cliente_id → cliente_nombre, cliente_ciudad</code></li>
+    <li><code>producto_id → producto_nombre, pvp</code></li>
+    <li><code>(pedido_id, producto_id) → unidades, precio_ud</code> (precio acordado en la línea)</li>
+  </ul>
+
+  <p><strong>Problemas:</strong> hay dependencias parciales y transitivas; redundancia de cliente y producto por línea.</p>
+
+  <h4>Solución (3FN) vía síntesis + sentido común del E/R</h4>
+  <div class="frame"><pre>
+CLIENTE(id, nombre, ciudad)                 -- cliente_id → ...
+PRODUCTO(id, nombre, pvp)                   -- producto_id → ...
+PEDIDO(id, fecha, cliente_id)               -- pedido_id → fecha, cliente_id
+  FK cliente_id → CLIENTE(id)   (VNN)
+
+LINEA(pedido_id, producto_id, unidades, precio_ud) 
+  PK (pedido_id, producto_id)
+  FK pedido_id   → PEDIDO(id)   (VNN)
+  FK producto_id → PRODUCTO(id) (VNN)
+  </pre></div>
+
+  <p>
+    <strong>Sin pérdida:</strong> la unión natural sobre claves (PK/FK) recompone la información sin duplicidad.
+    <strong>Preservación de DF:</strong> cada DF relevante queda en alguna tabla (o se deriva por claves primarias/foráneas).
+    <strong>1NF, 2NF, 3NF:</strong> cumplidas: no hay multivalorados, sin parciales (PK compuesta solo en LINEA y sus atributos dependen de toda la PK),
+    y sin transitivas (datos de cliente y producto están fuera de PEDIDO/LINEA).
+  </p>
+
+  <div class="callout warn">
+    <strong>Precio en la línea:</strong> no lo derives de <code>PRODUCTO.pvp</code> si el precio puede variar con el tiempo o por pedido.
+    Mantener <code>precio_ud</code> en LINEA evita perder el histórico.
+  </div>
+
+  <!-- 6.11 Notas de implementación -->
+  <h3 id="normalizacion-implementacion">6.11 De 3FN/BCNF a SQL (notas prácticas)</h3>
+  <ul>
+    <li><strong>PK/AK/FK</strong>: tradúcelas como <code>PRIMARY KEY</code>, <code>UNIQUE</code> y <code>FOREIGN KEY</code>. 
+      Respeta nulabilidad (VNN/NULL) según los mínimos del E/R.</li>
+    <li><strong>Índices:</strong> además de PK/AK, indexa FKs para rendimiento en joins.</li>
+    <li><strong>CHECK</strong> (dominio): valida rangos y coherencia (<code>unidades &gt; 0</code>, fechas, etc.).</li>
+    <li><strong>Políticas de FK:</strong> elige <code>RESTRICT</code> / <code>CASCADE</code> / <code>SET NULL</code> alineado con reglas de negocio.</li>
+  </ul>
+
+  <!-- 6.12 ¿Normalizar siempre? -->
+  <h3 id="normalizacion-denormalizar">6.12 ¿Normalizar siempre? Denormalización controlada</h3>
+  <p>
+    En sistemas analíticos o de alto rendimiento de lectura, a veces se <em>denormaliza</em> para ahorrar joins
+    (vistos/ materializados, columnas derivadas). Hazlo <strong>conscientemente</strong>, documentando la regla que
+    “rompes” y cómo se recalcula el dato para no perder consistencia.
+  </p>
+
+ 
+</section>
+
+
+  
 
   <a href="#" class="backtotop" aria-label="Volver arriba">↑</a>
 </main>
