@@ -1975,73 +1975,166 @@ h1{ font-size: clamp(var(--fs-min), 2vw + 1rem, var(--fs-max)); }
 
       <!-- ======= 10. Responsive ======= -->
   <!-- ======= 10. Media queries y diseño responsive ======= -->
-<section id="responsive">
-  <h2>10. Media queries (diseño responsive)</h2>
+      <section id="responsive">
+        <h2>10. Media queries (diseño responsive)</h2>
 
-  <p>
-    El <strong>diseño responsive</strong> consiste en que la misma página se adapte de forma
-    inteligente al espacio disponible (móvil, tableta, escritorio, pantallas grandes, etc.).
-    La base técnica son las <em>media queries</em>, que permiten aplicar reglas CSS solo cuando
-    se cumplen ciertas condiciones del entorno: anchura de la ventana, orientación, densidad de
-    píxeles, si el usuario prefiere “modo oscuro”, etc.
-  </p>
+        <p>
+          El <strong>diseño responsive</strong> consiste en que la misma página se adapte de forma
+          inteligente al espacio disponible (móvil, tableta, escritorio, pantallas grandes, etc.).
+          La base técnica son las <em>media queries</em>, que permiten aplicar reglas CSS solo cuando
+          se cumplen ciertas condiciones del entorno: anchura de la ventana, orientación, densidad de
+          píxeles, si el usuario prefiere "modo oscuro", etc.
+        </p>
 
-  <div class="callout info">
-    <p><strong>Filosofía “mobile-first”</strong>: escribe primero los estilos base pensando en pantallas pequeñas.
-      Después, <em>añade</em> mejoras con media queries de <code>min-width</code> a medida que el espacio crece.
-      Así, el CSS es más sencillo, predecible y eficiente (los móviles descargan menos reglas).
-    </p>
-  </div>
+        <div class="callout info">
+          <p><strong>Filosofía "mobile-first"</strong>: escribe primero los estilos base pensando en pantallas pequeñas.
+            Después, <em>añade</em> mejoras con media queries de <code>min-width</code> a medida que el espacio crece.
+            Así, el CSS es más sencillo, predecible y eficiente (los móviles descargan menos reglas).
+          </p>
+        </div>
 
-  <h3>10.1. Requisito clave en HTML: el meta viewport</h3>
-  <p>Inclúyelo en el <code>&lt;head&gt;</code> para que el navegador use el ancho real del dispositivo:</p>
-  <pre><code class="language-html">&lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;</code></pre>
-  <p>
-    El <strong>viewport</strong> es la “ventana” a través de la cual el navegador muestra una página web.
-    En un ordenador de escritorio suele coincidir con la ventana del navegador, mientras que en dispositivos
-    móviles se ajusta al ancho de la pantalla. Sin embargo, muchos móviles antiguos simulaban un viewport
-    más ancho para mostrar páginas “de escritorio” reducidas, lo que generaba textos y elementos diminutos.
-    Por eso es imprescindible declarar el <code>meta viewport</code> en el <code>&lt;head&gt;</code>: así indicamos al navegador
-    que use el ancho real del dispositivo y que escale correctamente los contenidos.
-  </p>
-  <h3>10.2. Sintaxis esencial de una media query</h3>
-  <p>
-    Una <strong>media query</strong> es una regla condicional en CSS que permite aplicar estilos
-    únicamente cuando se cumplen ciertas características del entorno en el que se renderiza la página.
-    En la práctica, lo más habitual es controlar el ancho del <em>viewport</em> para adaptar el diseño
-    a diferentes dispositivos, pero también podemos consultar la orientación de la pantalla, la densidad
-    de píxeles o incluso las preferencias de accesibilidad del usuario. Todas las media queries comparten
-    una misma estructura: la palabra clave <code>@media</code>, una o varias condiciones entre paréntesis
-    y, a continuación, el bloque de reglas CSS que se activan si la condición es verdadera.
-  </p>
-  
-  <pre><code class="language-css">/* Se aplica cuando el viewport es de al menos 768px */
+        <h3>10.1. Requisito clave en HTML: el meta viewport</h3>
+        <p>Inclúyelo en el <code>&lt;head&gt;</code> para que el navegador use el ancho real del dispositivo:</p>
+        <pre><code class="language-html">&lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;</code></pre>
+        <p>
+          El <strong>viewport</strong> es la "ventana" a través de la cual el navegador muestra una página web.
+          En un ordenador de escritorio suele coincidir con la ventana del navegador, mientras que en dispositivos
+          móviles se ajusta al ancho de la pantalla. Muchos móviles antiguos simulaban un viewport más ancho para
+          mostrar páginas "de escritorio" reducidas, generando textos diminutos. Por eso es imprescindible declarar
+          el <code>meta viewport</code> en el <code>&lt;head&gt;</code>: así indicamos al navegador que use el ancho
+          real del dispositivo y que escale correctamente los contenidos.
+        </p>
+
+        <h3>10.2. Unidades flexibles: la base del diseño fluido</h3>
+        <p>
+          Antes de entrar en media queries, es fundamental entender que el diseño responsive se apoya en
+          <strong>unidades relativas</strong> en lugar de píxeles fijos. Usar unidades flexibles permite que
+          los elementos se adapten proporcionalmente al contexto, reduciendo la necesidad de múltiples media queries.
+        </p>
+
+        <h4>10.2.1. Comparativa: unidades absolutas vs relativas</h4>
+        <p><strong>Unidades absolutas</strong> (evitar en responsive):</p>
+        <ul>
+          <li><code>px</code>: píxeles fijos, no escalan con preferencias del usuario</li>
+        </ul>
+
+        <p><strong>Unidades relativas</strong> (preferir en responsive):</p>
+        <ul>
+          <li><code>%</code>: porcentaje del elemento padre</li>
+          <li><code>em</code>: relativo al <code>font-size</code> del elemento padre</li>
+          <li><code>rem</code>: relativo al <code>font-size</code> del elemento raíz (<code>&lt;html&gt;</code>)</li>
+          <li><code>vw</code>: 1% del ancho del viewport</li>
+          <li><code>vh</code>: 1% del alto del viewport</li>
+          <li><code>vmin</code>: 1% de la dimensión más pequeña del viewport</li>
+          <li><code>vmax</code>: 1% de la dimensión más grande del viewport</li>
+        </ul>
+
+        <pre><code class="language-css">/* Diseño rígido con píxeles */
+.container{
+  width: 960px;
+  padding: 20px;
+  font-size: 16px;
+}
+
+/* Diseño fluido con unidades relativas */
+.container{
+  width: 90%;
+  max-width: 75rem; /* ~1200px si 1rem=16px */
+  padding: 1.25rem;
+  font-size: 1rem;
+}</code></pre>
+
+        <h4>10.2.2. Cuándo usar cada unidad</h4>
+        <p><strong>rem</strong> — Ideal para:</p>
+        <ul>
+          <li>Tamaños de fuente (escalan con preferencias del usuario)</li>
+          <li>Espaciados consistentes (padding, margin, gap)</li>
+          <li>Breakpoints en media queries</li>
+        </ul>
+
+        <p><strong>em</strong> — Útil para:</p>
+        <ul>
+          <li>Espaciados proporcionales al texto del componente</li>
+          <li>Dimensiones que deben escalar con la fuente local</li>
+        </ul>
+
+        <p><strong>%</strong> — Perfecto para:</p>
+        <ul>
+          <li>Anchos de contenedores</li>
+          <li>Alturas en relación al padre</li>
+        </ul>
+
+        <p><strong>vw/vh</strong> — Casos específicos:</p>
+        <ul>
+          <li>Secciones a pantalla completa (hero sections)</li>
+          <li>Tipografía fluida (con cuidado, mejor usar <code>clamp()</code>)</li>
+        </ul>
+
+        <pre><code class="language-css">/* Ejemplo práctico combinando unidades */
+:root{
+  font-size: 16px; /* Base para rem */
+}
+
+.hero{
+  height: 100vh; /* Pantalla completa */
+  padding: 2rem 5%; /* rem vertical, % horizontal */
+}
+
+.card{
+  width: 100%;
+  max-width: 25rem; /* Limita el ancho máximo */
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+h1{
+  font-size: clamp(2rem, 4vw, 3.5rem); /* Fluida entre 2rem y 3.5rem */
+  margin-bottom: 0.5em; /* Proporcional a su propio tamaño */
+}</code></pre>
+
+        <div class="callout tip">
+          <p><strong>Ventaja clave</strong>: si el usuario aumenta el tamaño de fuente en su navegador,
+            todo el diseño escala proporcionalmente.
+          </p>
+        </div>
+
+        <h3>10.3. Sintaxis esencial de una media query</h3>
+        <p>
+          Una <strong>media query</strong> es una regla condicional en CSS que permite aplicar estilos
+          únicamente cuando se cumplen ciertas características del entorno de renderizado. Lo más habitual
+          es controlar el ancho del <em>viewport</em> para adaptar el diseño a diferentes dispositivos,
+          pero también podemos consultar la orientación de la pantalla, la densidad de píxeles o las
+          preferencias de accesibilidad del usuario.
+        </p>
+
+        <pre><code class="language-css">/* Se aplica cuando el viewport es de al menos 768px */
 @media (min-width: 768px){
   .sidebar{ display:block; }
 }</code></pre>
-  <ul>
-    <li><code>min-width</code> y <code>max-width</code>: las más usadas (anchos del viewport).</li>
-    <li>Se pueden combinar condiciones con <code>and</code>:
-      <code>@media (min-width:768px) and (orientation: landscape){ ... }</code></li>
-    <li>Usa <strong>unidades relativas</strong> (<code>em</code>/<code>rem</code>) para que los cortes escalen si cambia el tamaño raíz de la fuente.
-      P. ej. 48em ≈ 768px si 1em=16px.</li>
-  </ul>
 
-  <h3>10.3. Elegir los “breakpoints”</h3>
-  <p>
-    Cuando diseñamos de forma responsive necesitamos decidir en qué puntos del ancho de pantalla
-    vamos a cambiar el diseño: esos son los <em>breakpoints</em>. No existe una lista única o “correcta”,
-    ya que cada proyecto tiene necesidades distintas. Lo recomendable es dejar que el contenido
-    “mande”: define un breakpoint cuando un diseño empieza a romperse o a verse incómodo.
-    Aun así, en la práctica se suelen usar valores de referencia basados en móviles, tablets y escritorios.
-  </p>
-  
-  <p>
-    No hay “medidas mágicas”. En vez de copiar tablas de dispositivos, decide los cortes cuando tu diseño
-    <em>lo necesite</em> (el contenido pide más espacio o cambia de organización).
-    Aun así, como referencia práctica:
-  </p>
-  <pre><code class="language-css">:root{
+        <ul>
+          <li><code>min-width</code> y <code>max-width</code>: las más usadas (anchos del viewport).</li>
+          <li>Se pueden combinar condiciones con <code>and</code>:
+            <code>@media (min-width:768px) and (orientation: landscape){ ... }</code></li>
+          <li>Usa <strong>unidades relativas</strong> (<code>em</code>/<code>rem</code>) para que los cortes
+            escalen si cambia el tamaño raíz de la fuente. P. ej. 48em ≈ 768px si 1em=16px.</li>
+        </ul>
+
+        <h3>10.4. Elegir los "breakpoints"</h3>
+        <p>
+          Cuando diseñamos de forma responsive necesitamos decidir en qué puntos del ancho de pantalla
+          vamos a cambiar el diseño: esos son los <em>breakpoints</em>. No existe una lista única o "correcta",
+          ya que cada proyecto tiene necesidades distintas. Lo recomendable es dejar que el contenido
+          "mande": define un breakpoint cuando un diseño empieza a romperse o a verse incómodo.
+        </p>
+
+        <p>
+          No hay "medidas mágicas". En vez de copiar tablas de dispositivos, decide los cortes cuando tu diseño
+          <em>lo necesite</em> (el contenido pide más espacio o cambia de organización).
+          Aun así, como referencia práctica:
+        </p>
+
+        <pre><code class="language-css">:root{
   /* Breakpoints de ejemplo en em (≈ px si 1em = 16px) */
   --bp-sm: 36em;   /* ~576px: móviles grandes */
   --bp-md: 48em;   /* ~768px: tablets vertical */
@@ -2049,21 +2142,99 @@ h1{ font-size: clamp(var(--fs-min), 2vw + 1rem, var(--fs-max)); }
   --bp-xl: 80em;   /* ~1280px: escritorio ancho */
 }</code></pre>
 
-  <h3>10.4. Patrón de trabajo (mobile-first + cascada)</h3>
-  <p>
-    Existen dos formas de enfocar las media queries: empezar por escritorio y reducir estilos,
-    o empezar por móvil y añadir complejidad conforme aumenta el ancho. La estrategia
-    <strong>mobile-first</strong> es la más recomendada porque obliga a diseñar con lo esencial desde
-    el principio y aprovechar la cascada: primero declaramos estilos base que sirven en pantallas pequeñas
-    y luego añadimos mejoras progresivas con <code>min-width</code> para dispositivos más grandes.
-  </p>
-  
-  <ol>
-    <li>Estilos base (móvil)</li>
-    <li>Mejora progresiva añadiendo reglas dentro de media queries de <code>min-width</code> ordenadas de menor a mayor
-    </li>
-  </ol>
-  <pre><code class="language-css">/* 1) Base móvil */
+        <h3>10.5. Mobile First vs Desktop First</h3>
+        <p>
+          Existen dos enfoques fundamentales para escribir CSS responsive. La elección afecta tanto a la
+          estrategia de diseño como al rendimiento y mantenibilidad del código.
+        </p>
+
+        <h4>10.5.1. Mobile First (recomendado)</h4>
+        <p>
+          <strong>Estrategia</strong>: empieza por los estilos para móvil (pantalla pequeña) y añade
+          complejidad con <code>min-width</code> según crece el espacio.
+        </p>
+
+        <pre><code class="language-css">/* Estilos base: móvil */
+.nav{
+  flex-direction: column;
+}
+
+/* Tablet y superior */
+@media (min-width: 48em){
+  .nav{
+    flex-direction: row;
+  }
+}
+
+/* Desktop */
+@media (min-width: 64em){
+  .nav{
+    justify-content: space-between;
+    padding: 1rem 2rem;
+  }
+}</code></pre>
+
+        <p><strong>Ventajas</strong>:</p>
+        <ul>
+          <li>Prioriza la experiencia móvil (mayoría de usuarios)</li>
+          <li>Menor CSS inicial para móviles = mejor rendimiento</li>
+          <li>"Progressive enhancement": añades capacidades según hay espacio</li>
+          <li>Más fácil escalar hacia arriba que simplificar hacia abajo</li>
+          <li>Fuerza a diseñar lo esencial primero</li>
+        </ul>
+
+        <h4>10.5.2. Desktop First</h4>
+        <p>
+          <strong>Estrategia</strong>: estilos base para escritorio y reduces con <code>max-width</code>
+          para pantallas pequeñas.
+        </p>
+
+        <pre><code class="language-css">/* Estilos base: desktop */
+.nav{
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+/* Tablet */
+@media (max-width: 63.99em){
+  .nav{
+    padding: 0.75rem;
+  }
+}
+
+/* Móvil */
+@media (max-width: 47.99em){
+  .nav{
+    flex-direction: column;
+  }
+}</code></pre>
+
+        <p><strong>Desventajas</strong>:</p>
+        <ul>
+          <li>Móviles cargan y procesan estilos de escritorio innecesarios</li>
+          <li>Requiere "degradar" el diseño en lugar de mejorarlo</li>
+          <li>Más complejo mantener la coherencia visual</li>
+        </ul>
+
+        <div class="callout warn">
+          <p><strong>Recomendación</strong>: salvo casos muy específicos, usa siempre Mobile First.</p>
+        </div>
+
+        <h3>10.6. Patrón de trabajo (mobile-first + cascada)</h3>
+        <p>
+          La estrategia <strong>mobile-first</strong> es la más recomendada porque obliga a diseñar con lo
+          esencial desde el principio y aprovechar la cascada: primero declaramos estilos base que sirven
+          en pantallas pequeñas y luego añadimos mejoras progresivas con <code>min-width</code> para
+          dispositivos más grandes.
+        </p>
+
+        <ol>
+          <li>Estilos base (móvil)</li>
+          <li>Mejora progresiva añadiendo reglas dentro de media queries de <code>min-width</code>
+            ordenadas de menor a mayor</li>
+        </ol>
+
+        <pre><code class="language-css">/* 1) Base móvil */
 .card-list{ display:grid; gap: 1rem; grid-template-columns: 1fr; }
 
 /* 2) Tablet: 2 columnas */
@@ -2076,173 +2247,714 @@ h1{ font-size: clamp(var(--fs-min), 2vw + 1rem, var(--fs-max)); }
   .card-list{ grid-template-columns: repeat(3, 1fr); }
 }</code></pre>
 
-  <div class="callout tip">
-    <p><strong>Orden importa:</strong> al usar <code>min-width</code>, declara las media queries de menor a mayor.
-      Así, la cascada actúa a tu favor y evitas sobreescrituras innecesarias.
-    </p>
-  </div>
+        <div class="callout tip">
+          <p><strong>Orden importa:</strong> al usar <code>min-width</code>, declara las media queries de menor a mayor.
+            Así, la cascada actúa a tu favor y evitas sobreescrituras innecesarias.
+          </p>
+        </div>
 
-  <h3>10.5. Ejemplo paso a paso: cabecera responsive</h3>
-  <p>
-    Una de las formas más claras de entender el poder de las media queries es ver cómo evoluciona un mismo
-    componente a través de distintos tamaños de pantalla. En este ejemplo, trabajaremos con una cabecera
-    compuesta por un logotipo y un menú de navegación. La iremos transformando de columna a fila y, finalmente,
-    ajustaremos márgenes y separaciones en escritorios más amplios.
-  </p>
-  
-  <p><em>Objetivo:</em> logo + menú en columna (móvil) ⇒ en fila (tablet) ⇒ con espacio entre extremos (desktop).</p>
-  <pre><code class="language-html">&lt;header class="site-header"&gt;
+        <h3>10.7. Flexbox responsive: layouts unidimensionales adaptativos</h3>
+        <p>
+          <strong>Flexbox</strong> es ideal para layouts en una dimensión (fila o columna) que necesitan
+          reorganizarse. La clave está en combinar <code>flex-wrap</code>, <code>flex-direction</code> y
+          propiedades <code>flex</code> de los items con media queries estratégicas.
+        </p>
+
+        <h4>10.7.1. Patrón básico: wrap automático</h4>
+        <pre><code class="language-css">/* Los items se reorganizan automáticamente */
+.flex-container{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.flex-item{
+  flex: 1 1 280px;
+  /* flex-grow: 1 (crece), flex-shrink: 1 (se encoge), flex-basis: 280px (base) */
+}</code></pre>
+
+        <p>
+          Sin media queries, los items saltan de línea cuando no caben 280px. En móvil: 1 columna;
+          en tablet: 2; en desktop: 3 o más.
+        </p>
+
+        <h4>10.7.2. Navegación responsive con Flex</h4>
+        <pre><code class="language-html">&lt;nav class="nav"&gt;
+  &lt;a href="#" class="nav__item"&gt;Inicio&lt;/a&gt;
+  &lt;a href="#" class="nav__item"&gt;Productos&lt;/a&gt;
+  &lt;a href="#" class="nav__item"&gt;Blog&lt;/a&gt;
+  &lt;a href="#" class="nav__item"&gt;Contacto&lt;/a&gt;
+&lt;/nav&gt;</code></pre>
+
+        <pre><code class="language-css">/* Móvil: vertical */
+.nav{
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.nav__item{
+  padding: 0.75rem;
+  text-align: center;
+}
+
+/* Tablet+: horizontal */
+@media (min-width: 48em){
+  .nav{
+    flex-direction: row;
+    justify-content: space-around;
+  }
+
+  .nav__item{
+    flex: 1; /* Todos ocupan el mismo espacio */
+  }
+}</code></pre>
+
+        <h4>10.7.3. Layout principal + sidebar</h4>
+        <pre><code class="language-css">/* Móvil: apilado */
+.layout{
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Desktop: lado a lado */
+@media (min-width: 64em){
+  .layout{
+    flex-direction: row;
+  }
+
+  .main{
+    flex: 3; /* Ocupa 3 partes */
+  }
+
+  .sidebar{
+    flex: 1; /* Ocupa 1 parte (proporción 3:1) */
+  }
+}</code></pre>
+
+        <div class="callout tip">
+          <p><strong>Cuándo usar Flexbox</strong>: navegaciones, barras de herramientas, listas de items
+            que deben wrappear, cuando el tamaño del contenido es dinámico.
+          </p>
+        </div>
+
+        <h3>10.8. CSS Grid avanzado: técnicas responsive sin media queries</h3>
+        <p>
+          Mientras que Flexbox brilla en layouts unidimensionales, <strong>CSS Grid</strong> es la
+          herramienta perfecta para diseños bidimensionales. Lo realmente potente es que, usando funciones
+          como <code>auto-fit</code>, <code>auto-fill</code> y <code>minmax()</code>, podemos crear grids
+          que se adaptan automáticamente sin necesidad de media queries.
+        </p>
+
+        <h4>10.8.1. auto-fit con minmax: el grid mágico</h4>
+        <pre><code class="language-css">.grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}</code></pre>
+
+        <p><strong>¿Qué hace esto?</strong></p>
+        <ul>
+          <li><code>repeat()</code>: repite el patrón</li>
+          <li><code>auto-fit</code>: crea tantas columnas como quepan</li>
+          <li><code>minmax(250px, 1fr)</code>: cada columna mínimo 250px, máximo 1fr (se reparte el espacio)</li>
+        </ul>
+
+        <p>
+          <strong>Resultado</strong>: en un contenedor de 320px → 1 columna; 768px → 2-3 columnas;
+          1200px → 4 columnas. Todo automático.
+        </p>
+
+        <h4>10.8.2. auto-fit vs auto-fill</h4>
+        <pre><code class="language-css">/* auto-fit: colapsa columnas vacías */
+.grid-fit{
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+/* auto-fill: mantiene columnas vacías */
+.grid-fill{
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}</code></pre>
+
+        <p>
+          Con <strong>auto-fit</strong>, si sobra espacio, las columnas llenas se expanden.
+          Con <strong>auto-fill</strong>, se crean columnas vacías que no se ven pero afectan el tamaño de las demás.
+        </p>
+
+        <div class="callout tip">
+          <p><strong>Recomendación</strong>: usa <code>auto-fit</code> en la mayoría de casos.</p>
+        </div>
+
+        <h4>10.8.3. Grid Template Areas responsive</h4>
+        <p>
+          Las <em>grid areas</em> permiten reorganizar completamente el layout cambiando solo la plantilla.
+        </p>
+
+        <pre><code class="language-html">&lt;div class="dashboard"&gt;
+  &lt;header class="dash__header"&gt;Cabecera&lt;/header&gt;
+  &lt;aside class="dash__sidebar"&gt;Menú&lt;/aside&gt;
+  &lt;main class="dash__main"&gt;Contenido&lt;/main&gt;
+  &lt;footer class="dash__footer"&gt;Pie&lt;/footer&gt;
+&lt;/div&gt;</code></pre>
+
+        <pre><code class="language-css">/* Móvil: todo apilado */
+.dashboard{
+  display: grid;
+  gap: 1rem;
+  grid-template-areas:
+    "header"
+    "main"
+    "sidebar"
+    "footer";
+}
+
+.dash__header{ grid-area: header; }
+.dash__sidebar{ grid-area: sidebar; }
+.dash__main{ grid-area: main; }
+.dash__footer{ grid-area: footer; }
+
+/* Tablet: sidebar a la izquierda */
+@media (min-width: 48em){
+  .dashboard{
+    grid-template-columns: 200px 1fr;
+    grid-template-areas:
+      "header header"
+      "sidebar main"
+      "footer footer";
+  }
+}
+
+/* Desktop: layout complejo */
+@media (min-width: 64em){
+  .dashboard{
+    grid-template-columns: 220px 1fr;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+      "header header"
+      "sidebar main"
+      "sidebar footer";
+  }
+}</code></pre>
+
+        <p>La sidebar ahora se extiende hasta el footer sin cambiar el HTML.</p>
+
+        <h4>10.8.4. Items de diferentes tamaños</h4>
+        <pre><code class="language-css">.masonry{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-auto-flow: dense; /* Rellena huecos */
+  gap: 1rem;
+}
+
+.item--wide{
+  grid-column: span 2; /* Ocupa 2 columnas */
+}
+
+.item--tall{
+  grid-row: span 2; /* Ocupa 2 filas */
+}
+
+.item--big{
+  grid-column: span 2;
+  grid-row: span 2; /* Ocupa 2x2 */
+}</code></pre>
+
+        <div class="callout tip">
+          <p><strong>Cuándo usar Grid</strong>: layouts de página completa, galerías, dashboards,
+            cuando necesitas control bidimensional, componentes de tamaño variado.
+          </p>
+        </div>
+
+        <h3>10.9. Ejemplo paso a paso: cabecera responsive</h3>
+        <p>
+          Una de las formas más claras de entender el poder de las media queries es ver cómo evoluciona un mismo
+          componente a través de distintos tamaños de pantalla. En este ejemplo, trabajaremos con una cabecera
+          compuesta por un logotipo y un menú de navegación. La iremos transformando de columna a fila y, finalmente,
+          ajustaremos márgenes y separaciones en escritorios más amplios.
+        </p>
+
+        <p><em>Objetivo:</em> logo + menú en columna (móvil) ⇒ en fila (tablet) ⇒ con espacio entre extremos (desktop).</p>
+
+        <pre><code class="language-html">&lt;header class="site-header"&gt;
   &lt;div class="brand"&gt;Mi Sitio&lt;/div&gt;
   &lt;nav class="main-nav"&gt;
-    &lt;ul&gt;&lt;li&gt;&lt;a href="#"&gt;Inicio&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href="#"&gt;Blog&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href="#"&gt;Contacto&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href="#"&gt;Inicio&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href="#"&gt;Blog&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href="#"&gt;Contacto&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
   &lt;/nav&gt;
 &lt;/header&gt;</code></pre>
-  <pre><code class="language-css">/* Base móvil: columna */
+
+        <pre><code class="language-css">/* Base móvil: columna */
 .site-header{
-  display:flex; flex-direction:column; gap:.5rem; padding: .75rem 1rem; border-bottom:1px solid var(--border);
+  display:flex;
+  flex-direction:column;
+  gap:.5rem;
+  padding: .75rem 1rem;
+  border-bottom:1px solid var(--border);
 }
-.main-nav ul{ display:flex; gap:.75rem; flex-wrap:wrap; }
+
+.main-nav ul{
+  display:flex;
+  gap:.75rem;
+  flex-wrap:wrap;
+}
 
 /* Tablet (≥48em): fila */
 @media (min-width: 48em){
-  .site-header{ flex-direction:row; align-items:center; justify-content:space-between; }
+  .site-header{
+    flex-direction:row;
+    align-items:center;
+    justify-content:space-between;
+  }
 }
 
 /* Desktop (≥64em): más aire y separación */
 @media (min-width: 64em){
-  .site-header{ padding: 1rem 2rem; }
-  .main-nav ul{ gap:1rem; }
+  .site-header{
+    padding: 1rem 2rem;
+  }
+
+  .main-nav ul{
+    gap:1rem;
+  }
 }</code></pre>
 
-  <h3>10.6. Ejemplo: rejilla de tarjetas fluida (sin y con media queries)</h3>
-  <p>
-    Un caso muy común en diseño web es mostrar tarjetas en una cuadrícula. El número de columnas dependerá
-    del espacio disponible: en móviles solo una, en tablets dos, en escritorios tres o más. 
-    Gracias a funciones como <code>minmax()</code> y <code>auto-fit</code>, a veces podemos lograrlo sin media queries,
-    aunque en otros casos necesitaremos cortes definidos para controlar mejor la apariencia.
-  </p>
-  
-  <p>
-    Muchas veces puedes evitar media queries usando <code>minmax()</code> + <code>auto-fit</code>.
-    Si necesitas control fino de columnas/gap, combínalo con cortes.
-  </p>
-  <pre><code class="language-css">/* Opción A: sin media queries */
-.cards{ display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
+        <h3>10.10. Ejemplo: rejilla de tarjetas fluida (sin y con media queries)</h3>
+        <p>
+          Un caso muy común en diseño web es mostrar tarjetas en una cuadrícula. El número de columnas dependerá
+          del espacio disponible: en móviles solo una, en tablets dos, en escritorios tres o más.
+          Gracias a funciones como <code>minmax()</code> y <code>auto-fit</code>, a veces podemos lograrlo sin media queries,
+          aunque en otros casos necesitaremos cortes definidos para controlar mejor la apariencia.
+        </p>
 
-/* Opción B: control granular */
-.cards{ display:grid; gap: .75rem; grid-template-columns: 1fr; }
-@media (min-width: 36em){ .cards{ grid-template-columns: repeat(2, 1fr); gap: 1rem; } }
-@media (min-width: 64em){ .cards{ grid-template-columns: repeat(3, 1fr); gap: 1.25rem; } }</code></pre>
+        <p>
+          Muchas veces puedes evitar media queries usando <code>minmax()</code> + <code>auto-fit</code>.
+          Si necesitas control fino de columnas/gap, combínalo con cortes.
+        </p>
 
-  <h3>10.7. Tipografía responsive</h3>
-  <p>
-    No solo los layouts necesitan adaptarse al ancho de la pantalla: la tipografía también juega un papel clave.
-    Un título demasiado grande puede ocupar varias líneas en móviles, mientras que un título demasiado pequeño
-    se pierde en pantallas grandes. Tenemos dos opciones: usar media queries para cambiar escalonadamente
-    los tamaños de fuente o emplear funciones como <code>clamp()</code> para crear tipografía fluida que se adapte
-    de forma automática entre un mínimo y un máximo.
-  </p>
-  
-  <p>
-    Para títulos, lo más ergonómico es tipografía <em>fluida</em> con <code>clamp()</code>. Si prefieres escalones, puedes usar media queries.
-  </p>
-  <pre><code class="language-css">/* Fluida: min, ideal (con vw), max */
-h1{ font-size: clamp(1.5rem, 2vw + 1rem, 2.25rem); }
-
-/* Escalonada */
-h2{ font-size: 1.25rem; }
-@media (min-width: 48em){ h2{ font-size: 1.5rem; } }
-@media (min-width: 64em){ h2{ font-size: 1.75rem; } }</code></pre>
-
-  <h3>10.8. Más tipos de media queries útiles</h3>
-  <p>
-    Aunque la mayoría de las veces asociamos media queries con la anchura de pantalla, en realidad
-    CSS nos ofrece muchas otras posibilidades. Podemos preguntar por la orientación del dispositivo,
-    el tipo de puntero o si existe soporte para hover, las preferencias del usuario en cuanto a movimiento
-    o esquema de color, o incluso definir reglas específicas para impresión. Conocer estas opciones
-    nos permite crear experiencias más accesibles y robustas.
-  </p>
-  
-  <ul>
-    <li><strong>Orientación</strong>:
-      <pre><code class="language-css">@media (orientation: landscape){ .galeria{ grid-auto-flow: column; } }</code></pre>
-    </li>
-    <li><strong>Interacción (hover/pointer)</strong>:
-      <pre><code class="language-css">@media (hover: hover) and (pointer: fine){
-  .btn:hover{ transform: translateY(-1px); }
-}</code></pre>
-      <p>Así evitas “estados hover” en pantallas táctiles que no lo soportan bien.</p>
-    </li>
-    <li><strong>Preferencias de usuario</strong>:
-      <pre><code class="language-css">/* Modo oscuro */
-@media (prefers-color-scheme: dark){
-  :root{ --bg: #0b1220; --fg: #e8edf8; --panel:#121a2b; }
-  body{ background:var(--bg); color:var(--fg); }
+        <pre><code class="language-css">/* Opción A: sin media queries */
+.cards{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
 }
 
-/* Menos movimiento */
+/* Opción B: control granular */
+.cards{
+  display:grid;
+  gap: .75rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 36em){
+  .cards{
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+}
+
+@media (min-width: 64em){
+  .cards{
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+}</code></pre>
+
+        <h3>10.11. Imágenes responsive</h3>
+        <p>
+          Las imágenes son uno de los elementos más problemáticos en diseño responsive si no se tratan correctamente.
+          Una imagen demasiado grande ralentiza la carga en móviles; una imagen con dimensiones fijas rompe el layout.
+          Existen varias técnicas para asegurar que las imágenes se adapten correctamente.
+        </p>
+
+        <h4>10.11.1. Regla CSS básica (imprescindible)</h4>
+        <pre><code class="language-css">img{
+  max-width: 100%;
+  height: auto;
+  display: block; /* Evita espacio inferior por inline */
+}</code></pre>
+
+        <p>Esto hace que cualquier imagen nunca sea más ancha que su contenedor y mantenga su proporción.</p>
+
+        <h4>10.11.2. Elemento &lt;picture&gt;: diferentes imágenes según contexto</h4>
+        <p>
+          Permite servir imágenes distintas (más pequeñas, recortadas, con diferente orientación)
+          según el tamaño de pantalla.
+        </p>
+
+        <pre><code class="language-html">&lt;picture&gt;
+  &lt;source media="(min-width: 64em)" srcset="hero-large.jpg"&gt;
+  &lt;source media="(min-width: 48em)" srcset="hero-medium.jpg"&gt;
+  &lt;img src="hero-small.jpg" alt="Banner principal"&gt;
+&lt;/picture&gt;</code></pre>
+
+        <p>El navegador elige la primera <code>&lt;source&gt;</code> cuya media query coincida, o usa <code>&lt;img&gt;</code> como fallback.</p>
+
+        <h4>10.11.3. Atributo srcset y sizes: resoluciones múltiples</h4>
+        <p>
+          Para servir la misma imagen en diferentes resoluciones (optimizando para retina, ahorrando datos en móvil):
+        </p>
+
+        <pre><code class="language-html">&lt;img
+  srcset="
+    producto-400.jpg 400w,
+    producto-800.jpg 800w,
+    producto-1200.jpg 1200w
+  "
+  sizes="
+    (max-width: 48em) 100vw,
+    (max-width: 64em) 50vw,
+    33vw
+  "
+  src="producto-800.jpg"
+  alt="Producto destacado"
+&gt;</code></pre>
+
+        <ul>
+          <li><code>srcset</code> declara las opciones disponibles con su ancho en <code>w</code> (width descriptor)</li>
+          <li><code>sizes</code> le dice al navegador qué espacio ocupará la imagen según el viewport</li>
+          <li>El navegador elige automáticamente la mejor opción</li>
+        </ul>
+
+        <h4>10.11.4. Background images responsive</h4>
+        <p>Para imágenes de fondo, usa media queries o <code>image-set()</code>:</p>
+
+        <pre><code class="language-css">/* Con media queries */
+.hero{
+  background-image: url(hero-small.jpg);
+  background-size: cover;
+}
+
+@media (min-width: 48em){
+  .hero{
+    background-image: url(hero-medium.jpg);
+  }
+}
+
+@media (min-width: 64em){
+  .hero{
+    background-image: url(hero-large.jpg);
+  }
+}
+
+/* Con image-set (moderno) */
+.banner{
+  background-image: image-set(
+    url(banner-1x.jpg) 1x,
+    url(banner-2x.jpg) 2x
+  );
+}</code></pre>
+
+        <h4>10.11.5. Mantener proporciones con aspect-ratio</h4>
+        <pre><code class="language-css">.video-container{
+  aspect-ratio: 16 / 9; /* Mantiene proporción 16:9 */
+  width: 100%;
+}
+
+.video-container iframe{
+  width: 100%;
+  height: 100%;
+}</code></pre>
+
+        <p>Antes se usaba el "padding-bottom hack", ahora <code>aspect-ratio</code> lo hace trivial.</p>
+
+        <h3>10.12. Tipografía responsive</h3>
+        <p>
+          No solo los layouts necesitan adaptarse al ancho de la pantalla: la tipografía también juega un papel clave.
+          Un título demasiado grande puede ocupar varias líneas en móviles, mientras que un título demasiado pequeño
+          se pierde en pantallas grandes. Tenemos dos opciones: usar media queries para cambiar escalonadamente
+          los tamaños de fuente o emplear funciones como <code>clamp()</code> para crear tipografía fluida que se adapte
+          de forma automática entre un mínimo y un máximo.
+        </p>
+
+        <h4>10.12.1. Tipografía fluida con clamp()</h4>
+        <pre><code class="language-css">/* Fluida: min, ideal (con vw), max */
+h1{
+  font-size: clamp(2rem, 4vw + 1rem, 3.5rem);
+  /* Mínimo 2rem, ideal 4vw+1rem, máximo 3.5rem */
+}
+
+h2{
+  font-size: clamp(1.5rem, 3vw + 0.5rem, 2.5rem);
+}
+
+p{
+  font-size: clamp(1rem, 1.5vw, 1.125rem);
+}</code></pre>
+
+        <p><strong>Ventaja</strong>: escala suavemente sin saltos bruscos.</p>
+
+        <h4>10.12.2. Tipografía escalonada con media queries</h4>
+        <pre><code class="language-css">/* Base móvil */
+h1{ font-size: 2rem; }
+h2{ font-size: 1.5rem; }
+p{ font-size: 1rem; }
+
+/* Tablet */
+@media (min-width: 48em){
+  h1{ font-size: 2.5rem; }
+  h2{ font-size: 1.75rem; }
+  p{ font-size: 1.0625rem; }
+}
+
+/* Desktop */
+@media (min-width: 64em){
+  h1{ font-size: 3rem; }
+  h2{ font-size: 2rem; }
+  p{ font-size: 1.125rem; }
+}</code></pre>
+
+        <h4>10.12.3. Escalado global con font-size en html</h4>
+        <pre><code class="language-css">html{
+  font-size: 16px; /* Base para rem */
+}
+
+@media (min-width: 48em){
+  html{
+    font-size: 17px; /* Todo escala un 6.25% */
+  }
+}
+
+@media (min-width: 64em){
+  html{
+    font-size: 18px; /* Todo escala un 12.5% */
+  }
+}
+
+/* Ahora todos los rem escalan automáticamente */
+h1{ font-size: 2.5rem; } /* 40px → 42.5px → 45px */</code></pre>
+
+        <p>Esto escala todo el diseño proporcionalmente sin tocar cada elemento.</p>
+
+        <h3>10.13. Más tipos de media queries útiles</h3>
+        <p>
+          Aunque la mayoría de las veces asociamos media queries con la anchura de pantalla, en realidad
+          CSS nos ofrece muchas otras posibilidades. Podemos preguntar por la orientación del dispositivo,
+          el tipo de puntero o si existe soporte para hover, las preferencias del usuario en cuanto a movimiento
+          o esquema de color, o incluso definir reglas específicas para impresión.
+        </p>
+
+        <h4>10.13.1. Orientación</h4>
+        <pre><code class="language-css">@media (orientation: landscape){
+  .galeria{
+    grid-auto-flow: column;
+  }
+}
+
+@media (orientation: portrait){
+  .galeria{
+    grid-auto-flow: row;
+  }
+}</code></pre>
+
+        <h4>10.13.2. Interacción (hover/pointer)</h4>
+        <pre><code class="language-css">/* Solo aplica hover si el dispositivo tiene puntero preciso */
+@media (hover: hover) and (pointer: fine){
+  .btn:hover{
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  }
+}
+
+/* Para dispositivos táctiles (pointer: coarse) */
+@media (pointer: coarse){
+  .btn{
+    min-height: 44px; /* Tamaño táctil mínimo */
+    min-width: 44px;
+  }
+}</code></pre>
+
+        <p>Así evitas "estados hover" en pantallas táctiles que no lo soportan bien.</p>
+
+        <h4>10.13.3. Preferencias de usuario</h4>
+        <p><strong>Modo oscuro:</strong></p>
+
+        <pre><code class="language-css">:root{
+  --bg: #ffffff;
+  --fg: #1f2937;
+  --panel: #f9fafb;
+}
+
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg: #0b1220;
+    --fg: #e8edf8;
+    --panel: #121a2b;
+  }
+}
+
+body{
+  background: var(--bg);
+  color: var(--fg);
+}</code></pre>
+
+        <p><strong>Reducción de movimiento (accesibilidad):</strong></p>
+
+        <pre><code class="language-css">/* Animaciones normales */
+.card{
+  transition: transform 0.3s ease;
+}
+
+.card:hover{
+  transform: scale(1.05);
+}
+
+/* Sin animaciones si el usuario lo prefiere */
 @media (prefers-reduced-motion: reduce){
-  *{ animation: none !important; transition: none !important; }
+  *{
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }</code></pre>
-    </li>
-    <li><strong>Impresión</strong>:
-      <pre><code class="language-css">@media print{
-  nav, .back-to-top{ display:none !important; }
-  article{ break-inside: avoid; }
+
+        <div class="callout warn">
+          <p>Esto es fundamental para usuarios con trastornos vestibulares o sensibilidad al movimiento.</p>
+        </div>
+
+        <h4>10.13.4. Impresión</h4>
+        <pre><code class="language-css">@media print{
+  /* Ocultar elementos innecesarios */
+  nav, .back-to-top, .share-buttons{
+    display: none !important;
+  }
+
+  /* Evitar saltos de página dentro de elementos */
+  article, .card{
+    break-inside: avoid;
+  }
+
+  /* Forzar colores para impresión */
+  body{
+    background: white;
+    color: black;
+  }
+
+  /* Mostrar URLs de enlaces */
+  a[href]::after{
+    content: " (" attr(href) ")";
+  }
 }</code></pre>
-    </li>
-    <li><strong>Alta densidad de píxeles</strong> (retina):
-      <pre><code class="language-css">@media (min-resolution: 2dppx){
-  .logo{ background-image: url(logo@2x.png); background-size: contain; }
+
+        <h4>10.13.5. Alta densidad de píxeles (retina)</h4>
+        <pre><code class="language-css">/* Imagen normal */
+.logo{
+  background-image: url(logo.png);
+  background-size: contain;
+}
+
+/* Pantallas retina (2x) */
+@media (min-resolution: 2dppx){
+  .logo{
+    background-image: url(logo@2x.png);
+  }
 }</code></pre>
-      <p>Alternativa moderna: <code>image-set()</code> sin media query.</p>
-      <pre><code class="language-css">.hero{
+
+        <p>Alternativa moderna sin media query:</p>
+
+        <pre><code class="language-css">.hero{
   background-image: image-set(
     url(banner@1x.jpg) 1x,
     url(banner@2x.jpg) 2x
   );
 }</code></pre>
-    </li>
-  </ul>
 
-  <h3>10.9. Container queries (nota avanzada)</h3>
-  <p>
-    Una de las grandes novedades en CSS son las <em>container queries</em>, que permiten aplicar estilos
-    en función del tamaño del contenedor padre y no del viewport. Esto resuelve un problema histórico:
-    antes un componente solo podía adaptarse al ancho de toda la ventana, aunque se usara dentro de
-    distintos contextos. Con las container queries, cada componente puede volverse realmente independiente
-    y adaptativo.
-  </p>
-  
-  <p>
-    Las <em>container queries</em> permiten adaptar un componente según el tamaño de su <em>contenedor</em>, no del viewport.
-    Útiles para componentes reutilizables en layouts variables.
-  </p>
-  <pre><code class="language-css">/* 1) Marcar contenedor */
-.card-grid{ container-type: inline-size; }
+        <h3>10.14. Funciones CSS modernas para responsive</h3>
+        <p>
+          Las funciones matemáticas de CSS permiten crear diseños adaptativos sin media queries o
+          complementarlas para mayor flexibilidad.
+        </p>
+
+        <h4>10.14.1. clamp(): valor entre mínimo y máximo</h4>
+        <pre><code class="language-css">/* Sintaxis: clamp(mínimo, preferido, máximo) */
+
+h1{
+  font-size: clamp(2rem, 5vw, 4rem);
+  /* Nunca menor a 2rem ni mayor a 4rem, idealmente 5vw */
+}
+
+.container{
+  width: clamp(320px, 90%, 1200px);
+  /* Mínimo 320px, máximo 1200px, ideal 90% */
+  padding: clamp(1rem, 3vw, 3rem);
+}</code></pre>
+
+        <h4>10.14.2. min() y max(): elegir entre opciones</h4>
+        <pre><code class="language-css">/* min() elige el MENOR valor */
+.container{
+  width: min(90%, 1200px);
+  /* Si 90% es menor que 1200px, usa 90%; si no, usa 1200px */
+}
+
+/* max() elige el MAYOR valor */
+.hero{
+  min-height: max(400px, 50vh);
+  /* Al menos 400px o 50vh, lo que sea mayor */
+}</code></pre>
+
+        <h4>10.14.3. Combinar funciones</h4>
+        <pre><code class="language-css">.card{
+  width: clamp(280px, calc(33.333% - 1rem), 400px);
+  padding: clamp(1rem, 2vw + 0.5rem, 2rem);
+  font-size: clamp(0.875rem, 1.5vw, 1.125rem);
+}</code></pre>
+
+        <h3>10.15. Container queries (nota avanzada)</h3>
+        <p>
+          Una de las grandes novedades en CSS son las <em>container queries</em>, que permiten aplicar estilos
+          en función del tamaño del contenedor padre y no del viewport. Esto resuelve un problema histórico:
+          antes un componente solo podía adaptarse al ancho de toda la ventana, aunque se usara dentro de
+          distintos contextos. Con las container queries, cada componente puede volverse realmente independiente
+          y adaptativo.
+        </p>
+
+        <p>
+          Las <em>container queries</em> permiten adaptar un componente según el tamaño de su <em>contenedor</em>,
+          no del viewport. Útiles para componentes reutilizables en layouts variables.
+        </p>
+
+        <pre><code class="language-css">/* 1) Marcar contenedor */
+.card-grid{
+  container-type: inline-size;
+  container-name: card-container; /* Opcional pero recomendado */
+}
 
 /* 2) Consultar el contenedor */
 @container (min-width: 540px){
-  .card--media{ display:grid; grid-template-columns: 180px 1fr; gap: 1rem; }
+  .card{
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 1rem;
+  }
+}
+
+/* Con nombre específico */
+@container card-container (min-width: 400px){
+  .card__img{
+    aspect-ratio: 16 / 9;
+  }
 }</code></pre>
 
-  <div class="callout warn">
-    <p><strong>Trampas habituales:</strong> mezclar <code>max-width</code> y <code>min-width</code> al revés (la cascada se complica);
-      duplicar reglas por copiar/pegar; definir breakpoints por “marca de dispositivo” (queda desactualizado);
-      no probar con zoom del navegador (los cortes en <code>em</code> se desplazan si cambia el tamaño base).</p>
-  </div>
+        <p>
+          <strong>Diferencia clave</strong>: una <code>@media</code> pregunta por el viewport global;
+          una <code>@container</code> pregunta por el espacio del contenedor padre. Mismo componente puede
+          tener distinta apariencia según dónde se use.
+        </p>
 
-  <h3>10.10. Caso práctico completo: ficha de producto</h3>
-  <p>
-    Para cerrar esta sección veremos un caso realista: una ficha de producto en una tienda online.
-    La idea es observar cómo la estructura cambia según el espacio: en móvil todo apilado en una sola columna,
-    en tablet con la imagen y la descripción en paralelo, y en escritorio añadiendo un área fija para el bloque
-    de compra. Este tipo de ejercicios muestran la importancia de planificar bien los breakpoints y
-    aprovechar Grid en combinación con media queries.
-  </p>
-  
-  <p>Base: columna (móvil). Tablet: dos columnas (foto + detalles). Escritorio: añade columna para “comprar”.</p>
-  <pre><code class="language-html">&lt;article class="product"&gt;
+        <h3>10.16. Caso práctico completo: ficha de producto</h3>
+        <p>
+          Para cerrar esta sección veremos un caso realista: una ficha de producto en una tienda online.
+          La idea es observar cómo la estructura cambia según el espacio: en móvil todo apilado en una sola columna,
+          en tablet con la imagen y la descripción en paralelo, y en escritorio añadiendo un área fija para el bloque
+          de compra.
+        </p>
+
+        <p>Base: columna (móvil). Tablet: dos columnas (foto + detalles). Escritorio: añade columna para "comprar".</p>
+
+        <pre><code class="language-html">&lt;article class="product"&gt;
   &lt;img class="product__img" src="img/prod.jpg" alt="Cámara compacta"&gt;
   &lt;div class="product__body"&gt;
     &lt;h3 class="product__title"&gt;Cámara X100&lt;/h3&gt;
@@ -2253,17 +2965,32 @@ h2{ font-size: 1.25rem; }
     &lt;button class="btn btn--primary"&gt;Comprar&lt;/button&gt;
   &lt;/aside&gt;
 &lt;/article&gt;</code></pre>
-  <pre><code class="language-css">/* Base móvil: una columna */
+
+        <pre><code class="language-css">/* Base móvil: una columna */
 .product{
-  display:grid; gap:1rem; align-items:start;
+  display:grid;
+  gap:1rem;
+  align-items:start;
   grid-template-areas:
     "img"
     "body"
     "buy";
 }
-.product__img{ grid-area: img; width:100%; height:auto; border-radius:8px; }
-.product__body{ grid-area: body; }
-.product__buy{ grid-area: buy; }
+
+.product__img{
+  grid-area: img;
+  width:100%;
+  height:auto;
+  border-radius:8px;
+}
+
+.product__body{
+  grid-area: body;
+}
+
+.product__buy{
+  grid-area: buy;
+}
 
 /* Tablet (≥48em): dos columnas */
 @media (min-width: 48em){
@@ -2280,45 +3007,40 @@ h2{ font-size: 1.25rem; }
   .product{
     grid-template-columns: 320px 1fr 220px;
     grid-template-areas: "img body buy";
-    align-items: start; gap:1.25rem;
+    align-items: start;
+    gap:1.25rem;
   }
+
   .product__buy{
-    position: sticky; top: 1rem; /* se mantiene visible al hacer scroll */
-    border:1px solid var(--border); border-radius:10px; padding:1rem; background:var(--panel);
+    position: sticky;
+    top: 1rem; /* se mantiene visible al hacer scroll */
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:1rem;
+    background:var(--panel);
   }
 }</code></pre>
+        
 
-  <h3>10.11. Checklist de responsive</h3>
-  <p>
-    Diseñar responsive no es solo cuestión de añadir media queries al azar. Conviene seguir una serie
-    de buenas prácticas que garanticen consistencia, accesibilidad y mantenibilidad. Este checklist sirve
-    como repaso rápido de los puntos más importantes a la hora de aplicar diseño responsive de forma profesional.
-  </p>
-  
-  <ul>
-    <li>Meta viewport correcto y base mobile-first.</li>
-    <li>Breakpoints por contenido, en orden ascendente con <code>min-width</code>.</li>
-    <li>Usa <code>em</code>/<code>rem</code> para cortes que respeten cambios tipográficos.</li>
-    <li>Prueba hover/puntero, orientación y preferencias (oscuro/reduced motion).</li>
-    <li>Revisa accesibilidad: foco visible, tamaños táctiles (≥44px), contrastes.</li>
-    <li>Mide: evita media queries si <code>auto-fit/minmax</code> o Flex ya resuelven el caso.</li>
-  </ul>
-
-  <h3>10.12. Mini-retos</h3>
-  <p>
-    Para asentar todo lo aprendido en esta sección, te proponemos una serie de mini-retos prácticos.
-    Están pensados para obligarte a aplicar las técnicas clave: organizar contenido en columnas según
-    el ancho disponible, alternar temas según preferencias del usuario o gestionar correctamente
-    los estados de interacción en pantallas táctiles y no táctiles.
-  </p>
-  
-  <ol>
-    <li>Crea una barra con logo + buscador + CTA: columna en móvil, fila centrada en tablet, y con el CTA a la derecha en escritorio.</li>
-    <li>Galería de 1/2/3/4 columnas según 0–36em/≥36em/≥64em/≥80em.</li>
-    <li>Activa modo oscuro con <code>prefers-color-scheme</code> utilizando variables CSS para colores.</li>
-    <li>Evita hover en táctiles con <code>@media (hover:hover)</code> y añade un estado <code>:focus-visible</code> claro.</li>
-  </ol>
-</section>
+        <h3>10.18. Mini-retos</h3>
+        <ol>
+          <li><strong>Navegación completa</strong>: Crea una barra con logo + buscador + botón CTA.
+            Móvil: columna. Tablet: fila centrada. Desktop: logo izquierda, buscador centro, CTA derecha.</li>
+          <li><strong>Galería progresiva</strong>: Grid de imágenes que vaya de 1 columna (móvil) →
+            2 (≥36em) → 3 (≥64em) → 4 (≥80em). Usa tanto <code>auto-fit</code> como media queries y compara.</li>
+          <li><strong>Tema oscuro</strong>: Implementa modo oscuro usando <code>prefers-color-scheme</code>
+            con variables CSS para todos los colores. Debe funcionar automáticamente según las preferencias del sistema.</li>
+          <li><strong>Accesibilidad táctil</strong>: Crea un menú de iconos que en móvil tenga botones de
+            mínimo 48x48px, evite hover en táctiles con <code>@media (hover:hover)</code>, y añada estados
+            <code>:focus-visible</code> claros.</li>
+          <li><strong>Tipografía fluida</strong>: Diseña un sistema tipográfico completo usando solo
+            <code>clamp()</code> para h1-h6 y párrafos, sin media queries.</li>
+          <li><strong>Dashboard responsive</strong>: Layout con header, sidebar, main, y footer. Móvil: todo apilado.
+            Tablet: sidebar izquierda con main. Desktop: agregar panel derecho fijo con <code>position: sticky</code>.</li>
+          <li><strong>Producto con container queries</strong>: Crea una tarjeta de producto que cambie de vertical
+            a horizontal según el espacio de su contenedor (no del viewport), usando <code>@container</code>.</li>
+        </ol>
+      </section>
 
 
       <!-- ======= 11. Animaciones y transiciones ======= -->
