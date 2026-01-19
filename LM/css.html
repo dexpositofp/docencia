@@ -801,7 +801,7 @@ ul li::marker { color: blue; }</code></pre>
         basado en <strong>tokens</strong>.
       </p>
 
-      <h4>¿Qué son los "tokens" de diseño? 🎯</h4>
+      <h4>¿Qué son los "tokens" de diseño? </h4>
 
       <p>
         Los <strong>tokens de diseño</strong> son <strong>valores reutilizables con nombres semánticos</strong> que defines una vez
@@ -1632,89 +1632,7 @@ TOTAL HEIGHT = margin-top + border-top + padding-top + content-height + padding-
             (fuerzan recálculo de layout).</p>
         </div>
 
-        <!-- 6.8 Trucos de maquetación comunes con el box model -->
-        <h3>6.8. Trucos de maquetación frecuentes</h3>
-        <h4>Botones que no “bailan”</h4>
-        <pre><code class="language-css">.btn{
-  display:inline-block;
-  padding:.6rem 1rem;
-  border:2px solid transparent;   /* reserva espacio para el hover */
-}
-.btn:hover{ border-color:#333; }</code></pre>
-
-        <h4>Tarjetas fluidas y predecibles</h4>
-        <pre><code class="language-css">*,*::before,*::after{ box-sizing:border-box; }
-.card{
-  max-width: 420px;
-  padding: 1rem 1.25rem;
-  margin-inline: auto;
-}</code></pre>
-
-        <!-- 6.9 Mini-laboratorio guiado -->
-        <h3>6.9. Mini-laboratorio guiado</h3>
-        <ol>
-          <li>Crea tres cajas de 160px con <code>padding:16px</code> y <code>border:4px</code>. Primera con <code>content-box</code>, segunda con <code>border-box</code>,
-            tercera con <code>border-box</code> y <code>background-clip: content-box</code>. Observa tamaños y pintura del fondo.</li>
-          <li>Simula colapso de márgenes con dos <code>&lt;section&gt;</code> apiladas. Añade <code>display: flow-root</code> a la primera y comprueba la diferencia.</li>
-          <li>Haz una etiqueta <code>.pill</code> con <code>display:inline-block</code>, <code>padding-inline:.75rem</code>, <code>border-radius:9999px</code> y
-            <code>line-height</code> fijo para que todas tengan la misma altura.</li>
-        </ol>
-
-        <!-- 6.10 Ejemplos prácticos completos -->
-        <h3>6.10. Ejemplos prácticos completos</h3>
-
-        <h4>Ejemplo E · Tarjeta con layout fiable</h4>
-        <pre><code class="language-css">.card{
-  display: flow-root;               /* evita colapsos e “inunda” floats internos */
-  box-sizing: border-box;
-  max-width: 560px;
-  padding: 1rem 1.25rem;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  background: #fff;
-  box-shadow: 0 8px 18px rgba(0,0,0,.06);
-  margin: 1rem auto;
-}
-.card__media{ float:left; width:96px; height:96px; margin: 0 1rem 1rem 0; border-radius: 8px; background:#f3f4f6; }
-.card__title{ margin: .25rem 0 .5rem; font-weight: 700; }
-.card__actions{ margin-top: 1rem; display:flex; gap:.5rem; flex-wrap:wrap; }
-.btn{ display:inline-block; padding:.5rem .9rem; border-radius:8px; border:1px solid #ddd; background:#fafafa; }</code></pre>
-        <pre><code class="language-html">&lt;article class="card"&gt;
-  &lt;div class="card__media"&gt;&lt;/div&gt;
-  &lt;h3 class="card__title"&gt;Título de la tarjeta&lt;/h3&gt;
-  &lt;p&gt;Descripción breve del contenido. Observa cómo el padding, el borde y el flow-root estabilizan la caja.&lt;/p&gt;
-  &lt;div class="card__actions"&gt;
-    &lt;a class="btn" href="#"&gt;Acción&lt;/a&gt; &lt;a class="btn" href="#"&gt;Secundaria&lt;/a&gt;
-  &lt;/div&gt;
-&lt;/article&gt;</code></pre>
-
-        <h4>Ejemplo F · Chips alineados en línea</h4>
-        <pre><code class="language-css">.chips{ display:flex; gap:.5rem; flex-wrap:wrap; }
-.chip{
-  display:inline-block;
-  padding: .25rem .6rem;
-  border:1px solid #d1d5db;
-  border-radius: 9999px;
-  background: #f9fafb;
-  line-height: 1.25rem;          /* altura uniforme */
-}</code></pre>
-
-        <!-- 6.11 Errores comunes -->
-        <h3>6.11. Errores comunes y cómo evitarlos</h3>
-        <ul>
-          <li>Esperar que <code>width</code> incluya padding/borde con <code>content-box</code>. Solución: <code>border-box</code>.</li>
-          <li>“Desaparece” el margen superior del primer hijo: es colapso de márgenes. Solución: <code>padding-top</code>, <code>border-top</code> o <code>flow-root</code>.</li>
-          <li>Textos cortados al usar <code>height</code> fijo. Prefiere <code>min-height</code>, <code>max-width</code> y deja crecer la caja.</li>
-          <li>Botones que cambian de tamaño en <code>:hover</code> cuando aparece un borde. Reserva el espacio con <code>border</code> transparente.</li>
-        </ul>
-
-        <div class="callout tip">
-          <p><strong>Checklist del Box Model:</strong>
-            ¿He definido <code>box-sizing</code>? · ¿Necesito evitar colapso (<code>flow-root</code>)? ·
-            ¿Uso propiedades lógicas (<code>margin-block</code>, <code>padding-inline</code>)? ·
-            ¿Mis fondos y sombras pintan donde espero (<code>background-clip</code>, <code>outline</code>)?
-          </p>
-        </div>
+  
       </section>
 
       <!-- ======= 7. Display / Flujo / Posicionamiento ======= -->
