@@ -1632,7 +1632,7 @@ TOTAL HEIGHT = margin-top + border-top + padding-top + content-height + padding-
             (fuerzan recálculo de layout).</p>
         </div>
 
-  
+
       </section>
 
       <!-- ======= 7. Display / Flujo / Posicionamiento ======= -->
@@ -3999,56 +3999,12 @@ h1{
           que podemos cambiar a cualquier esquina o coordenada.
         </p>
 
-        <div class="demo-grid">
-          <div>
-            <div class="sq t-translate" aria-hidden="true">translate</div>
-            <pre><code class="language-css">.t-translate{
-  transform: translate(40px, -10px);
-}</code></pre>
-          </div>
-
-          <div>
-            <div class="sq t-scale" aria-hidden="true">scale</div>
-            <pre><code class="language-css">.t-scale{
-  transform: scale(1.4);
-}</code></pre>
-          </div>
-
-          <div>
-            <div class="sq t-rotate" aria-hidden="true">rotate</div>
-            <pre><code class="language-css">.t-rotate{
-  transform: rotate(25deg);
-}</code></pre>
-          </div>
-
-          <div>
-            <div class="sq t-skew" aria-hidden="true">skew</div>
-            <pre><code class="language-css">.t-skew{
-  transform: skew(20deg, 0);
-}</code></pre>
-          </div>
-
-          <div>
-            <div class="sq t-origin" aria-hidden="true">origin</div>
-            <pre><code class="language-css">.t-origin{
-  transform-origin: top left;
-  transform: rotate(20deg);
-}</code></pre>
-          </div>
-        </div>
 
         <div class="callout tip">
           <p>
             <strong>Composición:</strong> puedes encadenar varias transformaciones en la misma regla:<br>
             <code>transform: translateX(30px) scale(.9) rotate(10deg);</code><br>
             El orden es importante: <em>rotar y luego trasladar</em> no es lo mismo que <em>trasladar y luego rotar</em>.
-          </p>
-        </div>
-
-        <div class="callout warn">
-          <p>
-            <strong>Rendimiento:</strong> siempre que sea posible, anima <code>transform</code> y <code>opacity</code>.
-            El navegador puede mover estos cálculos a la GPU y evitar recálculos de layout, lo que mantiene la interfaz fluida.
           </p>
         </div>
 
@@ -4159,14 +4115,7 @@ h1{
           </div>
         </div>
 
-
-
-        <div class="callout warn">
-          <p><strong>Rendimiento:</strong> prioriza animar <code>transform</code> y <code>opacity</code>.
-            Propiedades como <code>width</code>, <code>height</code> o <code>left/top</code> fuerzan recálculo de layout y son mucho más costosas.
-            Si necesitas desplazar un elemento, usa <code>translate()</code> en lugar de <code>left</code> o <code>top</code>.
-          </p>
-        </div>
+          
 
 
         <!-- 11.3 ANIMATIONS -->
