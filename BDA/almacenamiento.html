@@ -40,16 +40,44 @@
   </div>
 </header>
 
+
 <div class="layout">
   <aside class="sidebar" id="sidebar" aria-label="Unit index">
     <h2>Contents</h2>
     <nav>
       <ul class="toc" id="toc">
-        <li><a href="#objetivos">Objetivos</a></li>
-                <li><a href="#competencias">1. Competencias</a></li>
-                <li><a href="#contenidos">2. Contenidos</a></li>
-                <li><a href="#metodologia">3. Metodología</a></li>
-                <li><a href="#evaluacion">4. Evaluación</a></li>
+        <li><a href="#intro">Introducción</a></li>
+        <li><a href="#datos">1. Datos e Información</a></li>
+        <li><a href="#ficheros">2. Ficheros</a></li>
+        <li><a href="#bd">3. Bases de Datos</a></li>
+        <li><a href="#sgbd">4. SGBD</a>
+          <ul>
+            <li><a href="#tipos-sgbd">4.1 Tipos de SGBD</a></li>
+            <li><a href="#componentes-sgbd">4.2 Componentes</a></li>
+          </ul>
+        </li>
+        <li><a href="#relacionales">5. Bases de Datos Relacionales</a>
+          <ul>
+            <li><a href="#conceptos-relacionales">5.1 Conceptos clave</a></li>
+            <li><a href="#ejemplo-relacional">5.2 Ejemplo práctico</a></li>
+            <li><a href="#ventajas-relacionales">5.3 Ventajas</a></li>
+            <li><a href="#propiedades-acid">5.4 Propiedades ACID</a></li>
+          </ul>
+        </li>
+        <li><a href="#nosql">6. Bases de Datos NoSQL</a>
+          <ul>
+            <li><a href="#intro-nosql">6.1 Introducción a NoSQL</a></li>
+            <li><a href="#tipos-nosql">6.2 Tipos de NoSQL</a></li>
+            <li><a href="#documentales">6.3 BD Documentales</a></li>
+            <li><a href="#clave-valor">6.4 BD Clave-Valor</a></li>
+            <li><a href="#columnares">6.5 BD Columnares</a></li>
+            <li><a href="#grafos">6.6 BD de Grafos</a></li>
+            <li><a href="#teorema-cap">6.7 Teorema CAP</a></li>
+            <li><a href="#sql-vs-nosql">6.8 SQL vs NoSQL</a></li>
+            <li><a href="#ventajas-nosql">6.9 Ventajas y Desventajas</a></li>
+          </ul>
+        </li>
+        <li><a href="#ejercicios">7. Ejercicios de refuerzo</a></li>
       </ul>
     </nav>
   </aside>
@@ -58,44 +86,78 @@
 
   <main class="content">
     <header class="page">
-      <h1 id="intro">Almacenamiento de la información — fundamentos y motivación</h1>
-  <p class="muted">
-    Esta unidad introduce los conceptos base que justifican las bases de datos: <strong>dato vs información</strong>,
-    límites de los <strong>ficheros</strong> tradicionales y aparición de los <strong>SGBD</strong> como solución organizada y segura.
-    Cerraremos con una <em>primera mirada</em> al modelo relacional y ejercicios de refuerzo.
-  </p>
+      <h1 id="intro">Almacenamiento de la información — fundamentos y evolución</h1>
+      <p class="muted">
+        Esta unidad introduce los conceptos fundamentales del almacenamiento de información: desde la distinción entre
+        <strong>dato e información</strong>, pasando por las limitaciones de los <strong>ficheros tradicionales</strong>,
+        hasta llegar a los <strong>Sistemas Gestores de Bases de Datos (SGBD)</strong> tanto relacionales como NoSQL.
+        Comprenderemos cómo han evolucionado las tecnologías de almacenamiento para adaptarse a las necesidades
+        de escalabilidad, rendimiento y flexibilidad que demandan las aplicaciones modernas.
+      </p>
     </header>
 
     <section id="datos">
       <h2>1. Datos e Información</h2>
       <p>
-        Antes de introducirnos en el mundo de las bases de datos, resulta fundamental 
-        distinguir entre dos conceptos básicos: <strong>dato</strong> e <strong>información</strong>. 
-        Aunque en el lenguaje cotidiano se utilizan como sinónimos, en el ámbito de la informática 
-        no significan lo mismo. Un <em>dato</em> es simplemente un valor aislado que por sí solo 
-        carece de un significado completo: puede ser un número, una fecha o una palabra. 
-        Por ejemplo, valores como <em>25</em>, <em>2024-06-10</em> o <em>“Juan”</em> son solo datos 
-        en bruto; no sabemos si se trata de una edad, una temperatura, una fecha de nacimiento 
-        o el nombre de un cliente. Por sí mismos, los datos no resuelven ninguna necesidad 
+        Antes de introducirnos en el mundo de las bases de datos, resulta fundamental
+        distinguir entre dos conceptos básicos: <strong>dato</strong> e <strong>información</strong>.
+        Aunque en el lenguaje cotidiano se utilizan como sinónimos, en el ámbito de la informática
+        no significan lo mismo. Un <em>dato</em> es simplemente un valor aislado que por sí solo
+        carece de un significado completo: puede ser un número, una fecha o una palabra.
+        Por ejemplo, valores como <em>25</em>, <em>2024-06-10</em> o <em>"Juan"</em> son solo datos
+        en bruto; no sabemos si se trata de una edad, una temperatura, una fecha de nacimiento
+        o el nombre de un cliente. Por sí mismos, los datos no resuelven ninguna necesidad
         ni responden a ninguna pregunta.
       </p>
-    
+
       <p>
-        La <strong>información</strong>, en cambio, surge cuando esos datos se organizan 
-        y se interpretan dentro de un contexto. Es el resultado de darles un significado 
-        que aporte conocimiento. Así, si decimos: 
+        La <strong>información</strong>, en cambio, surge cuando esos datos se organizan
+        y se interpretan dentro de un contexto. Es el resultado de darles un significado
+        que aporte conocimiento. Así, si decimos:
       </p>
-    
+
       <blockquote>
-        “El día 15 de junio de 2024 en Valencia se registraron <strong>25 grados centígrados</strong>.”
+        "El día 15 de junio de 2024 en Valencia se registraron <strong>25 grados centígrados</strong>."
       </blockquote>
-    
+
       <p>
-        Ahora ya no hablamos de un simple número: hemos transformado el dato en una información útil, 
-        que nos dice qué ocurrió, dónde y cuándo. Este ejemplo muestra cómo la diferencia entre 
+        Ahora ya no hablamos de un simple número: hemos transformado el dato en una información útil,
+        que nos dice qué ocurrió, dónde y cuándo. Este ejemplo muestra cómo la diferencia entre
         dato e información radica en el contexto y la interpretación que se les da.
       </p>
-    
+
+      <h3>Ejemplos prácticos adicionales</h3>
+      <p>
+        Para entender mejor esta distinción, veamos más ejemplos cotidianos:
+      </p>
+
+      <table>
+        <thead>
+        <tr>
+          <th>Dato aislado</th>
+          <th>Información contextualizada</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>42</td>
+          <td>El estudiante Juan García ha obtenido un 42% en el examen de matemáticas</td>
+        </tr>
+        <tr>
+          <td>2024-12-25</td>
+          <td>La entrega del proyecto final está programada para el 25 de diciembre de 2024</td>
+        </tr>
+        <tr>
+          <td>120/80</td>
+          <td>La presión arterial del paciente Pedro López es de 120/80 mmHg (valores normales)</td>
+        </tr>
+        <tr>
+          <td>EUR 1500</td>
+          <td>El salario mensual neto del empleado ES-1234 es de 1500 euros</td>
+        </tr>
+        </tbody>
+      </table>
+
       <p>
         Para entender mejor esta distinción conviene recordar algunos puntos clave:
       </p>
@@ -103,314 +165,1572 @@
         <li>Los datos son la <strong>materia prima</strong>, la información es el <strong>producto procesado</strong>.</li>
         <li>Un mismo dato puede generar informaciones muy distintas según el contexto en el que se utilice.</li>
         <li>En informática, lo importante no es acumular datos sin más, sino convertirlos en información que sirva para tomar decisiones.</li>
+        <li>El <strong>conocimiento</strong> va un paso más allá: es la capacidad de aplicar la información de forma práctica.</li>
+        <li>La <strong>sabiduría</strong> representa el nivel más alto: usar el conocimiento con juicio y criterio.</li>
       </ul>
-    
+
       <div class="callout tip">
-        💡 <strong>Consejo:</strong> Siempre que trabajes con un conjunto de datos, pregúntate: 
-        <em>¿qué información útil puedo extraer de aquí?</em> Esa reflexión te ayudará a 
-        diferenciar entre almacenar datos sin valor y gestionar conocimiento real.
+        <p>
+          <strong>Consejo:</strong> Siempre que trabajes con un conjunto de datos, pregúntate:
+          <em>¿qué información útil puedo extraer de aquí?</em> Esa reflexión te ayudará a
+          diferenciar entre almacenar datos sin valor y gestionar conocimiento real.
+        </p>
       </div>
-    
+
       <p>
-        En resumen, los datos aislados carecen de valor práctico, mientras que la información 
-        organizada y contextualizada es la que verdaderamente aporta utilidad. Esta distinción 
-        es el punto de partida que justifica la necesidad de sistemas de almacenamiento y gestión 
-        eficientes, que veremos materializados en los <strong>Sistemas de Bases de Datos</strong>. 
-        A lo largo del curso, profundizaremos en cómo los SGBD permiten realizar esa transformación 
+        En resumen, los datos aislados carecen de valor práctico, mientras que la información
+        organizada y contextualizada es la que verdaderamente aporta utilidad. Esta distinción
+        es el punto de partida que justifica la necesidad de sistemas de almacenamiento y gestión
+        eficientes, que veremos materializados en los <strong>Sistemas de Bases de Datos</strong>.
+        A lo largo del curso, profundizaremos en cómo los SGBD permiten realizar esa transformación
         de manera estructurada, fiable y accesible.
       </p>
     </section>
-    
-   
-    
 
-<section id="ficheros">
-  <h2>2. Ficheros</h2>
-  <p>
-    Antes de la popularización de las bases de datos, las organizaciones utilizaban ficheros para almacenar la información. 
-    Esta estrategia resultaba relativamente sencilla y económica: bastaba con definir un conjunto de archivos de texto o binarios 
-    en los que registrar datos de clientes, empleados, ventas o cualquier otro aspecto del negocio. 
-    De hecho, en entornos reducidos todavía hoy se encuentran sistemas de gestión que dependen de hojas de cálculo o ficheros planos. 
-  </p>
 
-  <p>
-    Sin embargo, a medida que los sistemas crecieron en tamaño y en complejidad, las limitaciones de este enfoque se hicieron 
-    evidentes. La gestión basada únicamente en ficheros genera problemas de redundancia, falta de integridad y dificultades 
-    a la hora de acceder de manera eficiente a la información. Estos inconvenientes suponen un freno considerable 
-    para el desarrollo de aplicaciones seguras y escalables.
-  </p>
 
-  <h3>Principales problemas del almacenamiento en ficheros</h3>
-  <ul>
-    <li><strong>Redundancia de datos:</strong> la misma información se guarda en múltiples ficheros, lo que provoca duplicidad innecesaria.</li>
-    <li><strong>Inconsistencia:</strong> si se actualiza un dato en un fichero y no en los demás, aparecen contradicciones.</li>
-    <li><strong>Dificultad de acceso:</strong> recuperar información requiere recorrer el fichero completo, lo que supone operaciones lentas.</li>
-    <li><strong>Escasa seguridad:</strong> el control de accesos es limitado y no suele existir gestión de permisos granular.</li>
-    <li><strong>Problemas de integridad:</strong> no hay mecanismos que aseguren que los datos cumplen reglas básicas (ejemplo: no admitir edades negativas).</li>
-    <li><strong>Mantenimiento costoso:</strong> cualquier cambio en la estructura de un fichero puede obligar a reprogramar todas las aplicaciones asociadas.</li>
-  </ul>
+    <section id="ficheros">
+      <h2>2. Ficheros</h2>
+      <p>
+        Antes de la popularización de las bases de datos, las organizaciones utilizaban ficheros para almacenar la información.
+        Esta estrategia resultaba relativamente sencilla y económica: bastaba con definir un conjunto de archivos de texto o binarios
+        en los que registrar datos de clientes, empleados, ventas o cualquier otro aspecto del negocio.
+        De hecho, en entornos reducidos todavía hoy se encuentran sistemas de gestión que dependen de hojas de cálculo o ficheros planos.
+      </p>
 
-  <div class="callout warning">
-    <p>
-      Aunque los ficheros pueden ser útiles en proyectos pequeños, <strong>no son adecuados cuando el volumen de datos crece</strong> 
-      o cuando la información debe compartirse entre distintos usuarios y aplicaciones. 
-      En estas situaciones, las bases de datos resultan imprescindibles.
-    </p>
-  </div>
-</section>
+      <p>
+        Sin embargo, a medida que los sistemas crecieron en tamaño y en complejidad, las limitaciones de este enfoque se hicieron
+        evidentes. La gestión basada únicamente en ficheros genera problemas de redundancia, falta de integridad y dificultades
+        a la hora de acceder de manera eficiente a la información. Estos inconvenientes suponen un freno considerable
+        para el desarrollo de aplicaciones seguras y escalables.
+      </p>
 
-<section>
-  <h2>3. Bases de datos</h2>
-  <p>
-    Para superar las limitaciones de los sistemas basados en ficheros, surge el concepto de <strong>base de datos</strong>. 
-    Una base de datos no es simplemente un conjunto de ficheros: es un <em>almacén estructurado de información</em>, diseñado 
-    para garantizar la consistencia, integridad y disponibilidad de los datos. 
-    Además, las bases de datos están gestionadas por un software especializado que centraliza el control y ofrece 
-    un conjunto de herramientas para manipular la información de forma eficiente.
-  </p>
+      <h3>2.1 Principales problemas del almacenamiento en ficheros</h3>
+      <ul>
+        <li><strong>Redundancia de datos:</strong> la misma información se guarda en múltiples ficheros, lo que provoca duplicidad innecesaria.</li>
+        <li><strong>Inconsistencia:</strong> si se actualiza un dato en un fichero y no en los demás, aparecen contradicciones.</li>
+        <li><strong>Dificultad de acceso:</strong> recuperar información requiere recorrer el fichero completo, lo que supone operaciones lentas.</li>
+        <li><strong>Escasa seguridad:</strong> el control de accesos es limitado y no suele existir gestión de permisos granular.</li>
+        <li><strong>Problemas de integridad:</strong> no hay mecanismos que aseguren que los datos cumplen reglas básicas (ejemplo: no admitir edades negativas).</li>
+        <li><strong>Mantenimiento costoso:</strong> cualquier cambio en la estructura de un fichero puede obligar a reprogramar todas las aplicaciones asociadas.</li>
+        <li><strong>Concurrencia limitada:</strong> cuando varios usuarios intentan modificar el mismo fichero simultáneamente, surgen conflictos.</li>
+        <li><strong>Falta de copias de seguridad automatizadas:</strong> no existe un mecanismo centralizado de backup y recuperación.</li>
+      </ul>
 
-  <h3>3.1 Características principales</h3>
-  <ul>
-    <li><strong>Centralización:</strong> los datos se almacenan en un sistema único, accesible para distintas aplicaciones y usuarios.</li>
-    <li><strong>Reducción de redundancia:</strong> la información se organiza de manera que se minimiza la duplicidad.</li>
-    <li><strong>Integridad:</strong> se pueden definir reglas que aseguren que los datos cumplen restricciones lógicas y de negocio.</li>
-    <li><strong>Seguridad:</strong> se gestionan permisos de acceso diferenciados para usuarios y grupos.</li>
-    <li><strong>Escalabilidad:</strong> permiten manejar grandes volúmenes de información sin degradar el rendimiento.</li>
-    <li><strong>Flexibilidad en las consultas:</strong> gracias a lenguajes especializados como SQL, es posible recuperar 
-        información compleja de forma rápida.</li>
-  </ul>
+      <h3>2.2 Ejemplo práctico de problemas con ficheros</h3>
+      <p>
+        Imaginemos una pequeña empresa que gestiona sus clientes con ficheros CSV. Tiene tres departamentos:
+      </p>
 
-  <p>
-    Gracias a estas características, las bases de datos se convierten en la solución natural para empresas, administraciones 
-    y organizaciones de todo tipo que necesiten almacenar y gestionar su información de manera fiable.
-  </p>
+      <pre><code>// Fichero: ventas_clientes.csv
+ID,Nombre,Telefono,Email
+1,María López,600111222,maria@example.com
+2,Juan García,600333444,juan@example.com
 
-  <div class="callout tip">
-    <p>
-      Piensa en una base de datos como en la infraestructura central de información de una organización. 
-      Igual que un sistema eléctrico distribuye la energía de forma segura y controlada a todos los dispositivos, 
-      la base de datos distribuye la información de manera estructurada, garantizando su integridad y accesibilidad. 
-    </p>
-  </div>
-</section>
+// Fichero: soporte_clientes.csv
+ClienteID,Nombre,Email,Incidencias
+1,María López,maria@example.com,3
+2,Juan García,juan@example.com,1
 
-<section id="sgbd">
-  <h2>4. Sistemas Gestores de Bases de Datos (SGBD)</h2>
-  <p>
-    Una <strong>base de datos</strong> por sí sola no es suficiente para garantizar un uso eficiente y seguro de la información. 
-    Es necesario un sistema que proporcione mecanismos para crear, organizar, consultar, modificar y proteger los datos de forma estructurada. 
-    Aquí entran en juego los <strong>Sistemas Gestores de Bases de Datos (SGBD)</strong>, que son el conjunto de programas diseñados para 
-    facilitar todas estas operaciones. Gracias a ellos, los usuarios no necesitan preocuparse por la implementación técnica 
-    ni por los detalles del almacenamiento físico: basta con interactuar a través de lenguajes de consulta o de aplicaciones que se apoyan en el SGBD.
-  </p>
-
-  <p>
-    Las funciones principales de un SGBD incluyen la <strong>definición</strong> de estructuras de datos, la 
-    <strong>inserción y modificación</strong> de registros, la <strong>gestión de transacciones</strong> que aseguren 
-    propiedades como la consistencia, el control de <strong>seguridad y accesos</strong>, y la 
-    <strong>recuperación ante fallos</strong>. En la práctica, esto significa que un SGBD no solo organiza información, 
-    sino que también garantiza su integridad y la disponibilidad en todo momento.
-  </p>
-
-  <h3>4.1 Tipos de SGBD</h3>
-  <p>
-    A lo largo de la historia de la informática han surgido distintos tipos de SGBD, cada uno con características específicas 
-    y con ventajas en diferentes contextos. Conocerlos ayuda a entender por qué los sistemas actuales están diseñados de la manera en que lo están:
-  </p>
-  <ul>
-    <li>
-      <strong>SGBD jerárquicos:</strong> organizan los datos en estructuras de árbol, con relaciones de tipo padre–hijo. 
-      Fueron muy usados en los años 60 y 70, sobre todo en sistemas bancarios y gubernamentales.
-    </li>
-    <li>
-      <strong>SGBD en red:</strong> permiten relaciones más flexibles entre registros, representando los datos en forma de grafo. 
-      Fueron una evolución de los jerárquicos para soportar estructuras más complejas.
-    </li>
-    <li>
-      <strong>SGBD relacionales:</strong> organizan los datos en tablas y son el estándar dominante desde los años 80 hasta hoy. 
-      Se basan en el álgebra relacional y lenguajes como SQL. Ejemplos: Oracle, MySQL, PostgreSQL.
-    </li>
-    <li>
-      <strong>SGBD orientados a objetos:</strong> incorporan conceptos de la programación orientada a objetos para almacenar datos junto con su comportamiento. 
-      Aunque no llegaron a ser masivos, son útiles en aplicaciones muy específicas.
-    </li>
-    <li>
-      <strong>SGBD NoSQL:</strong> pensados para grandes volúmenes de datos y alta escalabilidad. Aquí encontramos sistemas de tipo clave–valor, 
-      orientados a documentos (como MongoDB), a grafos (como Neo4j) o a columnas (como Cassandra).
-    </li>
-  </ul>
-
-  <h3>4.2 Componentes de un SGBD</h3>
-  <p>
-    Un SGBD no es un único programa, sino un conjunto de módulos especializados que trabajan en conjunto para 
-    ofrecer todas las funcionalidades. Entre los principales componentes destacan:
-  </p>
-  <ul>
-    <li>
-      <strong>Motor de almacenamiento:</strong> se encarga de guardar y recuperar los datos en memoria secundaria (discos).
-    </li>
-    <li>
-      <strong>Procesador de consultas:</strong> traduce las sentencias SQL en instrucciones ejecutables, optimizando la forma en que se accede a los datos.
-    </li>
-    <li>
-      <strong>Gestor de transacciones:</strong> asegura las propiedades ACID (Atomicidad, Consistencia, Aislamiento y Durabilidad).
-    </li>
-    <li>
-      <strong>Gestor de seguridad:</strong> controla accesos, permisos y autenticación de usuarios.
-    </li>
-    <li>
-      <strong>Catálogo del sistema:</strong> también conocido como diccionario de datos, guarda metainformación sobre tablas, vistas, índices y permisos.
-    </li>
-  </ul>
-
-  <div class="callout tip">
-    <p>
-      No existe un único tipo de SGBD que sea perfecto para todo. 
-      La elección depende del tipo de datos, del volumen, de las consultas que se vayan a realizar 
-      y de la escalabilidad necesaria. En la práctica, muchas organizaciones combinan varias tecnologías.
-    </p>
-  </div>
-</section>
-
-<section id="relacionales">
-  <h2>5. Bases de Datos Relacionales</h2>
-  <p>
-    Los <strong>Sistemas de Bases de Datos Relacionales</strong> (RDBMS, por sus siglas en inglés) 
-    son el tipo de SGBD más utilizado en la actualidad. Su éxito se debe a que ofrecen un 
-    modelo sencillo y potente a la vez: los <strong>datos se organizan en tablas</strong> 
-    (también llamadas relaciones), compuestas por filas y columnas. Cada fila representa un 
-    registro único y cada columna un atributo o característica del mismo. 
-  </p>
-
-  <p>
-    El modelo relacional fue propuesto por <strong>Edgar F. Codd</strong> en 1970 y revolucionó 
-    la manera de entender las bases de datos. Gracias a él, la información puede gestionarse 
-    mediante operaciones matemáticas del <em>álgebra relacional</em>, lo que proporciona una 
-    base formal para la manipulación y consulta de datos.
-  </p>
-
-  <h3>5.1 Conceptos clave</h3>
-  <ul>
-    <li>
-      <strong>Relaciones (tablas):</strong> cada tabla contiene información sobre una entidad, 
-      como <code>Clientes</code> o <code>Pedidos</code>.
-    </li>
-    <li>
-      <strong>Filas (tuplas):</strong> representan instancias concretas, como un cliente en particular 
-      o un pedido específico.
-    </li>
-    <li>
-      <strong>Columnas (atributos):</strong> definen las características de la entidad, como 
-      <code>nombre</code>, <code>apellido</code> o <code>fecha_pedido</code>.
-    </li>
-    <li>
-      <strong>Claves primarias:</strong> identifican de forma única cada fila dentro de una tabla.
-    </li>
-    <li>
-      <strong>Claves foráneas:</strong> permiten establecer vínculos entre tablas, garantizando 
-      la integridad referencial de los datos.
-    </li>
-  </ul>
-
-  <h3>5.2 Ejemplo sencillo</h3>
-  <p>
-    Supongamos una base de datos para gestionar pedidos en una tienda. Podríamos definir 
-    las siguientes tablas:
-  </p>
-
-  <pre><code>
-  CREATE TABLE Clientes (
-      cliente_id INT PRIMARY KEY,
-      nombre VARCHAR(100),
-      apellido VARCHAR(100),
-      email VARCHAR(150)
-  );
-
-  CREATE TABLE Pedidos (
-      pedido_id INT PRIMARY KEY,
-      fecha DATE,
-      cliente_id INT,
-      FOREIGN KEY (cliente_id) REFERENCES Clientes(cliente_id)
-  );
+// Fichero: contabilidad_clientes.csv
+ID,Cliente,Facturacion
+1,María López,15000
+2,Juan García,8500
   </code></pre>
 
-  <p>
-    En este ejemplo, la tabla <code>Pedidos</code> contiene una clave foránea 
-    (<code>cliente_id</code>) que se refiere a la clave primaria de <code>Clientes</code>. 
-    Esto significa que cada pedido está siempre asociado a un cliente válido. 
-  </p>
+      <p>
+        <strong>Problemas que surgen:</strong>
+      </p>
+      <ul>
+        <li>Si María cambia su email, hay que actualizar 3 ficheros distintos (redundancia e inconsistencia)</li>
+        <li>No hay forma de asegurar que el ID 1 siempre es la misma persona en los 3 ficheros</li>
+        <li>Si dos usuarios editan simultáneamente, uno puede sobrescribir los cambios del otro</li>
+        <li>No se puede validar que el teléfono tenga 9 dígitos o que el email contenga @</li>
+        <li>Para obtener un informe completo de un cliente, hay que leer y cruzar manualmente los 3 ficheros</li>
+      </ul>
 
-  <h3>5.3 Ventajas del modelo relacional</h3>
-  <ul>
-    <li>Facilidad de comprensión: las tablas son una forma intuitiva de organizar datos.</li>
-    <li>Potencia en las consultas: gracias a SQL se pueden realizar búsquedas muy complejas.</li>
-    <li>Integridad referencial: asegura que los datos mantengan coherencia entre sí.</li>
-    <li>Escalabilidad: se adapta tanto a aplicaciones pequeñas como a sistemas empresariales masivos.</li>
-  </ul>
+      <div class="callout warning">
+        <p>
+          Aunque los ficheros pueden ser útiles en proyectos pequeños o para almacenamiento temporal,
+          <strong>no son adecuados cuando el volumen de datos crece</strong> o cuando la información debe
+          compartirse entre distintos usuarios y aplicaciones. En estas situaciones, las bases de datos
+          resultan imprescindibles.
+        </p>
+      </div>
+    </section>
 
-  <div class="callout tip">
-    <p>
-      Una buena práctica en bases de datos relacionales es 
-      <em>normalizar</em> las tablas. La normalización consiste en aplicar reglas que 
-      eliminan redundancias y aseguran una mejor organización de los datos. Sin embargo, 
-      en algunos sistemas de alto rendimiento se aplican técnicas contrarias 
-      (desnormalización) para acelerar las consultas.
-    </p>
-  </div>
-</section>
+    <section id="bd">
+      <h2>3. Bases de datos</h2>
+      <p>
+        Para superar las limitaciones de los sistemas basados en ficheros, surge el concepto de <strong>base de datos</strong>.
+        Una base de datos no es simplemente un conjunto de ficheros: es un <em>almacén estructurado de información</em>, diseñado
+        para garantizar la consistencia, integridad y disponibilidad de los datos.
+        Además, las bases de datos están gestionadas por un software especializado que centraliza el control y ofrece
+        un conjunto de herramientas para manipular la información de forma eficiente.
+      </p>
 
-<section id="ejercicios">
-  <h2>6. Ejercicios de refuerzo</h2>
-  <p>
-    Para consolidar los conceptos aprendidos sobre datos, información, sistemas de gestión de bases de datos y el modelo relacional, se proponen los siguientes ejercicios. 
-    Algunos de ellos son prácticos, otros requieren reflexión e investigación adicional.
-  </p>
+      <h3>3.1 Características principales</h3>
+      <ul>
+        <li><strong>Centralización:</strong> los datos se almacenan en un sistema único, accesible para distintas aplicaciones y usuarios.</li>
+        <li><strong>Reducción de redundancia:</strong> la información se organiza de manera que se minimiza la duplicidad.</li>
+        <li><strong>Integridad:</strong> se pueden definir reglas que aseguren que los datos cumplen restricciones lógicas y de negocio.</li>
+        <li><strong>Seguridad:</strong> se gestionan permisos de acceso diferenciados para usuarios y grupos.</li>
+        <li><strong>Escalabilidad:</strong> permiten manejar grandes volúmenes de información sin degradar el rendimiento.</li>
+        <li><strong>Flexibilidad en las consultas:</strong> gracias a lenguajes especializados como SQL, es posible recuperar
+          información compleja de forma rápida.</li>
+        <li><strong>Copias de seguridad y recuperación:</strong> mecanismos automatizados de backup y restore.</li>
+        <li><strong>Control de concurrencia:</strong> múltiples usuarios pueden trabajar simultáneamente sin conflictos.</li>
+      </ul>
 
-  <h3>Ejercicios de investigación</h3>
-  <ol>
-    <li>
-      Investiga un caso real en el que la gestión de la información en simples ficheros haya causado problemas de coherencia o pérdida de datos. Explica cómo una base de datos podría haber solucionado el problema.
-    </li>
-    <li>
-      ¿Qué diferencias encuentras entre un SGBD relacional (como Oracle o MySQL) y un SGBD NoSQL (como MongoDB)? Enumera ventajas e inconvenientes de cada enfoque.
-    </li>
-    <li>
-      Busca qué empresas tecnológicas utilizan bases de datos relacionales a gran escala y qué características de estos sistemas les resultan imprescindibles.
-    </li>
-  </ol>
+      <h3>3.2 Ejemplo comparativo</h3>
+      <p>
+        Retomando el ejemplo anterior de la empresa con ficheros CSV, con una base de datos tendríamos:
+      </p>
 
-  <h3>Ejercicios de reflexión</h3>
-  <ol>
-    <li>
-      Explica, con tus propias palabras, la diferencia entre <strong>dato</strong> e <strong>información</strong>. Pon un ejemplo de tu vida cotidiana.
-    </li>
-    <li>
-      ¿Por qué es importante que un SGBD asegure las propiedades <strong>ACID</strong> en las transacciones? Imagina qué pasaría si una transferencia bancaria no cumpliera estas propiedades.
-    </li>
-    <li>
-      Diseña un pequeño escenario de base de datos para una biblioteca usando únicamente <em>ficheros de texto</em>. Luego, identifica los problemas que surgirían y describe cómo los resolverías usando un SGBD.
-    </li>
-  </ol>
+      <pre><code>-- Una única tabla Clientes
+CREATE TABLE Clientes (
+    id INT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    telefono VARCHAR(9) CHECK (LENGTH(telefono) = 9),
+    email VARCHAR(150) UNIQUE CHECK (email LIKE '%@%'),
+    incidencias INT DEFAULT 0,
+    facturacion DECIMAL(10,2) DEFAULT 0.00
+);
 
-  <h3>Ejercicios prácticos</h3>
-  <ol>
-    <li>
-      Dibuja un pequeño diagrama relacional (tablas + relaciones) para un sistema de gestión de una tienda online que maneja <strong>Clientes</strong>, <strong>Pedidos</strong> y <strong>Productos</strong>.
-    </li>
-    <li>
-      Identifica las claves primarias y foráneas en tu diagrama del ejercicio anterior y explica qué restricciones aseguran la integridad referencial.
-    </li>
-    <li>
-      Plantea al menos 3 consultas SQL que podrían hacerse sobre tu diseño relacional. Escríbelas en pseudocódigo (no hace falta ejecutarlas todavía).
-    </li>
-  </ol>
+-- Todos los departamentos consultan la misma información centralizada
+-- Si María cambia su email, se actualiza una sola vez
+-- Las restricciones CHECK garantizan integridad
+-- Múltiples usuarios pueden trabajar simultáneamente
+  </code></pre>
 
-  <div class="callout tip">
-    <p>
-      <strong>Tip:</strong> Al resolver los ejercicios prácticos, intenta pensar en cómo organizarías la información en tablas y qué relaciones son necesarias. Esta habilidad es clave para el siguiente bloque del curso, donde se trabajará el <strong>diseño lógico</strong> y el <strong>modelo relacional</strong>.
-    </p>
-  </div>
-</section>
+      <p>
+        Gracias a estas características, las bases de datos se convierten en la solución natural para empresas, administraciones
+        y organizaciones de todo tipo que necesiten almacenar y gestionar su información de manera fiable.
+      </p>
+
+      <div class="callout tip">
+        <p>
+          Piensa en una base de datos como en la infraestructura central de información de una organización.
+          Igual que un sistema eléctrico distribuye la energía de forma segura y controlada a todos los dispositivos,
+          la base de datos distribuye la información de manera estructurada, garantizando su integridad y accesibilidad.
+        </p>
+      </div>
+    </section>
+
+    <section id="sgbd">
+      <h2>4. Sistemas Gestores de Bases de Datos (SGBD)</h2>
+      <p>
+        Una <strong>base de datos</strong> por sí sola no es suficiente para garantizar un uso eficiente y seguro de la información.
+        Es necesario un sistema que proporcione mecanismos para crear, organizar, consultar, modificar y proteger los datos de forma estructurada.
+        Aquí entran en juego los <strong>Sistemas Gestores de Bases de Datos (SGBD)</strong>, que son el conjunto de programas diseñados para
+        facilitar todas estas operaciones. Gracias a ellos, los usuarios no necesitan preocuparse por la implementación técnica
+        ni por los detalles del almacenamiento físico: basta con interactuar a través de lenguajes de consulta o de aplicaciones que se apoyan en el SGBD.
+      </p>
+
+      <p>
+        Las funciones principales de un SGBD incluyen la <strong>definición</strong> de estructuras de datos, la
+        <strong>inserción y modificación</strong> de registros, la <strong>gestión de transacciones</strong> que aseguren
+        propiedades como la consistencia, el control de <strong>seguridad y accesos</strong>, y la
+        <strong>recuperación ante fallos</strong>. En la práctica, esto significa que un SGBD no solo organiza información,
+        sino que también garantiza su integridad y la disponibilidad en todo momento.
+      </p>
+
+      <h3 id="tipos-sgbd">4.1 Tipos de SGBD</h3>
+      <p>
+        A lo largo de la historia de la informática han surgido distintos tipos de SGBD, cada uno con características específicas
+        y con ventajas en diferentes contextos. Conocerlos ayuda a entender por qué los sistemas actuales están diseñados de la manera en que lo están:
+      </p>
+      <ul>
+        <li>
+          <strong>SGBD jerárquicos:</strong> organizan los datos en estructuras de árbol, con relaciones de tipo padre–hijo.
+          Fueron muy usados en los años 60 y 70, sobre todo en sistemas bancarios y gubernamentales.
+          Ejemplo: IBM IMS (Information Management System).
+        </li>
+        <li>
+          <strong>SGBD en red:</strong> permiten relaciones más flexibles entre registros, representando los datos en forma de grafo.
+          Fueron una evolución de los jerárquicos para soportar estructuras más complejas.
+          Ejemplo: IDMS (Integrated Database Management System).
+        </li>
+        <li>
+          <strong>SGBD relacionales:</strong> organizan los datos en tablas y son el estándar dominante desde los años 80 hasta hoy.
+          Se basan en el álgebra relacional y lenguajes como SQL.
+          Ejemplos: Oracle, MySQL, PostgreSQL, Microsoft SQL Server, MariaDB.
+        </li>
+        <li>
+          <strong>SGBD orientados a objetos:</strong> incorporan conceptos de la programación orientada a objetos para almacenar datos junto con su comportamiento.
+          Aunque no llegaron a ser masivos, son útiles en aplicaciones muy específicas.
+          Ejemplos: ObjectDB, db4o.
+        </li>
+        <li>
+          <strong>SGBD NoSQL:</strong> pensados para grandes volúmenes de datos y alta escalabilidad. Aquí encontramos sistemas de tipo clave–valor,
+          orientados a documentos (como MongoDB), a grafos (como Neo4j) o a columnas (como Cassandra).
+          Veremos estos sistemas en detalle en la sección 6.
+        </li>
+      </ul>
+
+      <h3 id="componentes-sgbd">4.2 Componentes de un SGBD</h3>
+      <p>
+        Un SGBD no es un único programa, sino un conjunto de módulos especializados que trabajan en conjunto para
+        ofrecer todas las funcionalidades. Entre los principales componentes destacan:
+      </p>
+      <ul>
+        <li>
+          <strong>Motor de almacenamiento:</strong> se encarga de guardar y recuperar los datos en memoria secundaria (discos).
+          Gestiona aspectos como índices, páginas de datos, buffers y cachés.
+        </li>
+        <li>
+          <strong>Procesador de consultas:</strong> traduce las sentencias SQL en instrucciones ejecutables, optimizando la forma en que se accede a los datos.
+          Incluye el parser (analizador sintáctico), el optimizador de consultas y el ejecutor.
+        </li>
+        <li>
+          <strong>Gestor de transacciones:</strong> asegura las propiedades ACID (Atomicidad, Consistencia, Aislamiento y Durabilidad).
+          Maneja el control de concurrencia y la recuperación ante fallos.
+        </li>
+        <li>
+          <strong>Gestor de seguridad:</strong> controla accesos, permisos y autenticación de usuarios.
+          Implementa roles, privilegios y políticas de seguridad.
+        </li>
+        <li>
+          <strong>Catálogo del sistema:</strong> también conocido como diccionario de datos, guarda metainformación sobre tablas, vistas, índices y permisos.
+          Es el "mapa" que describe toda la estructura de la base de datos.
+        </li>
+        <li>
+          <strong>Gestor de copias de seguridad:</strong> permite realizar backups completos, incrementales y diferenciales,
+          así como restaurar la base de datos a un punto en el tiempo.
+        </li>
+      </ul>
+
+      <div class="callout tip">
+        <p>
+          No existe un único tipo de SGBD que sea perfecto para todo.
+          La elección depende del tipo de datos, del volumen, de las consultas que se vayan a realizar
+          y de la escalabilidad necesaria. En la práctica, muchas organizaciones combinan varias tecnologías:
+          por ejemplo, PostgreSQL para datos transaccionales y MongoDB para datos no estructurados.
+        </p>
+      </div>
+    </section>
+
+    <section id="relacionales">
+      <h2>5. Bases de Datos Relacionales</h2>
+      <p>
+        Los <strong>Sistemas de Bases de Datos Relacionales</strong> (RDBMS, por sus siglas en inglés)
+        son el tipo de SGBD más utilizado en la actualidad. Su éxito se debe a que ofrecen un
+        modelo sencillo y potente a la vez: los <strong>datos se organizan en tablas</strong>
+        (también llamadas relaciones), compuestas por filas y columnas. Cada fila representa un
+        registro único y cada columna un atributo o característica del mismo.
+      </p>
+
+      <p>
+        El modelo relacional fue propuesto por <strong>Edgar F. Codd</strong> en 1970 en su artículo
+        "A Relational Model of Data for Large Shared Data Banks" y revolucionó
+        la manera de entender las bases de datos. Gracias a él, la información puede gestionarse
+        mediante operaciones matemáticas del <em>álgebra relacional</em>, lo que proporciona una
+        base formal para la manipulación y consulta de datos.
+      </p>
+
+      <h3 id="conceptos-relacionales">5.1 Conceptos clave</h3>
+      <ul>
+        <li>
+          <strong>Relaciones (tablas):</strong> cada tabla contiene información sobre una entidad,
+          como <code>Clientes</code> o <code>Pedidos</code>. El nombre técnico es "relación".
+        </li>
+        <li>
+          <strong>Filas (tuplas):</strong> representan instancias concretas, como un cliente en particular
+          o un pedido específico. Cada fila debe ser única.
+        </li>
+        <li>
+          <strong>Columnas (atributos):</strong> definen las características de la entidad, como
+          <code>nombre</code>, <code>apellido</code> o <code>fecha_pedido</code>. Cada columna tiene un tipo de dato.
+        </li>
+        <li>
+          <strong>Claves primarias (Primary Key):</strong> identifican de forma única cada fila dentro de una tabla.
+          No puede haber duplicados ni valores nulos en una clave primaria.
+        </li>
+        <li>
+          <strong>Claves foráneas (Foreign Key):</strong> permiten establecer vínculos entre tablas, garantizando
+          la integridad referencial de los datos. Una clave foránea en una tabla hace referencia a la clave primaria de otra tabla.
+        </li>
+        <li>
+          <strong>Índices:</strong> estructuras auxiliares que aceleran las búsquedas en las tablas,
+          similar a un índice de un libro.
+        </li>
+        <li>
+          <strong>Vistas:</strong> consultas predefinidas que se comportan como tablas virtuales,
+          útiles para simplificar consultas complejas o restringir acceso a ciertos datos.
+        </li>
+      </ul>
+
+      <h3 id="ejemplo-relacional">5.2 Ejemplo práctico completo</h3>
+      <p>
+        Supongamos una base de datos para gestionar pedidos en una tienda online. Necesitamos representar
+        clientes, productos, pedidos y los detalles de cada pedido (qué productos contiene cada pedido).
+      </p>
+
+      <pre><code>-- Tabla de Clientes
+CREATE TABLE Clientes (
+    cliente_id INT PRIMARY KEY AUTO_INCREMENT,
+    nombre VARCHAR(100) NOT NULL,
+    apellido VARCHAR(100) NOT NULL,
+    email VARCHAR(150) UNIQUE NOT NULL,
+    telefono VARCHAR(15),
+    fecha_registro DATE DEFAULT CURRENT_DATE,
+    activo BOOLEAN DEFAULT TRUE
+);
+
+-- Tabla de Productos
+CREATE TABLE Productos (
+    producto_id INT PRIMARY KEY AUTO_INCREMENT,
+    nombre VARCHAR(200) NOT NULL,
+    descripcion TEXT,
+    precio DECIMAL(10,2) NOT NULL CHECK (precio >= 0),
+    stock INT DEFAULT 0 CHECK (stock >= 0),
+    categoria VARCHAR(50)
+);
+
+-- Tabla de Pedidos
+CREATE TABLE Pedidos (
+    pedido_id INT PRIMARY KEY AUTO_INCREMENT,
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    cliente_id INT NOT NULL,
+    estado ENUM('pendiente', 'procesando', 'enviado', 'entregado', 'cancelado'),
+    total DECIMAL(10,2),
+    FOREIGN KEY (cliente_id) REFERENCES Clientes(cliente_id)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE
+);
+
+-- Tabla de Detalles de Pedido (relación muchos a muchos entre Pedidos y Productos)
+CREATE TABLE DetallesPedido (
+    detalle_id INT PRIMARY KEY AUTO_INCREMENT,
+    pedido_id INT NOT NULL,
+    producto_id INT NOT NULL,
+    cantidad INT NOT NULL CHECK (cantidad > 0),
+    precio_unitario DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (pedido_id) REFERENCES Pedidos(pedido_id)
+        ON DELETE CASCADE,
+    FOREIGN KEY (producto_id) REFERENCES Productos(producto_id)
+        ON DELETE RESTRICT
+);
+
+-- Ejemplo de inserción de datos
+INSERT INTO Clientes (nombre, apellido, email, telefono)
+VALUES ('María', 'López', 'maria.lopez@example.com', '600111222');
+
+INSERT INTO Productos (nombre, descripcion, precio, stock, categoria)
+VALUES ('Laptop Dell XPS 13', 'Portátil ultraligero 13 pulgadas', 1299.99, 15, 'Informática');
+
+INSERT INTO Pedidos (cliente_id, estado, total)
+VALUES (1, 'pendiente', 1299.99);
+
+INSERT INTO DetallesPedido (pedido_id, producto_id, cantidad, precio_unitario)
+VALUES (1, 1, 1, 1299.99);
+
+-- Consulta para ver todos los pedidos de un cliente con sus productos
+SELECT
+    c.nombre,
+    c.apellido,
+    p.pedido_id,
+    p.fecha,
+    p.estado,
+    pr.nombre AS producto,
+    dp.cantidad,
+    dp.precio_unitario
+FROM Clientes c
+JOIN Pedidos p ON c.cliente_id = p.cliente_id
+JOIN DetallesPedido dp ON p.pedido_id = dp.pedido_id
+JOIN Productos pr ON dp.producto_id = pr.producto_id
+WHERE c.cliente_id = 1;
+  </code></pre>
+
+      <p>
+        En este ejemplo podemos observar:
+      </p>
+      <ul>
+        <li>Cada tabla tiene una clave primaria que identifica únicamente cada registro</li>
+        <li>Las claves foráneas establecen relaciones entre tablas (un pedido pertenece a un cliente)</li>
+        <li>Las restricciones CHECK aseguran la integridad (no puede haber precios o stocks negativos)</li>
+        <li>Las restricciones UNIQUE evitan duplicados (no puede haber dos clientes con el mismo email)</li>
+        <li>Las opciones ON DELETE y ON UPDATE definen el comportamiento en cascada</li>
+        <li>La tabla DetallesPedido resuelve la relación muchos a muchos entre Pedidos y Productos</li>
+      </ul>
+
+      <h3 id="ventajas-relacionales">5.3 Ventajas del modelo relacional</h3>
+      <ul>
+        <li><strong>Facilidad de comprensión:</strong> las tablas son una forma intuitiva de organizar datos.</li>
+        <li><strong>Potencia en las consultas:</strong> gracias a SQL se pueden realizar búsquedas muy complejas con JOINs, subconsultas y agregaciones.</li>
+        <li><strong>Integridad referencial:</strong> asegura que los datos mantengan coherencia entre sí mediante claves foráneas.</li>
+        <li><strong>Escalabilidad vertical:</strong> se adapta tanto a aplicaciones pequeñas como a sistemas empresariales masivos.</li>
+        <li><strong>Madurez y estandarización:</strong> el lenguaje SQL está estandarizado y la tecnología lleva más de 40 años refinándose.</li>
+        <li><strong>Transacciones ACID:</strong> garantiza consistencia y fiabilidad en operaciones críticas.</li>
+        <li><strong>Amplio ecosistema:</strong> herramientas de administración, monitorización, backup y desarrollo muy maduras.</li>
+      </ul>
+
+      <h3 id="propiedades-acid">5.4 Propiedades ACID</h3>
+      <p>
+        Una de las características más importantes de las bases de datos relacionales es que garantizan
+        las propiedades <strong>ACID</strong> en las transacciones:
+      </p>
+
+      <table>
+        <thead>
+        <tr>
+          <th>Propiedad</th>
+          <th>Significado</th>
+          <th>Ejemplo</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td><strong>Atomicidad</strong></td>
+          <td>Una transacción se ejecuta completamente o no se ejecuta en absoluto</td>
+          <td>En una transferencia bancaria, si falla el cargo, tampoco se realiza el abono</td>
+        </tr>
+        <tr>
+          <td><strong>Consistencia</strong></td>
+          <td>La base de datos pasa de un estado válido a otro estado válido</td>
+          <td>La suma de saldos antes y después de transferencias debe ser la misma</td>
+        </tr>
+        <tr>
+          <td><strong>Aislamiento</strong></td>
+          <td>Las transacciones concurrentes no interfieren entre sí</td>
+          <td>Dos usuarios comprando el último artículo no pueden comprarlo ambos</td>
+        </tr>
+        <tr>
+          <td><strong>Durabilidad</strong></td>
+          <td>Una vez confirmada, la transacción persiste incluso ante fallos</td>
+          <td>Si el sistema se cae tras confirmar un pago, este no se pierde</td>
+        </tr>
+        </tbody>
+      </table>
+
+      <pre><code>-- Ejemplo de transacción ACID: transferencia bancaria
+START TRANSACTION;
+
+-- Restar dinero de la cuenta origen
+UPDATE Cuentas
+SET saldo = saldo - 100
+WHERE cuenta_id = 1;
+
+-- Verificar que el saldo no quede negativo
+-- Si queda negativo, hacer ROLLBACK automáticamente
+-- (esto se haría con un CHECK constraint o trigger)
+
+-- Sumar dinero a la cuenta destino
+UPDATE Cuentas
+SET saldo = saldo + 100
+WHERE cuenta_id = 2;
+
+-- Si todo está correcto, confirmar la transacción
+COMMIT;
+
+-- Si algo falla, deshacer todos los cambios
+-- ROLLBACK;
+  </code></pre>
+
+      <div class="callout tip">
+        <p>
+          Una buena práctica en bases de datos relacionales es
+          <em>normalizar</em> las tablas. La normalización consiste en aplicar reglas (formas normales) que
+          eliminan redundancias y aseguran una mejor organización de los datos. Las principales formas
+          normales son: 1FN (atributos atómicos), 2FN (dependencia total de la clave), 3FN (sin dependencias transitivas).
+          Sin embargo, en algunos sistemas de alto rendimiento se aplican técnicas contrarias
+          (desnormalización) para acelerar las consultas, aceptando cierta redundancia a cambio de velocidad.
+        </p>
+      </div>
+    </section>
+
+    <section id="nosql">
+      <h2>6. Bases de Datos NoSQL</h2>
+
+      <h3 id="intro-nosql">6.1 Introducción a NoSQL</h3>
+      <p>
+        El término <strong>NoSQL</strong> (originalmente "No SQL", ahora también interpretado como "Not Only SQL")
+        surgió a finales de la década de 2000 para describir una nueva generación de sistemas de bases de datos
+        que rompen con el modelo relacional tradicional. Estas bases de datos nacieron como respuesta a las
+        necesidades de empresas tecnológicas (Google, Amazon, Facebook) que debían manejar volúmenes masivos
+        de datos distribuidos en múltiples servidores.
+      </p>
+
+      <p>
+        Las bases de datos NoSQL están diseñadas principalmente para:
+      </p>
+      <ul>
+        <li><strong>Escalabilidad horizontal:</strong> distribuir datos entre cientos o miles de servidores</li>
+        <li><strong>Alto rendimiento:</strong> procesar millones de operaciones por segundo</li>
+        <li><strong>Flexibilidad de esquema:</strong> almacenar datos sin estructura fija predefinida</li>
+        <li><strong>Disponibilidad:</strong> mantener el servicio activo incluso ante fallos de servidores</li>
+        <li><strong>Grandes volúmenes:</strong> manejar petabytes de información distribuida</li>
+      </ul>
+
+      <div class="callout tip">
+        <p>
+          <strong>¿Cuándo usar NoSQL?</strong> Considera NoSQL cuando necesites escalabilidad horizontal masiva,
+          cuando los datos no tengan una estructura fija, cuando priorices disponibilidad sobre consistencia estricta,
+          o cuando trabajes con datos no relacionales (documentos JSON, grafos de relaciones sociales, series temporales).
+        </p>
+      </div>
+
+      <h3 id="tipos-nosql">6.2 Tipos de Bases de Datos NoSQL</h3>
+      <p>
+        A diferencia de las bases de datos relacionales que comparten un modelo común (tablas),
+        las bases de datos NoSQL se dividen en varios tipos fundamentalmente diferentes:
+      </p>
+
+      <table>
+        <thead>
+        <tr>
+          <th>Tipo</th>
+          <th>Modelo de datos</th>
+          <th>Casos de uso típicos</th>
+          <th>Ejemplos</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td><strong>Documentales</strong></td>
+          <td>Documentos JSON/BSON</td>
+          <td>Aplicaciones web, CMS, catálogos de productos</td>
+          <td>MongoDB, CouchDB, RavenDB</td>
+        </tr>
+        <tr>
+          <td><strong>Clave-Valor</strong></td>
+          <td>Pares clave-valor simples</td>
+          <td>Cachés, sesiones, carritos de compra</td>
+          <td>Redis, Amazon DynamoDB, Riak</td>
+        </tr>
+        <tr>
+          <td><strong>Columnares</strong></td>
+          <td>Familias de columnas</td>
+          <td>Big Data, análisis, series temporales</td>
+          <td>Apache Cassandra, HBase, ScyllaDB</td>
+        </tr>
+        <tr>
+          <td><strong>Grafos</strong></td>
+          <td>Nodos y relaciones</td>
+          <td>Redes sociales, recomendaciones, detección de fraude</td>
+          <td>Neo4j, ArangoDB, Amazon Neptune</td>
+        </tr>
+        </tbody>
+      </table>
+
+      <h3 id="documentales">6.3 Bases de Datos Documentales</h3>
+      <p>
+        Las bases de datos documentales almacenan la información en documentos (normalmente JSON o BSON),
+        donde cada documento puede tener una estructura diferente. No requieren un esquema fijo,
+        lo que proporciona gran flexibilidad.
+      </p>
+
+      <h4>Características principales</h4>
+      <ul>
+        <li>Los documentos son autocontenidos y pueden incluir subdocumentos y arrays</li>
+        <li>No necesitan definir la estructura de antemano (schema-less o schema-flexible)</li>
+        <li>Permiten consultas complejas sobre los campos del documento</li>
+        <li>Soportan índices para acelerar búsquedas</li>
+        <li>Ideal para datos que naturalmente se representan como documentos (perfiles de usuario, artículos, productos)</li>
+      </ul>
+
+      <h4>Ejemplo práctico con MongoDB</h4>
+      <pre><code>// Colección de usuarios en MongoDB (equivalente a una tabla)
+// Cada documento puede tener campos diferentes
+
+// Usuario 1: perfil básico
+{
+  "_id": ObjectId("507f1f77bcf86cd799439011"),
+  "nombre": "María López",
+  "email": "maria@example.com",
+  "edad": 28,
+  "ciudad": "Valencia",
+  "intereses": ["programación", "diseño", "yoga"]
+}
+
+// Usuario 2: perfil completo con subdocumentos
+{
+  "_id": ObjectId("507f1f77bcf86cd799439012"),
+  "nombre": "Juan García",
+  "email": "juan@example.com",
+  "edad": 35,
+  "direccion": {
+    "calle": "Gran Vía 123",
+    "ciudad": "Madrid",
+    "cp": "28013"
+  },
+  "pedidos": [
+    {
+      "pedido_id": 1001,
+      "fecha": "2024-01-15",
+      "total": 299.99,
+      "productos": [
+        {"nombre": "Teclado mecánico", "precio": 129.99},
+        {"nombre": "Ratón inalámbrico", "precio": 49.99}
+      ]
+    },
+    {
+      "pedido_id": 1002,
+      "fecha": "2024-02-20",
+      "total": 899.99
+    }
+  ],
+  "verificado": true,
+  "fecha_registro": ISODate("2023-06-10T00:00:00Z")
+}
+
+// Insertar un documento
+db.usuarios.insertOne({
+  nombre: "Ana Martínez",
+  email: "ana@example.com",
+  edad: 31,
+  skills: ["JavaScript", "React", "Node.js"],
+  experiencia_años: 7
+});
+
+// Consultas en MongoDB
+// Buscar usuarios mayores de 30 años en Valencia
+db.usuarios.find({
+  edad: { $gt: 30 },
+  ciudad: "Valencia"
+});
+
+// Buscar usuarios con un interés específico
+db.usuarios.find({
+  intereses: "programación"
+});
+
+// Actualizar un documento añadiendo un nuevo interés
+db.usuarios.updateOne(
+  { email: "maria@example.com" },
+  { $push: { intereses: "machine learning" } }
+);
+
+// Buscar usuarios que hayan hecho pedidos superiores a 500€
+db.usuarios.find({
+  "pedidos.total": { $gt: 500 }
+});
+
+// Crear índice para acelerar búsquedas por email
+db.usuarios.createIndex({ email: 1 }, { unique: true });
+  </code></pre>
+
+      <h4>Ventajas de bases de datos documentales</h4>
+      <ul>
+        <li>Gran flexibilidad: cada documento puede tener campos diferentes</li>
+        <li>Evita JOINs: los datos relacionados se pueden incluir en el mismo documento</li>
+        <li>Desarrollo ágil: no requiere migraciones de esquema complejas</li>
+        <li>Rendimiento en lecturas: recuperar un documento completo es muy rápido</li>
+        <li>Natural para aplicaciones web: JSON es el formato nativo de JavaScript</li>
+      </ul>
+
+      <h4>Principales sistemas: MongoDB vs CouchDB</h4>
+      <table>
+        <thead>
+        <tr>
+          <th>Característica</th>
+          <th>MongoDB</th>
+          <th>CouchDB</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>Formato</td>
+          <td>BSON (Binary JSON)</td>
+          <td>JSON nativo</td>
+        </tr>
+        <tr>
+          <td>Consultas</td>
+          <td>Lenguaje propio rico y potente</td>
+          <td>MapReduce y vistas</td>
+        </tr>
+        <tr>
+          <td>Consistencia</td>
+          <td>Eventual o fuerte (configurable)</td>
+          <td>Eventual</td>
+        </tr>
+        <tr>
+          <td>Caso de uso</td>
+          <td>Aplicaciones web generales, Big Data</td>
+          <td>Aplicaciones offline-first, móviles</td>
+        </tr>
+        </tbody>
+      </table>
+
+      <h3 id="clave-valor">6.4 Bases de Datos Clave-Valor</h3>
+      <p>
+        Las bases de datos clave-valor son las más simples de todas las NoSQL.
+        Funcionan como un gran diccionario o mapa hash distribuido: cada valor se almacena
+        asociado a una clave única, y solo se puede recuperar conociendo esa clave.
+      </p>
+
+      <h4>Características principales</h4>
+      <ul>
+        <li>Modelo extremadamente simple: solo GET (leer) y PUT (escribir)</li>
+        <li>Altísimo rendimiento: operaciones en microsegundos</li>
+        <li>Escalabilidad masiva: pueden manejar millones de operaciones por segundo</li>
+        <li>El valor puede ser cualquier cosa: string, JSON, binario, objeto serializado</li>
+        <li>No hay consultas complejas: solo recuperación por clave exacta</li>
+      </ul>
+
+      <h4>Ejemplo práctico con Redis</h4>
+      <pre><code>// Redis es una BD clave-valor en memoria (muy rápida)
+
+// Operaciones básicas
+SET usuario:1001:nombre "María López"
+GET usuario:1001:nombre
+// Resultado: "María López"
+
+// Almacenar objetos JSON como valores
+SET usuario:1001:perfil '{"email":"maria@example.com","edad":28,"ciudad":"Valencia"}'
+GET usuario:1001:perfil
+
+// Establecer tiempo de expiración (útil para cachés y sesiones)
+SETEX sesion:abc123 3600 '{"user_id":1001,"login_time":"2024-01-15T10:00:00Z"}'
+// Expira en 3600 segundos (1 hora)
+
+// Contadores (atómicos, muy rápidos)
+SET producto:1234:vistas 0
+INCR producto:1234:vistas
+INCR producto:1234:vistas
+GET producto:1234:vistas
+// Resultado: "2"
+
+// Listas (útil para colas, notificaciones)
+LPUSH cola:tareas "procesar_pedido_1001"
+LPUSH cola:tareas "enviar_email_2002"
+RPOP cola:tareas
+// Resultado: "procesar_pedido_1001"
+
+// Sets (conjuntos únicos)
+SADD usuario:1001:intereses "programación"
+SADD usuario:1001:intereses "diseño"
+SADD usuario:1001:intereses "programación"  // No se añade (duplicado)
+SMEMBERS usuario:1001:intereses
+// Resultado: ["programación", "diseño"]
+
+// Hashes (útil para objetos con campos)
+HSET usuario:1002 nombre "Juan García"
+HSET usuario:1002 email "juan@example.com"
+HSET usuario:1002 edad 35
+HGETALL usuario:1002
+// Resultado: {"nombre":"Juan García","email":"juan@example.com","edad":"35"}
+
+// Uso típico: caché de consultas SQL
+SET cache:consulta:productos:categoria:laptops '[{"id":1,"nombre":"Dell XPS"},{"id":2,"nombre":"MacBook"}]'
+EXPIRE cache:consulta:productos:categoria:laptops 300
+// Caché expira en 5 minutos
+  </code></pre>
+
+      <h4>Casos de uso típicos</h4>
+      <ul>
+        <li><strong>Cachés:</strong> almacenar resultados de consultas costosas para acelerar lecturas</li>
+        <li><strong>Sesiones de usuario:</strong> almacenar información temporal de usuarios autenticados</li>
+        <li><strong>Carritos de compra:</strong> datos temporales que no necesitan persistencia compleja</li>
+        <li><strong>Contadores en tiempo real:</strong> vistas, likes, estadísticas que se actualizan constantemente</li>
+        <li><strong>Colas de tareas:</strong> sistemas de procesamiento asíncrono</li>
+        <li><strong>Límites de tasa (rate limiting):</strong> controlar número de peticiones por usuario</li>
+      </ul>
+
+      <h4>Principales sistemas: Redis vs DynamoDB</h4>
+      <table>
+        <thead>
+        <tr>
+          <th>Característica</th>
+          <th>Redis</th>
+          <th>Amazon DynamoDB</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>Almacenamiento</td>
+          <td>En memoria (con persistencia opcional)</td>
+          <td>Disco (SSD)</td>
+        </tr>
+        <tr>
+          <td>Velocidad</td>
+          <td>Extremadamente rápido (microsegundos)</td>
+          <td>Muy rápido (milisegundos)</td>
+        </tr>
+        <tr>
+          <td>Estructuras</td>
+          <td>Strings, listas, sets, hashes, sorted sets</td>
+          <td>Solo items con atributos</td>
+        </tr>
+        <tr>
+          <td>Escalabilidad</td>
+          <td>Vertical + clustering</td>
+          <td>Horizontal ilimitada (gestionada por AWS)</td>
+        </tr>
+        <tr>
+          <td>Caso de uso</td>
+          <td>Caché, sesiones, pub/sub, colas</td>
+          <td>Aplicaciones serverless, IoT, gaming</td>
+        </tr>
+        </tbody>
+      </table>
+
+      <h3 id="columnares">6.5 Bases de Datos Columnares</h3>
+      <p>
+        Las bases de datos columnares (también llamadas "wide-column stores") organizan los datos
+        en familias de columnas en lugar de en filas. A diferencia de las bases relacionales que
+        almacenan filas completas juntas, estas almacenan cada columna separadamente, lo que las
+        hace extremadamente eficientes para análisis de grandes volúmenes de datos.
+      </p>
+
+      <h4>Características principales</h4>
+      <ul>
+        <li>Optimizadas para escrituras y lecturas masivas distribuidas</li>
+        <li>Cada fila puede tener diferentes columnas (esquema flexible)</li>
+        <li>Excelente compresión de datos (columnas similares se comprimen bien)</li>
+        <li>Particionamiento automático de datos entre múltiples nodos</li>
+        <li>Alta disponibilidad sin punto único de fallo</li>
+        <li>Ideal para series temporales y análisis de Big Data</li>
+      </ul>
+
+      <h4>Ejemplo práctico con Apache Cassandra</h4>
+      <pre><code>// Cassandra usa CQL (Cassandra Query Language), similar a SQL
+
+-- Crear un keyspace (equivalente a una base de datos)
+CREATE KEYSPACE tienda
+WITH replication = {
+  'class': 'SimpleStrategy',
+  'replication_factor': 3
+};
+
+USE tienda;
+
+-- Crear una tabla (familia de columnas)
+CREATE TABLE sensores_temperatura (
+  sensor_id text,
+  timestamp timestamp,
+  temperatura decimal,
+  humedad decimal,
+  ubicacion text,
+  PRIMARY KEY (sensor_id, timestamp)
+) WITH CLUSTERING ORDER BY (timestamp DESC);
+
+-- Insertar datos
+INSERT INTO sensores_temperatura (sensor_id, timestamp, temperatura, humedad, ubicacion)
+VALUES ('sensor_001', '2024-01-15 10:00:00', 22.5, 65.0, 'Sala A');
+
+INSERT INTO sensores_temperatura (sensor_id, timestamp, temperatura, humedad, ubicacion)
+VALUES ('sensor_001', '2024-01-15 10:01:00', 22.7, 64.5, 'Sala A');
+
+INSERT INTO sensores_temperatura (sensor_id, timestamp, temperatura, humedad, ubicacion)
+VALUES ('sensor_002', '2024-01-15 10:00:00', 21.3, 70.0, 'Sala B');
+
+-- Consultar últimas lecturas de un sensor (muy eficiente)
+SELECT * FROM sensores_temperatura
+WHERE sensor_id = 'sensor_001'
+ORDER BY timestamp DESC
+LIMIT 10;
+
+-- Consultar rango temporal
+SELECT * FROM sensores_temperatura
+WHERE sensor_id = 'sensor_001'
+AND timestamp >= '2024-01-15 10:00:00'
+AND timestamp < '2024-01-15 11:00:00';
+
+-- Tabla para eventos de usuarios (diferente estructura)
+CREATE TABLE eventos_usuario (
+  usuario_id text,
+  evento_id timeuuid,
+  tipo_evento text,
+  datos text,
+  PRIMARY KEY (usuario_id, evento_id)
+) WITH CLUSTERING ORDER BY (evento_id DESC);
+
+-- Cassandra permite diferentes columnas en diferentes filas
+INSERT INTO eventos_usuario (usuario_id, evento_id, tipo_evento, datos)
+VALUES ('user_001', now(), 'login', '{"ip":"192.168.1.1","navegador":"Chrome"}');
+
+INSERT INTO eventos_usuario (usuario_id, evento_id, tipo_evento, datos)
+VALUES ('user_001', now(), 'compra', '{"producto_id":1234,"precio":99.99}');
+
+-- Agregaciones con contadores
+CREATE TABLE estadisticas_producto (
+  producto_id int,
+  mes text,
+  vistas counter,
+  compras counter,
+  PRIMARY KEY (producto_id, mes)
+);
+
+UPDATE estadisticas_producto
+SET vistas = vistas + 1
+WHERE producto_id = 1234 AND mes = '2024-01';
+
+UPDATE estadisticas_producto
+SET compras = compras + 1
+WHERE producto_id = 1234 AND mes = '2024-01';
+  </code></pre>
+
+      <h4>Ventajas de bases de datos columnares</h4>
+      <ul>
+        <li>Escalabilidad horizontal lineal: añadir más nodos aumenta la capacidad proporcionalmente</li>
+        <li>Alta disponibilidad: sin punto único de fallo (arquitectura descentralizada)</li>
+        <li>Rendimiento predecible incluso con petabytes de datos</li>
+        <li>Escrituras extremadamente rápidas (optimizadas con LSM trees)</li>
+        <li>Ideal para series temporales, logs, métricas y eventos</li>
+      </ul>
+
+      <h4>Principales sistemas: Cassandra vs HBase</h4>
+      <table>
+        <thead>
+        <tr>
+          <th>Característica</th>
+          <th>Apache Cassandra</th>
+          <th>Apache HBase</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>Arquitectura</td>
+          <td>Descentralizada (peer-to-peer)</td>
+          <td>Master-slave (depende de HDFS)</td>
+        </tr>
+        <tr>
+          <td>Lenguaje</td>
+          <td>CQL (similar a SQL)</td>
+          <td>API Java, REST</td>
+        </tr>
+        <tr>
+          <td>Consistencia</td>
+          <td>Configurable (eventual o fuerte)</td>
+          <td>Fuerte</td>
+        </tr>
+        <tr>
+          <td>Ecosistema</td>
+          <td>Independiente</td>
+          <td>Integrado con Hadoop</td>
+        </tr>
+        <tr>
+          <td>Caso de uso</td>
+          <td>IoT, series temporales, mensajería</td>
+          <td>Big Data analytics, Hadoop ecosystem</td>
+        </tr>
+        </tbody>
+      </table>
+
+      <h3 id="grafos">6.6 Bases de Datos de Grafos</h3>
+      <p>
+        Las bases de datos de grafos almacenan datos como nodos (entidades) y aristas (relaciones entre entidades).
+        Este modelo es ideal cuando las relaciones entre datos son tan importantes como los datos mismos.
+        Son especialmente potentes para consultas que requieren recorrer múltiples niveles de relaciones.
+      </p>
+
+      <h4>Características principales</h4>
+      <ul>
+        <li>Los nodos representan entidades (personas, productos, lugares, etc.)</li>
+        <li>Las aristas representan relaciones con dirección y propiedades</li>
+        <li>Tanto nodos como aristas pueden tener propiedades (clave-valor)</li>
+        <li>Optimizadas para consultas de recorrido (traversal queries)</li>
+        <li>Excelentes para detectar patrones y caminos entre nodos</li>
+      </ul>
+
+      <h4>Ejemplo práctico con Neo4j</h4>
+      <pre><code>// Neo4j usa Cypher, un lenguaje declarativo para grafos
+
+// Crear nodos (personas)
+CREATE (maria:Persona {
+  nombre: 'María López',
+  edad: 28,
+  ciudad: 'Valencia',
+  profesion: 'Desarrolladora'
+});
+
+CREATE (juan:Persona {
+  nombre: 'Juan García',
+  edad: 35,
+  ciudad: 'Madrid',
+  profesion: 'Diseñador'
+});
+
+CREATE (ana:Persona {
+  nombre: 'Ana Martínez',
+  edad: 31,
+  ciudad: 'Barcelona',
+  profesion: 'Project Manager'
+});
+
+CREATE (carlos:Persona {
+  nombre: 'Carlos Ruiz',
+  edad: 29,
+  ciudad: 'Valencia',
+  profesion: 'Data Scientist'
+});
+
+// Crear relaciones entre personas
+MATCH (maria:Persona {nombre: 'María López'})
+MATCH (juan:Persona {nombre: 'Juan García'})
+CREATE (maria)-[:CONOCE {desde: '2020-03-15', relacion: 'amigos'}]->(juan);
+
+MATCH (juan:Persona {nombre: 'Juan García'})
+MATCH (ana:Persona {nombre: 'Ana Martínez'})
+CREATE (juan)-[:TRABAJA_CON {proyecto: 'WebApp2024', rol: 'colaborador'}]->(ana);
+
+MATCH (maria:Persona {nombre: 'María López'})
+MATCH (carlos:Persona {nombre: 'Carlos Ruiz'})
+CREATE (maria)-[:CONOCE {desde: '2019-06-01', relacion: 'compañeros'}]->(carlos);
+
+MATCH (ana:Persona {nombre: 'Ana Martínez'})
+MATCH (carlos:Persona {nombre: 'Carlos Ruiz'})
+CREATE (ana)-[:MENTORIZA {area: 'Machine Learning'}]->(carlos);
+
+// Crear nodos de empresas y proyectos
+CREATE (empresa1:Empresa {
+  nombre: 'TechCorp',
+  sector: 'Tecnología',
+  empleados: 500
+});
+
+CREATE (proyecto1:Proyecto {
+  nombre: 'WebApp2024',
+  presupuesto: 50000,
+  estado: 'en_desarrollo'
+});
+
+// Relacionar personas con empresas y proyectos
+MATCH (maria:Persona {nombre: 'María López'})
+MATCH (empresa1:Empresa {nombre: 'TechCorp'})
+CREATE (maria)-[:TRABAJA_EN {puesto: 'Senior Developer', desde: '2021-01-15'}]->(empresa1);
+
+MATCH (juan:Persona {nombre: 'Juan García'})
+MATCH (proyecto1:Proyecto {nombre: 'WebApp2024'})
+CREATE (juan)-[:PARTICIPA_EN {rol: 'Lead Designer', horas_semanales: 30}]->(proyecto1);
+
+// CONSULTAS POTENTES
+
+// 1. Encontrar amigos de amigos (2 niveles de profundidad)
+MATCH (maria:Persona {nombre: 'María López'})-[:CONOCE*1..2]-(amigo)
+RETURN DISTINCT amigo.nombre;
+
+// 2. Encontrar el camino más corto entre dos personas
+MATCH camino = shortestPath(
+  (maria:Persona {nombre: 'María López'})-[*]-(ana:Persona {nombre: 'Ana Martínez'})
+)
+RETURN camino;
+
+// 3. Recomendar personas que María podría conocer
+// (amigos de amigos que María aún no conoce)
+MATCH (maria:Persona {nombre: 'María López'})-[:CONOCE]-(amigo)-[:CONOCE]-(recomendacion)
+WHERE NOT (maria)-[:CONOCE]-(recomendacion)
+AND maria <> recomendacion
+RETURN recomendacion.nombre, COUNT(*) AS conexiones_comunes
+ORDER BY conexiones_comunes DESC;
+
+// 4. Encontrar expertos en un área mediante la red
+MATCH (persona:Persona)-[:MENTORIZA {area: 'Machine Learning'}]->(aprendiz)
+RETURN persona.nombre AS mentor, COUNT(aprendiz) AS num_mentorados
+ORDER BY num_mentorados DESC;
+
+// 5. Análisis de comunidades: personas en la misma ciudad que se conocen
+MATCH (p1:Persona)-[:CONOCE]-(p2:Persona)
+WHERE p1.ciudad = p2.ciudad
+RETURN p1.ciudad, COUNT(*) AS conexiones_locales
+ORDER BY conexiones_locales DESC;
+
+// 6. Detectar influencers (personas con más conexiones)
+MATCH (persona:Persona)-[rel]-(conectado)
+RETURN persona.nombre, COUNT(rel) AS num_conexiones
+ORDER BY num_conexiones DESC
+LIMIT 5;
+
+// 7. Proyectos en los que colaboran personas que se conocen
+MATCH (p1:Persona)-[:CONOCE]-(p2:Persona),
+      (p1)-[:PARTICIPA_EN]->(proyecto:Proyecto)<-[:PARTICIPA_EN]-(p2)
+RETURN proyecto.nombre, p1.nombre, p2.nombre;
+  </code></pre>
+
+      <h4>Casos de uso típicos</h4>
+      <ul>
+        <li><strong>Redes sociales:</strong> modelar conexiones, sugerencias de amistad, feed de noticias</li>
+        <li><strong>Sistemas de recomendación:</strong> productos, contenidos, contactos basados en grafo social</li>
+        <li><strong>Detección de fraude:</strong> identificar patrones sospechosos en transacciones</li>
+        <li><strong>Gestión del conocimiento:</strong> wikis, ontologías, relaciones entre conceptos</li>
+        <li><strong>Redes de logística:</strong> optimización de rutas, cadenas de suministro</li>
+        <li><strong>Análisis de impacto:</strong> cómo un cambio afecta a elementos relacionados</li>
+      </ul>
+
+      <h4>Ventajas de bases de datos de grafos</h4>
+      <ul>
+        <li>Consultas de relaciones complejas son extremadamente rápidas</li>
+        <li>Modelo natural para datos altamente conectados</li>
+        <li>Flexibilidad: fácil añadir nuevos tipos de nodos y relaciones</li>
+        <li>Excelente rendimiento en consultas de profundidad variable</li>
+        <li>Visualización intuitiva de los datos y sus relaciones</li>
+      </ul>
+
+      <h4>Principales sistemas: Neo4j vs ArangoDB</h4>
+      <table>
+        <thead>
+        <tr>
+          <th>Característica</th>
+          <th>Neo4j</th>
+          <th>ArangoDB</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>Tipo</td>
+          <td>Solo grafos</td>
+          <td>Multi-modelo (grafos, documentos, clave-valor)</td>
+        </tr>
+        <tr>
+          <td>Lenguaje</td>
+          <td>Cypher (muy expresivo para grafos)</td>
+          <td>AQL (similar a SQL)</td>
+        </tr>
+        <tr>
+          <td>Rendimiento</td>
+          <td>Optimizado para traversals complejos</td>
+          <td>Bueno en general, flexible</td>
+        </tr>
+        <tr>
+          <td>Ecosistema</td>
+          <td>Muy maduro, amplia comunidad</td>
+          <td>Creciente, moderna</td>
+        </tr>
+        <tr>
+          <td>Caso de uso</td>
+          <td>Cuando el grafo es el modelo principal</td>
+          <td>Cuando necesitas grafos + otros modelos</td>
+        </tr>
+        </tbody>
+      </table>
+
+      <h3 id="teorema-cap">6.7 Teorema CAP</h3>
+      <p>
+        El <strong>Teorema CAP</strong>, formulado por Eric Brewer en 2000, es fundamental para entender
+        los compromisos que hacen las bases de datos distribuidas (incluyendo NoSQL).
+        Establece que en un sistema distribuido es imposible garantizar simultáneamente las tres propiedades siguientes:
+      </p>
+
+      <table>
+        <thead>
+        <tr>
+          <th>Propiedad</th>
+          <th>Descripción</th>
+          <th>Ejemplo</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td><strong>Consistency (Consistencia)</strong></td>
+          <td>Todos los nodos ven los mismos datos al mismo tiempo</td>
+          <td>Después de actualizar un dato, todas las lecturas devuelven el nuevo valor</td>
+        </tr>
+        <tr>
+          <td><strong>Availability (Disponibilidad)</strong></td>
+          <td>El sistema siempre responde a las peticiones (aunque algunos nodos fallen)</td>
+          <td>La aplicación sigue funcionando aunque fallen servidores</td>
+        </tr>
+        <tr>
+          <td><strong>Partition tolerance (Tolerancia a particiones)</strong></td>
+          <td>El sistema sigue operando aunque se pierda comunicación entre nodos</td>
+          <td>Si se corta la red entre data centers, ambos siguen sirviendo peticiones</td>
+        </tr>
+        </tbody>
+      </table>
+
+      <p>
+        Según el teorema CAP, solo se pueden garantizar <strong>dos de estas tres propiedades</strong>.
+        Esto lleva a tres tipos de sistemas:
+      </p>
+
+      <div class="callout tip">
+        <p>
+          <strong>CP (Consistency + Partition tolerance):</strong> Sacrifica disponibilidad.
+          Si hay una partición de red, algunos nodos dejan de responder hasta que se resuelva,
+          garantizando que todos los datos sean consistentes. <br>
+          <em>Ejemplos: HBase, MongoDB (configurado en modo strong consistency), Redis (en modo cluster)</em>
+        </p>
+      </div>
+
+      <div class="callout tip">
+        <p>
+          <strong>AP (Availability + Partition tolerance):</strong> Sacrifica consistencia fuerte.
+          El sistema siempre responde, pero puede devolver datos temporalmente inconsistentes entre nodos.
+          Utiliza consistencia eventual: los datos convergen con el tiempo. <br>
+          <em>Ejemplos: Cassandra, DynamoDB, CouchDB, Riak</em>
+        </p>
+      </div>
+
+      <div class="callout tip">
+        <p>
+          <strong>CA (Consistency + Availability):</strong> No tolera particiones de red.
+          En la práctica, esto solo es viable en sistemas no distribuidos o en redes extremadamente fiables. <br>
+          <em>Ejemplos: Bases de datos relacionales tradicionales en un solo servidor (PostgreSQL, MySQL)</em>
+        </p>
+      </div>
+
+      <h4>Ejemplo práctico del teorema CAP</h4>
+      <p>
+        Imaginemos un sistema de comercio electrónico con dos data centers (España y EE.UU.)
+        para dar servicio global:
+      </p>
+
+      <pre><code>// Escenario: Un cliente actualiza su dirección de envío
+
+// Sistema CP (MongoDB en strong consistency)
+// 1. Cliente actualiza dirección en servidor España
+// 2. Sistema espera a que se replique a EE.UU.
+// 3. Si hay partición de red, el sistema rechaza la escritura
+// 4. Ventaja: Garantiza que todos leen la dirección correcta
+// 5. Desventaja: Si se cae la conexión, no se pueden hacer actualizaciones
+
+// Sistema AP (Cassandra)
+// 1. Cliente actualiza dirección en servidor España
+// 2. Sistema acepta inmediatamente (sin esperar replicación)
+// 3. Si hay partición de red, cada data center acepta cambios independientes
+// 4. Ventaja: El sistema siempre está disponible para escrituras
+// 5. Desventaja: Temporalmente, España y EE.UU. pueden tener direcciones diferentes
+// 6. Resolución: Tras restaurarse la red, se aplica una política de reconciliación
+//    (por ejemplo, "last write wins" - gana la última escritura)
+  </code></pre>
+
+      <table>
+        <thead>
+        <tr>
+          <th>Base de datos</th>
+          <th>Tipo CAP</th>
+          <th>Trade-off</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>MongoDB</td>
+          <td>CP (configurable)</td>
+          <td>Puede sacrificar disponibilidad para garantizar consistencia</td>
+        </tr>
+        <tr>
+          <td>Cassandra</td>
+          <td>AP</td>
+          <td>Siempre disponible, pero con consistencia eventual</td>
+        </tr>
+        <tr>
+          <td>Redis</td>
+          <td>CP (cluster) / CA (single)</td>
+          <td>En cluster sacrifica disponibilidad ante particiones</td>
+        </tr>
+        <tr>
+          <td>CouchDB</td>
+          <td>AP</td>
+          <td>Diseñado para consistencia eventual</td>
+        </tr>
+        <tr>
+          <td>Neo4j</td>
+          <td>CA (causal cluster puede ser CP)</td>
+          <td>Tradicionalmente no distribuido, versiones nuevas soportan clustering</td>
+        </tr>
+        <tr>
+          <td>PostgreSQL</td>
+          <td>CA</td>
+          <td>No diseñado para particiones de red (sistema centralizado)</td>
+        </tr>
+        </tbody>
+      </table>
+
+      <h3 id="sql-vs-nosql">6.8 Comparativa SQL vs NoSQL</h3>
+      <p>
+        Ahora que conocemos tanto las bases de datos relacionales como las NoSQL,
+        es importante entender cuándo usar cada una. No son tecnologías competidoras,
+        sino complementarias: cada una sobresale en diferentes escenarios.
+      </p>
+
+      <table>
+        <thead>
+        <tr>
+          <th>Aspecto</th>
+          <th>SQL (Relacional)</th>
+          <th>NoSQL</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td><strong>Modelo de datos</strong></td>
+          <td>Tablas con esquema fijo</td>
+          <td>Flexible: documentos, clave-valor, columnas, grafos</td>
+        </tr>
+        <tr>
+          <td><strong>Esquema</strong></td>
+          <td>Definido antes de insertar datos (schema-on-write)</td>
+          <td>Flexible, puede cambiar (schema-on-read)</td>
+        </tr>
+        <tr>
+          <td><strong>Escalabilidad</strong></td>
+          <td>Vertical (más potencia al servidor)</td>
+          <td>Horizontal (más servidores)</td>
+        </tr>
+        <tr>
+          <td><strong>Transacciones</strong></td>
+          <td>ACID completo, ideal para transacciones complejas</td>
+          <td>Varía: algunas solo eventual consistency, otras soportan transacciones</td>
+        </tr>
+        <tr>
+          <td><strong>Consistencia</strong></td>
+          <td>Fuerte (strong consistency)</td>
+          <td>Generalmente eventual (configurable en algunos casos)</td>
+        </tr>
+        <tr>
+          <td><strong>Consultas</strong></td>
+          <td>SQL muy expresivo, JOINs complejos</td>
+          <td>APIs específicas, limitadas en JOINs</td>
+        </tr>
+        <tr>
+          <td><strong>Relaciones</strong></td>
+          <td>Excelente con claves foráneas y JOINs</td>
+          <td>Limitadas (excepto BD de grafos)</td>
+        </tr>
+        <tr>
+          <td><strong>Madurez</strong></td>
+          <td>40+ años, muy estable y probado</td>
+          <td>Más reciente (10-15 años), en evolución</td>
+        </tr>
+        <tr>
+          <td><strong>Casos de uso</strong></td>
+          <td>Transacciones financieras, ERP, CRM, datos estructurados</td>
+          <td>Big Data, IoT, analytics, catálogos, redes sociales, cachés</td>
+        </tr>
+        </tbody>
+      </table>
+
+      <h4>¿Cuándo usar SQL?</h4>
+      <ul>
+        <li>Los datos tienen estructura clara y estable</li>
+        <li>Necesitas transacciones ACID complejas (bancos, comercio, contabilidad)</li>
+        <li>Las relaciones entre datos son críticas (muchos JOINs)</li>
+        <li>Requieres consultas complejas ad-hoc</li>
+        <li>La integridad referencial es imprescindible</li>
+        <li>El volumen de datos cabe en escalado vertical</li>
+        <li>Ejemplos: sistemas de facturación, gestión de pedidos, CRM</li>
+      </ul>
+
+      <h4>¿Cuándo usar NoSQL?</h4>
+      <ul>
+        <li>Los datos no tienen estructura fija o cambian frecuentemente</li>
+        <li>Necesitas escalar horizontalmente a muchos servidores</li>
+        <li>Priorizas disponibilidad sobre consistencia inmediata</li>
+        <li>Manejas volúmenes masivos de datos (petabytes)</li>
+        <li>Trabajas con datos semi-estructurados (JSON, logs, eventos)</li>
+        <li>Necesitas muy alto rendimiento en lecturas/escrituras</li>
+        <li>Ejemplos: catálogos de productos, perfiles de usuario, métricas, logs, mensajería</li>
+      </ul>
+
+      <h4>Arquitecturas híbridas (Polyglot Persistence)</h4>
+      <p>
+        En la práctica, muchas aplicaciones modernas usan <strong>múltiples bases de datos</strong>
+        en función de las necesidades de cada componente:
+      </p>
+
+      <pre><code>// Ejemplo de arquitectura de comercio electrónico
+
+PostgreSQL (SQL):
+  - Gestión de pedidos y transacciones (ACID crítico)
+  - Gestión de usuarios y autenticación
+  - Facturación y contabilidad
+
+MongoDB (Documental):
+  - Catálogo de productos (esquema flexible)
+  - Contenido del CMS
+  - Perfiles de usuario enriquecidos
+
+Redis (Clave-Valor):
+  - Caché de consultas frecuentes
+  - Sesiones de usuario
+  - Carritos de compra temporales
+  - Rate limiting
+
+Elasticsearch (Motor de búsqueda):
+  - Búsqueda de productos
+  - Búsqueda de texto completo
+  - Logs y analytics
+
+Cassandra (Columnar):
+  - Eventos de usuario (clickstream)
+  - Métricas y analytics en tiempo real
+  - Historial de navegación
+
+Neo4j (Grafos):
+  - Recomendaciones de productos
+  - "Usuarios que compraron esto también compraron..."
+  - Detección de fraude
+  </code></pre>
+
+      <div class="callout warning">
+        <p>
+          <strong>Advertencia:</strong> Usar múltiples bases de datos aumenta la complejidad operacional.
+          Solo hazlo cuando los beneficios (rendimiento, escalabilidad, flexibilidad) justifiquen
+          el coste adicional de mantenimiento, monitorización y conocimiento técnico requerido.
+        </p>
+      </div>
+
+      <h3 id="ventajas-nosql">6.9 Ventajas y Desventajas de NoSQL</h3>
+
+      <h4>Ventajas principales</h4>
+      <ul>
+        <li><strong>Escalabilidad horizontal:</strong> fácil añadir más servidores para aumentar capacidad</li>
+        <li><strong>Flexibilidad de esquema:</strong> no necesitas definir estructura rígida de antemano</li>
+        <li><strong>Alto rendimiento:</strong> optimizadas para casos de uso específicos (lecturas, escrituras, grafos)</li>
+        <li><strong>Disponibilidad:</strong> arquitecturas diseñadas para funcionar 24/7 sin downtime</li>
+        <li><strong>Manejo de Big Data:</strong> capaces de procesar petabytes de información distribuida</li>
+        <li><strong>Desarrollo ágil:</strong> cambios de esquema no requieren migraciones complejas</li>
+        <li><strong>Coste:</strong> muchas opciones open source y pueden usar hardware commodity</li>
+        <li><strong>Especialización:</strong> cada tipo está optimizado para casos de uso específicos</li>
+      </ul>
+
+      <h4>Desventajas y limitaciones</h4>
+      <ul>
+        <li><strong>Falta de estandarización:</strong> cada sistema tiene su propio lenguaje de consulta</li>
+        <li><strong>Consistencia eventual:</strong> puede haber lecturas temporalmente inconsistentes</li>
+        <li><strong>JOINs limitados:</strong> operaciones entre "tablas" son complejas o imposibles</li>
+        <li><strong>Madurez:</strong> menos años de desarrollo que sistemas SQL</li>
+        <li><strong>Menos herramientas:</strong> ecosistema de administración y monitorización menos maduro</li>
+        <li><strong>Curva de aprendizaje:</strong> cada tipo de NoSQL requiere aprender conceptos nuevos</li>
+        <li><strong>Transacciones limitadas:</strong> muchos no soportan transacciones multi-documento/multi-tabla</li>
+        <li><strong>Complejidad operacional:</strong> gestionar clusters distribuidos es complejo</li>
+      </ul>
+
+      <div class="callout tip">
+        <p>
+          <strong>Recomendación:</strong> Para empezar tu carrera como desarrollador, domina primero
+          las bases de datos relacionales (SQL). Son la base de la mayoría de aplicaciones empresariales
+          y te darán fundamentos sólidos. Después, aprende NoSQL según lo necesites: MongoDB si trabajas
+          con APIs REST/JSON, Redis para cachés, Neo4j para grafos sociales, etc. No necesitas saberlo
+          todo desde el principio.
+        </p>
+      </div>
+    </section>
+
+    <section id="ejercicios">
+      <h2>7. Ejercicios de refuerzo</h2>
+      <p>
+        Para consolidar los conceptos aprendidos sobre datos, información, sistemas de gestión de bases de datos
+        relacionales y NoSQL, se proponen los siguientes ejercicios. Algunos son prácticos, otros requieren
+        reflexión e investigación adicional.
+      </p>
+
+      <h3>7.1 Ejercicios de investigación</h3>
+      <ol>
+        <li>
+          Investiga un caso real en el que la gestión de la información en simples ficheros haya causado problemas
+          de coherencia o pérdida de datos. Explica cómo una base de datos podría haber solucionado el problema.
+        </li>
+        <li>
+          Busca qué empresas tecnológicas utilizan bases de datos relacionales a gran escala y qué características
+          de estos sistemas les resultan imprescindibles. Haz lo mismo con bases de datos NoSQL.
+        </li>
+        <li>
+          Investiga el caso de Instagram: ¿por qué migraron de PostgreSQL a Cassandra para ciertos tipos de datos?
+          ¿Qué les llevó a tomar esa decisión?
+        </li>
+        <li>
+          Busca información sobre el término "NewSQL". ¿Qué problemas intenta resolver?
+          ¿Cómo combina ventajas de SQL y NoSQL?
+        </li>
+      </ol>
+
+      <h3>7.2 Ejercicios de reflexión</h3>
+      <ol>
+        <li>
+          Explica, con tus propias palabras, la diferencia entre <strong>dato</strong> e <strong>información</strong>.
+          Pon un ejemplo de tu vida cotidiana.
+        </li>
+        <li>
+          ¿Por qué es importante que un SGBD asegure las propiedades <strong>ACID</strong> en las transacciones?
+          Imagina qué pasaría si una transferencia bancaria no cumpliera estas propiedades.
+        </li>
+        <li>
+          Diseña un pequeño escenario de base de datos para una biblioteca usando únicamente <em>ficheros de texto</em>.
+          Luego, identifica los problemas que surgirían y describe cómo los resolverías usando un SGBD relacional.
+        </li>
+        <li>
+          Explica el Teorema CAP con tus propias palabras. ¿Por qué es imposible garantizar las tres propiedades
+          simultáneamente en un sistema distribuido?
+        </li>
+        <li>
+          Si tuvieras que diseñar una red social (como Twitter), ¿qué tipo de base de datos usarías para cada
+          componente? (usuarios, tweets, timeline, trending topics, mensajes directos). Justifica tu respuesta.
+        </li>
+      </ol>
+
+      <h3>7.3 Ejercicios prácticos - SQL</h3>
+      <ol>
+        <li>
+          Dibuja un pequeño diagrama relacional (tablas + relaciones) para un sistema de gestión de una tienda online
+          que maneja <strong>Clientes</strong>, <strong>Pedidos</strong>, <strong>Productos</strong> y <strong>Categorías</strong>.
+        </li>
+        <li>
+          Identifica las claves primarias y foráneas en tu diagrama del ejercicio anterior y explica qué restricciones
+          aseguran la integridad referencial.
+        </li>
+        <li>
+          Escribe sentencias SQL para crear las tablas de tu diseño, incluyendo restricciones CHECK, UNIQUE,
+          NOT NULL y claves foráneas.
+        </li>
+        <li>
+          Plantea al menos 5 consultas SQL que podrían hacerse sobre tu diseño relacional:
+          <ul>
+            <li>Listar productos de una categoría específica</li>
+            <li>Mostrar todos los pedidos de un cliente con el total de cada pedido</li>
+            <li>Encontrar los 10 productos más vendidos</li>
+            <li>Calcular el total de ventas del último mes</li>
+            <li>Listar clientes que nunca han hecho un pedido</li>
+          </ul>
+        </li>
+      </ol>
+
+      <h3>7.4 Ejercicios prácticos - NoSQL</h3>
+      <ol>
+        <li>
+          Diseña el modelo de datos para un blog usando MongoDB. Decide si incrustar comentarios dentro del documento
+          del post o crear una colección separada. Justifica tu decisión.
+        </li>
+        <li>
+          Imagina que estás diseñando una aplicación de fitness que registra entrenamientos diarios.
+          ¿Usarías una BD relacional o Cassandra? ¿Por qué? Diseña el esquema que usarías.
+        </li>
+        <li>
+          Diseña un grafo para representar una red de recomendaciones de películas. Define:
+          <ul>
+            <li>Tipos de nodos (Película, Usuario, Actor, Director, Género)</li>
+            <li>Tipos de relaciones (VISTO, LE_GUSTA, ACTUA_EN, DIRIGE, PERTENECE_A)</li>
+            <li>Propiedades de nodos y relaciones</li>
+            <li>Tres consultas Cypher útiles (recomendaciones, actores más prolíficos, etc.)</li>
+          </ul>
+        </li>
+        <li>
+          Para cada uno de los siguientes escenarios, decide qué tipo de base de datos usarías (SQL, documental,
+          clave-valor, columnar o grafos) y justifica:
+          <ul>
+            <li>Sistema de reservas de hotel</li>
+            <li>Aplicación de mensajería instantánea (tipo WhatsApp)</li>
+            <li>Plataforma de streaming de música (tipo Spotify)</li>
+            <li>Sistema de gestión de inventario para supermercado</li>
+            <li>Red social profesional (tipo LinkedIn)</li>
+            <li>Plataforma de monitorización de sensores IoT (millones de lecturas/segundo)</li>
+          </ul>
+        </li>
+      </ol>
+
+      <h3>7.5 Ejercicio integrador</h3>
+      <p>
+        Diseña la arquitectura de bases de datos completa para una plataforma de e-learning (tipo Udemy/Coursera):
+      </p>
+      <ol>
+        <li>Identifica los diferentes tipos de datos que necesitas almacenar</li>
+        <li>Decide qué base de datos usar para cada tipo (puedes usar múltiples tecnologías)</li>
+        <li>Justifica cada elección basándote en: volumen, estructura, consultas, consistencia, escalabilidad</li>
+        <li>Dibuja un diagrama de arquitectura mostrando cómo interactúan los diferentes sistemas</li>
+        <li>Identifica los puntos críticos donde necesitas transacciones ACID</li>
+        <li>Diseña el esquema de datos para al menos dos de las bases de datos que elegiste</li>
+      </ol>
+
+      <div class="callout tip">
+        <p>
+          <strong>Tip:</strong> Al resolver los ejercicios prácticos, intenta pensar en cómo organizarías
+          la información y qué tipo de consultas se harán más frecuentemente. Esta habilidad de análisis
+          es clave para convertirte en un buen arquitecto de datos. No hay una única respuesta correcta:
+          lo importante es que justifiques tus decisiones técnicas.
+        </p>
+      </div>
+    </section>
 
 
   </main>
@@ -426,45 +1746,44 @@
   </div>
 </footer>
 
-<!-- JS de navegación (ajustado a tus clases e IDs) -->
 <script>
-(function(){
-  // Topbar toggle
-  var btn = document.querySelector('.topnav-toggle');
-  var nav = document.getElementById('topnav');
-  if (btn && nav) {
-    btn.addEventListener('click', function(){
-      var open = nav.classList.toggle('open');
-      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-    });
-    nav.addEventListener('click', function(e){
-      if (e.target.tagName === 'A' && nav.classList.contains('open')) {
-        nav.classList.remove('open');
-        btn.setAttribute('aria-expanded', 'false');
-      }
-    });
-  }
-
-  // Resalta enlace activo en el TOC según sección visible
-  var links = document.querySelectorAll('.toc a[href^="#"]');
-  var targets = Array.prototype.map.call(links, function(a){
-    try { return document.querySelector(a.getAttribute('href')); } catch(e){ return null; }
-  }).filter(Boolean);
-
-  if ('IntersectionObserver' in window) {
-    var obs = new IntersectionObserver(function(entries){
-      entries.forEach(function(entry){
-        if (entry.isIntersecting) {
-          var id = '#' + entry.target.id;
-          links.forEach(function(a){
-            a.classList.toggle('active', a.getAttribute('href') === id);
-          });
+  (function(){
+    // Topbar toggle
+    var btn = document.querySelector('.topnav-toggle');
+    var nav = document.getElementById('topnav');
+    if (btn && nav) {
+      btn.addEventListener('click', function(){
+        var open = nav.classList.toggle('open');
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      nav.addEventListener('click', function(e){
+        if (e.target.tagName === 'A' && nav.classList.contains('open')) {
+          nav.classList.remove('open');
+          btn.setAttribute('aria-expanded', 'false');
         }
       });
-    }, { rootMargin: "-40% 0px -55% 0px", threshold: 0 });
-    targets.forEach(function(t){ obs.observe(t); });
-  }
-})();
+    }
+
+    // Resalta enlace activo en el TOC según sección visible
+    var links = document.querySelectorAll('.toc a[href^="#"]');
+    var targets = Array.prototype.map.call(links, function(a){
+      try { return document.querySelector(a.getAttribute('href')); } catch(e){ return null; }
+    }).filter(Boolean);
+
+    if ('IntersectionObserver' in window) {
+      var obs = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if (entry.isIntersecting) {
+            var id = '#' + entry.target.id;
+            links.forEach(function(a){
+              a.classList.toggle('active', a.getAttribute('href') === id);
+            });
+          }
+        });
+      }, { rootMargin: "-40% 0px -55% 0px", threshold: 0 });
+      targets.forEach(function(t){ obs.observe(t); });
+    }
+  })();
 </script>
 </body>
 </html>
