@@ -8,222 +8,356 @@
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Playfair+Display:wght@700&family=Source+Code+Pro:wght@400&display=swap" rel="stylesheet">
 </head>
 <body>
-  <header id="arriba" class="topbar">
-    <div class="wrap">
-      <div class="site-brand">
-        <a href="./index.html">Lenguajes de Marcas</a>
-        <small>1º DAW</small>
-      </div>
-      <nav class="topnav">
-        <ul>
+<header id="arriba" class="topbar">
+  <div class="wrap">
+    <div class="site-brand">
+      <a href="./index.html">Lenguajes de Marcas</a>
+      <small>1º DAW</small>
+    </div>
+    <nav class="topnav">
+      <ul>
         <li><a href="./index.html">Inicio</a></li>
         <li><a href="./lm.html">L. Marcas</a></li>
         <li><a href="./html.html">HTML</a></li>
         <li><a href="./css.html">CSS</a></li>
-        <li><a href="./js.html">JavaScript</a></li>
+        <li><a href="./ts.html">TypeScript</a></li>
       </ul>
-      </nav>
-    </div>
-  </header>
+    </nav>
+  </div>
+</header>
 
-  <main class="layout">
-    <aside class="sidebar">
-      <h2>Índice de la Unidad</h2>
-      <ul class="toc">
-        <li><a href="#hero-index">Portada</a></li>
-          <li><a href="#objetivos">1. Objetivos</a></li>
-          <li><a href="#metodologia">2. Metodología</a></li>
-          <li><a href="#unidades">3. Unidades</a></li>
-          <li><a href="#evaluacion">4. Evaluación</a></li>
-          <li><a href="#recursos">5. Recursos</a></li>
-          <li><a href="#normas">6. Normas</a></li>
+<main class="layout">
+  <aside class="sidebar">
+    <h2>Índice de la Unidad</h2>
+    <ul class="toc">
+      <li><a href="#hero-index">Portada</a></li>
+      <li><a href="#objetivos">1. Objetivos</a></li>
+      <li><a href="#metodologia">2. Metodología</a></li>
+      <li><a href="#unidades">3. Unidades</a></li>
+      <li><a href="#evaluacion">4. Evaluación</a></li>
+    </ul>
+  </aside>
+
+  <article class="content">
+
+
+
+    <!-- ======= Hero ======= -->
+    <section class="unit-hero" id="hero-index" aria-labelledby="tit-hero">
+      <div class="wrap">
+        <h1 id="tit-hero">Presentación de la asignatura</h1>
+        <p class="muted" style="color:rgba(255,255,255,.9)">Base sólida en HTML, CSS y ecosistema web para crear interfaces accesibles, rápidas y mantenibles.</p>
+
+      </div>
+    </section>
+
+    <!-- ======= 1. Bienvenida / Presentación ======= -->
+    <section id="presentacion">
+      <p>
+        ¡Bienvenidas y bienvenidos al módulo de <strong>Lenguaje de Marcas</strong>!
+        En esta asignatura construiremos la base técnica y conceptual para maquetar y dar estilo a interfaces web de calidad.
+        Trabajaremos con <strong>HTML</strong> (estructura), <strong>CSS</strong> (presentación) y
+        <strong>TypeScript</strong> (interacción con tipado estático), siempre con foco en accesibilidad, rendimiento y buenas prácticas.
+      </p>
+      <div class="callout info">
+        <p><strong>Enfoque integrador:</strong> Este módulo se trabaja de forma coordinada con todos los módulos de 1º DAW,
+          especialmente con Programación (Java) y Bases de Datos, para desarrollar aplicaciones web completas desde el principio del curso.</p>
+      </div>
+    </section>
+
+    <!-- ======= 2. Objetivos ======= -->
+    <section id="objetivos">
+      <h2>1. Objetivos del curso</h2>
+      <p>
+        El objetivo principal de este módulo es proporcionar al alumnado las competencias necesarias para
+        desarrollar interfaces web modernas, accesibles y mantenibles, con un <strong>enfoque integrador</strong>
+        que conecta con todos los módulos de 1º DAW, especialmente con Programación y Bases de Datos.
+      </p>
+      <p>
+        Los contenidos están <strong>muy orientados al desarrollo web completo</strong>, priorizando el trabajo
+        en proyectos reales que integran front-end (HTML, CSS, TypeScript) con back-end (Java) y persistencia (Bases de Datos).
+      </p>
+      <h3>Competencias específicas:</h3>
+      <ul>
+        <li>Diferenciar roles de <strong>HTML, CSS y TypeScript</strong> y aplicarlos de forma <em>semántica</em> y mantenible.</li>
+        <li>Dominar <strong>CSS moderno</strong>: cascada, especificidad, box model, <em>layout</em> con Flexbox y Grid, responsive y variables.</li>
+        <li>Construir <strong>componentes accesibles</strong> (teclado, <code>:focus-visible</code>, contraste WCAG) y optimizados.</li>
+        <li>Desarrollar con <strong>TypeScript</strong>: tipado estático, interfaces, clases, módulos y buenas prácticas.</li>
+        <li>Integrar herramientas y metodologías (BEM, organización por capas, Git) en <strong>proyectos integradores</strong>.</li>
+        <li><strong>Consumir APIs REST</strong> desde TypeScript para conectar con aplicaciones Java y bases de datos.</li>
+        <li>Trabajar en <strong>proyectos colaborativos</strong> que combinan todos los módulos del ciclo.</li>
       </ul>
-    </aside>
+    </section>
 
-    <article class="content">
+    <!-- ======= 3. Metodología ======= -->
+    <section id="metodologia">
+      <h2>2. Metodología y dinámica</h2>
 
-  
+      <h3>Enfoque práctico y orientado a proyectos</h3>
+      <p>
+        Este módulo sigue una metodología <strong>eminentemente práctica</strong>, donde la teoría
+        se introduce de forma progresiva y siempre aplicada a casos reales de desarrollo web.
+        El objetivo es que puedas trabajar en proyectos funcionales desde el inicio del curso.
+      </p>
 
-  <!-- ======= Hero ======= -->
-      <section class="unit-hero" id="hero-index" aria-labelledby="tit-hero">
-        <div class="wrap">
-          <h1 id="tit-hero">Presentación de la asignatura</h1>
-          <p class="muted" style="color:rgba(255,255,255,.9)">Base sólida en HTML, CSS y ecosistema web para crear interfaces accesibles, rápidas y mantenibles.</p>
-          
-        </div>
-      </section>
+      <h3>Estructura temporal por evaluaciones</h3>
 
-      <!-- ======= 1. Bienvenida / Presentación ======= -->
-      <section id="presentacion">
-        <p>
-          ¡Bienvenidas y bienvenidos al módulo de <strong>Lenguaje de Marcas</strong>! 
-          En esta asignatura construiremos la base técnica y conceptual para maquetar y dar estilo a interfaces web de calidad. 
-          Trabajaremos con <strong>HTML</strong> (estructura), <strong>CSS</strong> (presentación) y 
-          un primer contacto con <strong>JavaScript</strong> (interacción), siempre con foco en accesibilidad, rendimiento y buenas prácticas.
-        </p>
-        <div class="callout info">
-          <p><strong>¿Qué esperar?</strong> Material autodidáctico, laboratorios guiados, feedback rápido y proyectos aplicados.</p>
-        </div>
-      </section>
+      <h4>Primera Evaluación: Fundamentos y base para proyectos</h4>
+      <p>
+        Durante la primera evaluación se presentarán <strong>contenidos mínimos de todos los Resultados de Aprendizaje (RAs)</strong>
+        del módulo:
+      </p>
+      <ul>
+        <li>HTML semántico básico (estructura, formularios)</li>
+        <li>CSS fundamental (selectores, box model, Flexbox básico)</li>
+        <li>TypeScript básico (tipos, funciones, DOM, eventos)</li>
+        <li>XML y validación (DTD, XSD)</li>
+        <li>Markdown para documentación</li>
+      </ul>
+      <p>
+        <strong>El objetivo</strong> es que, al finalizar la primera evaluación, dispongas de las
+        herramientas necesarias para <strong>comenzar a trabajar en proyectos integradores</strong>
+        con los demás módulos (Programación, Bases de Datos).
+      </p>
 
-      <!-- ======= 2. Objetivos ======= -->
-      <section id="objetivos">
-        <h2>1. Objetivos del curso</h2>
-        <ul>
-          <li>Diferenciar roles de HTML, CSS y JS y aplicarlos de forma <em>semántica</em> y mantenible.</li>
-          <li>Dominar CSS moderno: cascada, especificidad, box model, <em>layout</em> con Flexbox y Grid, responsive y variables.</li>
-          <li>Construir componentes accesibles (teclado, <code>:focus-visible</code>, contraste WCAG) y rápidos.</li>
-          <li>Integrar herramientas y metodologías (BEM, organización por capas, preprocesadores) en proyectos reales.</li>
-        </ul>
-      </section>
+      <h4>Segunda Evaluación: Profundización y primer proyecto</h4>
+      <p>
+        Se profundiza en todos los RAs trabajados en la primera evaluación:
+      </p>
+      <ul>
+        <li>HTML avanzado (accesibilidad, SEO, formularios complejos)</li>
+        <li>CSS avanzado (Grid, animaciones, variables, responsive avanzado)</li>
+        <li>TypeScript completo (clases, interfaces, módulos, async/await, fetch)</li>
+        <li>Consumo de APIs REST</li>
+        <li>Organización de proyectos (BEM, arquitectura CSS)</li>
+      </ul>
+      <p>
+        Desarrollarás un <strong>proyecto práctico</strong> que integra front-end completo
+        (HTML, CSS, TypeScript) con back-end (Java) y bases de datos.
+      </p>
 
-      <!-- ======= 3. Metodología ======= -->
-      <section id="metodologia">
-        <h2>2. Metodología y dinámica</h2>
-        <ul>
-          <li><strong>Clases prácticas</strong> con demostraciones y laboratorios paso a paso.</li>
-          <li><strong>Aprendizaje activo</strong>: retos cortos, ejercicios con solución y rúbricas claras.</li>
-          <li><strong>Proyecto por unidad</strong> con entregas parciales (iteración y feedback).</li>
-          <li><strong>Autonomía</strong>: material de estudio y guías “hazlo tú” para avanzar a tu ritmo.</li>
-        </ul>
-        <div class="callout tip">
-          <p><strong>Consejo:</strong> Se recomienda utilizar un editor (VS Code) y probar todo usando devtools.</p>
-        </div>
-      </section>
+      <h4>Tercera Evaluación: Proyecto integrador final</h4>
+      <p>
+        La tercera evaluación se centra en el desarrollo de un
+        <strong>proyecto integrador completo</strong> que combina todos los módulos de 1º DAW:
+      </p>
+      <ul>
+        <li>Lenguajes de Marcas (HTML, CSS, TypeScript)</li>
+        <li>Programación (Java - lógica de negocio y API REST)</li>
+        <li>Bases de Datos (diseño, implementación, consultas)</li>
+        <li>Entornos de Desarrollo (Git, testing, CI/CD)</li>
+        <li>Sistemas Informáticos (despliegue, configuración)</li>
+      </ul>
 
-      <!-- ======= 4. Unidades ======= -->
-      <section id="unidades">
-        <h2>3. Unidades</h2>
+      <h3>Trabajo con proyectos</h3>
+      <div class="callout warn">
+        <strong>Validación con el equipo educativo:</strong> Todos los proyectos deberán ser
+        <strong>presentados y validados con el equipo educativo</strong> antes de su entrega final.
+        Esto asegura que el proyecto cumple con los requisitos de todos los módulos.
+      </div>
 
-        <div class="cards">
-          <article class="card">
-            <h3 class="card__title">UD1 Lenguajes de Marcas</h3>
-            <p class="card__text">Explorarás qué es un lenguaje de marcas y para qué se usa en la web y en el intercambio de datos. Trabajarás con <strong>XML</strong> (estructura, atributos, namespaces), su <strong>validación</strong> con DTD y XSD, y conocerás <strong>Markdown</strong> para documentación técnica. Practicarás con pequeños documentos bien formados, crearás un esquema sencillo para validar datos y aprenderás a usar validador online. </p>
-            </p><em>Entregable</em>: Colección de ejemplos XML válidos + una breve guía en Markdown.</p>
-            <a class="btn" href="./lmarcas.html">Ir a la unidad</a>
-          </article>
+      <h3>Todos los RAs en todas las evaluaciones</h3>
+      <p>
+        Se trabajan <strong>todos los Resultados de Aprendizaje en todas las evaluaciones</strong>,
+        con diferentes niveles de profundidad:
+      </p>
+      <ul>
+        <li><strong>1ª Eval:</strong> Conceptos básicos de todos los RAs</li>
+        <li><strong>2ª Eval:</strong> Profundización en todos los RAs + proyecto</li>
+        <li><strong>3ª Eval:</strong> Dominio avanzado aplicado al proyecto integrador</li>
+      </ul>
 
-          <article class="card">
-            <h3 class="card__title">UD2 HTML</h3>
-            <p class="card__text">Construirás la estructura de páginas accesibles usando las etiquetas semánticas de <strong>HTML5</strong> (<code>&lt;header&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;section&gt;</code>, <code>&lt;article&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;footer&gt;</code>). Verás imágenes, listas, tablas, enlaces internos/externos, rutas y <strong>formularios</strong> (inputs HTML5, validación nativa). Practicarás buenas prácticas de <strong>accesibilidad</strong> (texto alternativo, jerarquía de encabezados, labels) y validarás el documento con el validador del W3C. </p>
-        <p><em>Entregable</em>: Mini-sitio multipágina con navegación coherente y formulario funcional.</p>
-            <a class="btn" href="./html.html">Ir a la unidad</a>
-          </article>
+      <h3>Actividades de aprendizaje</h3>
+      <ul>
+        <li><strong>Clases prácticas</strong> con demostraciones y laboratorios paso a paso</li>
+        <li><strong>Retos cortos</strong> y ejercicios con solución y rúbricas claras</li>
+        <li><strong>Desarrollo de proyectos</strong> individuales y en equipo</li>
+        <li><strong>Presentaciones</strong> ante el equipo educativo</li>
+        <li><strong>Trabajo colaborativo</strong> con Git y metodologías ágiles</li>
+      </ul>
+    </section>
 
-          <article class="card">
-            <h3 class="card__title">UD3 CSS</h3>
-            <p class="card__text">Dominarás la <strong>cascada, herencia y especificidad</strong>, los <strong>selectores</strong> clásicos y modernos (<code>:is()</code>, <code>:where()</code>, <code>:has()</code>), y el <strong>box model</strong>. Pasarás al <strong>layout</strong> moderno con <strong>Flexbox</strong> y <strong>Grid</strong> (componentes, áreas, auto-fit), <strong>responsive</strong> con media queries, tipografía fluida (<code>clamp()</code>) y <strong>variables CSS</strong>. Añadirás <strong>transiciones</strong> y <strong>animaciones</strong> respetando <code>prefers-reduced-motion</code>.</p>
-            <p> <em>Entregable</em>: Landing responsive con componentes reutilizables y efectos de interacción.</p>
-            <a class="btn" href="./css.html">Ir a la unidad</a>
-          </article>
+    <!-- ======= 4. Unidades ======= -->
+    <section id="unidades">
+      <h2>3. Unidades</h2>
 
-          <article class="card">
-            <h3 class="card__title">UD4 JavaScript</h3>
-            <p class="card__text"> Introducirás interactividad con <strong>JavaScript</strong>: tipos y operadores, funciones y módulos, <strong>DOM</strong> y eventos, <strong>fetch</strong> para consumir datos y renderizado dinámico. Verás patrones básicos (delegación de eventos, separación de lógica y vista) y buenas prácticas de accesibilidad (gestión del foco, ARIA mínima).</p>
-            <p> <em>Entregable</em>: Página que consume un JSON y pinta tarjetas filtrables con interacción.</p>
-            <a class="btn" href="./js.html">Ir a la unidad</a>
-          </article>
+      <div class="cards">
+        <article class="card">
+          <h3 class="card__title">UD1 Lenguajes de Marcas</h3>
+          <p class="card__text">Explorarás qué es un lenguaje de marcas y para qué se usa en la web y en el intercambio de datos. Trabajarás con <strong>XML</strong> (estructura, atributos, namespaces), su <strong>validación</strong> con DTD y XSD, y conocerás <strong>Markdown</strong> para documentación técnica. Practicarás con pequeños documentos bien formados, crearás un esquema sencillo para validar datos y aprenderás a usar validador online. </p>
+          </p><em>Entregable</em>: Colección de ejemplos XML válidos + una breve guía en Markdown.</p>
+        </article>
 
- <article class="card">
-            <h3 class="card__title">Proyecto</h3>
-            <p class="card__text">Aplicarás todo lo aprendido en un proyecto completo: definición de contenido, diseño visual y responsive, accesibilidad básica, interactividad con JS y, si procede, plantillas en servidor. Trabajarás con control de versiones, organización del CSS (BEM y capas) y despliegue estático.</p>
-<p> <em>Entregables</em>: repositorio limpio documentado, demo desplegada y retrospectiva técnica breve.</p>
-       
-          </article>
-        </div>
-      </section>
+        <article class="card">
+          <h3 class="card__title">UD2 HTML</h3>
+          <p class="card__text">Construirás la estructura de páginas accesibles usando las etiquetas semánticas de <strong>HTML5</strong> (<code>&lt;header&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;section&gt;</code>, <code>&lt;article&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;footer&gt;</code>). Verás imágenes, listas, tablas, enlaces internos/externos, rutas y <strong>formularios</strong> (inputs HTML5, validación nativa). Practicarás buenas prácticas de <strong>accesibilidad</strong> (texto alternativo, jerarquía de encabezados, labels) y validarás el documento con el validador del W3C. </p>
+          <p><em>Entregable</em>: Mini-sitio multipágina con navegación coherente y formulario funcional.</p>
+        </article>
 
-      <!-- ======= 5. Evaluación ======= -->
-      <section id="evaluacion">
-        <h2>4. Evaluación</h2>
-        <p>La calificación por unidad se compone de:</p>
-        <ul>
-          <li><strong>Prueba objetiva</strong> (60%): Individual, mínima 5 para promediar.</li>
-          <li><strong>Práctica evaluable</strong> (10%): Individual, mínima 5 para promediar.</li>
-          <li><strong>Proyecto/prácticas</strong> (30%): Entregas y defensa/validación individual obligatoria.Nota mínima 5 para promediar.</li>
-        </ul>
-        <div class="callout warn">
-          <p><strong>Importante:</strong> para poder tener en cuenta la nota del proyecto es imprescindible superar la <strong>validación individual del trabajo realizado</strong>. Si no se supera, el proyecto calificará con <strong>0</strong>.</p>
-        </div>
-        <div class="callout warn">
-          <p><strong>¡A tener en cuenta!</strong> para cada prueba que se realice, se os puede pedir en cualquier momento una <strong>prueba de validación</strong> para verificar el trabajo realizado. Si no se supera, dicha prueba se calificará con <strong>0</strong>.</p>
-        </div>
-        <p>La planificación detallada (resultados de aprendizaje, actividades y ponderaciones) se recoge en la programación del curso.</p>
-      </section>
+        <article class="card">
+          <h3 class="card__title">UD3 CSS</h3>
+          <p class="card__text">Dominarás la <strong>cascada, herencia y especificidad</strong>, los <strong>selectores</strong> clásicos y modernos (<code>:is()</code>, <code>:where()</code>, <code>:has()</code>), y el <strong>box model</strong>. Pasarás al <strong>layout</strong> moderno con <strong>Flexbox</strong> y <strong>Grid</strong> (componentes, áreas, auto-fit), <strong>responsive</strong> con media queries, tipografía fluida (<code>clamp()</code>) y <strong>variables CSS</strong>. Añadirás <strong>transiciones</strong> y <strong>animaciones</strong> respetando <code>prefers-reduced-motion</code>.</p>
+          <p> <em>Entregable</em>: Landing responsive con componentes reutilizables y efectos de interacción.</p>
+        </article>
 
-      <!-- ======= 6. Recursos ======= -->
-      <section id="recursos">
-        <h2>5. Recursos</h2>
-        <ul>
-          <li><a href="https://developer.mozilla.org/es/" target="_blank" rel="noopener">MDN Web Docs</a></li>
-          <li><a href="https://www.w3.org/TR/" target="_blank" rel="noopener">Especificaciones W3C</a></li>
-          <li><a href="https://web.dev/learn/" target="_blank" rel="noopener">web.dev/learn</a></li>
-          <li>Editores: Visual Studio Code (recomendado), extensiones: Live Server, ESLint/Prettier.</li>
-        </ul>
-      </section>
+        <article class="card">
+          <h3 class="card__title">UD4 TypeScript</h3>
+          <p class="card__text">Introducirás interactividad con <strong>TypeScript</strong>: sistema de tipos estático, interfaces y types, funciones tipadas y módulos, <strong>DOM</strong> y eventos con tipos, <strong>fetch</strong> para consumir APIs REST con tipos de respuesta, y renderizado dinámico. Verás patrones básicos (delegación de eventos, separación de lógica y vista) con el beneficio del tipado estático, gestión de errores con tipos, y buenas prácticas de accesibilidad (gestión del foco, ARIA mínima). Aprenderás a configurar TypeScript, usar el compilador y aprovechar las ventajas del desarrollo con autocompletado y detección temprana de errores.</p>
+          <p><em>Entregable</em>: Aplicación TypeScript que consume una API REST (desde Java + BD) y renderiza datos con filtrado e interacción, totalmente tipada.</p>
+        </article>
 
-      <!-- ======= 7. Normas ======= -->
-      <section id="normas">
-        <h2>6. Normas del aula y entregas</h2>
-        <ul>
-          <li>Respeta las fechas de entrega. No serán aceptadas las entregas fuera de plazo.</li>
-          <li>El código debe ser propio. Cita fuentes y referencia librerías/recursos externos. En cualquier momento se puede solicitar una validación individual para verificar autoría y entendimiento de la entrega.</li>
-          <li>Accesibilidad y semántica cuentan: validadores y chequeos de contraste forman parte de las rúbricas.</li>
-        </ul>
-      </section>
-    </article>
-    </main>
+        <article class="card">
+          <h3 class="card__title">Proyecto</h3>
+          <p class="card__text">Aplicarás todo lo aprendido en un proyecto completo: definición de contenido, diseño visual y responsive, accesibilidad básica, interactividad con JS y, si procede, plantillas en servidor. Trabajarás con control de versiones, organización del CSS (BEM y capas) y despliegue estático.</p>
+          <p> <em>Entregables</em>: repositorio limpio documentado, demo desplegada y retrospectiva técnica breve.</p>
 
-      <a href="#top" class="backtotop" aria-label="Volver arriba">↑</a>
+        </article>
+      </div>
+    </section>
 
-      <footer class="site-footer" role="contentinfo" class="wrap">
-        <div>
-          <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer" title="CC BY-NC-SA 4.0">
-            <img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="Licencia Creative Commons BY-NC-SA 4.0">
-          </a>
-        </div>
-      </footer>
-      
-      <!-- JS de navegación (ajustado a tus clases e IDs) -->
-      <script>
-      (function(){
-        // Topbar toggle
-        var btn = document.querySelector('.topnav-toggle');
-        var nav = document.getElementById('topnav');
-        if (btn && nav) {
-          btn.addEventListener('click', function(){
-            var open = nav.classList.toggle('open');
-            btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-          });
-          nav.addEventListener('click', function(e){
-            if (e.target.tagName === 'A' && nav.classList.contains('open')) {
-              nav.classList.remove('open');
-              btn.setAttribute('aria-expanded', 'false');
-            }
-          });
+    <!-- ======= 5. Evaluación ======= -->
+    <section id="evaluacion">
+      <h2>4. Evaluación</h2>
+
+      <p>
+        La evaluación está diseñada para ser <strong>progresiva y acumulativa</strong>, valorando
+        tanto los conocimientos teóricos como las competencias prácticas adquiridas a lo largo del curso.
+      </p>
+
+      <h3>Criterios de evaluación por evaluación</h3>
+
+      <table style="width:100%; border-collapse: collapse; margin: 1.5rem 0;">
+        <thead>
+        <tr style="background: #1f4e78; color: white;">
+          <th style="padding: 0.75rem; text-align: left; border: 1px solid #ddd;">Evaluación</th>
+          <th style="padding: 0.75rem; text-align: left; border: 1px solid #ddd;">Instrumentos</th>
+          <th style="padding: 0.75rem; text-align: left; border: 1px solid #ddd;">Peso</th>
+          <th style="padding: 0.75rem; text-align: left; border: 1px solid #ddd;">Descripción</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr style="background: #f9f9f9;">
+          <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>1ª Evaluación</strong></td>
+          <td style="padding: 0.75rem; border: 1px solid #ddd;">Prueba objetiva</td>
+          <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>100%</strong></td>
+          <td style="padding: 0.75rem; border: 1px solid #ddd;">
+            Examen que evalúa los <strong>contenidos mínimos de todos los RAs</strong>:
+            HTML semántico básico, CSS fundamental, TypeScript básico, XML/DTD/XSD, Markdown.
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>2ª Evaluación</strong></td>
+          <td style="padding: 0.75rem; border: 1px solid #ddd;">
+            • Prueba objetiva<br>
+            • Proyecto práctico
+          </td>
+          <td style="padding: 0.75rem; border: 1px solid #ddd;">
+            <strong>20%</strong><br>
+            <strong>80%</strong>
+          </td>
+          <td style="padding: 0.75rem; border: 1px solid #ddd;">
+            <strong>Prueba objetiva (20%):</strong> Examen de conocimientos avanzados.<br><br>
+            <strong>Proyecto (80%):</strong> Aplicación web completa con HTML, CSS y TypeScript
+            que consume una API REST (Java + BD). Presentación y validación con equipo educativo.
+          </td>
+        </tr>
+        <tr style="background: #f9f9f9;">
+          <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>3ª Evaluación</strong></td>
+          <td style="padding: 0.75rem; border: 1px solid #ddd;">Proyecto integrador</td>
+          <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>100%</strong></td>
+          <td style="padding: 0.75rem; border: 1px solid #ddd;">
+            Proyecto final que integra <strong>todos los módulos de 1º DAW</strong>. La nota
+            depende del desarrollo del front-end completo (HTML, CSS, TypeScript) y su correcta
+            integración con back-end (Java) y bases de datos. Presentación y defensa ante equipo educativo.
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+      <h3>Cálculo de la nota final del módulo</h3>
+      <p>
+        La <strong>nota final del curso</strong> se calculará de la siguiente manera:
+      </p>
+      <ul>
+        <li><strong>20% - Media de las pruebas objetivas:</strong> Media aritmética de todas las pruebas objetivas realizadas a lo largo del curso (1ª evaluación + 2ª evaluación).</li>
+        <li><strong>80% - Proyecto final:</strong> El proyecto integrador de la 3ª evaluación, que incluye el proyecto de la 2ª evaluación mejorado y ampliado con la integración de todos los módulos.</li>
+      </ul>
+
+      <div class="callout info">
+        <p><strong>Fórmula:</strong> Nota Final = (Media Pruebas Objetivas × 0.20) + (Proyecto Final × 0.80)</p>
+      </div>
+
+      <p>
+        Este sistema refuerza el enfoque práctico del módulo, dando mayor peso al desarrollo de
+        competencias aplicadas en proyectos reales.
+      </p>
+
+      <div class="callout warn">
+        <p><strong>⚠️ ¡A tener en cuenta!</strong><br>
+          Para cada prueba que se realice (tanto pruebas objetivas como proyectos), se os puede pedir
+          <strong>en cualquier momento una prueba de validación</strong> para verificar el trabajo realizado.
+          Si no se supera dicha prueba de validación, la prueba o proyecto correspondiente se calificará con <strong>0</strong>.
+          <br><br>
+          Esta medida garantiza que el trabajo presentado es realmente vuestro y que habéis adquirido
+          las competencias evaluadas.</p>
+      </div>
+
+      <p>La planificación detallada (resultados de aprendizaje, actividades y ponderaciones) se recoge en la programación del curso.</p>
+    </section>
+
+  </article>
+</main>
+
+<a href="#top" class="backtotop" aria-label="Volver arriba">↑</a>
+
+<footer class="site-footer" role="contentinfo" class="wrap">
+  <div>
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer" title="CC BY-NC-SA 4.0">
+      <img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="Licencia Creative Commons BY-NC-SA 4.0">
+    </a>
+  </div>
+</footer>
+
+<!-- JS de navegación (ajustado a tus clases e IDs) -->
+<script>
+  (function(){
+    // Topbar toggle
+    var btn = document.querySelector('.topnav-toggle');
+    var nav = document.getElementById('topnav');
+    if (btn && nav) {
+      btn.addEventListener('click', function(){
+        var open = nav.classList.toggle('open');
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      nav.addEventListener('click', function(e){
+        if (e.target.tagName === 'A' && nav.classList.contains('open')) {
+          nav.classList.remove('open');
+          btn.setAttribute('aria-expanded', 'false');
         }
-      
-        // Resalta enlace activo en el TOC según sección visible
-        var links = document.querySelectorAll('.toc a[href^="#"]');
-        var targets = Array.prototype.map.call(links, function(a){
-          try { return document.querySelector(a.getAttribute('href')); } catch(e){ return null; }
-        }).filter(Boolean);
-      
-        if ('IntersectionObserver' in window) {
-          var obs = new IntersectionObserver(function(entries){
-            entries.forEach(function(entry){
-              if (entry.isIntersecting) {
-                var id = '#' + entry.target.id;
-                links.forEach(function(a){
-                  a.classList.toggle('active', a.getAttribute('href') === id);
-                });
-              }
+      });
+    }
+
+    // Resalta enlace activo en el TOC según sección visible
+    var links = document.querySelectorAll('.toc a[href^="#"]');
+    var targets = Array.prototype.map.call(links, function(a){
+      try { return document.querySelector(a.getAttribute('href')); } catch(e){ return null; }
+    }).filter(Boolean);
+
+    if ('IntersectionObserver' in window) {
+      var obs = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if (entry.isIntersecting) {
+            var id = '#' + entry.target.id;
+            links.forEach(function(a){
+              a.classList.toggle('active', a.getAttribute('href') === id);
             });
-          }, { rootMargin: "-40% 0px -55% 0px", threshold: 0 });
-          targets.forEach(function(t){ obs.observe(t); });
-        }
-      })();
-      </script>
-      </body>
-      </html>
+          }
+        });
+      }, { rootMargin: "-40% 0px -55% 0px", threshold: 0 });
+      targets.forEach(function(t){ obs.observe(t); });
+    }
+  })();
+</script>
+</body>
+</html>
       
