@@ -24,153 +24,393 @@
       </svg>
     </button>
 
-     <nav id="topnav" class="topnav" aria-label="Site navigation">
-      <ul>
-        <li><a href="index.html" class="active">Inicio</a></li>
-        <li><a href="almacenamiento.html">Almacenamiento</a></li>
-        <li><a href="conceptual.html">Diseño Conceptual</a></li>
-        <li><a href="logico.html">Diseño Lógico</a></li>
-        <li><a href="sql.html">SQL</a></li>
-        <li><a href="plsql.html">PL/SQL</a></li>
-        <li><a href="persistencia.html">Persistencia</a></li>
-        <li><a href="nosql.html">NoSQL</a></li>
-    </ul>
-    </nav>
-    
+      <nav id="topnav" class="topnav" aria-label="Site navigation">
+          <ul>
+              <li><a href="index.html" class="active">Inicio</a></li>
+              <li><a href="almacenamiento.html">Almacenamiento</a></li>
+              <li><a href="conceptual.html">Diseño Conceptual</a></li>
+              <li><a href="logico.html">Diseño Lógico</a></li>
+              <li><a href="sql.html">SQL</a></li>
+              <li><a href="plsql.html">PL/SQL</a></li>
+              <li><a href="nosql.html">NoSQL</a></li>
+          </ul>
+      </nav>
+
   </div>
 </header>
 
 <div class="layout">
-  <aside class="sidebar" id="sidebar" aria-label="Unit index">
-    <h2>Contents</h2>
-    <nav>
-      <ul class="toc" id="toc">
-        <li><a href="#objetivos">Objetivos</a></li>
+    <aside class="sidebar" id="sidebar" aria-label="Unit index">
+        <h2>Contents</h2>
+        <nav>
+            <ul class="toc" id="toc">
+                <li><a href="#objetivos">Objetivos</a></li>
                 <li><a href="#competencias">1. Competencias</a></li>
                 <li><a href="#contenidos">2. Contenidos</a></li>
                 <li><a href="#metodologia">3. Metodología</a></li>
                 <li><a href="#evaluacion">4. Evaluación</a></li>
-      </ul>
-    </nav>
-  </aside>
+            </ul>
+        </nav>
+    </aside>
 
-  <div class="backdrop" id="backdrop" hidden></div>
+    <div class="backdrop" id="backdrop" hidden></div>
 
-  <main class="content">
-    <header class="page">
-      <h1 id="intro">Bases de Datos — Guía de la asignatura (1º DAW)</h1>
-  <p class="muted">
-    En esta página encontrarás una visión global del módulo: objetivos, contenidos, metodología de trabajo
-    y criterios de evaluación. Desde aquí enlazamos a cada tema (diseño lógico, modelo relacional, SQL y NoSQL).
-  </p>
-    </header>
+    <main class="content">
+        <header class="page">
+            <h1 id="intro">Bases de Datos — Guía de la asignatura (1º DAW)</h1>
+            <p class="muted">
+                En esta página encontrarás una visión global del módulo: objetivos, contenidos, metodología de trabajo
+                y criterios de evaluación. Desde aquí enlazamos a cada tema (diseño lógico, modelo relacional, SQL y NoSQL).
+            </p>
+        </header>
 
-    <section id="objetivos">
-      <h2>Objetivos de la asignatura</h2>
-      <p>
-          El objetivo de esta asignatura es dotar al alumnado de los conocimientos y habilidades
-          necesarios para diseñar, implementar y gestionar bases de datos, garantizando la 
-          integridad, seguridad y eficiencia en el almacenamiento y recuperación de la información.
-      </p>
-  </section>
+        <section id="objetivos">
+            <h2>Objetivos de la asignatura</h2>
+            <p>
+                El objetivo principal de este módulo es proporcionar al alumnado los conocimientos y habilidades
+                necesarios para diseñar, implementar y gestionar bases de datos en el contexto del desarrollo de
+                aplicaciones web, con un <strong>enfoque integrador</strong> que conecta todos los módulos de 1º DAW.
+            </p>
+            <p>
+                Los contenidos están <strong>muy orientados al campo de la programación</strong>, priorizando
+                el desarrollo de competencias prácticas que permitan al alumnado trabajar en proyectos reales
+                desde el inicio del curso, integrando bases de datos con programación, lenguajes de marcas,
+                entornos de desarrollo y sistemas informáticos.
+            </p>
+            <div class="callout tip">
+                <strong>Enfoque integrador:</strong> Este módulo no se trabaja de forma aislada. Cada concepto,
+                proyecto y práctica se diseña para complementar y reforzar el aprendizaje de los demás módulos
+                del ciclo, preparándote para desarrollar aplicaciones web completas y funcionales.
+            </div>
+        </section>
 
-  <section id="competencias">
-      <h2>Competencias</h2>
-      <ul>
-          <li>Diseñar modelos de datos a partir de requisitos.</li>
-          <li>Aplicar principios del modelo relacional en el diseño lógico.</li>
-          <li>Usar SQL en sus distintas vertientes (DDL, DML, DCL, TCL).</li>
-          <li>Desarrollar procedimientos almacenados y triggers en PL/SQL.</li>
-          <li>Comprender mecanismos de persistencia y bases de datos NoSQL.</li>
-      </ul>
-  </section>
+        <section id="competencias">
+            <h2>1. Competencias</h2>
+            <p>Al finalizar este módulo, serás capaz de:</p>
+            <ul>
+                <li><strong>Diseñar modelos de datos</strong> a partir de requisitos funcionales de aplicaciones web reales.</li>
+                <li><strong>Aplicar el modelo relacional</strong> en el diseño lógico y normalizarlo adecuadamente.</li>
+                <li><strong>Implementar bases de datos</strong> usando SQL en sus distintas vertientes (DDL, DML, DCL, TCL).</li>
+                <li><strong>Desarrollar procedimientos almacenados y triggers</strong> en PL/SQL para automatizar lógica de negocio.</li>
+                <li><strong>Integrar bases de datos relacionales y NoSQL</strong> en aplicaciones web completas.</li>
+                <li><strong>Trabajar con diferentes SGBD</strong> (MySQL, PostgreSQL, MongoDB, Redis) según las necesidades del proyecto.</li>
+                <li><strong>Conectar bases de datos con aplicaciones Java</strong>, desarrollando habilidades de integración entre persistencia y lógica de negocio.</li>
+                <li><strong>Colaborar en proyectos integradores</strong> que combinan bases de datos con los demás módulos del ciclo.</li>
+            </ul>
+        </section>
 
-  <section id="contenidos">
-      <h2>Contenidos</h2>
-      <p>La asignatura se estructura en los siguientes bloques:</p>
-      <ol>
-          <li>Introducción a los SGBD</li>
-          <li>Diseño lógico</li>
-          <li>Modelo relacional</li>
-          <li>SQL: DDL, DML, DCL, TCL</li>
-          <li>PL/SQL</li>
-          <li>Persistencia</li>
-          <li>Bases de datos NoSQL</li>
-      </ol>
-  </section>
+        <section id="contenidos">
+            <h2>2. Contenidos</h2>
+            <p>El módulo se estructura en los siguientes bloques temáticos, que se trabajan de forma <strong>iterativa y progresiva</strong> a lo largo de todo el curso:</p>
+            <ol>
+                <li><strong>Almacenamiento de la información</strong>
+                    <ul>
+                        <li>Ficheros vs Bases de Datos</li>
+                        <li>Sistemas Gestores de Bases de Datos (SGBD)</li>
+                        <li>Tipos de SGBD: relacionales y NoSQL</li>
+                    </ul>
+                </li>
+                <li><strong>Diseño conceptual</strong>
+                    <ul>
+                        <li>Modelo Entidad-Relación (E/R) - Notación Chen</li>
+                        <li>Diagrama de Clases UML</li>
+                        <li>Cardinalidades y multiplicidades</li>
+                    </ul>
+                </li>
+                <li><strong>Diseño lógico</strong>
+                    <ul>
+                        <li>Modelo relacional</li>
+                        <li>Transformación E/R → Tablas</li>
+                        <li>Normalización (1FN, 2FN, 3FN, BCNF)</li>
+                    </ul>
+                </li>
+                <li><strong>SQL: Lenguaje de consulta estructurado</strong>
+                    <ul>
+                        <li>DDL: Definición de datos (CREATE, ALTER, DROP)</li>
+                        <li>DML: Manipulación de datos (SELECT, INSERT, UPDATE, DELETE)</li>
+                        <li>DCL: Control de acceso (GRANT, REVOKE)</li>
+                        <li>TCL: Transacciones (COMMIT, ROLLBACK)</li>
+                    </ul>
+                </li>
+                <li><strong>PL/SQL: Programación en base de datos</strong>
+                    <ul>
+                        <li>Procedimientos almacenados</li>
+                        <li>Funciones</li>
+                        <li>Triggers (disparadores)</li>
+                        <li>Cursores y excepciones</li>
+                    </ul>
+                </li>
+                <li><strong>Bases de datos NoSQL</strong>
+                    <ul>
+                        <li>Bases de datos documentales (MongoDB)</li>
+                        <li>Bases de datos clave-valor (Redis)</li>
+                        <li>Bases de datos columnares (Cassandra)</li>
+                        <li>Bases de datos de grafos (Neo4j)</li>
+                        <li>Arquitecturas híbridas (Polyglot Persistence)</li>
+                    </ul>
+                </li>
+            </ol>
 
-  <section id="metodologia">
-      <h2>Metodología</h2>
-      <p>
-          La metodología combina sesiones teóricas con prácticas de laboratorio. 
-          El alumnado trabajará tanto con enunciados guiados como con proyectos de aplicación,
-          que permitirán asimilar los contenidos de manera progresiva.
-      </p>
-  </section>
+            <div class="callout info">
+                <strong>Nota importante:</strong> Estos contenidos no se imparten de forma secuencial y aislada.
+                Desde la <strong>primera evaluación</strong>, se trabajan <strong>conceptos básicos de todos los Resultados de Aprendizaje (RAs)</strong>
+                para que puedas comenzar a desarrollar proyectos completos cuanto antes, integrando bases de datos
+                con las tecnologías que estás aprendiendo en los demás módulos.
+            </div>
+        </section>
 
-  <section id="evaluacion">
-      <h2>Evaluación</h2>
-      <ul>
-          <li>Pruebas escritas: 60%*</li>
-          <li>Prácticas de laboratorio: *</li>
-          <li>Proyecto final: 40%*</li>
-          <li>*Para cada RA está asignación puede modificarse</li>
-      </ul>
-      <p>Será necesario superar por separado cada parte para aprobar la asignatura.</p>
-  </section>
-  
-  </main>
+        <section id="metodologia">
+            <h2>3. Metodología</h2>
+
+            <h3>Enfoque práctico y orientado a proyectos</h3>
+            <p>
+                Este módulo sigue una metodología <strong>eminentemente práctica</strong>, donde la teoría
+                se introduce de forma progresiva y siempre aplicada a casos reales de desarrollo web.
+                El objetivo es que puedas trabajar en proyectos funcionales desde el inicio del curso.
+            </p>
+
+            <h3>Estructura temporal por evaluaciones</h3>
+
+            <h4>Primera Evaluación: Fundamentos y base para proyectos</h4>
+            <p>
+                Durante la primera evaluación se presentarán <strong>contenidos mínimos de todos los Resultados de Aprendizaje (RAs)</strong>
+                del módulo. Esto significa que verás:
+            </p>
+            <ul>
+                <li>Conceptos básicos de diseño de bases de datos (E/R y modelo relacional)</li>
+                <li>SQL fundamental (CREATE, SELECT, INSERT, UPDATE, DELETE, JOIN)</li>
+                <li>Introducción a PL/SQL (procedimientos básicos)</li>
+                <li>Primeros pasos con NoSQL (MongoDB básico)</li>
+                <li>Conexión desde lenguajes de programación</li>
+            </ul>
+            <p>
+                <strong>El objetivo</strong> es que, al finalizar la primera evaluación, dispongas de las
+                herramientas necesarias para <strong>comenzar a trabajar en proyectos integradores</strong>
+                con todos los módulos del curso.
+            </p>
+
+            <h4>Segunda Evaluación: Profundización y primer proyecto</h4>
+            <p>
+                Se profundiza en todos los RAs trabajados en la primera evaluación, añadiendo:
+            </p>
+            <ul>
+                <li>Diseño avanzado (normalización, restricciones complejas)</li>
+                <li>SQL avanzado (subconsultas, vistas, transacciones)</li>
+                <li>PL/SQL completo (triggers, funciones, cursores)</li>
+                <li>NoSQL: diferentes tipos de bases de datos</li>
+                <li>Optimización y rendimiento</li>
+            </ul>
+            <p>
+                Desarrollarás un <strong>proyecto práctico</strong> que integra bases de datos con
+                programación y tecnologías web.
+            </p>
+
+            <h4>Tercera Evaluación: Proyecto integrador final</h4>
+            <p>
+                La tercera evaluación se centra exclusivamente en el desarrollo de un
+                <strong>proyecto integrador completo</strong> que combina todos los módulos de 1º DAW:
+            </p>
+            <ul>
+                <li>Bases de Datos (diseño, implementación, optimización)</li>
+                <li>Programación (Java)</li>
+                <li>Lenguajes de Marcas (HTML, CSS, XML, JSON)</li>
+                <li>Entornos de Desarrollo (Git, testing, documentación)</li>
+                <li>Sistemas Informáticos (despliegue, configuración)</li>
+            </ul>
+
+            <h3>Trabajo con proyectos</h3>
+            <div class="callout warn">
+                <strong>Validación con el equipo educativo:</strong> Todos los proyectos deberán ser
+                <strong>presentados y validados con el equipo educativo completo</strong> antes de su entrega final.
+                Esto asegura que el proyecto cumple con los requisitos de todos los módulos y permite
+                detectar y corregir problemas de forma temprana.
+            </div>
+
+            <h3>Todos los RAs en todas las evaluaciones</h3>
+            <p>
+                A diferencia de un enfoque secuencial tradicional, en este módulo se trabajan
+                <strong>todos los Resultados de Aprendizaje en todas las evaluaciones</strong>,
+                pero con diferentes niveles de profundidad:
+            </p>
+            <ul>
+                <li><strong>1ª Eval:</strong> Conceptos básicos de todos los RAs</li>
+                <li><strong>2ª Eval:</strong> Profundización en todos los RAs + proyecto</li>
+                <li><strong>3ª Eval:</strong> Dominio avanzado aplicado al proyecto integrador</li>
+            </ul>
+            <p>
+                Esta metodología espiral permite consolidar conocimientos, detectar carencias de forma
+                temprana y mantener la motivación al trabajar en proyectos reales desde el principio.
+            </p>
+
+            <h3>Actividades de aprendizaje</h3>
+            <ul>
+                <li><strong>Sesiones prácticas:</strong> Ejercicios guiados y laboratorio con SGBD reales</li>
+                <li><strong>Desarrollo de proyectos:</strong> Individuales y en equipo</li>
+                <li><strong>Presentaciones:</strong> Exposición de proyectos ante el equipo educativo</li>
+                <li><strong>Resolución de problemas:</strong> Casos reales de diseño y optimización</li>
+                <li><strong>Trabajo colaborativo:</strong> Uso de Git y metodologías ágiles</li>
+            </ul>
+        </section>
+
+        <section id="evaluacion">
+            <h2>4. Evaluación</h2>
+
+            <p>
+                La evaluación está diseñada para ser <strong>progresiva y acumulativa</strong>, valorando
+                tanto los conocimientos teóricos como las competencias prácticas adquiridas a lo largo del curso.
+            </p>
+
+            <h3>Criterios de evaluación por evaluación</h3>
+
+            <div class="demo">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Evaluación</th>
+                        <th>Instrumentos</th>
+                        <th>Peso</th>
+                        <th>Descripción</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><strong>1ª Evaluación</strong></td>
+                        <td>Prueba objetiva</td>
+                        <td><strong>100%</strong></td>
+                        <td>
+                            Examen que evalúa los <strong>contenidos mínimos de todos los RAs</strong>
+                            trabajados durante el trimestre: diseño básico, SQL fundamental, introducción
+                            a PL/SQL y NoSQL, conexión desde código.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>2ª Evaluación</strong></td>
+                        <td>
+                            • Prueba objetiva<br>
+                            • Proyecto práctico
+                        </td>
+                        <td>
+                            <strong>20%</strong><br>
+                            <strong>80%</strong>
+                        </td>
+                        <td>
+                            <strong>Prueba objetiva (20%):</strong> Examen de conocimientos teórico-prácticos
+                            sobre los contenidos profundizados.<br><br>
+                            <strong>Proyecto (80%):</strong> Desarrollo de una aplicación web completa que
+                            integra base de datos (diseño, implementación, consultas, procedimientos) con
+                            programación y tecnologías web. Presentación y validación con el equipo educativo.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>3ª Evaluación</strong></td>
+                        <td>Proyecto integrador</td>
+                        <td><strong>100%</strong></td>
+                        <td>
+                            Proyecto final que integra <strong>todos los módulos de 1º DAW</strong>. La nota
+                            de Bases de Datos depende del diseño, implementación y gestión de la base de datos
+                            del proyecto, así como de su correcta integración con el resto de componentes.
+                            Requiere presentación y defensa ante el equipo educativo completo.
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>Cálculo de la nota final del módulo</h3>
+            <p>
+                La <strong>nota final del curso</strong> se calculará de la siguiente manera:
+            </p>
+            <ul>
+                <li><strong>20% - Media de las pruebas objetivas:</strong> Se hará la media aritmética de todas las pruebas objetivas realizadas a lo largo del curso (1ª evaluación + 2ª evaluación).</li>
+                <li><strong>80% - Proyecto final:</strong> El proyecto integrador de la 3ª evaluación, que incluye el proyecto de la 2ª evaluación mejorado y ampliado con la integración de todos los módulos.</li>
+            </ul>
+
+            <div class="callout info">
+                <strong>Fórmula:</strong> Nota Final = (Media Pruebas Objetivas × 0.20) + (Proyecto Final × 0.80)
+            </div>
+
+            <p>
+                Este sistema de evaluación refuerza el enfoque práctico del módulo, dando mayor peso al
+                desarrollo de competencias aplicadas en proyectos reales, mientras se mantiene la
+                verificación de conocimientos teóricos a través de las pruebas objetivas.
+            </p>
+
+            <div class="callout warn">
+                <strong>⚠️ ¡A tener en cuenta!</strong><br>
+                Para cada prueba que se realice (tanto pruebas objetivas como proyectos), se os puede pedir
+                <strong>en cualquier momento una prueba de validación</strong> para verificar el trabajo realizado.
+                Si no se supera dicha prueba de validación, la prueba o proyecto correspondiente se calificará con <strong>0</strong>.
+                <br><br>
+                Esta medida garantiza que el trabajo presentado es realmente vuestro y que habéis adquirido
+                las competencias evaluadas.
+            </div>
+
+            <div class="callout tip">
+                <strong>Consejo:</strong> El proyecto integrador de la 3ª evaluación es la culminación de todo
+                el aprendizaje del curso. Comienza a planificarlo desde la 1ª evaluación y solicita validaciones
+                periódicas con el equipo educativo para asegurar que vas por buen camino.
+            </div>
+
+            <h3>Resultados de Aprendizaje (RAs) evaluados</h3>
+            <p>
+                Todos los RAs del módulo se trabajan y evalúan en las tres evaluaciones, con diferente
+                nivel de profundidad. La evaluación verifica el logro de estos RAs de forma progresiva
+                a lo largo del curso.
+            </p>
+        </section>
+
+    </main>
 </div>
 
 <a href="#top" class="backtotop" aria-label="Volver arriba">↑</a>
 
 <footer class="site-footer" role="contentinfo" class="wrap">
-  <div>
-    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer" title="CC BY-NC-SA 4.0">
-      <img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="Licencia Creative Commons BY-NC-SA 4.0">
-    </a>
-  </div>
+    <div>
+        <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer" title="CC BY-NC-SA 4.0">
+            <img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="Licencia Creative Commons BY-NC-SA 4.0">
+        </a>
+    </div>
 </footer>
 
 <!-- JS de navegación (ajustado a tus clases e IDs) -->
 <script>
-(function(){
-  // Topbar toggle
-  var btn = document.querySelector('.topnav-toggle');
-  var nav = document.getElementById('topnav');
-  if (btn && nav) {
-    btn.addEventListener('click', function(){
-      var open = nav.classList.toggle('open');
-      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-    });
-    nav.addEventListener('click', function(e){
-      if (e.target.tagName === 'A' && nav.classList.contains('open')) {
-        nav.classList.remove('open');
-        btn.setAttribute('aria-expanded', 'false');
+    (function(){
+      // Topbar toggle
+      var btn = document.querySelector('.topnav-toggle');
+      var nav = document.getElementById('topnav');
+      if (btn && nav) {
+        btn.addEventListener('click', function(){
+          var open = nav.classList.toggle('open');
+          btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        });
+        nav.addEventListener('click', function(e){
+          if (e.target.tagName === 'A' && nav.classList.contains('open')) {
+            nav.classList.remove('open');
+            btn.setAttribute('aria-expanded', 'false');
+          }
+        });
       }
-    });
-  }
 
-  // Resalta enlace activo en el TOC según sección visible
-  var links = document.querySelectorAll('.toc a[href^="#"]');
-  var targets = Array.prototype.map.call(links, function(a){
-    try { return document.querySelector(a.getAttribute('href')); } catch(e){ return null; }
-  }).filter(Boolean);
+      // Resalta enlace activo en el TOC según sección visible
+      var links = document.querySelectorAll('.toc a[href^="#"]');
+      var targets = Array.prototype.map.call(links, function(a){
+        try { return document.querySelector(a.getAttribute('href')); } catch(e){ return null; }
+      }).filter(Boolean);
 
-  if ('IntersectionObserver' in window) {
-    var obs = new IntersectionObserver(function(entries){
-      entries.forEach(function(entry){
-        if (entry.isIntersecting) {
-          var id = '#' + entry.target.id;
-          links.forEach(function(a){
-            a.classList.toggle('active', a.getAttribute('href') === id);
+      if ('IntersectionObserver' in window) {
+        var obs = new IntersectionObserver(function(entries){
+          entries.forEach(function(entry){
+            if (entry.isIntersecting) {
+              var id = '#' + entry.target.id;
+              links.forEach(function(a){
+                a.classList.toggle('active', a.getAttribute('href') === id);
+              });
+            }
           });
-        }
-      });
-    }, { rootMargin: "-40% 0px -55% 0px", threshold: 0 });
-    targets.forEach(function(t){ obs.observe(t); });
-  }
-})();
+        }, { rootMargin: "-40% 0px -55% 0px", threshold: 0 });
+        targets.forEach(function(t){ obs.observe(t); });
+      }
+    })();
 </script>
 </body>
 </html>
