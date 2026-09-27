@@ -48,8 +48,7 @@
   <article class="content">
 
     <header class="page">
-      <h1>Lenguajes de Marcas - Guía Completa</h1>
-      <p class="muted">Unidad didáctica — 1º DAW · Barrido general claro y completo</p>
+      <h1>Lenguajes de Marcas</h1>
     </header>
 
     <!-- =========================================================
@@ -155,7 +154,6 @@
           <th>Propósito principal</th>
           <th>Usos reales en programación</th>
           <th>Complejidad</th>
-          <th>Popularidad</th>
         </tr>
         </thead>
         <tbody>
@@ -165,7 +163,6 @@
           <td>Estructura de páginas web</td>
           <td>Toda la web, aplicaciones híbridas, emails</td>
           <td>Media</td>
-          <td>★★★★★</td>
         </tr>
         <tr>
           <td><strong>XML</strong></td>
@@ -173,7 +170,6 @@
           <td>Intercambio de datos estructurados</td>
           <td>Configuración (Maven, Spring), SOAP, RSS, SVG</td>
           <td>Alta</td>
-          <td>★★★★☆</td>
         </tr>
         <tr>
           <td><strong>Markdown</strong></td>
@@ -181,7 +177,6 @@
           <td>Documentación legible</td>
           <td>README.md, wikis, GitHub, blogs técnicos</td>
           <td>Baja</td>
-          <td>★★★★★</td>
         </tr>
         <tr>
           <td><strong>JSON</strong></td>
@@ -189,7 +184,6 @@
           <td>Intercambio de datos ligero</td>
           <td>APIs REST, configuración, bases de datos NoSQL</td>
           <td>Baja</td>
-          <td>★★★★★</td>
         </tr>
         <tr>
           <td><strong>YAML</strong></td>
@@ -197,7 +191,6 @@
           <td>Configuración legible por humanos</td>
           <td>Docker Compose, Kubernetes, CI/CD (GitHub Actions)</td>
           <td>Media</td>
-          <td>★★★★☆</td>
         </tr>
         <tr>
           <td><strong>LaTeX</strong></td>
@@ -205,7 +198,6 @@
           <td>Documentos científicos/técnicos</td>
           <td>Papers, tesis, presentaciones técnicas, fórmulas</td>
           <td>Alta</td>
-          <td>★★★☆☆</td>
         </tr>
         <tr>
           <td><strong>Wiki Text</strong></td>
@@ -213,7 +205,6 @@
           <td>Wikis colaborativas</td>
           <td>Wikipedia, wikis corporativas, documentación</td>
           <td>Baja</td>
-          <td>★★★☆☆</td>
         </tr>
         <tr>
           <td><strong>TOML</strong></td>
@@ -221,7 +212,6 @@
           <td>Archivos de configuración</td>
           <td>Rust (Cargo.toml), Python (pyproject.toml)</td>
           <td>Baja</td>
-          <td>★★★☆☆</td>
         </tr>
         </tbody>
       </table>
@@ -364,7 +354,7 @@
       <h4>Bien formado vs Válido: Diferencia crucial</h4>
 
       <div style="background: #f8f9fa; border-left: 4px solid #007bff; padding: 15px; margin: 20px 0;">
-        <p><strong>🔍 Concepto clave que muchos confunden:</strong></p>
+        <p><strong>Concepto clave:</strong></p>
         <p>Un XML puede estar <strong>bien formado</strong> pero NO ser <strong>válido</strong>. Son dos cosas diferentes:</p>
       </div>
 
@@ -1775,18 +1765,6 @@
           </p>
         </details>
       </div>
-
-      <div class="callout warn">
-        <p><strong>¿Faltaste a clase? Puntos clave que debes recuperar:</strong></p>
-        <ol>
-          <li>Práctica de crear XML desde cero (estructura jerárquica)</li>
-          <li>Cómo detectar errores en XML mal formado</li>
-          <li>Diferencia entre DTD y XSD con ejemplos prácticos</li>
-          <li>Validar XML online con herramientas</li>
-          <li>Ver ejemplos reales: pom.xml de Maven, configuración de Spring</li>
-        </ol>
-        <p><strong>Pide a un compañero:</strong> Los ejercicios prácticos que se hicieron en clase sobre validación.</p>
-      </div>
     </section>
 
     <!-- =========================================================
@@ -2917,161 +2895,7 @@ MIT License - ver [LICENSE](LICENSE)
         </ul>
       </div>
 
-      <h4>Actividad práctica propuesta</h4>
 
-      <div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 20px; margin: 20px 0;">
-        <h5 style="margin-top: 0;">"Documenta tu proyecto con Markdeep"</h5>
-
-        <p><strong>Objetivo:</strong> Crear documentación profesional de un proyecto usando Markdeep</p>
-
-        <p><strong>Requisitos del entregable:</strong></p>
-
-        <p>Crear un archivo <code>README.md.html</code> con:</p>
-
-        <ol>
-          <li><strong>Título y metadatos</strong>
-            <ul>
-              <li>Nombre del proyecto</li>
-              <li>Autor y fecha</li>
-              <li>Resumen ejecutivo (2-3 líneas)</li>
-            </ul>
-          </li>
-
-          <li><strong>Descripción del proyecto</strong>
-            <ul>
-              <li>Qué problema resuelve</li>
-              <li>Funcionalidades principales (lista)</li>
-              <li>Tecnologías utilizadas</li>
-            </ul>
-          </li>
-
-          <li><strong>Diagrama de arquitectura (obligatorio)</strong>
-            <ul>
-              <li>Diagrama de componentes o flujo en ASCII art</li>
-              <li>Debe mostrar al menos 3 componentes relacionados</li>
-              <li>Ejemplo: Frontend ↔ Backend ↔ Database</li>
-            </ul>
-          </li>
-
-          <li><strong>Instrucciones de instalación y uso</strong>
-            <ul>
-              <li>Requisitos previos</li>
-              <li>Pasos numerados con ejemplos de comandos</li>
-              <li>Bloques de código con sintaxis resaltada</li>
-            </ul>
-          </li>
-
-          <li><strong>Al menos un elemento avanzado:</strong>
-            <ul>
-              <li>Fórmula matemática (si tu proyecto tiene algoritmos)</li>
-              <li>Tabla de datos (API endpoints, configuración, etc.)</li>
-              <li>Admonitions (NOTE, WARNING, TIP)</li>
-            </ul>
-          </li>
-
-          <li><strong>Sección de contribución o licencia</strong></li>
-        </ol>
-
-        <p><strong>Criterios de evaluación (10 puntos):</strong></p>
-        <ul>
-          <li><strong>2 puntos:</strong> Uso correcto de sintaxis Markdeep (se renderiza sin errores)</li>
-          <li><strong>3 puntos:</strong> Diagrama claro y útil que explica la arquitectura</li>
-          <li><strong>2 puntos:</strong> Documentación completa y profesional (instalación, uso, ejemplos)</li>
-          <li><strong>2 puntos:</strong> Uso de al menos 3 características avanzadas (fórmulas, admonitions, diagramas múltiples)</li>
-          <li><strong>1 punto:</strong> Creatividad y presentación (diseño limpio, bien estructurado)</li>
-        </ul>
-
-        <p><strong>Entrega:</strong></p>
-        <ul>
-          <li>Archivo <code>.md.html</code> funcional</li>
-          <li>Capturas de pantalla del resultado renderizado</li>
-          <li>Fecha límite: [definir según calendario académico]</li>
-        </ul>
-      </div>
-
-      <h4>Recursos y herramientas</h4>
-
-      <div style="background: #f8f9fa; padding: 15px; margin: 20px 0; border-radius: 5px;">
-        <p><strong>Documentación oficial:</strong></p>
-        <ul>
-          <li><a href="https://casual-effects.com/markdeep/" target="_blank">Sitio oficial de Markdeep</a></li>
-          <li><a href="https://casual-effects.com/markdeep/features.md.html" target="_blank">Guía completa de características</a></li>
-        </ul>
-
-        <p><strong>Ejemplos de referencia:</strong></p>
-        <ul>
-          <li><a href="https://casual-effects.com/markdeep/features.md.html#diagrams" target="_blank">Galería de diagramas</a></li>
-          <li><a href="https://casual-effects.com/markdeep/features.md.html#basicformatting" target="_blank">Sintaxis completa</a></li>
-        </ul>
-
-        <p><strong>Editores recomendados:</strong></p>
-        <ul>
-          <li><strong>VS Code</strong> - Con extensión "Markdeep Preview"</li>
-          <li><strong>Cualquier editor de texto</strong> - Guarda con .md.html y abre en navegador</li>
-        </ul>
-
-        <p><strong>Alternativas similares:</strong></p>
-        <ul>
-          <li><strong>Marp</strong> - Para presentaciones desde Markdown</li>
-          <li><strong>R Markdown</strong> - Para análisis de datos con gráficos</li>
-          <li><strong>Jupyter Notebooks</strong> - Para código ejecutable + documentación</li>
-        </ul>
-      </div>
-
-      <h4>Comparativa final: ¿Cuándo usar qué?</h4>
-
-      <table>
-        <thead>
-        <tr>
-          <th>Escenario</th>
-          <th>Herramienta recomendada</th>
-          <th>Razón</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-          <td>README de GitHub</td>
-          <td>Markdown estándar (.md)</td>
-          <td>GitHub lo renderiza automáticamente</td>
-        </tr>
-        <tr>
-          <td>Documentación con diagramas</td>
-          <td>Markdeep (.md.html)</td>
-          <td>Diagramas ASCII sin herramientas externas</td>
-        </tr>
-        <tr>
-          <td>Blog o sitio web</td>
-          <td>Jekyll, Hugo, Gatsby</td>
-          <td>SEO, temas personalizables, generación estática</td>
-        </tr>
-        <tr>
-          <td>Paper científico</td>
-          <td>LaTeX o Markdeep</td>
-          <td>Fórmulas matemáticas, formato académico</td>
-        </tr>
-        <tr>
-          <td>Documentación de API</td>
-          <td>Swagger/OpenAPI</td>
-          <td>Estándar de la industria, interactivo</td>
-        </tr>
-        <tr>
-          <td>Manual técnico rápido</td>
-          <td>Markdeep (.md.html)</td>
-          <td>Sin compilación, autocontenido, compartible</td>
-        </tr>
-        <tr>
-          <td>Notas personales</td>
-          <td>Obsidian, Notion</td>
-          <td>Enlaces bidireccionales, búsqueda, sincronización</td>
-        </tr>
-        </tbody>
-      </table>
-
-      <div class="callout info">
-        <p><strong>En resumen: Markdeep es perfecto para...</strong></p>
-        <p>Documentación técnica que necesitas crear <strong>rápidamente</strong>, con <strong>diagramas y fórmulas</strong>,
-          sin depender de herramientas de compilación. Es la navaja suiza de la documentación técnica.</p>
-      </div>
     </section>
 
     <!-- =========================================================
@@ -4847,272 +4671,7 @@ Documentación:
       </div>
     </section>
 
-    <!-- =========================================================
-         8) EJERCICIOS PRÁCTICOS
-         ========================================================= -->
-    <section id="ejercicios">
-      <h2>8. Ejercicios Prácticos</h2>
-
-      <h3>Ejercicios nivel básico</h3>
-
-      <h4>Ejercicio 1: XML bien formado</h4>
-      <p><strong>Tarea:</strong> Crea un documento XML que represente una playlist musical con al menos 3 canciones.
-        Cada canción debe tener: título, artista, álbum, año, y duración.</p>
-      <p><strong>Requisitos:</strong></p>
-      <ul>
-        <li>Documento bien formado</li>
-        <li>Usa atributos para ID de canción</li>
-        <li>Añade comentarios explicativos</li>
-      </ul>
-
-      <h4>Ejercicio 2: Markdown básico</h4>
-      <p><strong>Tarea:</strong> Crea un README.md para un proyecto ficticio de calculadora web.</p>
-      <p><strong>Debe incluir:</strong></p>
-      <ul>
-        <li>Título y descripción breve</li>
-        <li>Lista de características</li>
-        <li>Instrucciones de instalación (código bash)</li>
-        <li>Tabla con tecnologías usadas</li>
-        <li>Captura de pantalla (imagen)</li>
-        <li>Enlace al repositorio</li>
-      </ul>
-
-      <h4>Ejercicio 3: JSON para API</h4>
-      <p><strong>Tarea:</strong> Diseña la estructura JSON de respuesta para un endpoint de API que devuelva
-        información de un curso online.</p>
-      <p><strong>Debe incluir:</strong></p>
-      <ul>
-        <li>ID del curso, título, descripción</li>
-        <li>Instructor (nombre, email, bio)</li>
-        <li>Array de lecciones (cada una con título, duración, video_url)</li>
-        <li>Precio, descuento actual, valoración</li>
-        <li>Array de etiquetas/categorías</li>
-      </ul>
-
-      <h3>Ejercicios nivel intermedio</h3>
-
-      <h4>Ejercicio 4: DTD para validación</h4>
-      <p><strong>Tarea:</strong> Diseña un DTD para validar un documento XML de un restaurante.</p>
-      <p><strong>Estructura requerida:</strong></p>
-      <ul>
-        <li>Restaurante con nombre, dirección, teléfono</li>
-        <li>Menú con múltiples secciones (Entrantes, Principales, Postres)</li>
-        <li>Cada plato tiene: nombre, descripción, precio, y opcionalmente alérgenos</li>
-        <li>Precio debe tener atributo de moneda (EUR, USD, GBP)</li>
-      </ul>
-      <p><strong>Luego crea un XML válido contra ese DTD.</strong></p>
-
-      <h4>Ejercicio 5: XSD con restricciones</h4>
-      <p><strong>Tarea:</strong> Crea un XSD para validar pedidos de una tienda online.</p>
-      <p><strong>Restricciones:</strong></p>
-      <ul>
-        <li>ID de pedido: formato PED-YYYY-NNNN (regex)</li>
-        <li>Email del cliente: validar formato</li>
-        <li>Teléfono: formato +XX XXX XXX XXX</li>
-        <li>Cantidad de productos: mínimo 1</li>
-        <li>Precio: decimal con 2 decimales, mínimo 0</li>
-        <li>Estado: enumeración (pendiente, procesando, enviado, entregado)</li>
-        <li>Fecha: tipo xs:date</li>
-      </ul>
-      <p><strong>Crea también un XML de ejemplo que sea válido.</strong></p>
-
-      <h4>Ejercicio 6: YAML para Docker</h4>
-      <p><strong>Tarea:</strong> Crea un docker-compose.yml para una aplicación web con:</p>
-      <ul>
-        <li>Servicio frontend (Nginx sirviendo HTML estático)</li>
-        <li>Servicio backend (Node.js API)</li>
-        <li>Base de datos PostgreSQL</li>
-        <li>Redis para caché</li>
-        <li>Configurar variables de entorno</li>
-        <li>Volúmenes para persistencia de datos</li>
-        <li>Red personalizada</li>
-      </ul>
-
-      <h3>Ejercicios nivel avanzado</h3>
-
-      <h4>Ejercicio 7: Conversión entre formatos</h4>
-      <p><strong>Tarea:</strong> Toma este XML y conviértelo manualmente a JSON y YAML equivalentes:</p>
-      <pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;biblioteca&gt;
-  &lt;libro isbn="978-0-123-45678-9" disponible="true"&gt;
-    &lt;titulo&gt;Clean Code&lt;/titulo&gt;
-    &lt;autor&gt;
-      &lt;nombre&gt;Robert&lt;/nombre&gt;
-      &lt;apellido&gt;Martin&lt;/apellido&gt;
-    &lt;/autor&gt;
-    &lt;editorial&gt;Prentice Hall&lt;/editorial&gt;
-    &lt;anio&gt;2008&lt;/anio&gt;
-    &lt;categorias&gt;
-      &lt;categoria&gt;Programación&lt;/categoria&gt;
-      &lt;categoria&gt;Buenas prácticas&lt;/categoria&gt;
-    &lt;/categorias&gt;
-  &lt;/libro&gt;
-&lt;/biblioteca&gt;</code></pre>
-
-      <h4>Ejercicio 8: Pipeline CI/CD completo</h4>
-      <p><strong>Tarea:</strong> Crea un workflow de GitHub Actions (YAML) que:</p>
-      <ul>
-        <li>Se ejecute en push a main y en pull requests</li>
-        <li>Tenga 3 jobs: lint, test, build</li>
-        <li>Lint: ejecuta ESLint</li>
-        <li>Test: ejecuta Jest con coverage, requiere que lint pase</li>
-        <li>Build: compila la app, solo si test pasa y branch es main</li>
-        <li>Sube artefacto del build</li>
-        <li>Envía notificación a Slack si falla</li>
-      </ul>
-
-      <h4>Ejercicio 9: LaTeX - Informe técnico completo</h4>
-      <p><strong>Tarea:</strong> Crea un informe técnico en LaTeX sobre "Lenguajes de Marcas en Desarrollo Web".</p>
-      <p><strong>Debe incluir:</strong></p>
-      <ul>
-        <li>Portada con título, autor, fecha</li>
-        <li>Tabla de contenidos automática</li>
-        <li>Al menos 5 secciones con subsecciones</li>
-        <li>Una tabla comparativa de lenguajes</li>
-        <li>Una imagen/diagrama con caption y referencia</li>
-        <li>Bloque de código fuente (XML, JSON, o YAML) con resaltado</li>
-        <li>Al menos 3 ecuaciones/fórmulas matemáticas (puede ser complejidad temporal de algoritmos)</li>
-        <li>Lista de referencias bibliográficas</li>
-        <li>Apéndice con código adicional</li>
-      </ul>
-
-      <h3>Proyecto integrador final</h3>
-
-      <h4>Proyecto: Sistema de Gestión de Biblioteca</h4>
-      <p><strong>Descripción:</strong> Crea un proyecto completo que use TODOS los lenguajes de marcas estudiados.</p>
-
-      <p><strong>Componentes del proyecto:</strong></p>
-
-      <ol>
-        <li><strong>Datos (XML + XSD):</strong>
-          <ul>
-            <li>Crea biblioteca.xml con datos de libros, autores, préstamos</li>
-            <li>Diseña biblioteca.xsd con validación completa</li>
-            <li>Incluye restricciones de ISBN, fechas, enumeraciones</li>
-          </ul>
-        </li>
-
-        <li><strong>API (JSON):</strong>
-          <ul>
-            <li>Diseña estructura JSON para endpoints REST</li>
-            <li>GET /libros, POST /prestamos, etc.</li>
-            <li>Incluye respuestas de éxito y error</li>
-          </ul>
-        </li>
-
-        <li><strong>Configuración (YAML + TOML):</strong>
-          <ul>
-            <li>docker-compose.yml para servicios</li>
-            <li>config.toml para configuración de aplicación</li>
-            <li>.github/workflows/test.yml para CI</li>
-          </ul>
-        </li>
-
-        <li><strong>Documentación (Markdown):</strong>
-          <ul>
-            <li>README.md completo con badges</li>
-            <li>API.md documentando todos los endpoints</li>
-            <li>INSTALL.md con guía de instalación paso a paso</li>
-          </ul>
-        </li>
-
-        <li><strong>Informe (LaTeX):</strong>
-          <ul>
-            <li>Documento PDF de 10-15 páginas</li>
-            <li>Explica diseño, arquitectura, decisiones técnicas</li>
-            <li>Incluye diagramas, tablas, código fuente</li>
-          </ul>
-        </li>
-      </ol>
-
-      <p><strong>Estructura de archivos esperada:</strong></p>
-      <pre><code>biblioteca-proyecto/
-├── README.md
-├── docs/
-│   ├── API.md
-│   ├── INSTALL.md
-│   └── informe/
-│       ├── main.tex
-│       ├── secciones/
-│       └── imagenes/
-├── datos/
-│   ├── biblioteca.xml
-│   └── biblioteca.xsd
-├── api/
-│   └── ejemplos-json/
-│       ├── get-libros.json
-│       ├── post-prestamo.json
-│       └── error-404.json
-├── config/
-│   ├── app.toml
-│   └── docker-compose.yml
-└── .github/
-    └── workflows/
-        └── ci.yml</code></pre>
-
-      <h3>Criterios de evaluación</h3>
-
-      <table>
-        <thead>
-        <tr>
-          <th>Criterio</th>
-          <th>Puntuación</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-          <td>XML bien formado y válido contra XSD</td>
-          <td>20%</td>
-        </tr>
-        <tr>
-          <td>XSD con restricciones avanzadas correctas</td>
-          <td>15%</td>
-        </tr>
-        <tr>
-          <td>JSON con estructura coherente y completa</td>
-          <td>10%</td>
-        </tr>
-        <tr>
-          <td>YAML/TOML sintácticamente correctos y funcionales</td>
-          <td>10%</td>
-        </tr>
-        <tr>
-          <td>Markdown bien formateado, completo y profesional</td>
-          <td>15%</td>
-        </tr>
-        <tr>
-          <td>LaTeX compilable, con formato profesional</td>
-          <td>15%</td>
-        </tr>
-        <tr>
-          <td>Organización del proyecto, claridad, comentarios</td>
-          <td>10%</td>
-        </tr>
-        <tr>
-          <td>Creatividad y uso avanzado de características</td>
-          <td>5%</td>
-        </tr>
-        </tbody>
-      </table>
-
-      <div class="callout info">
-        <p><strong>Entrega:</strong> Sube tu proyecto a un repositorio GitHub público. El README.md
-          debe tener instrucciones claras para validar todos los archivos. Incluye enlaces al informe
-          PDF compilado (puedes usar GitHub Releases para subirlo).</p>
-      </div>
-
-      <div class="callout tip">
-        <p><strong>Recursos adicionales:</strong></p>
-        <ul>
-          <li><a href="https://www.w3schools.com/xml/" target="_blank">W3Schools XML Tutorial</a></li>
-          <li><a href="https://commonmark.org/help/" target="_blank">CommonMark Markdown Tutorial</a></li>
-          <li><a href="https://json-schema.org/learn/getting-started-step-by-step" target="_blank">JSON Schema Guide</a></li>
-          <li><a href="https://yaml.org/spec/1.2.2/" target="_blank">YAML Specification</a></li>
-          <li><a href="https://www.overleaf.com/learn" target="_blank">Overleaf LaTeX Tutorials</a></li>
-        </ul>
-      </div>
-    </section>
-
+   
   </article>
 </main>
 
