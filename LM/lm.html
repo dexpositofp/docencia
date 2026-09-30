@@ -26,6 +26,7 @@
   </div>
 </header>
 
+
 <main class="layout">
   <aside class="sidebar">
     <h2>Índice de la Unidad</h2>
@@ -40,7 +41,11 @@
       <li><a href="#wikitext">Wiki Text</a></li>
       <li><a href="#latex">LaTeX</a></li>
       <li><a href="#otros-lenguajes">Otros Lenguajes</a></li>
-      <li><a href="#aplicaciones-practicas">Aplicaciones Prácticas</a></li>
+      <li><a href="#aplicaciones-practicas">Aplicaciones Prácticas</a>
+        <ul>
+          <li><a href="#erp-sistemas">ERPs y Lenguajes de Marcas</a></li>
+        </ul>
+      </li>
     </ul>
   </aside>
 
@@ -4667,6 +4672,180 @@ Documentación:
           los archivos de configuración ya preparados. Muchos frameworks ofrecen CLIs que generan
           scaffolding automáticamente: <code>create-react-app</code>, <code>vue create</code>,
           <code>rails new</code>, etc.</p>
+      </div>
+
+      <h3 id="erp-sistemas">Lenguajes de marcas en Sistemas ERP</h3>
+
+      <h4>¿Qué es un ERP y por qué es relevante para DAW?</h4>
+      <p>
+        Un <strong>ERP (Enterprise Resource Planning)</strong> o Sistema de Planificación de Recursos Empresariales
+        es un software integrado que gestiona los procesos principales de una empresa:
+      </p>
+      <ul>
+        <li><strong>Gestión comercial</strong>: ventas, compras, CRM (Customer Relationship Management)</li>
+        <li><strong>Contabilidad y finanzas</strong>: facturación, tesorería, impuestos</li>
+        <li><strong>Gestión de inventario y almacén</strong>: stock, logística, trazabilidad</li>
+        <li><strong>Recursos humanos</strong>: nóminas, control de presencia, formación</li>
+        <li><strong>Producción</strong>: planificación, MRP (Material Requirements Planning)</li>
+        <li><strong>Gestión de proyectos</strong>: tareas, timesheet, presupuestos</li>
+      </ul>
+
+      <div class="callout info">
+        <p><strong>¿Por qué es importante para ti como desarrollador web?</strong><br>
+          Las empresas necesitan desarrolladores que puedan personalizar, integrar y extender sus ERPs.
+          Conocer cómo funcionan estos sistemas y qué tecnologías usan te abre muchas oportunidades laborales,
+          especialmente en el desarrollo de módulos personalizados, integraciones con APIs, y customización de interfaces.</p>
+      </div>
+
+      <h4>Lenguajes de marcas en ERPs: El caso de Odoo</h4>
+      <p>
+        <strong>Odoo</strong> es uno de los ERPs open-source más utilizados del mundo, con más de 7 millones de usuarios.
+        Está desarrollado en Python y PostgreSQL, pero utiliza intensivamente <strong>lenguajes de marcas</strong> para:
+      </p>
+
+      <table>
+        <thead>
+        <tr>
+          <th>Lenguaje</th>
+          <th>Uso en Odoo ERP</th>
+          <th>Ejemplo de aplicación</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td><strong>XML</strong></td>
+          <td>Definición de vistas, menús, datos iniciales, informes</td>
+          <td>Formularios de cliente, facturas PDF, permisos</td>
+        </tr>
+        <tr>
+          <td><strong>JSON</strong></td>
+          <td>API REST, comunicación entre módulos, AJAX</td>
+          <td>Sincronización con e-commerce, apps móviles</td>
+        </tr>
+        <tr>
+          <td><strong>HTML/CSS</strong></td>
+          <td>Plantillas QWeb, emails, portal web</td>
+          <td>Diseño de facturas, emails automatizados</td>
+        </tr>
+        <tr>
+          <td><strong>YAML</strong></td>
+          <td>Tests, datos de prueba, deployment</td>
+          <td>Docker Compose para instalación, CI/CD</td>
+        </tr>
+        </tbody>
+      </table>
+
+      <h4>Ejemplo práctico 1: Vista de formulario en XML (Odoo)</h4>
+      <p>
+        En Odoo, las interfaces de usuario se definen con XML. Ejemplo de un formulario para gestionar productos:
+      </p>
+      <pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;odoo&gt;
+  &lt;record id="view_product_form" model="ir.ui.view"&gt;
+    &lt;field name="name"&gt;product.product.form&lt;/field&gt;
+    &lt;field name="model"&gt;product.product&lt;/field&gt;
+    &lt;field name="arch" type="xml"&gt;
+      &lt;form string="Producto"&gt;
+        &lt;sheet&gt;
+          &lt;group&gt;
+            &lt;field name="name" placeholder="Nombre del producto"/&gt;
+            &lt;field name="default_code" string="Referencia interna"/&gt;
+            &lt;field name="list_price" string="Precio de venta"/&gt;
+            &lt;field name="standard_price" string="Coste"/&gt;
+          &lt;/group&gt;
+          &lt;notebook&gt;
+            &lt;page string="Información general"&gt;
+              &lt;group&gt;
+                &lt;field name="categ_id" string="Categoría"/&gt;
+                &lt;field name="type" string="Tipo de producto"/&gt;
+                &lt;field name="uom_id" string="Unidad de medida"/&gt;
+              &lt;/group&gt;
+            &lt;/page&gt;
+            &lt;page string="Inventario"&gt;
+              &lt;group&gt;
+                &lt;field name="qty_available" string="Cantidad disponible"/&gt;
+                &lt;field name="virtual_available" string="Cantidad prevista"/&gt;
+              &lt;/group&gt;
+            &lt;/page&gt;
+          &lt;/notebook&gt;
+        &lt;/sheet&gt;
+      &lt;/form&gt;
+    &lt;/field&gt;
+  &lt;/record&gt;
+&lt;/odoo&gt;</code></pre>
+
+      <p><strong>Observa cómo se usan conceptos ya estudiados:</strong></p>
+      <ul>
+        <li>Estructura jerárquica XML con etiquetas como <code>&lt;form&gt;</code>, <code>&lt;group&gt;</code>, <code>&lt;field&gt;</code></li>
+        <li>Atributos para configuración: <code>name</code>, <code>string</code>, <code>type</code></li>
+        <li>Namespaces implícitos del framework Odoo</li>
+        <li>Separación de contenido (datos del producto) y presentación (estructura del formulario)</li>
+      </ul>
+
+      <h4>Ejemplo práctico 2: API REST con JSON (Odoo)</h4>
+      <p>
+        Odoo expone una API REST que devuelve datos en formato JSON. Ejemplo de consulta de productos:
+      </p>
+      <pre><code>// GET /api/products/123
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": {
+    "id": 123,
+    "name": "Teclado Mecánico RGB",
+    "default_code": "TECH-KB-001",
+    "list_price": 89.99,
+    "standard_price": 45.00,
+    "qty_available": 15,
+    "categ_id": {
+      "id": 5,
+      "name": "Periféricos"
+    },
+    "taxes_id": [
+      {
+        "id": 1,
+        "name": "IVA 21%",
+        "amount": 21.0
+      }
+    ],
+    "image_1920": "data:image/png;base64,iVBORw0KGgo...",
+    "website_published": true,
+    "create_date": "2024-01-15 10:30:00",
+    "write_date": "2024-01-20 14:45:00"
+  }
+}</code></pre>
+
+      <p><strong>Este JSON permite:</strong></p>
+      <ul>
+        <li>Integrar el ERP con una tienda online (e-commerce)</li>
+        <li>Sincronizar datos con aplicaciones móviles</li>
+        <li>Conectar con otros sistemas externos (marketplaces, CRMs, etc.)</li>
+        <li>Crear dashboards personalizados con frameworks JavaScript (React, Vue, Angular)</li>
+      </ul>
+
+      <h4>Aplicaciones reales de ERPs en empresas</h4>
+      <p>Los ERPs son utilizados por empresas de todos los tamaños y sectores:</p>
+      <ul>
+        <li><strong>Retail</strong>: Gestión de múltiples tiendas, sincronización de inventario online/offline</li>
+        <li><strong>Manufactura</strong>: Planificación de producción, gestión de materias primas (MRP)</li>
+        <li><strong>Servicios</strong>: Gestión de proyectos, facturación por horas, control de costes</li>
+        <li><strong>Logística</strong>: Trazabilidad de envíos, gestión de rutas, integración con transportistas</li>
+        <li><strong>E-commerce</strong>: Sincronización automática pedidos web → ERP → contabilidad</li>
+      </ul>
+
+      <div class="callout warn">
+        <p><strong>Salidas profesionales:</strong> Como desarrollador web con conocimientos de ERP puedes trabajar como:
+          <strong>consultor funcional</strong>, <strong>desarrollador de módulos personalizados</strong>,
+          <strong>integrador de sistemas</strong>, o <strong>especialista en migraciones de datos</strong>.
+          Estas posiciones suelen tener salarios superiores a desarrolladores web generalistas.</p>
+      </div>
+
+      <div class="callout tip">
+        <p><strong>Proyecto opcional avanzado:</strong> Si quieres profundizar, instala Odoo Community Edition
+          en un contenedor Docker y crea un módulo personalizado simple (por ejemplo, gestión de biblioteca del centro).
+          Aplicarás <strong>XML para vistas</strong>, <strong>Python para lógica de negocio</strong>, y
+          <strong>PostgreSQL para persistencia</strong>. Es un proyecto completo que demuestra conocimientos
+          Full Stack y destaca mucho en tu portfolio.</p>
       </div>
     </section>
 
