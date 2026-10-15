@@ -40,551 +40,1621 @@
   </div>
 </header>
 
-<div class="layout">
-  <aside class="sidebar" id="sidebar" aria-label="Unit index">
+<main class="layout">
+  <aside class="sidebar">
     <h2>Contents</h2>
-    <nav>
-      <ul class="toc" id="toc">
-        <li><a href="#anatomia-documento">Document Anatomy</a></li>
-        <li><a href="#introduccion-html">Introduction to HTML</a></li>
-        <li><a href="#sintaxis-etiquetas-basicas">Syntax and Basic Tags</a></li>
-        <li><a href="#nuevas-etiquetas-html5">New HTML5 Tags</a></li>
-        <li><a href="#principios-diseno">Web Design Principles</a></li>
-        <li><a href="#usabilidad-accesibilidad">Usability and Accessibility</a></li>
-        <li><a href="#formularios">Forms</a></li>
-          <ul>
-            <li><a href="#estructura-basica">— Basic Structure</a></li>
-            <li><a href="#atributos-form">— Attributes and States</a></li>
-            <li><a href="#elementos-basicos">— Common Controls</a></li>
-            <li><a href="#agrupacion-formularios">— Grouping and Aids</a></li>
-            <li><a href="#validacion">— Validation</a></li>
-            <li><a href="#ejercicios-form">— Exercises</a></li>
-          </ul>
-        <li><a href="#html-lists">HTML Lists</a></li>
-        <li><a href="#tablas-multimedia">Tables and Multimedia</a></li>
-        <li><a href="#validacion-html">HTML Validation</a></li>
-        <li><a href="#restricciones-xhtml">XHTML Restrictions</a></li>
-        <li><a href="#ejercicios-basicos-html">Basic HTML Exercises</a></li>
-      </ul>
-    </nav>
+    <ul class="toc">
+      <li><a href="#introduction">Introduction to HTML</a></li>
+      <li><a href="#basic-structure">Basic Structure</a></li>
+      <li><a href="#semantic-tags">Semantic Tags</a></li>
+      <li><a href="#text-formatting">Text and Formatting</a></li>
+      <li><a href="#links-images">Links and Images</a></li>
+      <li><a href="#lists">Lists</a></li>
+      <li><a href="#tables">Tables</a></li>
+      <li><a href="#forms">Forms</a></li>
+      <li><a href="#multimedia">Multimedia</a></li>
+      <li><a href="#html5-semantic">HTML5 Semantic Elements</a></li>
+      <li><a href="#accessibility">Accessibility Basics</a></li>
+      <li><a href="#best-practices">Best Practices</a></li>
+      <li><a href="#seo">Basic SEO</a></li>
+    </ul>
   </aside>
 
-  <div class="backdrop" id="backdrop" hidden></div>
+  <article class="content">
 
-  <main class="content">
     <header class="page">
-      <h1 id="intro">HTML</h1>
-      <p class="muted">Structure and meaning of the content of a web page</p>
+      <h1>HTML - Complete Guide</h1>
+      <p class="lead">
+        HTML (HyperText Markup Language) is the standard language for creating web pages.
+        It's not a programming language, but a markup language that defines the structure
+        and content of web pages using tags. This guide is designed for vocational students
+        who want to learn HTML from scratch.
+      </p>
     </header>
-  
 
-    
-    <!-- 1) Introducción -->
-    <section id="introduccion-html">
-      <h2>Introduction to HTML</h2>
-      <p><strong>HTML</strong> (HyperText Markup Language) is the standard for structuring documents on the web. Together with <em>CSS</em> (presentation) and <em>JavaScript</em> (interactivity), it forms the technological foundation of the front-end.</p>
-    
+    <div class="callout info">
+      <p><strong>Did you miss class? Don't worry.</strong><br>
+        This guide is designed so you can learn HTML on your own, with detailed explanations,
+        real-world examples, and self-assessment exercises. Read carefully and practice
+        each concept before moving to the next one.</p>
+    </div>
+
+    <!-- Section 1: Introduction -->
+    <section id="introduction">
+      <h2>1. Introduction to HTML</h2>
+
       <h3>What is HTML?</h3>
-      <p>It is a <strong>markup language</strong>: it does not program, but labels content to describe its function (paragraphs, lists, images, tables, forms…). Browsers interpret these tags to build the document tree (DOM) and render it.</p>
-    
-      <h3>Meaning of the acronym</h3>
-      <ul>
-        <li><strong>Hyper</strong>: hyperlinks that connect resources to each other.</li>
-        <li><strong>Text</strong>: the content that is presented (text, image, multimedia).</li>
-        <li><strong>Markup</strong>: semantic tags that give structure and meaning.</li>
-        <li><strong>Language</strong>: formal set of elements and attributes with defined syntax.</li>
-      </ul>
-    
-      <h3>History (very brief) and HTML5</h3>
-      <p>Since 1991, HTML has evolved into <strong>HTML5</strong>, which includes semantic tags (<code>header</code>, <code>nav</code>, <code>main</code>, <code>section</code>, <code>article</code>…), enhanced forms, and modern browser APIs (multimedia, canvas, etc.).</p>
-    
-      <h3>Minimal example</h3>
-      <pre><code class="language-html">&lt;!DOCTYPE html&gt;
-    &lt;html lang="en"&gt;
-    &lt;head&gt;...&lt;/head&gt;
-    &lt;body&gt;
-      &lt;h1&gt;Hello, world!&lt;/h1&gt;
-      &lt;p&gt;First HTML document.&lt;/p&gt;
-    &lt;/body&gt;
-    &lt;/html&gt;</code></pre>
-    
-      <div class="callout info">
-        <p><strong>Separation of concerns:</strong> HTML (structure and meaning), CSS (presentation), JS (behavior). This separation improves accessibility, maintenance, and testing.</p>
-      </div>
-    </section>
-    
+      <p>
+        HTML is a markup language that uses <strong>tags</strong> to structure
+        the content of a web page. Each tag has a specific semantic meaning that
+        tells the browser how to interpret and display the content.
+      </p>
 
-    <!-- 2) Sintaxis y básicas -->
-    <section id="sintaxis-etiquetas-basicas">
-      <h2>Syntax and Basic Tags</h2>
-      <p>An HTML element consists of an opening tag, content, and (usually) a closing tag. Attributes add metadata or behavior. Always use semantic tags when possible, and reserve <code>&lt;div&gt;</code>/<code>&lt;span&gt;</code> for when there's no better alternative.</p>
-    
-      <h3>Text, Headings, and Links</h3>
-      <ul class="listacodigo">
-        <li><code>&lt;h1..h6&gt;</code>: heading hierarchy. Usually one <code>&lt;h1&gt;</code> per page or main content block.</li>
-        <li><code>&lt;p&gt;</code>: paragraphs; <code>&lt;strong&gt;</code>/<code>&lt;em&gt;</code> for emphasis (semantic, not visual).</li>
-        <li><code>&lt;a href&gt;</code>: links with meaningful text (avoid “click here”). If opening in a new tab, add <code>rel="noopener noreferrer"</code>.</li>
-      </ul>
-    
-      <pre><code class="language-html">&lt;h1&gt;Travel Guide&lt;/h1&gt;
-    &lt;p&gt;Check the &lt;a href="#tips"&gt;pre-travel tips&lt;/a&gt; before booking.&lt;/p&gt;
-    &lt;p&gt;Deals are &lt;strong&gt;available&lt;/strong&gt; until the end of the month.&lt;/p&gt;</code></pre>
-    
-      <h3>Lists: Unordered, Ordered, and Definition</h3>
-      <p>Choose the list type based on meaning, not appearance:</p>
-      <ul>
-        <li><strong>Unordered</strong> (<code>&lt;ul&gt;</code>): a group with no inherent order.</li>
-        <li><strong>Ordered</strong> (<code>&lt;ol&gt;</code>): steps or a hierarchy with order.</li>
-        <li><strong>Definition</strong> (<code>&lt;dl&gt;</code>): terms and their descriptions.</li>
-      </ul>
-    
-      <pre><code class="language-html">&lt;h2&gt;Travel Checklist&lt;/h2&gt;
-    &lt;ul&gt;
-      &lt;li&gt;Passport&lt;/li&gt;
-      &lt;li&gt;Health card&lt;/li&gt;
-      &lt;li&gt;Plug adapter&lt;/li&gt;
-    &lt;/ul&gt;
-    
-    &lt;h2&gt;Steps to Book&lt;/h2&gt;
-    &lt;ol&gt;
-      &lt;li&gt;Choose destination&lt;/li&gt;
-      &lt;li&gt;Compare flights&lt;/li&gt;
-      &lt;li&gt;Confirm accommodation&lt;/li&gt;
-    &lt;/ol&gt;
-    
-    &lt;h2&gt;Key Terms&lt;/h2&gt;
-    &lt;dl&gt;
-      &lt;dt&gt;Check-in&lt;/dt&gt;&lt;dd&gt;Check-in at the accommodation.&lt;/dd&gt;
-      &lt;dt&gt;Stopover&lt;/dt&gt;&lt;dd&gt;An intermediate stop between flights.&lt;/dd&gt;
-    &lt;/dl&gt;</code></pre>
-    
       <div class="callout tip">
-        <p><strong>Tip:</strong> nesting lists is fine when the hierarchy makes sense, but avoid deep levels (they lose clarity).</p>
+        <p><strong>Analogy to understand HTML:</strong><br>
+          Think of HTML as the <strong>blueprint of a house</strong>. The blueprint defines where each room,
+          door, and window goes, but it doesn't say what color to paint the walls or what furniture to put in.
+          That's what CSS does (design) and JavaScript (functionality, like turning on lights).</p>
       </div>
-    
-      <h3>Images (alt, dimensions, responsive)</h3>
-      <ul class="listacodigo">
-        <li><code>&lt;img src alt&gt;</code>: <code>alt</code> describes the image; if decorative, use <code>alt=""</code>.</li>
-        <li><code>width</code>/<code>height</code> help avoid layout shifts.</li>
-        <li><strong>Responsive:</strong> use <code>srcset</code>/<code>sizes</code> or <code>&lt;picture&gt;</code> for alternative formats.</li>
-      </ul>
-    
-      <pre><code class="language-html">&lt;figure&gt;
-      &lt;img
-        src="img/beach-800.jpg"
-        srcset="img/beach-400.jpg 400w, img/beach-800.jpg 800w, img/beach-1200.jpg 1200w"
-        sizes="(max-width: 600px) 90vw, 800px"
-        width="800" height="533"
-        alt="Beach with clear sky and umbrellas"&gt;
-      &lt;figcaption&gt;View of the beach at sunset.&lt;/figcaption&gt;
-    &lt;/figure&gt;</code></pre>
-    
-      <div class="callout warn">
-        <p><strong>Correct alt:</strong> what the image is and why it’s there. Avoid “image of…”. Describe relevant info for the context.</p>
-      </div>
-    
-      <h3>Paths and URLs in <code>src</code>/<code>href</code></h3>
-      <ul>
-        <li><strong>Relative</strong> (e.g., <code>../img/logo.svg</code>).</li>
-        <li><strong>Absolute</strong> (e.g., <code>https://example.com</code>).</li>
-        <li><strong>Fragment</strong> (e.g., <code>#contact</code>).</li>
-      </ul>
-    
-      <h3>Neutral Containers (use wisely)</h3>
-      <ul class="listacodigo">
-        <li><code>&lt;div&gt;</code>: block-level with no semantics (for grouping).</li>
-        <li><code>&lt;span&gt;</code>: inline with no semantics (for small fragments inside text).</li>
-      </ul>
-    
-      <div class="callout info">
-        <p><strong>Golden rule:</strong> if there’s a specific semantic tag for your case (e.g., <code>&lt;header&gt;</code> instead of <code>&lt;div class="header"&gt;</code>), use it.</p>
-      </div>
-    </section>
-    
 
-    <!-- 3) Nuevas etiquetas HTML5 (Semántica de seccionado) -->
-    <section id="nuevas-etiquetas-html5">
-      <h2>Semantic Sectioning Tags (HTML5)</h2>
-      <p>These tags give structure and meaning to the document. They improve accessibility, SEO, and maintainability. They do not change appearance by themselves (that's what CSS does), but they create a clear semantic “spine.”</p>
-    
-      <h3>&lt;main&gt;</h3>
-      <p>The unique main content of the page. It should appear only once and should not contain other landmark regions such as the site’s <code>header</code> or <code>footer</code>.</p>
-    
-      <h3>&lt;header&gt; and &lt;footer&gt;</h3>
+      <h3>Brief History</h3>
       <ul>
-        <li><strong>Page-level:</strong> global site header and footer.</li>
-        <li><strong>Section or article-level:</strong> you can have <em>local headers/footers</em> within <code>section</code>/<code>article</code> for titles, metadata, local navigation, etc.</li>
+        <li><strong>1991:</strong> Tim Berners-Lee creates HTML as part of the World Wide Web</li>
+        <li><strong>1995:</strong> HTML 2.0 - First standard version</li>
+        <li><strong>1999:</strong> HTML 4.01 - Stable version for many years</li>
+        <li><strong>2014:</strong> HTML5 - Current standard, native multimedia and APIs</li>
+        <li><strong>Today:</strong> HTML Living Standard - Continuous evolution</li>
       </ul>
-    
-      <h3>&lt;nav&gt;</h3>
-      <p>Navigation block with primary or secondary links. There can be more than one (global nav, breadcrumb nav, section nav).</p>
-    
-      <h3>&lt;section&gt; vs &lt;article&gt;</h3>
-      <ul>
-        <li><code>&lt;article&gt;</code>: a self-contained, reusable unit of content (post, product card, news). It makes sense out of context.</li>
-        <li><code>&lt;section&gt;</code>: groups related content with its own heading, but <em>depends</em> on the page context.</li>
-      </ul>
-    
-      <h3>&lt;aside&gt;</h3>
-      <p>Content tangential to the main content (sidebars, promos, glossaries). In screen readers, it's announced as complementary.</p>
-    
-      <h3>&lt;figure&gt; and &lt;figcaption&gt;</h3>
-      <p>For images, charts, code snippets, or tables that need a caption or explanation.</p>
-    
-      <h3>&lt;time datetime&gt;</h3>
-      <p>Machine-readable date/time (useful for SEO, microformats, and sorting).</p>
-    
-      <h3>Semantic Page Pattern</h3>
-      <pre><code class="language-html">&lt;header&gt;
-      &lt;h1&gt;Site Name&lt;/h1&gt;
-      &lt;nav&gt;
-        &lt;ul&gt;&lt;li&gt;&lt;a href="/"&gt;Home&lt;/a&gt;&lt;/li&gt;...&lt;/ul&gt;
-      &lt;/nav&gt;
-    &lt;/header&gt;
-    
-    &lt;main&gt;
-      &lt;article&gt;
-        &lt;header&gt;
-          &lt;h2&gt;Article Title&lt;/h2&gt;
-          &lt;p&gt;&lt;time datetime="2025-10-18"&gt;Oct 18, 2025&lt;/time&gt; — By Ana&lt;/p&gt;
-        &lt;/header&gt;
-    
-        &lt;section&gt;
-          &lt;h3&gt;Introduction&lt;/h3&gt;
-          &lt;p&gt;...&lt;/p&gt;
-        &lt;/section&gt;
-    
-        &lt;section&gt;
-          &lt;h3&gt;Development&lt;/h3&gt;
-          &lt;figure&gt;
-            &lt;img src="img/diagram.svg" alt="System workflow diagram"&gt;
-            &lt;figcaption&gt;Workflow diagram.&lt;/figcaption&gt;
-          &lt;/figure&gt;
-        &lt;/section&gt;
-    
-        &lt;footer&gt;
-          &lt;p&gt;Tags: &lt;a href="/tags/html"&gt;HTML&lt;/a&gt;, &lt;a href="/tags/accessibility"&gt;Accessibility&lt;/a&gt;&lt;/p&gt;
-        &lt;/footer&gt;
-      &lt;/article&gt;
-    
-      &lt;aside&gt;
-        &lt;h2&gt;Related&lt;/h2&gt;
-        &lt;ul&gt;
-          &lt;li&gt;&lt;a href="/article-1"&gt;Good ALT Practices&lt;/a&gt;&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/aside&gt;
-    &lt;/main&gt;
-    
-    &lt;footer&gt;
-      &lt;small&gt;© 2025 — School Name&lt;/small&gt;
-    &lt;/footer&gt;</code></pre>
-    
-      <div class="callout info">
-        <p><strong>Headings and outline:</strong> use <code>h1..h6</code> levels hierarchically. A typical pattern is: 1× <code>h1</code> for the page title, then <code>h2</code> for sections, <code>h3</code> for subsections, and so on.</p>
-      </div>
-    
-      <h3>Useful Native Widgets</h3>
-      <ul>
-        <li><code>&lt;details&gt;</code> + <code>&lt;summary&gt;</code> for accessible accordions without JS.</li>
-        <li><code>&lt;progress&gt;</code> / <code>&lt;meter&gt;</code> to represent progress/values.</li>
-        <li><code>&lt;dialog&gt;</code> (with some JS) for accessible modals.</li>
-      </ul>
-      <pre><code class="language-html">&lt;details&gt;
-      &lt;summary&gt;View minimum requirements&lt;/summary&gt;
-      &lt;ul&gt;&lt;li&gt;Modern browser&lt;/li&gt;&lt;li&gt;Stable connection&lt;/li&gt;&lt;/ul&gt;
-    &lt;/details&gt;</code></pre>
-    
-      <div class="callout warn">
-        <p><strong>Avoid</strong> using <code>&lt;div&gt;</code> with class names like <code>header</code>/<code>footer</code>/<code>section</code> when real semantic tags exist. It improves landmark navigation for screen readers and clarifies the DOM.</p>
-      </div>
-    </section>
-    
-    <!-- 4) Principios de diseño -->
-    <section id="principios-diseno">
-      <h2>Web Design Principles</h2>
-      <p>They guide the user experience: <strong>usability</strong> (clear flow), <strong>consistency</strong> (patterns), <strong>readability</strong> (typography, contrast), <strong>accessibility</strong> (content for everyone), and <strong>performance</strong> (reasonable load times).</p>
-      <ul>
-        <li><strong>Navigation:</strong> predictable placement, visual feedback on state, accessible menus.</li>
-        <li><strong>Typography:</strong> relative sizes, generous line heights, reasonably short paragraphs.</li>
-        <li><strong>Color:</strong> sufficient contrast (WCAG); don’t rely on color alone to convey meaning.</li>
-      </ul>
-      <div class="callout tip">
-        <p><strong>Tip:</strong> design the information flow first; the styling should enhance it, not hide it.</p>
-      </div>
-    </section>
-    
 
-    <!-- 5) Usabilidad y accesibilidad -->
-    <section id="usabilidad-accesibilidad">
-      <h2>Usability and Accessibility</h2>
-      <p><strong>Usability</strong> means effectiveness + efficiency + satisfaction. <strong>Accessibility</strong> means content is usable by people with different abilities (keyboard users, screen readers, low vision, etc.).</p>
+      <h3>Why is HTML Important?</h3>
+      <p>HTML is the foundation of the ENTIRE web:</p>
       <ul>
-        <li>Use landmarks (<code>header/nav/main/footer</code>), hierarchical headings, and proper <code>alt</code> text.</li>
-        <li>In forms: <code>&lt;label for&gt;</code> + <code>id</code>, <code>required</code>, and associated messages (<code>aria-describedby</code>).</li>
-        <li>Focus management: logical sequence, <em>visible focus</em>, and ARIA roles only when native semantics are missing.</li>
+        <li><strong>Universal:</strong> Works on any device with a browser</li>
+        <li><strong>Accessible:</strong> Assistive technologies read semantic HTML</li>
+        <li><strong>SEO:</strong> Search engines understand HTML structure</li>
+        <li><strong>Foundation for everything:</strong> CSS and JavaScript are applied on top of HTML</li>
+        <li><strong>Longevity:</strong> An HTML page from 1995 still works today</li>
       </ul>
-      <pre><code class="language-html">&lt;a class="skip-link" href="#main"&gt;Skip to content&lt;/a&gt;</code></pre>
-    </section>
-    
 
-    <!-- 6) Formularios -->
-    <section id="formularios">
-      <article id="introduccion">
-        <h2>Forms</h2>
-        <p>They collect user data. A good form combines semantics, accessibility, client-side validation (HTML5), and server-side validation.</p>
-      </article>
-    
-      <article id="estructura-basica">
-        <h3>Basic Structure</h3>
-        <p>The <code>&lt;form&gt;</code> tag wraps the controls. Always use <code>name</code> to send data and <code>label</code> for accessibility.</p>
-        <pre><code class="language-html">&lt;form action="/submit" method="post" novalidate&gt;
-      &lt;div&gt;
-        &lt;label for="nombre"&gt;Name&lt;/label&gt;
-        &lt;input id="nombre" name="nombre" type="text" required autocomplete="name"&gt;
-      &lt;/div&gt;
-      &lt;div&gt;
-        &lt;label for="email"&gt;Email&lt;/label&gt;
-        &lt;input id="email" name="email" type="email" required autocomplete="email"&gt;
-      &lt;/div&gt;
-      &lt;button type="submit"&gt;Send&lt;/button&gt;
-    &lt;/form&gt;</code></pre>
-    
-        <div class="callout info">
-          <p><strong>method:</strong> <code>get</code> for queries or filters (parameters in URL); <code>post</code> for submissions. <strong>action:</strong> path for processing.</p>
-        </div>
-      </article>
-    
-      <article id="atributos-form">
-        <h3>Useful Attributes and States</h3>
-        <ul>
-          <li><code>required</code>, <code>min</code>, <code>max</code>, <code>minlength</code>, <code>maxlength</code>, <code>step</code>, <code>pattern</code></li>
-          <li>CSS pseudo-classes: <code>:required</code>, <code>:optional</code>, <code>:valid</code>, <code>:invalid</code>, <code>:in-range</code>, <code>:out-of-range</code></li>
-          <li>Help text using <code>aria-describedby</code> managed by <code>id</code>.</li>
-        </ul>
-        <pre><code class="language-html">&lt;label for="tel"&gt;Phone (9 digits)&lt;/label&gt;
-    &lt;input id="tel" name="tel" type="tel" pattern="[0-9]{9}" required
-           aria-describedby="help-tel"&gt;
-    &lt;small id="help-tel" class="muted"&gt;Numbers only, no spaces.&lt;/small&gt;</code></pre>
-      </article>
-    
-      <article id="elementos-basicos">
-        <h3>Common Elements and Controls</h3>
-        <table>
-          <thead><tr><th>Element</th><th>Description</th><th>Example</th></tr></thead>
-          <tbody>
-            <tr>
-              <td><code>&lt;input type="text"&gt;</code></td>
-              <td>Short text</td>
-              <td><pre><code>&lt;input name="user" placeholder="Username"&gt;</code></pre></td>
-            </tr>
-            <tr>
-              <td><code>&lt;input type="password"&gt;</code></td>
-              <td>Passwords</td>
-              <td><pre><code>&lt;input name="password" type="password" autocomplete="new-password"&gt;</code></pre></td>
-            </tr>
-            <tr>
-              <td><code>&lt;input type="email"&gt;</code></td>
-              <td>Email format</td>
-              <td><pre><code>&lt;input name="email" type="email" required&gt;</code></pre></td>
-            </tr>
-            <tr>
-              <td><code>&lt;input type="date"&gt;</code></td>
-              <td>Date</td>
-              <td><pre><code>&lt;input name="date" type="date"&gt;</code></pre></td>
-            </tr>
-            <tr>
-              <td><code>&lt;input type="file"&gt;</code></td>
-              <td>File upload</td>
-              <td><pre><code>&lt;input name="file" type="file" accept=".jpg,.png"&gt;</code></pre></td>
-            </tr>
-            <tr>
-              <td><code>&lt;input type="radio"&gt;</code></td>
-              <td>Single selection</td>
-              <td><pre><code>&lt;input type="radio" name="gender" value="m"&gt; M
-    &lt;input type="radio" name="gender" value="f"&gt; F</code></pre></td>
-            </tr>
-            <tr>
-              <td><code>&lt;input type="checkbox"&gt;</code></td>
-              <td>Multiple options</td>
-              <td><pre><code>&lt;input type="checkbox" name="interest" value="sports"&gt; Sports</code></pre></td>
-            </tr>
-            <tr>
-              <td><code>&lt;select&gt;</code></td>
-              <td>Dropdown list</td>
-              <td><pre><code>&lt;select name="country"&gt;
-      &lt;option value="es"&gt;Spain&lt;/option&gt;
-    &lt;/select&gt;</code></pre></td>
-            </tr>
-            <tr>
-              <td><code>&lt;textarea&gt;</code></td>
-              <td>Long text</td>
-              <td><pre><code>&lt;textarea name="comments" rows="4"&gt;&lt;/textarea&gt;</code></pre></td>
-            </tr>
-          </tbody>
-        </table>
-      </article>
-    
-      <article id="agrupacion-formularios">
-        <h3>Grouping and Assistance</h3>
-        <p>To structure and improve accessibility:</p>
-        <ul>
-          <li><code>&lt;fieldset&gt;</code> groups related controls + <code>&lt;legend&gt;</code> describes the group.</li>
-          <li><code>&lt;optgroup&gt;</code> organizes options within <code>&lt;select&gt;</code>.</li>
-          <li><code>&lt;datalist&gt;</code> suggests values to an <code>&lt;input list&gt;</code>.</li>
-        </ul>
-        <pre><code class="language-html">&lt;fieldset&gt;
-      &lt;legend&gt;Personal Data&lt;/legend&gt;
-      &lt;label for="name"&gt;Name&lt;/label&gt;
-      &lt;input id="name" name="name" type="text"&gt;
-      &lt;label for="city"&gt;City&lt;/label&gt;
-      &lt;input list="cities" id="city" name="city"&gt;
-      &lt;datalist id="cities"&gt;
-        &lt;option value="Madrid"&gt;
-        &lt;option value="Valencia"&gt;
-      &lt;/datalist&gt;
-    &lt;/fieldset&gt;</code></pre>
-      </article>
-    
-      <article id="validacion">
-        <h3>Browser Validation</h3>
-        <p>HTML5 implements native validation: formats (<code>email</code>, <code>url</code>), patterns (regex), required fields, ranges, etc. This is <em>complementary</em> to server-side validation.</p>
-        <pre><code class="language-html">&lt;input type="email" name="email" required&gt;
-    &lt;input type="text" name="phone" pattern="[0-9]{9}" required&gt;</code></pre>
-        <div class="callout warn">
-          <p><strong>Important:</strong> never rely solely on client-side validation; always validate and sanitize on the server.</p>
-        </div>
-      </article>
-    
-      <article id="ejercicios-form">
-        <h3>Form Practice Exercises</h3>
-        <ul>
-          <li>Registration form with name, surname, email, password, and confirmation (with <code>required</code> and format help).</li>
-          <li>Appointment booking: date, time, and service list (<code>select</code>/<code>radio</code>).</li>
-          <li>Image upload: accept only <code>.jpg</code> and <code>.png</code> (<code>accept</code> attribute).</li>
-          <li>Survey with <code>checkbox</code> and <code>radio</code> plus a comment field.</li>
-          <li>Contact form with email and phone validation using pattern.</li>
-        </ul>
-      </article>
-    </section>
-
-    <section id="html-lists">
-      <h2>Lists in HTML</h2>
-      <p>Lists allow you to group related content and present it in a structured, semantic way. HTML provides three main types of lists, each suited for different content types:</p>
-    
-      <h3>Unordered Lists (<code>&lt;ul&gt;</code>)</h3>
-      <p>Used when the order of items does not matter. Each item is wrapped in an <code>&lt;li&gt;</code> tag.</p>
-      <pre><code class="language-html">&lt;ul&gt;
-      &lt;li&gt;Apples&lt;/li&gt;
-      &lt;li&gt;Oranges&lt;/li&gt;
-      &lt;li&gt;Bananas&lt;/li&gt;
-    &lt;/ul&gt;</code></pre>
-    
-      <h3>Ordered Lists (<code>&lt;ol&gt;</code>)</h3>
-      <p>Use these when the order of the items is important (e.g., steps, rankings).</p>
-      <pre><code class="language-html">&lt;ol&gt;
-      &lt;li&gt;Register an account&lt;/li&gt;
-      &lt;li&gt;Log in&lt;/li&gt;
-      &lt;li&gt;Start learning&lt;/li&gt;
-    &lt;/ol&gt;</code></pre>
-    
-      <h3>Description Lists (<code>&lt;dl&gt;</code>)</h3>
-      <p>Best for terms and definitions or any label-description pair. Uses <code>&lt;dt&gt;</code> (term) and <code>&lt;dd&gt;</code> (description).</p>
-      <pre><code class="language-html">&lt;dl&gt;
-      &lt;dt&gt;HTML&lt;/dt&gt;
-      &lt;dd&gt;The standard markup language for web pages.&lt;/dd&gt;
-    
-      &lt;dt&gt;CSS&lt;/dt&gt;
-      &lt;dd&gt;A language to describe the style of an HTML document.&lt;/dd&gt;
-    &lt;/dl&gt;</code></pre>
-    
-      <div class="callout tip">
-        <p><strong>Tip:</strong> Choose your list type based on the meaning of the content, not on how it looks. Use CSS to control presentation, not semantics.</p>
-      </div>
-    </section>
-    
-    
-    <!-- 7) Tablas y multimedia -->
-    <section id="tablas-multimedia">
-      <h2>Tables and Multimedia</h2>
-    
-      <article id="tablas">
-        <h3>Accessible Tables</h3>
-        <p>Use them for tabular data, not for layout. Include <code>&lt;caption&gt;</code>, headers, and appropriate <code>scope</code>.</p>
-        <pre><code class="language-html">&lt;table&gt;
-      &lt;caption&gt;Quarterly Results&lt;/caption&gt;
-      &lt;thead&gt;
-        &lt;tr&gt;&lt;th scope="col"&gt;Month&lt;/th&gt;&lt;th scope="col"&gt;Sales&lt;/th&gt;&lt;/tr&gt;
-      &lt;/thead&gt;
-      &lt;tbody&gt;
-        &lt;tr&gt;&lt;th scope="row"&gt;January&lt;/th&gt;&lt;td&gt;120k&lt;/td&gt;&lt;/tr&gt;
-      &lt;/tbody&gt;
-    &lt;/table&gt;</code></pre>
-      </article>
-    
-      <article id="etiquetas-multimedia">
-        <h3>Multimedia in HTML5</h3>
-        <ul class="listacodigo">
-          <li><code>&lt;audio&gt;</code> and <code>&lt;video&gt;</code> with <code>controls</code>, <code>preload</code>, and caption tracks (<code>&lt;track kind="captions"&gt;</code>).</li>
-          <li><code>&lt;canvas&gt;</code> for JS-rendered graphics; <code>&lt;svg&gt;</code> for semantic vector graphics.</li>
-        </ul>
-    
-        <pre><code class="language-html">&lt;video width="480" controls preload="metadata"&gt;
-      &lt;source src="movie.mp4" type="video/mp4"&gt;
-      &lt;track src="sub.vtt" kind="captions" srclang="es" label="Spanish"&gt;
-      Your browser does not support video.
-    &lt;/video&gt;</code></pre>
-    
-        <pre><code class="language-html">&lt;canvas id="chart" width="240" height="120"&gt;&lt;/canvas&gt;
-    &lt;script&gt;
-      const ctx = document.getElementById('chart').getContext('2d');
-      ctx.fillRect(10, 10, 80, 40);
-    &lt;/script&gt;</code></pre>
-      </article>
-    </section>
-    
-    <section id="validacion-html">
-      <h2>HTML Document Validation</h2>
-      <p>Validation helps catch markup errors and improve compatibility. Make it part of your workflow (validators, linters, testing across browsers/screen readers).</p>
-      <div class="callout tip">
-        <p><strong>Quick checklist:</strong> correct <em>lang</em> and <em>charset</em>, proper semantics, good contrast, images with <em>alt</em>, labeled forms, and no errors in the W3C validator.</p>
-      </div>
-    </section>
-    
-    <section id="restricciones-xhtml">
-      <h2>XHTML Restrictions</h2>
-      <p>XHTML is HTML rewritten as XML. It requires <em>well-formed</em> documents: lowercase tags, required closing tags, quoted attributes, and a single root element. While its strictness promoted interoperability and XML tooling, HTML5 now dominates. Still, "well-formed" rules are useful as formal discipline.</p>
-    </section>
-    
-    <section id="ejercicios-basicos-html">
-      <h2>Basic HTML Exercises</h2>
+      <h3>Tools Needed</h3>
+      <p>To write HTML you only need:</p>
       <ol>
-        <li>
-          <h3>Personal Introduction</h3>
-          <p>Include an <code>&lt;h1&gt;</code> with your name, a paragraph with your interests, and a list of favorites.</p>
-        </li>
-        <li>
-          <h3>Basic Structure</h3>
-          <p>Create a minimal document with <code>&lt;!DOCTYPE&gt;</code>, <code>&lt;html&gt;</code>, <code>&lt;head&gt;</code>, and <code>&lt;body&gt;</code>, using <code>lang="es"</code>, <code>charset</code>, and <code>viewport</code>.</p>
-        </li>
-        <li>
-          <h3>Link and Image</h3>
-          <p>Add an <code>&lt;a&gt;</code> with meaningful text and a centered <code>&lt;img&gt;</code> with descriptive <code>alt</code>.</p>
-        </li>
-        <li>
-          <h3>Basic Form</h3>
-          <p>Name, email, comments, and a submit button, using <code>label</code> and <code>required</code>.</p>
-        </li>
-        <li>
-          <h3>Simple Table</h3>
-          <p>3×3 table with headers in the first row and a <code>&lt;caption&gt;</code>.</p>
-        </li>
+        <li><strong>Text editor:</strong> VS Code, Sublime Text, Notepad++</li>
+        <li><strong>Web browser:</strong> Chrome, Firefox, Safari, Edge</li>
+        <li><strong>Browser DevTools:</strong> Press F12 to inspect code</li>
       </ol>
+
+      <div class="callout tip">
+        <p><strong>Recommendation:</strong> Use VS Code with these extensions:<br>
+          - Live Server (automatic refresh)<br>
+          - HTML CSS Support (autocomplete)<br>
+          - Prettier (automatic formatting)</p>
+      </div>
     </section>
-    
 
-   
+    <!-- Section 2: Basic Structure -->
+    <section id="basic-structure">
+      <h2>2. Basic Structure of an HTML Document</h2>
 
-  </main>
+      <h3>Anatomy of an HTML Tag</h3>
+      <p>HTML tags have this structure:</p>
+
+      <pre><code>&lt;tagName attribute="value"&gt;
+  Content
+&lt;/tagName&gt;</code></pre>
+
+      <p><strong>Components:</strong></p>
+      <ul>
+        <li><strong>Opening tag:</strong> <code>&lt;p&gt;</code></li>
+        <li><strong>Attributes:</strong> <code>class="highlight"</code></li>
+        <li><strong>Content:</strong> The text or internal elements</li>
+        <li><strong>Closing tag:</strong> <code>&lt;/p&gt;</code></li>
+      </ul>
+
+      <div class="callout warn">
+        <p><strong>Self-closing tags (void elements):</strong><br>
+          Some tags have no content or closing tag:<br>
+          <code>&lt;img&gt;</code>, <code>&lt;br&gt;</code>, <code>&lt;hr&gt;</code>,
+          <code>&lt;input&gt;</code>, <code>&lt;meta&gt;</code>, <code>&lt;link&gt;</code></p>
+      </div>
+
+      <h3>The Minimal HTML Document</h3>
+      <p>Every HTML5 document must have this structure:</p>
+
+      <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;Page Title&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;!-- Here goes the visible content --&gt;
+  &lt;h1&gt;Hello World&lt;/h1&gt;
+  &lt;p&gt;My first web page.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+      <h3>Explanation of Each Part</h3>
+
+      <h4>1. <code>&lt;!DOCTYPE html&gt;</code></h4>
+      <p>
+        Declaration that tells the browser this document uses HTML5.
+        <strong>MUST be the first line of the file.</strong>
+      </p>
+
+      <h4>2. <code>&lt;html lang="en"&gt;</code></h4>
+      <p>
+        Root element that contains the entire document. The <code>lang</code> attribute specifies
+        the language (important for SEO and accessibility).
+      </p>
+      <p><strong>Examples:</strong> <code>lang="en"</code> (English), <code>lang="es"</code> (Spanish),
+        <code>lang="fr"</code> (French)</p>
+
+      <h4>3. <code>&lt;head&gt;</code></h4>
+      <p>
+        Section that contains <strong>metadata</strong> (information about the document).
+        The content of the <code>&lt;head&gt;</code> is NOT visible on the page.
+      </p>
+
+      <h5>Common elements in the <code>&lt;head&gt;</code>:</h5>
+
+      <pre><code>&lt;head&gt;
+  &lt;!-- Character encoding (ALWAYS UTF-8) --&gt;
+  &lt;meta charset="UTF-8"&gt;
+
+  &lt;!-- Viewport for responsive design --&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+
+  &lt;!-- Title (appears in browser tab) --&gt;
+  &lt;title&gt;My Website&lt;/title&gt;
+
+  &lt;!-- Description for search engines --&gt;
+  &lt;meta name="description" content="Brief site description"&gt;
+
+  &lt;!-- Author --&gt;
+  &lt;meta name="author" content="Your Name"&gt;
+
+  &lt;!-- Tab icon (favicon) --&gt;
+  &lt;link rel="icon" type="image/x-icon" href="/images/favicon.ico"&gt;
+
+  &lt;!-- CSS stylesheet --&gt;
+  &lt;link rel="stylesheet" href="styles.css"&gt;
+
+  &lt;!-- Deferred JavaScript (loads after HTML) --&gt;
+  &lt;script src="script.js" defer&gt;&lt;/script&gt;
+&lt;/head&gt;</code></pre>
+
+      <h4>4. <code>&lt;body&gt;</code></h4>
+      <p>
+        Contains ALL the visible content of the page: text, images, videos, forms, etc.
+      </p>
+
+      <div class="callout tip">
+        <p><strong>Loading order:</strong><br>
+          1. Browser downloads the HTML<br>
+          2. Reads the <code>&lt;head&gt;</code> and downloads CSS/JS<br>
+          3. Renders the <code>&lt;body&gt;</code> from top to bottom<br>
+          4. JavaScript with <code>defer</code> executes at the end</p>
+      </div>
+
+      <h3>HTML Comments</h3>
+      <p>Comments are not displayed in the browser:</p>
+
+      <pre><code>&lt;!-- This is a single-line comment --&gt;
+
+&lt;!--
+  This is a multi-line
+  comment
+--&gt;
+
+&lt;!-- TODO: Add image here --&gt;</code></pre>
+
+      <div class="callout warn">
+        <p><strong>Warning:</strong> HTML comments are visible in the source code
+          (right-click → View page source). <strong>NEVER</strong> put passwords,
+          API keys, or sensitive information in HTML comments.</p>
+      </div>
+
+      <h3>Character Encoding</h3>
+      <p>
+        Always use UTF-8 encoding to support all international characters:
+      </p>
+      <pre><code>&lt;meta charset="UTF-8"&gt;</code></pre>
+      <p>This allows you to use characters like: é, ñ, ü, 中文, العربية, etc.</p>
+    </section>
+
+    <!-- Section 3: Semantic Tags -->
+    <section id="semantic-tags">
+      <h2>3. Semantic Tags and Page Structure</h2>
+
+      <p>
+        HTML5 introduced <strong>semantic</strong> tags: tags that describe the
+        <em>meaning</em> of their content, not just their appearance.
+      </p>
+
+      <h3>Why Does Semantics Matter?</h3>
+      <ul>
+        <li><strong>SEO:</strong> Search engines better understand the structure</li>
+        <li><strong>Accessibility:</strong> Screen readers navigate by sections</li>
+        <li><strong>Maintainability:</strong> Code is easier to understand</li>
+        <li><strong>Web standards:</strong> Recognized best practices</li>
+      </ul>
+
+      <h3>Typical Page Structure with Semantic HTML5</h3>
+
+      <pre><code>&lt;body&gt;
+  &lt;header&gt;
+    &lt;nav&gt;
+      &lt;ul&gt;
+        &lt;li&gt;&lt;a href="#"&gt;Home&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="#"&gt;About Us&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="#"&gt;Contact&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/nav&gt;
+  &lt;/header&gt;
+
+  &lt;main&gt;
+    &lt;article&gt;
+      &lt;header&gt;
+        &lt;h1&gt;Article Title&lt;/h1&gt;
+        &lt;p&gt;&lt;time datetime="2026-10-03"&gt;October 3, 2026&lt;/time&gt;&lt;/p&gt;
+      &lt;/header&gt;
+
+      &lt;section&gt;
+        &lt;h2&gt;Introduction&lt;/h2&gt;
+        &lt;p&gt;Introduction content...&lt;/p&gt;
+      &lt;/section&gt;
+
+      &lt;section&gt;
+        &lt;h2&gt;Main Content&lt;/h2&gt;
+        &lt;p&gt;Main content...&lt;/p&gt;
+      &lt;/section&gt;
+
+      &lt;footer&gt;
+        &lt;p&gt;Author: John Smith&lt;/p&gt;
+      &lt;/footer&gt;
+    &lt;/article&gt;
+
+    &lt;aside&gt;
+      &lt;h3&gt;Related Articles&lt;/h3&gt;
+      &lt;ul&gt;
+        &lt;li&gt;&lt;a href="#"&gt;Article 1&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="#"&gt;Article 2&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/aside&gt;
+  &lt;/main&gt;
+
+  &lt;footer&gt;
+    &lt;p&gt;&copy; 2026 My Website&lt;/p&gt;
+  &lt;/footer&gt;
+&lt;/body&gt;</code></pre>
+
+      <h3>Main Semantic Tags</h3>
+
+      <table>
+        <thead>
+        <tr>
+          <th>Tag</th>
+          <th>Purpose</th>
+          <th>Typical Use</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td><code>&lt;header&gt;</code></td>
+          <td>Header of document or section</td>
+          <td>Logo, navigation, main title</td>
+        </tr>
+        <tr>
+          <td><code>&lt;nav&gt;</code></td>
+          <td>Main navigation</td>
+          <td>Main menu, breadcrumbs</td>
+        </tr>
+        <tr>
+          <td><code>&lt;main&gt;</code></td>
+          <td>Main content (unique)</td>
+          <td>The central content of the page</td>
+        </tr>
+        <tr>
+          <td><code>&lt;article&gt;</code></td>
+          <td>Independent content</td>
+          <td>Blog post, news article, comment</td>
+        </tr>
+        <tr>
+          <td><code>&lt;section&gt;</code></td>
+          <td>Thematic section</td>
+          <td>Chapters, tabs, numbered sections</td>
+        </tr>
+        <tr>
+          <td><code>&lt;aside&gt;</code></td>
+          <td>Tangential content</td>
+          <td>Sidebar, related content, ads</td>
+        </tr>
+        <tr>
+          <td><code>&lt;footer&gt;</code></td>
+          <td>Footer of page/section</td>
+          <td>Copyright, links, contact info</td>
+        </tr>
+        </tbody>
+      </table>
+
+      <div class="callout warn">
+        <h4>Common Mistake</h4>
+        <p><strong>BAD:</strong> Using <code>&lt;div&gt;</code> for everything</p>
+        <pre><code>&lt;div class="header"&gt;
+  &lt;div class="navigation"&gt;...&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        <p><strong>GOOD:</strong> Use semantic tags</p>
+        <pre><code>&lt;header&gt;
+  &lt;nav&gt;...&lt;/nav&gt;
+&lt;/header&gt;</code></pre>
+        <p><strong>Why?</strong> Semantic tags improve SEO, accessibility, and code readability.</p>
+      </div>
+
+      <h3>When to Use Each Tag?</h3>
+
+      <h4><code>&lt;header&gt;</code></h4>
+      <p>Introductory content for a page or section. Can contain logos, headings, navigation.</p>
+      <pre><code>&lt;header&gt;
+  &lt;h1&gt;My Website&lt;/h1&gt;
+  &lt;p&gt;Welcome to my site&lt;/p&gt;
+&lt;/header&gt;</code></pre>
+
+      <h4><code>&lt;nav&gt;</code></h4>
+      <p>Contains navigation links. Use only for main navigation areas.</p>
+      <pre><code>&lt;nav&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a href="home.html"&gt;Home&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="about.html"&gt;About&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/nav&gt;</code></pre>
+
+      <h4><code>&lt;main&gt;</code></h4>
+      <p>Main content of the page. <strong>Only ONE per page.</strong></p>
+      <pre><code>&lt;main&gt;
+  &lt;h1&gt;Welcome&lt;/h1&gt;
+  &lt;p&gt;This is the main content...&lt;/p&gt;
+&lt;/main&gt;</code></pre>
+
+      <h4><code>&lt;footer&gt;</code></h4>
+      <p>Footer for a page or section. Typically contains copyright, contact info, links.</p>
+      <pre><code>&lt;footer&gt;
+  &lt;p&gt;&copy; 2026 My Company&lt;/p&gt;
+  &lt;p&gt;Contact: info@example.com&lt;/p&gt;
+&lt;/footer&gt;</code></pre>
+    </section>
+
+    <!-- Section 4: Text and Formatting -->
+    <section id="text-formatting">
+      <h2>4. Text and Formatting</h2>
+
+      <h3>Headings</h3>
+      <p>HTML has 6 levels of headings: <code>&lt;h1&gt;</code> to <code>&lt;h6&gt;</code></p>
+
+      <pre><code>&lt;h1&gt;Main Title (only 1 per page)&lt;/h1&gt;
+&lt;h2&gt;Level 2 Subtitle&lt;/h2&gt;
+&lt;h3&gt;Level 3 Subtitle&lt;/h3&gt;
+&lt;h4&gt;Level 4 Subtitle&lt;/h4&gt;
+&lt;h5&gt;Level 5 Subtitle&lt;/h5&gt;
+&lt;h6&gt;Level 6 Subtitle&lt;/h6&gt;</code></pre>
+
+      <div class="callout warn">
+        <p><strong>Heading Rules:</strong></p>
+        <ul>
+          <li>Only 1 <code>&lt;h1&gt;</code> per page (the main title)</li>
+          <li>Don't skip levels: after <code>&lt;h2&gt;</code> comes <code>&lt;h3&gt;</code>, not <code>&lt;h5&gt;</code></li>
+          <li>Don't use headings just to make text bigger (use CSS)</li>
+          <li>Headings create the hierarchical structure of the page</li>
+        </ul>
+      </div>
+
+      <h3>Paragraphs and Line Breaks</h3>
+
+      <pre><code>&lt;p&gt;This is a text paragraph.&lt;/p&gt;
+&lt;p&gt;This is another paragraph.&lt;/p&gt;
+
+&lt;p&gt;First line.&lt;br&gt;
+Second line in the same paragraph.&lt;/p&gt;</code></pre>
+
+      <p><strong>Differences:</strong></p>
+      <ul>
+        <li><code>&lt;p&gt;</code>: Creates paragraph with vertical space before/after</li>
+        <li><code>&lt;br&gt;</code>: Line break WITHOUT additional vertical space</li>
+      </ul>
+
+      <h3>Horizontal Rule</h3>
+      <p>The <code>&lt;hr&gt;</code> tag creates a thematic break (horizontal line):</p>
+      <pre><code>&lt;p&gt;Section 1 content&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;Section 2 content&lt;/p&gt;</code></pre>
+
+      <h3>Text Formatting</h3>
+
+      <h4>Semantic Emphasis (with meaning)</h4>
+      <pre><code>&lt;strong&gt;Strong importance (usually bold)&lt;/strong&gt;
+&lt;em&gt;Emphasis (usually italic)&lt;/em&gt;
+&lt;mark&gt;Highlighted text (like yellow marker)&lt;/mark&gt;
+&lt;small&gt;Small print (fine print)&lt;/small&gt;
+&lt;code&gt;Inline code like variables&lt;/code&gt;</code></pre>
+
+      <h4>Visual Formatting (without semantic meaning)</h4>
+      <pre><code>&lt;b&gt;Bold text (no semantic importance)&lt;/b&gt;
+&lt;i&gt;Italic text (no semantic emphasis)&lt;/i&gt;
+&lt;u&gt;Underlined text (avoid, looks like links)&lt;/u&gt;
+&lt;s&gt;Strikethrough text&lt;/s&gt;</code></pre>
+
+      <div class="callout tip">
+        <p><strong>Prefer semantic tags:</strong><br>
+          ✅ Use <code>&lt;strong&gt;</code> for importance<br>
+          ✅ Use <code>&lt;em&gt;</code> for emphasis<br>
+          ❌ Avoid <code>&lt;b&gt;</code> and <code>&lt;i&gt;</code> (use CSS for visual style)</p>
+      </div>
+
+      <h3>Difference Between &lt;b&gt; / &lt;strong&gt; and &lt;i&gt; / &lt;em&gt;</h3>
+
+      <table>
+        <thead>
+        <tr>
+          <th>Tag</th>
+          <th>Meaning</th>
+          <th>When to Use</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td><code>&lt;strong&gt;</code></td>
+          <td>Strong importance</td>
+          <td>Important content (warnings, key points)</td>
+        </tr>
+        <tr>
+          <td><code>&lt;b&gt;</code></td>
+          <td>Just visual bold</td>
+          <td>Keywords, product names (no importance)</td>
+        </tr>
+        <tr>
+          <td><code>&lt;em&gt;</code></td>
+          <td>Emphasized stress</td>
+          <td>Spoken emphasis, stress on word</td>
+        </tr>
+        <tr>
+          <td><code>&lt;i&gt;</code></td>
+          <td>Just visual italic</td>
+          <td>Technical terms, foreign words, thoughts</td>
+        </tr>
+        </tbody>
+      </table>
+
+      <h3>Preformatted Text</h3>
+      <p>The <code>&lt;pre&gt;</code> tag preserves spaces and line breaks:</p>
+      <pre><code>&lt;pre&gt;
+This    text     preserves
+   all   spaces
+      and line breaks
+&lt;/pre&gt;</code></pre>
+    </section>
+
+    <!-- Section 5: Links and Images -->
+    <section id="links-images">
+      <h2>5. Links and Images</h2>
+
+      <h3>Links (Hyperlinks)</h3>
+      <p>
+        Links are the foundation of the web. They allow navigation between pages.
+      </p>
+
+      <h4>Anatomy of a Link</h4>
+      <pre><code>&lt;a href="destination.html"&gt;Link text&lt;/a&gt;</code></pre>
+
+      <p><strong>Important attributes:</strong></p>
+      <ul>
+        <li><code>href</code>: Destination URL (required)</li>
+        <li><code>target</code>: Where to open the link</li>
+        <li><code>title</code>: Tooltip on hover</li>
+        <li><code>download</code>: Downloads file instead of opening it</li>
+      </ul>
+
+      <h4>Types of Links</h4>
+
+      <pre><code>&lt;!-- Link to another page on same site (relative) --&gt;
+&lt;a href="contact.html"&gt;Contact&lt;/a&gt;
+
+&lt;!-- Link to another site (absolute) --&gt;
+&lt;a href="https://www.example.com"&gt;Visit Example&lt;/a&gt;
+
+&lt;!-- Link to section on same page (anchor) --&gt;
+&lt;a href="#section1"&gt;Go to Section 1&lt;/a&gt;
+&lt;section id="section1"&gt;...&lt;/section&gt;
+
+&lt;!-- Email link --&gt;
+&lt;a href="mailto:info@example.com"&gt;Send Email&lt;/a&gt;
+
+&lt;!-- Phone link --&gt;
+&lt;a href="tel:+1234567890"&gt;Call Us&lt;/a&gt;</code></pre>
+
+      <h4>Absolute vs Relative URLs</h4>
+
+      <table>
+        <thead>
+        <tr>
+          <th>Type</th>
+          <th>Example</th>
+          <th>When to Use</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>Absolute</td>
+          <td><code>https://www.example.com/page.html</code></td>
+          <td>Links to external websites</td>
+        </tr>
+        <tr>
+          <td>Relative</td>
+          <td><code>page.html</code> or <code>../page.html</code></td>
+          <td>Links within your own website</td>
+        </tr>
+        </tbody>
+      </table>
+
+      <h4>Target Attribute</h4>
+      <pre><code>&lt;!-- Open in new tab --&gt;
+&lt;a href="https://example.com" target="_blank"&gt;Open in New Tab&lt;/a&gt;
+
+&lt;!-- Open in same tab (default) --&gt;
+&lt;a href="page.html" target="_self"&gt;Open Here&lt;/a&gt;</code></pre>
+
+      <div class="callout tip">
+        <p><strong>Security tip:</strong> When using <code>target="_blank"</code>, also add
+          <code>rel="noopener noreferrer"</code> for security:</p>
+        <pre><code>&lt;a href="https://example.com" target="_blank" rel="noopener noreferrer"&gt;
+  Safe External Link
+&lt;/a&gt;</code></pre>
+      </div>
+
+      <h3>Images</h3>
+      <p>The <code>&lt;img&gt;</code> tag displays images:</p>
+
+      <pre><code>&lt;img src="photo.jpg" alt="Description of photo"&gt;</code></pre>
+
+      <p><strong>Required attributes:</strong></p>
+      <ul>
+        <li><code>src</code>: Path to the image file (required)</li>
+        <li><code>alt</code>: Alternative text description (ALWAYS include for accessibility)</li>
+      </ul>
+
+      <p><strong>Optional attributes:</strong></p>
+      <ul>
+        <li><code>width</code>: Width in pixels</li>
+        <li><code>height</code>: Height in pixels</li>
+        <li><code>title</code>: Tooltip on hover</li>
+      </ul>
+
+      <h4>Complete Image Example</h4>
+      <pre><code>&lt;img
+  src="images/sunset.jpg"
+  alt="Beautiful sunset over the ocean"
+  width="600"
+  height="400"
+  title="Sunset photo"&gt;</code></pre>
+
+      <div class="callout warn">
+        <h4>Common Mistakes with Images</h4>
+        <p><strong>BAD:</strong> Missing alt text</p>
+        <pre><code>&lt;img src="photo.jpg"&gt;</code></pre>
+        <p><strong>GOOD:</strong> Always include alt text</p>
+        <pre><code>&lt;img src="photo.jpg" alt="Description of the photo"&gt;</code></pre>
+        <p><strong>Why?</strong> Screen readers need alt text to describe images to blind users.</p>
+      </div>
+
+      <h3>Figure and Figcaption</h3>
+      <p>Use <code>&lt;figure&gt;</code> to group an image with its caption:</p>
+
+      <pre><code>&lt;figure&gt;
+  &lt;img src="chart.png" alt="Sales chart for 2026"&gt;
+  &lt;figcaption&gt;Figure 1: Sales increased 25% in 2026&lt;/figcaption&gt;
+&lt;/figure&gt;</code></pre>
+
+      <p>
+        <code>&lt;figure&gt;</code> can also contain code snippets, quotes, diagrams, etc.
+      </p>
+    </section>
+
+    <!-- Section 6: Lists -->
+    <section id="lists">
+      <h2>6. Lists</h2>
+
+      <p>HTML has three types of lists:</p>
+
+      <h3>Unordered Lists (Bullet Points)</h3>
+      <p>Use <code>&lt;ul&gt;</code> when order doesn't matter:</p>
+
+      <pre><code>&lt;ul&gt;
+  &lt;li&gt;Apples&lt;/li&gt;
+  &lt;li&gt;Bananas&lt;/li&gt;
+  &lt;li&gt;Oranges&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+
+      <p><strong>Result:</strong></p>
+      <ul>
+        <li>Apples</li>
+        <li>Bananas</li>
+        <li>Oranges</li>
+      </ul>
+
+      <h3>Ordered Lists (Numbered)</h3>
+      <p>Use <code>&lt;ol&gt;</code> when order matters:</p>
+
+      <pre><code>&lt;ol&gt;
+  &lt;li&gt;Preheat oven to 180°C&lt;/li&gt;
+  &lt;li&gt;Mix ingredients&lt;/li&gt;
+  &lt;li&gt;Bake for 30 minutes&lt;/li&gt;
+&lt;/ol&gt;</code></pre>
+
+      <p><strong>Result:</strong></p>
+      <ol>
+        <li>Preheat oven to 180°C</li>
+        <li>Mix ingredients</li>
+        <li>Bake for 30 minutes</li>
+      </ol>
+
+      <h3>Description Lists</h3>
+      <p>Use <code>&lt;dl&gt;</code> for term-definition pairs:</p>
+
+      <pre><code>&lt;dl&gt;
+  &lt;dt&gt;HTML&lt;/dt&gt;
+  &lt;dd&gt;HyperText Markup Language&lt;/dd&gt;
+
+  &lt;dt&gt;CSS&lt;/dt&gt;
+  &lt;dd&gt;Cascading Style Sheets&lt;/dd&gt;
+&lt;/dl&gt;</code></pre>
+
+      <p><strong>Result:</strong></p>
+      <dl>
+        <dt>HTML</dt>
+        <dd>HyperText Markup Language</dd>
+        <dt>CSS</dt>
+        <dd>Cascading Style Sheets</dd>
+      </dl>
+
+      <h3>Nested Lists</h3>
+      <p>You can put lists inside lists:</p>
+
+      <pre><code>&lt;ul&gt;
+  &lt;li&gt;Fruits
+    &lt;ul&gt;
+      &lt;li&gt;Apples&lt;/li&gt;
+      &lt;li&gt;Bananas&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Vegetables
+    &lt;ul&gt;
+      &lt;li&gt;Carrots&lt;/li&gt;
+      &lt;li&gt;Lettuce&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+
+      <h3>When to Use Each Type?</h3>
+
+      <table>
+        <thead>
+        <tr>
+          <th>List Type</th>
+          <th>When to Use</th>
+          <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td><code>&lt;ul&gt;</code></td>
+          <td>Order doesn't matter</td>
+          <td>Shopping list, features</td>
+        </tr>
+        <tr>
+          <td><code>&lt;ol&gt;</code></td>
+          <td>Order matters</td>
+          <td>Instructions, rankings</td>
+        </tr>
+        <tr>
+          <td><code>&lt;dl&gt;</code></td>
+          <td>Term-definition pairs</td>
+          <td>Glossary, FAQs</td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Section 7: Tables -->
+    <section id="tables">
+      <h2>7. Tables</h2>
+
+      <p>
+        Tables are used to display <strong>data in rows and columns</strong>.
+      </p>
+
+      <div class="callout warn">
+        <p><strong>IMPORTANT:</strong> Tables are for DATA, NOT for page layout!<br>
+          Use CSS Grid or Flexbox for page layout.</p>
+      </div>
+
+      <h3>Basic Table Structure</h3>
+
+      <pre><code>&lt;table&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Name&lt;/th&gt;
+    &lt;th&gt;Age&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;John&lt;/td&gt;
+    &lt;td&gt;25&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Sarah&lt;/td&gt;
+    &lt;td&gt;30&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;</code></pre>
+
+      <p><strong>Tags:</strong></p>
+      <ul>
+        <li><code>&lt;table&gt;</code>: Defines the table</li>
+        <li><code>&lt;tr&gt;</code>: Table Row</li>
+        <li><code>&lt;th&gt;</code>: Table Header (bold and centered)</li>
+        <li><code>&lt;td&gt;</code>: Table Data (regular cell)</li>
+      </ul>
+
+      <h3>Complete Table Structure</h3>
+
+      <pre><code>&lt;table&gt;
+  &lt;caption&gt;Student Grades&lt;/caption&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Name&lt;/th&gt;
+      &lt;th&gt;Subject&lt;/th&gt;
+      &lt;th&gt;Grade&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;John&lt;/td&gt;
+      &lt;td&gt;Math&lt;/td&gt;
+      &lt;td&gt;85&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Sarah&lt;/td&gt;
+      &lt;td&gt;Math&lt;/td&gt;
+      &lt;td&gt;92&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+  &lt;tfoot&gt;
+    &lt;tr&gt;
+      &lt;td colspan="2"&gt;Average&lt;/td&gt;
+      &lt;td&gt;88.5&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tfoot&gt;
+&lt;/table&gt;</code></pre>
+
+      <p><strong>Additional tags:</strong></p>
+      <ul>
+        <li><code>&lt;caption&gt;</code>: Table title/description</li>
+        <li><code>&lt;thead&gt;</code>: Groups header rows</li>
+        <li><code>&lt;tbody&gt;</code>: Groups body rows (main data)</li>
+        <li><code>&lt;tfoot&gt;</code>: Groups footer rows (totals, summaries)</li>
+      </ul>
+
+      <h3>Colspan and Rowspan</h3>
+
+      <h4>Colspan (merge columns)</h4>
+      <pre><code>&lt;table&gt;
+  &lt;tr&gt;
+    &lt;th colspan="2"&gt;Full Name&lt;/th&gt;
+    &lt;th&gt;Age&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;First: John&lt;/td&gt;
+    &lt;td&gt;Last: Smith&lt;/td&gt;
+    &lt;td&gt;25&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;</code></pre>
+
+      <h4>Rowspan (merge rows)</h4>
+      <pre><code>&lt;table&gt;
+  &lt;tr&gt;
+    &lt;th rowspan="2"&gt;Name&lt;/th&gt;
+    &lt;th&gt;Subject 1&lt;/th&gt;
+    &lt;th&gt;Subject 2&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Math&lt;/td&gt;
+    &lt;td&gt;English&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;</code></pre>
+
+      <h3>Accessibility: Scope Attribute</h3>
+      <p>Use <code>scope</code> to help screen readers:</p>
+
+      <pre><code>&lt;table&gt;
+  &lt;tr&gt;
+    &lt;th scope="col"&gt;Name&lt;/th&gt;
+    &lt;th scope="col"&gt;Age&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;th scope="row"&gt;John&lt;/th&gt;
+    &lt;td&gt;25&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;</code></pre>
+
+      <p><strong>Values:</strong></p>
+      <ul>
+        <li><code>scope="col"</code>: Header for column</li>
+        <li><code>scope="row"</code>: Header for row</li>
+      </ul>
+    </section>
+
+    <!-- Section 8: Forms -->
+    <section id="forms">
+      <h2>8. Forms</h2>
+
+      <p>
+        Forms collect user input and send it to a server for processing.
+      </p>
+
+      <h3>Basic Form Structure</h3>
+
+      <pre><code>&lt;form action="process.php" method="POST"&gt;
+  &lt;!-- Form inputs go here --&gt;
+  &lt;button type="submit"&gt;Submit&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+
+      <p><strong>Form attributes:</strong></p>
+      <ul>
+        <li><code>action</code>: URL where form data is sent</li>
+        <li><code>method</code>: How to send data (GET or POST)</li>
+      </ul>
+
+      <h3>GET vs POST</h3>
+
+      <table>
+        <thead>
+        <tr>
+          <th>Method</th>
+          <th>When to Use</th>
+          <th>Data Visibility</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>GET</td>
+          <td>Search forms, filters</td>
+          <td>Visible in URL</td>
+        </tr>
+        <tr>
+          <td>POST</td>
+          <td>Login, registration, uploads</td>
+          <td>Hidden (more secure)</td>
+        </tr>
+        </tbody>
+      </table>
+
+      <h3>Form Input Types</h3>
+
+      <h4>Text Input</h4>
+      <pre><code>&lt;label for="username"&gt;Username:&lt;/label&gt;
+&lt;input type="text" id="username" name="username"&gt;</code></pre>
+
+      <h4>Email Input</h4>
+      <pre><code>&lt;label for="email"&gt;Email:&lt;/label&gt;
+&lt;input type="email" id="email" name="email"&gt;</code></pre>
+
+      <h4>Password Input</h4>
+      <pre><code>&lt;label for="password"&gt;Password:&lt;/label&gt;
+&lt;input type="password" id="password" name="password"&gt;</code></pre>
+
+      <h4>Number Input</h4>
+      <pre><code>&lt;label for="age"&gt;Age:&lt;/label&gt;
+&lt;input type="number" id="age" name="age" min="0" max="120"&gt;</code></pre>
+
+      <h4>Date Input</h4>
+      <pre><code>&lt;label for="birthday"&gt;Birthday:&lt;/label&gt;
+&lt;input type="date" id="birthday" name="birthday"&gt;</code></pre>
+
+      <h4>Checkbox</h4>
+      <pre><code>&lt;input type="checkbox" id="agree" name="agree"&gt;
+&lt;label for="agree"&gt;I agree to terms&lt;/label&gt;</code></pre>
+
+      <h4>Radio Buttons</h4>
+      <pre><code>&lt;p&gt;Gender:&lt;/p&gt;
+&lt;input type="radio" id="male" name="gender" value="male"&gt;
+&lt;label for="male"&gt;Male&lt;/label&gt;
+
+&lt;input type="radio" id="female" name="gender" value="female"&gt;
+&lt;label for="female"&gt;Female&lt;/label&gt;</code></pre>
+
+      <h4>File Upload</h4>
+      <pre><code>&lt;label for="resume"&gt;Upload Resume:&lt;/label&gt;
+&lt;input type="file" id="resume" name="resume" accept=".pdf,.doc"&gt;</code></pre>
+
+      <h3>Textarea</h3>
+      <p>For multi-line text input:</p>
+      <pre><code>&lt;label for="message"&gt;Message:&lt;/label&gt;
+&lt;textarea id="message" name="message" rows="5" cols="30"&gt;&lt;/textarea&gt;</code></pre>
+
+      <h3>Select Dropdown</h3>
+      <pre><code>&lt;label for="country"&gt;Country:&lt;/label&gt;
+&lt;select id="country" name="country"&gt;
+  &lt;option value=""&gt;Choose a country&lt;/option&gt;
+  &lt;option value="us"&gt;United States&lt;/option&gt;
+  &lt;option value="uk"&gt;United Kingdom&lt;/option&gt;
+  &lt;option value="es"&gt;Spain&lt;/option&gt;
+&lt;/select&gt;</code></pre>
+
+      <h3>Fieldset and Legend</h3>
+      <p>Group related form fields:</p>
+
+      <pre><code>&lt;fieldset&gt;
+  &lt;legend&gt;Personal Information&lt;/legend&gt;
+
+  &lt;label for="fname"&gt;First Name:&lt;/label&gt;
+  &lt;input type="text" id="fname" name="fname"&gt;
+
+  &lt;label for="lname"&gt;Last Name:&lt;/label&gt;
+  &lt;input type="text" id="lname" name="lname"&gt;
+&lt;/fieldset&gt;</code></pre>
+
+      <h3>Button Types</h3>
+
+      <pre><code>&lt;!-- Submit button (sends form) --&gt;
+&lt;button type="submit"&gt;Submit&lt;/button&gt;
+
+&lt;!-- Reset button (clears form) --&gt;
+&lt;button type="reset"&gt;Reset&lt;/button&gt;
+
+&lt;!-- Regular button (for JavaScript) --&gt;
+&lt;button type="button"&gt;Click Me&lt;/button&gt;</code></pre>
+
+      <h3>HTML5 Validation</h3>
+
+      <h4>Required Fields</h4>
+      <pre><code>&lt;input type="text" name="username" required&gt;</code></pre>
+
+      <h4>Pattern Validation</h4>
+      <pre><code>&lt;!-- Only letters --&gt;
+&lt;input type="text" pattern="[A-Za-z]+" title="Only letters"&gt;
+
+&lt;!-- Phone number --&gt;
+&lt;input type="tel" pattern="[0-9]{9}" title="9 digits"&gt;</code></pre>
+
+      <h4>Min and Max</h4>
+      <pre><code>&lt;input type="number" min="1" max="10"&gt;
+&lt;input type="text" minlength="3" maxlength="20"&gt;</code></pre>
+
+      <div class="callout warn">
+        <h4>Common Mistake: Missing Labels</h4>
+        <p><strong>BAD:</strong> Input without label</p>
+        <pre><code>&lt;input type="text" name="username"&gt;</code></pre>
+        <p><strong>GOOD:</strong> Always use labels</p>
+        <pre><code>&lt;label for="username"&gt;Username:&lt;/label&gt;
+&lt;input type="text" id="username" name="username"&gt;</code></pre>
+        <p><strong>Why?</strong> Labels improve accessibility and usability. Users can click the label to focus the input.</p>
+      </div>
+
+      <h3>Complete Form Example</h3>
+
+      <pre><code>&lt;form action="register.php" method="POST"&gt;
+  &lt;fieldset&gt;
+    &lt;legend&gt;Registration Form&lt;/legend&gt;
+
+    &lt;label for="username"&gt;Username:&lt;/label&gt;
+    &lt;input type="text" id="username" name="username" required&gt;
+
+    &lt;label for="email"&gt;Email:&lt;/label&gt;
+    &lt;input type="email" id="email" name="email" required&gt;
+
+    &lt;label for="password"&gt;Password:&lt;/label&gt;
+    &lt;input type="password" id="password" name="password"
+           minlength="8" required&gt;
+
+    &lt;label for="age"&gt;Age:&lt;/label&gt;
+    &lt;input type="number" id="age" name="age" min="18" max="100"&gt;
+
+    &lt;label for="country"&gt;Country:&lt;/label&gt;
+    &lt;select id="country" name="country" required&gt;
+      &lt;option value=""&gt;Select a country&lt;/option&gt;
+      &lt;option value="us"&gt;United States&lt;/option&gt;
+      &lt;option value="es"&gt;Spain&lt;/option&gt;
+    &lt;/select&gt;
+
+    &lt;input type="checkbox" id="terms" name="terms" required&gt;
+    &lt;label for="terms"&gt;I agree to terms and conditions&lt;/label&gt;
+
+    &lt;button type="submit"&gt;Register&lt;/button&gt;
+    &lt;button type="reset"&gt;Clear Form&lt;/button&gt;
+  &lt;/fieldset&gt;
+&lt;/form&gt;</code></pre>
+    </section>
+
+    <!-- Section 9: Multimedia -->
+    <section id="multimedia">
+      <h2>9. Multimedia</h2>
+
+      <h3>Audio</h3>
+      <p>The <code>&lt;audio&gt;</code> tag embeds sound files:</p>
+
+      <pre><code>&lt;audio controls&gt;
+  &lt;source src="song.mp3" type="audio/mpeg"&gt;
+  &lt;source src="song.ogg" type="audio/ogg"&gt;
+  Your browser does not support audio.
+&lt;/audio&gt;</code></pre>
+
+      <p><strong>Attributes:</strong></p>
+      <ul>
+        <li><code>controls</code>: Shows play/pause/volume controls</li>
+        <li><code>autoplay</code>: Starts playing automatically (usually blocked by browsers)</li>
+        <li><code>loop</code>: Repeats when finished</li>
+        <li><code>muted</code>: Starts muted</li>
+      </ul>
+
+      <h3>Video</h3>
+      <p>The <code>&lt;video&gt;</code> tag embeds video files:</p>
+
+      <pre><code>&lt;video controls width="640" height="360"&gt;
+  &lt;source src="movie.mp4" type="video/mp4"&gt;
+  &lt;source src="movie.webm" type="video/webm"&gt;
+  Your browser does not support video.
+&lt;/video&gt;</code></pre>
+
+      <p><strong>Attributes:</strong></p>
+      <ul>
+        <li><code>controls</code>: Shows video controls</li>
+        <li><code>width</code> and <code>height</code>: Video dimensions</li>
+        <li><code>poster</code>: Image shown before video plays</li>
+        <li><code>autoplay</code>: Auto-start (usually blocked)</li>
+        <li><code>loop</code>: Repeat video</li>
+      </ul>
+
+      <h3>Iframe</h3>
+      <p>Embed external content (YouTube videos, maps, etc.):</p>
+
+      <pre><code>&lt;!-- YouTube video --&gt;
+&lt;iframe
+  width="560"
+  height="315"
+  src="https://www.youtube.com/embed/VIDEO_ID"
+  title="Video title"
+  allowfullscreen&gt;
+&lt;/iframe&gt;
+
+&lt;!-- Google Maps --&gt;
+&lt;iframe
+  src="https://www.google.com/maps/embed?pb=..."
+  width="600"
+  height="450"
+  style="border:0;"
+  allowfullscreen&gt;
+&lt;/iframe&gt;</code></pre>
+
+      <div class="callout tip">
+        <p><strong>Tip:</strong> Most video platforms (YouTube, Vimeo) provide the embed code.
+          Just copy and paste it into your HTML.</p>
+      </div>
+    </section>
+
+    <!-- Section 10: HTML5 Semantic Elements -->
+    <section id="html5-semantic">
+      <h2>10. HTML5 Semantic Elements</h2>
+
+      <p>
+        HTML5 introduced many semantic elements to give meaning to content.
+      </p>
+
+      <h3>Article</h3>
+      <p>Independent, self-contained content:</p>
+      <pre><code>&lt;article&gt;
+  &lt;h2&gt;Blog Post Title&lt;/h2&gt;
+  &lt;p&gt;Published on &lt;time datetime="2026-10-15"&gt;October 15, 2026&lt;/time&gt;&lt;/p&gt;
+  &lt;p&gt;Article content...&lt;/p&gt;
+&lt;/article&gt;</code></pre>
+
+      <h3>Section</h3>
+      <p>Thematic grouping of content:</p>
+      <pre><code>&lt;section&gt;
+  &lt;h2&gt;Chapter 1&lt;/h2&gt;
+  &lt;p&gt;Chapter content...&lt;/p&gt;
+&lt;/section&gt;</code></pre>
+
+      <h3>Aside</h3>
+      <p>Content related to main content but not essential:</p>
+      <pre><code>&lt;aside&gt;
+  &lt;h3&gt;Related Links&lt;/h3&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a href="#"&gt;Link 1&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#"&gt;Link 2&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/aside&gt;</code></pre>
+
+      <h3>Time</h3>
+      <p>Represents a date/time:</p>
+      <pre><code>&lt;p&gt;Published on &lt;time datetime="2026-10-15"&gt;October 15, 2026&lt;/time&gt;&lt;/p&gt;
+&lt;p&gt;Event starts at &lt;time datetime="14:00"&gt;2:00 PM&lt;/time&gt;&lt;/p&gt;</code></pre>
+
+      <h3>Mark</h3>
+      <p>Highlighted/marked text:</p>
+      <pre><code>&lt;p&gt;Search results for &lt;mark&gt;HTML&lt;/mark&gt;&lt;/p&gt;</code></pre>
+
+      <h3>When to Use Each Element?</h3>
+
+      <table>
+        <thead>
+        <tr>
+          <th>Element</th>
+          <th>Use When</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td><code>&lt;article&gt;</code></td>
+          <td>Content makes sense on its own (blog post, news article)</td>
+        </tr>
+        <tr>
+          <td><code>&lt;section&gt;</code></td>
+          <td>Thematic grouping with a heading (chapters, tabs)</td>
+        </tr>
+        <tr>
+          <td><code>&lt;aside&gt;</code></td>
+          <td>Sidebar, related content, ads</td>
+        </tr>
+        <tr>
+          <td><code>&lt;nav&gt;</code></td>
+          <td>Main navigation menus</td>
+        </tr>
+        <tr>
+          <td><code>&lt;header&gt;</code></td>
+          <td>Introduction to page or section</td>
+        </tr>
+        <tr>
+          <td><code>&lt;footer&gt;</code></td>
+          <td>Footer for page or section</td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Section 11: Accessibility -->
+    <section id="accessibility">
+      <h2>11. Accessibility Basics</h2>
+
+      <p>
+        Accessibility means making your website usable by everyone, including people
+        with disabilities.
+      </p>
+
+      <h3>Why Accessibility Matters</h3>
+      <ul>
+        <li><strong>Legal requirement:</strong> Many countries require accessible websites</li>
+        <li><strong>Inclusive:</strong> Everyone can use your website</li>
+        <li><strong>Better SEO:</strong> Search engines prefer accessible sites</li>
+        <li><strong>Better UX:</strong> Good for everyone, not just disabled users</li>
+      </ul>
+
+      <h3>Alt Text for Images</h3>
+      <p>Always describe images with alt text:</p>
+
+      <div class="callout warn">
+        <p><strong>BAD:</strong></p>
+        <pre><code>&lt;img src="dog.jpg"&gt;</code></pre>
+        <p><strong>GOOD:</strong></p>
+        <pre><code>&lt;img src="dog.jpg" alt="Golden retriever playing in the park"&gt;</code></pre>
+      </div>
+
+      <h3>Labels for Form Inputs</h3>
+      <p>Always connect labels to inputs:</p>
+
+      <div class="callout warn">
+        <p><strong>BAD:</strong></p>
+        <pre><code>&lt;input type="text" name="username"&gt;</code></pre>
+        <p><strong>GOOD:</strong></p>
+        <pre><code>&lt;label for="username"&gt;Username:&lt;/label&gt;
+&lt;input type="text" id="username" name="username"&gt;</code></pre>
+      </div>
+
+      <h3>Semantic HTML</h3>
+      <p>Use semantic tags instead of divs:</p>
+
+      <div class="callout warn">
+        <p><strong>BAD:</strong></p>
+        <pre><code>&lt;div class="navigation"&gt;...&lt;/div&gt;</code></pre>
+        <p><strong>GOOD:</strong></p>
+        <pre><code>&lt;nav&gt;...&lt;/nav&gt;</code></pre>
+      </div>
+
+      <h3>Heading Hierarchy</h3>
+      <p>Use headings in order (don't skip levels):</p>
+
+      <div class="callout warn">
+        <p><strong>BAD:</strong></p>
+        <pre><code>&lt;h1&gt;Main Title&lt;/h1&gt;
+&lt;h4&gt;Subtitle&lt;/h4&gt;  &lt;!-- Skipped h2 and h3 --&gt;</code></pre>
+        <p><strong>GOOD:</strong></p>
+        <pre><code>&lt;h1&gt;Main Title&lt;/h1&gt;
+&lt;h2&gt;Subtitle&lt;/h2&gt;</code></pre>
+      </div>
+
+      <h3>Descriptive Link Text</h3>
+      <p>Link text should describe the destination:</p>
+
+      <div class="callout warn">
+        <p><strong>BAD:</strong></p>
+        <pre><code>&lt;a href="report.pdf"&gt;Click here&lt;/a&gt;</code></pre>
+        <p><strong>GOOD:</strong></p>
+        <pre><code>&lt;a href="report.pdf"&gt;Download 2026 Annual Report (PDF)&lt;/a&gt;</code></pre>
+      </div>
+
+      <h3>Quick Accessibility Checklist</h3>
+      <ul>
+        <li>✅ All images have alt text</li>
+        <li>✅ All form inputs have labels</li>
+        <li>✅ Use semantic HTML tags</li>
+        <li>✅ Headings are in order (h1, h2, h3...)</li>
+        <li>✅ Link text is descriptive</li>
+        <li>✅ Color is not the only way to convey information</li>
+        <li>✅ Text has good contrast with background</li>
+      </ul>
+    </section>
+
+    <!-- Section 12: Best Practices -->
+    <section id="best-practices">
+      <h2>12. Best Practices</h2>
+
+      <h3>1. Always Use DOCTYPE</h3>
+      <p>Start every HTML file with the DOCTYPE declaration:</p>
+      <pre><code>&lt;!DOCTYPE html&gt;</code></pre>
+
+      <h3>2. Validate Your HTML</h3>
+      <p>Use the W3C Validator to check for errors:</p>
+      <p><a href="https://validator.w3.org/" target="_blank">https://validator.w3.org/</a></p>
+
+      <h3>3. Use Semantic Tags</h3>
+      <p>Choose tags based on meaning, not appearance:</p>
+
+      <div class="callout warn">
+        <p><strong>BAD:</strong></p>
+        <pre><code>&lt;div class="header"&gt;
+  &lt;div class="nav"&gt;...&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        <p><strong>GOOD:</strong></p>
+        <pre><code>&lt;header&gt;
+  &lt;nav&gt;...&lt;/nav&gt;
+&lt;/header&gt;</code></pre>
+      </div>
+
+      <h3>4. Keep HTML Clean and Indented</h3>
+      <p>Proper indentation makes code readable:</p>
+
+      <div class="callout warn">
+        <p><strong>BAD:</strong></p>
+        <pre><code>&lt;div&gt;&lt;p&gt;Text&lt;/p&gt;&lt;p&gt;More text&lt;/p&gt;&lt;/div&gt;</code></pre>
+        <p><strong>GOOD:</strong></p>
+        <pre><code>&lt;div&gt;
+  &lt;p&gt;Text&lt;/p&gt;
+  &lt;p&gt;More text&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+      </div>
+
+      <h3>5. Separate HTML from CSS</h3>
+      <p>Don't use inline styles:</p>
+
+      <div class="callout warn">
+        <p><strong>BAD:</strong></p>
+        <pre><code>&lt;p style="color: red; font-size: 20px;"&gt;Text&lt;/p&gt;</code></pre>
+        <p><strong>GOOD:</strong></p>
+        <pre><code>&lt;!-- HTML --&gt;
+&lt;p class="highlight"&gt;Text&lt;/p&gt;
+
+&lt;!-- CSS --&gt;
+.highlight {
+  color: red;
+  font-size: 20px;
+}</code></pre>
+      </div>
+
+      <h3>6. Use Descriptive Class Names</h3>
+
+      <div class="callout warn">
+        <p><strong>BAD:</strong></p>
+        <pre><code>&lt;div class="red-box"&gt;Error message&lt;/div&gt;</code></pre>
+        <p><strong>GOOD:</strong></p>
+        <pre><code>&lt;div class="error-message"&gt;Error message&lt;/div&gt;</code></pre>
+        <p><strong>Why?</strong> "error-message" describes the purpose, not the appearance. If you change the color to orange, "red-box" would be misleading.</p>
+      </div>
+
+      <h3>7. Close All Tags</h3>
+      <p>Even though HTML5 is forgiving, always close tags:</p>
+
+      <div class="callout warn">
+        <p><strong>BAD:</strong></p>
+        <pre><code>&lt;p&gt;Paragraph 1
+&lt;p&gt;Paragraph 2</code></pre>
+        <p><strong>GOOD:</strong></p>
+        <pre><code>&lt;p&gt;Paragraph 1&lt;/p&gt;
+&lt;p&gt;Paragraph 2&lt;/p&gt;</code></pre>
+      </div>
+
+      <h3>8. Use Lowercase for Tags</h3>
+      <p>HTML is case-insensitive, but lowercase is standard:</p>
+
+      <div class="callout warn">
+        <p><strong>BAD:</strong></p>
+        <pre><code>&lt;DIV&gt;&lt;P&gt;Text&lt;/P&gt;&lt;/DIV&gt;</code></pre>
+        <p><strong>GOOD:</strong></p>
+        <pre><code>&lt;div&gt;&lt;p&gt;Text&lt;/p&gt;&lt;/div&gt;</code></pre>
+      </div>
+
+      <h3>9. Add Comments</h3>
+      <p>Document your code for future reference:</p>
+      <pre><code>&lt;!-- Navigation section --&gt;
+&lt;nav&gt;
+  &lt;!-- Main menu links --&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a href="home.html"&gt;Home&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/nav&gt;</code></pre>
+
+      <h3>10. Test in Multiple Browsers</h3>
+      <p>Always test your website in:</p>
+      <ul>
+        <li>Chrome</li>
+        <li>Firefox</li>
+        <li>Safari</li>
+        <li>Edge</li>
+      </ul>
+    </section>
+
+    <!-- Section 13: Basic SEO -->
+    <section id="seo">
+      <h2>13. Basic SEO</h2>
+
+      <p>
+        SEO (Search Engine Optimization) helps your website appear in search results.
+      </p>
+
+      <h3>1. Title Tag</h3>
+      <p>The <strong>most important</strong> SEO element:</p>
+
+      <pre><code>&lt;head&gt;
+  &lt;title&gt;Your Page Title - Your Site Name&lt;/title&gt;
+&lt;/head&gt;</code></pre>
+
+      <p><strong>Tips:</strong></p>
+      <ul>
+        <li>Keep it under 60 characters</li>
+        <li>Include main keywords</li>
+        <li>Make it descriptive and unique per page</li>
+        <li>Put important words first</li>
+      </ul>
+
+      <div class="callout warn">
+        <p><strong>BAD:</strong></p>
+        <pre><code>&lt;title&gt;Home&lt;/title&gt;</code></pre>
+        <p><strong>GOOD:</strong></p>
+        <pre><code>&lt;title&gt;Learn Web Development - Best HTML Tutorials 2026&lt;/title&gt;</code></pre>
+      </div>
+
+      <h3>2. Meta Description</h3>
+      <p>Appears in search results under the title:</p>
+
+      <pre><code>&lt;meta name="description" content="Learn HTML from scratch with our
+comprehensive guide. Includes examples, exercises, and best practices."&gt;</code></pre>
+
+      <p><strong>Tips:</strong></p>
+      <ul>
+        <li>Keep it under 160 characters</li>
+        <li>Write a compelling summary</li>
+        <li>Include keywords naturally</li>
+      </ul>
+
+      <h3>3. Heading Structure</h3>
+      <p>Use headings to organize content:</p>
+
+      <pre><code>&lt;h1&gt;Main Page Title&lt;/h1&gt;
+  &lt;h2&gt;Section 1&lt;/h2&gt;
+    &lt;h3&gt;Subsection 1.1&lt;/h3&gt;
+    &lt;h3&gt;Subsection 1.2&lt;/h3&gt;
+  &lt;h2&gt;Section 2&lt;/h2&gt;</code></pre>
+
+      <p><strong>Rules:</strong></p>
+      <ul>
+        <li>One h1 per page</li>
+        <li>Don't skip heading levels</li>
+        <li>Include keywords in headings</li>
+      </ul>
+
+      <h3>4. Alt Text for Images</h3>
+      <p>Search engines read alt text:</p>
+
+      <pre><code>&lt;img src="laptop.jpg"
+     alt="Person typing on laptop learning HTML programming"&gt;</code></pre>
+
+      <h3>5. Clean URLs</h3>
+
+      <div class="callout warn">
+        <p><strong>BAD:</strong></p>
+        <pre><code>www.example.com/page.php?id=123&amp;cat=5</code></pre>
+        <p><strong>GOOD:</strong></p>
+        <pre><code>www.example.com/html-tutorial</code></pre>
+      </div>
+
+      <h3>Basic SEO Checklist</h3>
+      <ul>
+        <li>✅ Unique, descriptive title tag (under 60 chars)</li>
+        <li>✅ Compelling meta description (under 160 chars)</li>
+        <li>✅ One h1 per page with main keyword</li>
+        <li>✅ Logical heading hierarchy (h1, h2, h3...)</li>
+        <li>✅ Alt text on all images</li>
+        <li>✅ Semantic HTML structure</li>
+        <li>✅ Clean, readable URLs</li>
+      </ul>
+    </section>
+
+    <!-- Self-Assessment Exercises -->
+    <section id="exercises">
+      <h2>Self-Assessment Exercises</h2>
+
+      <div class="callout info">
+        <p>Test your knowledge with these exercises. Click to reveal the answers.</p>
+      </div>
+
+      <h3>Exercise 1: Basic Structure</h3>
+      <p><strong>Question:</strong> Create a minimal HTML5 document with a title "My First Page" and a paragraph saying "Hello World".</p>
+
+      <details>
+        <summary>Show Answer</summary>
+        <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;My First Page&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;p&gt;Hello World&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+      </details>
+
+      <h3>Exercise 2: Semantic Structure</h3>
+      <p><strong>Question:</strong> Create a page structure with a header (containing navigation), main content area, and footer.</p>
+
+      <details>
+        <summary>Show Answer</summary>
+        <pre><code>&lt;body&gt;
+  &lt;header&gt;
+    &lt;nav&gt;
+      &lt;ul&gt;
+        &lt;li&gt;&lt;a href="home.html"&gt;Home&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="about.html"&gt;About&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="contact.html"&gt;Contact&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/nav&gt;
+  &lt;/header&gt;
+
+  &lt;main&gt;
+    &lt;h1&gt;Welcome to My Website&lt;/h1&gt;
+    &lt;p&gt;Main content goes here.&lt;/p&gt;
+  &lt;/main&gt;
+
+  &lt;footer&gt;
+    &lt;p&gt;&copy; 2026 My Website&lt;/p&gt;
+  &lt;/footer&gt;
+&lt;/body&gt;</code></pre>
+      </details>
+
+      <h3>Exercise 3: Form Creation</h3>
+      <p><strong>Question:</strong> Create a contact form with fields for name, email, message, and a submit button.</p>
+
+      <details>
+        <summary>Show Answer</summary>
+        <pre><code>&lt;form action="contact.php" method="POST"&gt;
+  &lt;label for="name"&gt;Name:&lt;/label&gt;
+  &lt;input type="text" id="name" name="name" required&gt;
+
+  &lt;label for="email"&gt;Email:&lt;/label&gt;
+  &lt;input type="email" id="email" name="email" required&gt;
+
+  &lt;label for="message"&gt;Message:&lt;/label&gt;
+  &lt;textarea id="message" name="message" rows="5" required&gt;&lt;/textarea&gt;
+
+  &lt;button type="submit"&gt;Send Message&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+      </details>
+
+      <h3>Exercise 4: Table Creation</h3>
+      <p><strong>Question:</strong> Create a table showing product information with columns for Product Name, Price, and Stock.</p>
+
+      <details>
+        <summary>Show Answer</summary>
+        <pre><code>&lt;table&gt;
+  &lt;caption&gt;Product Inventory&lt;/caption&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th scope="col"&gt;Product Name&lt;/th&gt;
+      &lt;th scope="col"&gt;Price&lt;/th&gt;
+      &lt;th scope="col"&gt;Stock&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Laptop&lt;/td&gt;
+      &lt;td&gt;$999&lt;/td&gt;
+      &lt;td&gt;15&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Mouse&lt;/td&gt;
+      &lt;td&gt;$25&lt;/td&gt;
+      &lt;td&gt;50&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</code></pre>
+      </details>
+
+      <h3>Exercise 5: Accessibility</h3>
+      <p><strong>Question:</strong> What's wrong with this code? Fix it.</p>
+      <pre><code>&lt;img src="logo.png"&gt;
+&lt;input type="text" name="username"&gt;
+&lt;a href="report.pdf"&gt;Click here&lt;/a&gt;</code></pre>
+
+      <details>
+        <summary>Show Answer</summary>
+        <p><strong>Problems:</strong></p>
+        <ul>
+          <li>Image missing alt text</li>
+          <li>Input missing label</li>
+          <li>Link text not descriptive</li>
+        </ul>
+        <p><strong>Fixed code:</strong></p>
+        <pre><code>&lt;img src="logo.png" alt="Company Logo"&gt;
+
+&lt;label for="username"&gt;Username:&lt;/label&gt;
+&lt;input type="text" id="username" name="username"&gt;
+
+&lt;a href="report.pdf"&gt;Download Annual Report (PDF)&lt;/a&gt;</code></pre>
+      </details>
+    </section>
+
+    <!-- Summary -->
+    <section id="summary">
+      <h2>Summary</h2>
+
+      <p>Congratulations! You've learned the fundamentals of HTML. Here's what you should remember:</p>
+
+      <h3>Key Concepts</h3>
+      <ul>
+        <li><strong>HTML is a markup language</strong> for structuring web content</li>
+        <li><strong>Every HTML document</strong> needs DOCTYPE, html, head, and body</li>
+        <li><strong>Semantic tags</strong> (header, nav, main, article, footer) improve SEO and accessibility</li>
+        <li><strong>Forms collect user input</strong> with various input types</li>
+        <li><strong>Tables display data</strong> in rows and columns (not for layout)</li>
+        <li><strong>Accessibility</strong> is critical: use alt text, labels, and semantic HTML</li>
+        <li><strong>Separate structure (HTML) from style (CSS)</strong></li>
+      </ul>
+
+      <h3>Next Steps</h3>
+      <ol>
+        <li>Practice building complete HTML pages</li>
+        <li>Learn CSS to style your HTML</li>
+        <li>Validate your HTML at <a href="https://validator.w3.org/">validator.w3.org</a></li>
+        <li>Experiment with different layouts and structures</li>
+        <li>Study real websites using browser DevTools (F12)</li>
+      </ol>
+
+      <div class="callout tip">
+        <p><strong>Learning Tip:</strong> The best way to learn HTML is by doing.
+          Build real projects, make mistakes, and learn from them. Start simple
+          and gradually increase complexity.</p>
+      </div>
+    </section>
+
+  </article>
+</main>
+
 </div>
 
 <a href="#top" class="backtotop" aria-label="Volver arriba">↑</a>
